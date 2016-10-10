@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="node_modules/framework7/dist/css/framework7.ios.min.css">
+  <link rel="stylesheet" href="node_modules/framework7/dist/css/framework7.ios.colors.css">
+  <style>
+    #app {
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <panel side="left" effect="reveal">
+      <p>Panel left content</p>
+    </panel>
+    <panel side="right" effect="cover">
+      <p>Panel right content</p>
+    </panel>
+    <views navbar="through" toolbar="through">
+      <single-view main="true">
+        <navbar title="Hello World"></navbar>
+        <toolbar>This is toolbar</toolbar>
+        <pages>
+          <page name="home">
+            <card>
+              <card-header>Header</card-header>
+              <card-content>I'm a Card</card-content>
+              <card-footer>Footer</card-footer>
+            </card>
+            <card>
+              <card-header>Header</card-header>
+              <card-content>One more Card</card-content>
+              <card-footer>Footer</card-footer>
+            </card>
+            <block-title>Content Block</block-title>
+            <content-block>
+              <p>I'm content block</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
+            </content-block>
+            <block-title>Inset + Inner Block</block-title>
+            <content-block inset="true" inner="true">
+              <p>I'm content block</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
+            </content-block>
+            <block-title>List</block-title>
+            <list-block>
+              <list-block-item v-for="item in items">{{item}}</list-block-item>
+            </list-block>
+          </page>
+        </pages>
+      </single-view>
+    </views>
+  </div>
+  <script src="dist/framework7.vue.js"></script>
+</body>
+</html>
