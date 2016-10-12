@@ -16,46 +16,167 @@
 <body>
 
   <div id="app">
-    <panel side="left" effect="reveal">
+    <f7-panel left reveal>
       <p>Panel left content</p>
-    </panel>
-    <panel side="right" effect="cover">
+    </f7-panel>
+    <f7-panel right cover>
       <p>Panel right content</p>
-    </panel>
-    <views navbar="through" toolbar="through">
-      <single-view main="true">
-        <navbar title="Hello World"></navbar>
-        <toolbar>This is toolbar</toolbar>
-        <pages>
-          <page name="home">
-            <card>
-              <card-header>Header</card-header>
-              <card-content>I'm a Card</card-content>
-              <card-footer>Footer</card-footer>
-            </card>
-            <card>
-              <card-header>Header</card-header>
-              <card-content>One more Card</card-content>
-              <card-footer>Footer</card-footer>
-            </card>
-            <block-title>Content Block</block-title>
-            <content-block>
+    </f7-panel>
+    <f7-views navbar="through" toolbar="through">
+      <f7-view main>
+        <f7-navbar title="Hello World">
+          <f7-navbar-left>Left</f7-navbar-left>
+          <f7-navbar-center>Hello World</f7-navbar-center>
+          <f7-navbar-right>Right</f7-navbar-right>
+          <f7-subnavbar>
+            <f7-buttons>
+              <f7-button>Button 1</f7-button>
+              <f7-button>Button 2</f7-button>
+              <f7-button>Button 3</f7-button>
+              <f7-button>Button 4</f7-button>
+            </f7-buttons>
+          </f7-subnavbar>
+        </f7-navbar>
+        <f7-toolbar>This is toolbar</f7-toolbar>
+        <f7-pages>
+          <f7-page name="home" subnavbar>
+            <f7-card>
+              <f7-card-header>Header</f7-card-header>
+              <f7-card-content>Card Content</f7-card-content>
+              <f7-card-footer>Footer</f7-card-footer>
+            </f7-card>
+            <f7-card title="Simple Card" content="Hello, i have simple content"></f7-card>
+            <f7-block-title>Content Block</f7-block-title>
+            <f7-content-block>
               <p>I'm content block</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
-            </content-block>
-            <block-title>Inset + Inner Block</block-title>
-            <content-block inset="true" inner="true">
+            </f7-content-block>
+            <f7-block-title>Inset + Inner Block</f7-block-title>
+            <f7-content-block inset inner>
               <p>I'm content block</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
-            </content-block>
-            <block-title>List</block-title>
-            <list-block>
-              <list-block-item v-for="item in items">{{item}}</list-block-item>
-            </list-block>
-          </page>
-        </pages>
-      </single-view>
-    </views>
+            </f7-content-block>
+
+            <f7-block-title>List</f7-block-title>
+            <f7-list>
+              <f7-list-item
+                v-for="n in 5"
+                :title="n === 3 ? 'Divider' : 'Item ' + n"
+                badge="3"
+                badge-color="red"
+                :divider="n === 3"
+              ></f7-list-item>
+            </f7-list>
+
+            <f7-block-title>Grouped List</f7-block-title>
+            <f7-list grouped>
+              <f7-list-group v-for="n in 2">
+                <f7-list-item
+                  v-for="n in 3"
+                  :title="n === 1 ? 'Group Title' : 'Group Item ' + (n - 1)"
+                  :group-title="n === 1"
+                ></f7-list-item>
+              </f7-list-group>
+            </f7-list>
+
+            <f7-block-title>Media List</f7-block-title>
+            <f7-list media-list>
+              <f7-list-item
+                v-for="n in 3"
+                :title="'Item ' + n"
+                :subtitle="'Subtitle ' + n"
+                text="Some text goes here"
+                after="After"
+                link="http://google.com"
+              ></f7-list-item>
+            </f7-list>
+
+            <f7-block-title>Swipeout List</f7-block-title>
+            <f7-list>
+              <f7-list-item swipeout
+                v-for="n in 3"
+                :title="'Item ' + n"
+                @deleted="swipeoutDeleted"
+              >
+                <f7-swipeout-actions>
+                  <f7-swipeout-button close color="green">Close</f7-swipeout-button>
+                  <f7-swipeout-button delete overswipe>Delete</f7-swipeout-button>
+                </f7-swipeout-actions>
+              </f7-list-item>
+            </f7-list>
+
+            <f7-block-title>Buttons List</f7-block-title>
+            <f7-list inset>
+              <f7-list-button v-for="n in 3" :title="'List Button ' + n" link="http://google.com"></f7-list-button>
+            </f7-list>
+
+            <f7-block-title>Sortable List <a href="#" data-sortable=".sortable" class="open-sortable">Open</a> | <a href="#" data-sortable=".sortable" class="close-sortable">Done</a></f7-block-title>
+            <f7-list sortable @sort="sort">
+              <f7-list-item
+                v-for="n in 5"
+                :title="'Item ' + n"
+              ></f7-list-item>
+            </f7-list>
+
+            <f7-block-title>Grid</f7-block-title>
+            <f7-content-block inner>
+              <p>
+                <f7-grid>
+                  <f7-col style="border: 1px solid #e1e1e1">50%</f7-col>
+                  <f7-col style="border: 1px solid #e1e1e1">50%</f7-col>
+                </f7-grid>
+              </p>
+              <p>
+                <f7-grid>
+                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
+                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
+                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
+                </f7-grid>
+              </p>
+              <p>
+                <f7-grid>
+                  <f7-col width="50" tablet-width="80" style="border: 1px solid #e1e1e1">50%</f7-col>
+                  <f7-col width="25" tablet-width="10" style="border: 1px solid #e1e1e1">25%</f7-col>
+                  <f7-col width="25" tablet-width="10" style="border: 1px solid #e1e1e1">25%</f7-col>
+                </f7-grid>
+              </p>
+              <p>
+                <f7-grid no-gutter>
+                  <f7-col width="66" style="border: 1px solid #e1e1e1">66%</f7-col>
+                  <f7-col width="33" style="border: 1px solid #e1e1e1">33%</f7-col>
+                </f7-grid>
+              </p>
+            </f7-content-block>
+
+            <f7-block-title>Buttons</f7-block-title>
+            <f7-content-block inner>
+              <p><f7-button>Button</f7-button></p>
+              <p><f7-button round>Button Round</f7-button></p>
+              <p><f7-button fill>Button Fill</f7-button></p>
+              <p>
+                <f7-buttons>
+                  <f7-button round active>Button 1</f7-button>
+                  <f7-button round>Button 2</f7-button>
+                  <f7-button round>Button 3</f7-button>
+                </f7-buttons>
+              </p>
+              <p>
+                <f7-buttons color="orange">
+                  <f7-button round big>Button 1</f7-button>
+                  <f7-button round big active>Button 2</f7-button>
+                  <f7-button round big>Button 3</f7-button>
+                </f7-buttons>
+              </p>
+              <f7-grid>
+                <f7-col><f7-button big fill color="green">Send</f7-button></f7-col>
+                <f7-col><f7-button big fill color="red">Delete</f7-button></f7-col>
+              </f7-grid>
+            </f7-content-block>
+
+          </f7-page>
+        </f7-pages>
+      </f7-view>
+    </f7-views>
   </div>
   <script src="dist/framework7.vue.js"></script>
 </body>

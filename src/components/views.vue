@@ -4,11 +4,7 @@
 <script>
   export default {
     data: function () {
-      return {
-        classObject: {
-
-        }
-      };
+      return {};
     },
     props: ['navbar', 'toolbar']
   }

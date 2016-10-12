@@ -3,9 +3,13 @@
 </template>
 <script>
   export default {
+    props: {
+        'main': Boolean,
+        'navbar': String,
+        'toolbar': String
+    },
     data: function () {
       return {};
-    },
-    props: ['main', 'navbar', 'toolbar']
+    }
   }
 </script>

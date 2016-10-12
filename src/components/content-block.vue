@@ -8,7 +8,10 @@
 </template>
 <script>
   export default {
-    props: ['inset', 'inner'],
+    props: {
+      'inset': Boolean,
+      'inner': Boolean
+    },
     data: function () {
       return {};
     }
