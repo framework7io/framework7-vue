@@ -1,61 +1,80 @@
-<template>
-  <li :class="{'item-divider' : divider, 'list-group-title': groupTitle, 'swipeout': swipeout}" @open="onOpen" @opened="onOpened" @close="onClose" @closed="onClosed" @delete="onDelete" @deleted="onDeleted" @swipeout="onSwipeout">
-    <span v-if="dividerOrGroupTitle"><slot>{{title}}</slot></span>
-    <div class="swipeout-content" v-if="swipeout">
-      <a v-if="link && !dividerOrGroupTitle" :href="link === true ? '#' : link" class="item-link" :class="{'external': linkExternal}" @click="onClick">
-        <f7-list-item-content
-          :title="title"
-          :text="text"
-          :media="media"
-          :subtitle="subtitle"
-          :after="after"
-          :badge="badge"
-          :badge-color="badgeColor"
-          :media-list="mediaListComputed"
-        ></f7-list-item-content>
-      </a>
-      <f7-list-item-content v-else v-if="!dividerOrGroupTitle"
-        @click="onClick"
-        :title="title"
-        :text="text"
-        :media="media"
-        :subtitle="subtitle"
-        :after="after"
-        :badge="badge"
-        :badge-color="badgeColor"
-        :media-list="mediaListComputed"
-      ></f7-list-item-content>
-    </div>
-    <a v-if="link && !dividerOrGroupTitle && !swipeout" :href="link === true ? '#' : link" class="item-link" :class="{'external': linkExternal}" @click="onClick">
-      <f7-list-item-content
-        :title="title"
-        :text="text"
-        :media="media"
-        :subtitle="subtitle"
-        :after="after"
-        :badge="badge"
-        :badge-color="badgeColor"
-        :media-list="mediaListComputed"
-      ></f7-list-item-content>
-    </a>
-    <f7-list-item-content v-else v-if="!dividerOrGroupTitle && !swipeout"
-      @click="onClick"
-      :title="title"
-      :text="text"
-      :media="media"
-      :subtitle="subtitle"
-      :after="after"
-      :badge="badge"
-      :badge-color="badgeColor"
-      :media-list="mediaListComputed"
-    ></f7-list-item-content>
-    <div v-if="sortableComputed && !dividerOrGroupTitle" class="sortable-handler"></div>
-    <slot></slot>
-  </li>
-</template>
 <script>
   import ListItemContent from './list-item-content.vue'
   export default {
+    render: function (c) {
+      var liChildren, linkEl, itemContentEl;
+
+      // Item Content
+      itemContentEl = c('f7-list-item-content', {
+        props: {
+          'title': this.title,
+          'text': this.text,
+          'media': this.media,
+          'subtitle': this.subtitle,
+          'after': this.after,
+          'badge': this.badge,
+          'badge-color': this.badgeColor,
+          'media-list': this.mediaListComputed
+        },
+        on: this.link ? {click: this.onClick} : {}
+      }, this.$slots.default);
+
+      // Link
+      if (this.link) {
+        linkEl = c('a', {
+          attrs: {
+            href: this.link === true ? '#' : this.link
+          },
+          'class': {
+            'item-link': true,
+            'external': this.linkExternal
+          },
+          on: {
+            click: this.onClick
+          }
+        }, [itemContentEl])
+      }
+
+      if (this.dividerOrGroupTitle) {
+        liChildren = [c('span', this.$slots.default || this.title)]
+      }
+      else {
+        var linkItemEl = this.link ? linkEl : itemContentEl;
+        if (this.swipeout) {
+          liChildren = [c('div', {'class':{'swipeout-content': true}}, [linkItemEl])]
+        }
+        else {
+          liChildren = [linkItemEl];
+        }
+        if (this.sortableComputed) {
+          liChildren.push(c('div', {'class': {'sortable-handler': true}}));
+        }
+        if (this.swipeout) {
+          liChildren.push(this.$slots.default);
+        }
+      }
+
+      return c(
+        'li',
+        {
+          'class': {
+            'item-divider' : this.divider,
+            'list-group-title': this.groupTitle,
+            'swipeout': this.swipeout
+          },
+          on: {
+            open: this.onOpen,
+            opened: this.onOpened,
+            close: this.onClose,
+            closed: this.onClosed,
+            delete: this.onDelete,
+            deleted: this.onDeleted,
+            swipeout: this.onSwipeout
+          }
+        },
+        liChildren
+      )
+    },
     props: {
       'title': [String, Number],
       'text': [String, Number],

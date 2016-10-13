@@ -8,10 +8,12 @@
       </div>
       <div v-if="subtitle" class="item-subtitle" v-html="subtitle"></div>
       <div v-if="text" class="item-text" v-html="text"></div>
+      <slot></slot>
     </div>
     <div class="item-inner" v-else>
       <div v-if="title" class="item-title" v-html="title"></div>
       <div v-if="after || badge" class="item-after"><span v-html="after" v-if="after"></span><f7-badge v-if="badge" :color="badgeColor">{{badge}}</f7-badge></div>
+      <slot></slot>
     </div>
   </div>
 </template>

@@ -28,6 +28,8 @@ import ButtonsSegmented from './components/buttons-segmented.vue';
 import Button from './components/button.vue';
 import GridRow from './components/grid-row.vue';
 import GridCol from './components/grid-col.vue';
+import Preloader from './components/preloader.vue';
+import Progressbar from './components/progressbar.vue';
 
 new Vue({
     el: '#app',
@@ -66,6 +68,8 @@ new Vue({
         'f7-button': Button,
         'f7-grid': GridRow,
         'f7-col': GridCol,
+        'f7-preloader': Preloader,
+        'f7-progressbar': Progressbar,
     },
     data: {
         items: [

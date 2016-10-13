@@ -45,7 +45,9 @@
               <f7-card-content>Card Content</f7-card-content>
               <f7-card-footer>Footer</f7-card-footer>
             </f7-card>
+
             <f7-card title="Simple Card" content="Hello, i have simple content"></f7-card>
+
             <f7-block-title>Content Block</f7-block-title>
             <f7-content-block>
               <p>I'm content block</p>
@@ -172,6 +174,58 @@
                 <f7-col><f7-button big fill color="red">Delete</f7-button></f7-col>
               </f7-grid>
             </f7-content-block>
+
+            <f7-block-title>Preloader</f7-block-title>
+            <f7-content-block inner>
+              <f7-grid>
+                <f7-col>
+                  <f7-preloader></f7-preloader>
+                </f7-col>
+                <f7-col style="background: #333">
+                  <f7-preloader color="white"></f7-preloader>
+                </f7-col>
+                <f7-col>
+                  <f7-preloader :size="44"></f7-preloader>
+                </f7-col>
+                <f7-col style="background: #333">
+                  <f7-preloader :size="44" color="white"></f7-preloader>
+                </f7-col>
+              </f7-grid>
+              <f7-grid>
+                <f7-col>
+                  <f7-preloader :size="44" color="red"></f7-preloader>
+                </f7-col>
+                <f7-col>
+                  <f7-preloader :size="44" color="blue"></f7-preloader>
+                </f7-col>
+                <f7-col>
+                  <f7-preloader :size="44" color="green"></f7-preloader>
+                </f7-col>
+                <f7-col>
+                  <f7-preloader :size="44" color="orange"></f7-preloader>
+                </f7-col>
+              </f7-grid>
+            </f7-content-block>
+
+            <f7-block-title>Progressbar</f7-block-title>
+            <f7-list>
+              <f7-list-item>
+                <f7-progressbar :progress="20"></f7-progressbar>
+              </f7-list-item>
+              <f7-list-item>
+                <f7-progressbar :progress="50" color="red"></f7-progressbar>
+              </f7-list-item>
+              <f7-list-item>
+                <f7-progressbar :progress="70" color="green"></f7-progressbar>
+              </f7-list-item>
+              <f7-list-item>
+                <f7-progressbar infinite color="blue"></f7-progressbar>
+              </f7-list-item>
+              <f7-list-item>
+                <f7-progressbar infinite color="multi"></f7-progressbar>
+              </f7-list-item>
+            </f7-list>
+
 
           </f7-page>
         </f7-pages>

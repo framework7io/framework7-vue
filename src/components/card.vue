@@ -1,18 +1,23 @@
-<template>
-  <div class="card">
-    <f7-card-header v-if="title" v-html="title"></f7-card-header>
-    <div class="card-content" v-if="content">
-      <div class="card-content-inner" v-html="content"></div>
-    </div>
-    <f7-card-footer v-if="footer" v-html="footer"></f7-card-footer>
-    <slot></slot>
-  </div>
-</template>
 <script>
+  import Vue from 'vue';
   import CardHeader from './card-header.vue';
   import CardFooter from './card-footer.vue';
   import CardContent from './card-content.vue';
   export default {
+    template: '',
+    created: function () {
+      var template = '<div class="card">';
+      var self = this;
+      ['header', 'content', 'footer'].forEach(function (part) {
+        var prop = part;
+        if (part === 'header') prop = 'title';
+        if (self[prop]) template += '<f7-card-' + (part) + '>' + self[prop] + '</f7-card-' + (part) + '>'
+      });
+      template += '<slot></slot>';
+      template += '</div>';
+
+      this.$options.template = template;
+    },
     props: ['title', 'content', 'footer'],
     data: function () {
       return {};
