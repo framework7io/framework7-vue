@@ -17,7 +17,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "bugs": {
-    "url": "https://github.com/nolimits4web/Framework7/issues"
+    "url": "https://github.com/nolimits4web/Framework7-Vue/issues"
   },
   "homepage": "http://www.idangero.us/framework7/",
   "engines": {

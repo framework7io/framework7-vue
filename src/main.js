@@ -30,6 +30,9 @@ import GridRow from './components/grid-row.vue';
 import GridCol from './components/grid-col.vue';
 import Preloader from './components/preloader.vue';
 import Progressbar from './components/progressbar.vue';
+import FormLabel from './components/form-label.vue';
+import FormInput from './components/form-input.vue';
+import FormSwitch from './components/form-switch.vue';
 
 new Vue({
     el: '#app',
@@ -70,6 +73,9 @@ new Vue({
         'f7-col': GridCol,
         'f7-preloader': Preloader,
         'f7-progressbar': Progressbar,
+        'f7-label': FormLabel,
+        'f7-input': FormInput,
+        'f7-switch': FormSwitch,
     },
     data: {
         items: [
@@ -87,6 +93,12 @@ new Vue({
         },
         sort: function (e, el) {
             console.log('sort');
+        },
+        onFocus: function () {
+            console.log('focus');
+        },
+        onChange: function () {
+            console.log('change');
         }
     }
 });
