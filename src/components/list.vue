@@ -3,13 +3,24 @@
     render: function (c) {
       var blockEl, blockChildren, self = this;
       blockChildren = self.grouped ? self.$slots.default : c('ul', {}, self.$slots.default)
+      var outOfList = [], outOfListIndexes = [], ulSlots = [];
+      for (var i = 0; i < self.$slots.default.length; i++) {
+        var tag = self.$slots.default[i].tag;
+        if (tag && !(tag == 'li' || tag.indexOf('list-item')>=0 || tag.indexOf('list-button')>=0)) {
+          outOfList.push(self.$slots.default[i]);
+          outOfListIndexes.push(i);
+        }
+        else {
+          ulSlots.push(self.$slots.default[i]);
+        }
+      }
       blockEl = c(
         self.form ? 'form' : 'div',
         {
           'class': {'list-block': true, 'inset': self.inset, 'media-list': self.mediaList, 'sortable': self.sortable}
         },
         [
-          self.grouped ? self.$slots.default : c('ul', {}, self.$slots.default)
+          ulSlots.length > 0 ? [c('ul', {}, ulSlots), outOfList] : outOfList
         ]
       );
       return blockEl;
@@ -20,7 +31,8 @@
       'grouped': Boolean,
       'swipeout': Boolean,
       'sortable': Boolean,
-      'form': Boolean
+      'form': Boolean,
+      'label': String
     },
     data: function () {
       return {};

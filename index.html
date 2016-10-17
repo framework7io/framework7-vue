@@ -16,6 +16,7 @@
 <body>
 
   <div id="app">
+    <f7-statusbar></f7-statusbar>
     <f7-panel left reveal>
       <p>Panel left content</p>
     </f7-panel>
@@ -68,10 +69,11 @@
                 badge-color="red"
                 :divider="n === 3"
               ></f7-list-item>
+              <f7-list-label>Hello I'm List Label</f7-list-label>
             </f7-list>
 
             <f7-block-title>Grouped List</f7-block-title>
-            <f7-list grouped>
+            <f7-list>
               <f7-list-group v-for="n in 2">
                 <f7-list-item
                   v-for="n in 3"
@@ -79,6 +81,7 @@
                   :group-title="n === 1"
                 ></f7-list-item>
               </f7-list-group>
+              <f7-list-label>Hello I'm List Label</f7-list-label>
             </f7-list>
 
             <f7-block-title>Media List</f7-block-title>
