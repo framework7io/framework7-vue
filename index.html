@@ -87,7 +87,8 @@
                 v-for="n in 3"
                 :title="'Item ' + n"
                 :subtitle="'Subtitle ' + n"
-                text="Some text goes here"
+                :media="'<img src=\'http://lorempixel.com/160/160/people/' + n + '\' width=\'80\'>'"
+                text="Some text <p>goes</p> here"
                 after="After"
                 link="http://google.com"
               ></f7-list-item>
@@ -276,9 +277,17 @@
                 <f7-input type="textarea" placeholder="Textarea"></f7-input>
               </f7-list-item>
             </f7-list>
+            <f7-block-title>Checkboxes</f7-block-title>
+            <f7-list form>
+              <f7-list-item v-for="n in 3" checkbox name="my-checkbox" :value="n" :title="'Checkbox ' + n"></f7-list-item>
+            </f7-list>
+            <f7-block-title>Radios</f7-block-title>
+            <f7-list form>
+              <f7-list-item v-for="n in 3" radio name="my-radio" :checked="n === 1" :value="n" :title="'Radio ' + n"></f7-list-item>
+            </f7-list>
             <f7-block-title>Swiper</f7-block-title>
             <f7-content-block>
-              <f7-swiper :params="{slidesPerView: 2, centeredSlides: true, spaceBetween: 20}" pagination next-button prev-button scrollbar style="height:200px">
+              <f7-swiper :params="{slidesPerView: 3, spaceBetween: 20}" pagination next-button prev-button scrollbar style="height:200px">
                 <f7-swiper-slide v-for="n in 10" class="bg-white color-black">Slide {{n}}</f7-swiper-slide>
               </f7-swiper>
             </f7-content-block>

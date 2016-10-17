@@ -14,9 +14,18 @@
           'after': this.after,
           'badge': this.badge,
           'badge-color': this.badgeColor,
-          'media-list': this.mediaListComputed
+          'media-list': this.mediaListComputed,
+
+          'checkbox': this.checkbox,
+          'checked': this.checked,
+          'radio': this.radio,
+          'name': this.name,
+          'value': this.value,
+          'readonly': this.readonly,
+          'required': this.required,
+          'disabled': this.disabledn
         },
-        on: this.link ? {click: this.onClick} : {}
+        on: this.link ? {} : {click: this.onClick, change: this.onChange}
       }, this.$slots.default);
 
       // Link
@@ -93,7 +102,16 @@
       'divider-or-group-title': Boolean,
       'swipeout': Boolean,
       'sortable': Boolean,
-      'sortable-computed': Boolean
+      'sortable-computed': Boolean,
+
+      'checkbox': Boolean,
+      'checked': Boolean,
+      'radio': Boolean,
+      'name': String,
+      'value': [String, Number],
+      'readonly': Boolean,
+      'required': Boolean,
+      'disabled': Boolean
     },
     computed: {
       dividerOrGroupTitle: function () {
@@ -136,6 +154,9 @@
       },
       onSwipeout: function (event) {
         this.$emit('swipeout', event, event.target)
+      },
+      onChange: function (event) {
+        this.$emit('change', event, event.target)
       }
     }
   }
