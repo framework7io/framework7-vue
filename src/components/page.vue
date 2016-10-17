@@ -1,8 +1,8 @@
 <template>
-  <div class="page" :data-page="name" :class="{'navbar-fixed': navbar === 'fixed', 'navbar-through': navbar === 'through', 'toolbar-fixed': toolbar === 'fixed', 'toolbar-through' : toolbar === 'through', 'with-subnavbar': subnavbar || withSubnavbar}">
+  <div class="page" :data-page="name" :class="classObject">
     <slot name="fixed-bars"></slot>
     <div class="page-content"
-      :class="{'pull-to-refresh-content' : pullToRefresh, 'infinite-scroll': infiniteScroll, 'infinite-scroll-top': infiniteScroll === 'top'}"
+      :class="classObjectPageContent"
       :data-ptr-distance="pullToRefreshDistance || ptrDistance"
       :data-distance="infiniteScrollDistance"
       @pullstart="onPullstart"
@@ -30,15 +30,51 @@
   export default {
     props: {
       'name': String,
-      'navbar': String,
-      'toolbar': String,
+      'navbar-fixed': Boolean,
+      'navbar-through': Boolean,
+      'toolbar-fixed': Boolean,
+      'toolbar-through': Boolean,
+      'tabbar-fixed': Boolean,
+      'tabbar-through': Boolean,
+      'tabbar-labels-fixed': Boolean,
+      'tabbar-labels-through': Boolean,
       'with-subnavbar': Boolean,
       'subnavbar': Boolean,
       'pull-to-refresh': Boolean,
       'pull-to-refresh-distance': Number,
       'ptr-distance': Number,
       'infinite-scroll': [Boolean, String],
-      'infinite-scroll-distance': Number
+      'infinite-scroll-distance': Number,
+      'hide-bars-on-scroll': Boolean,
+      'hide-navbar-on-scroll': Boolean,
+      'hide-toolbar-on-scroll': Boolean,
+      'hide-tabbar-on-scroll': Boolean
+    },
+    computed: {
+      classObject: function () {
+        return {
+          'navbar-fixed': this.navbarFixed,
+          'navbar-through': this.navbarThrough,
+          'toolbar-fixed': this.toolbarFixed,
+          'toolbar-through': this.toolbarThrough,
+          'tabbar-fixed': this.tabbarFixed,
+          'tabbar-through': this.tabbarThrough,
+          'tabbar-labels-fixed': this.tabbarLabelsFixed,
+          'tabbar-labels-through': this.tabbarLabesThrough,
+          'with-subnavbar': this.subnavbar || this.withSubnavbar
+        }
+      },
+      classObjectPageContent: function () {
+        return {
+          'pull-to-refresh-content': this.pullToRefresh,
+          'infinite-scroll': this.infiniteScroll,
+          'infinite-scroll-top': this.infiniteScroll === 'top',
+          'hide-bars-on-scroll': this.hideBarsOnScroll,
+          'hide-navbar-on-scroll': this.hideNavbarOnScroll,
+          'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
+          'hide-tabbar-on-scroll': this.hideTabbarOnScroll
+        }
+      }
     },
     methods: {
       onPullstart: function (event) {

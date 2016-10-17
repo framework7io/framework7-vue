@@ -22,7 +22,7 @@
     <f7-panel right cover>
       <p>Panel right content</p>
     </f7-panel>
-    <f7-views navbar="through" toolbar="through">
+    <f7-views navbar-through toolbar-through>
       <f7-view main>
         <f7-navbar title="Hello World">
           <f7-navbar-left>Left</f7-navbar-left>
@@ -39,7 +39,7 @@
         </f7-navbar>
         <f7-toolbar>This is toolbar</f7-toolbar>
         <f7-pages>
-          <f7-page name="home" subnavbar pull-to-refresh infinite-scroll @refresh="onRefresh" @infinite="onInfinite">
+          <f7-page name="home" with-subnavbar pull-to-refresh infinite-scroll hide-bars-on-scroll @refresh="onRefresh" @infinite="onInfinite">
             <f7-card>
               <f7-card-header>Header</f7-card-header>
               <f7-card-content>Card Content</f7-card-content>
@@ -278,7 +278,7 @@
             </f7-list>
             <f7-block-title>Swiper</f7-block-title>
             <f7-content-block>
-              <f7-swiper :params="{slidesPerView: 2, centeredSlides: true, spaceBetween: 20, effect: 'coverflow'}" pagination next-button prev-button scrollbar style="height:300px">
+              <f7-swiper :params="{slidesPerView: 2, centeredSlides: true, spaceBetween: 20}" pagination next-button prev-button scrollbar style="height:200px">
                 <f7-swiper-slide v-for="n in 10" class="bg-white color-black">Slide {{n}}</f7-swiper-slide>
               </f7-swiper>
             </f7-content-block>
