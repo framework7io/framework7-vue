@@ -1,19 +1,26 @@
-<template>
-  <div class="list-block" :class="{'inset': inset, 'media-list': mediaList, 'sortable': sortable}" @open="onOpen" @close="onClose" @sort="onSort">
-    <ul v-if="!grouped">
-      <slot></slot>
-    </ul>
-    <slot v-else></slot>
-  </div>
-</template>
 <script>
   export default {
+    render: function (c) {
+      var blockEl, blockChildren, self = this;
+      blockChildren = self.grouped ? self.$slots.default : c('ul', {}, self.$slots.default)
+      blockEl = c(
+        self.form ? 'form' : 'div',
+        {
+          'class': {'list-block': true, 'inset': self.inset, 'media-list': self.mediaList, 'sortable': self.sortable}
+        },
+        [
+          self.grouped ? self.$slots.default : c('ul', {}, self.$slots.default)
+        ]
+      );
+      return blockEl;
+    },
     props: {
       'inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
       'swipeout': Boolean,
-      'sortable': Boolean
+      'sortable': Boolean,
+      'form': Boolean
     },
     data: function () {
       return {};
