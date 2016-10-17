@@ -28,6 +28,14 @@
           'tabbar-labels-through': this.tabbarLabesThrough
         }
       }
+    },
+    methods: {
+      onF7Init: function () {
+        this.$root.f7.addView(this.$el, {
+          domCache: true,
+          dynamicNavbar: true
+        });
+      }
     }
   }
 </script>
