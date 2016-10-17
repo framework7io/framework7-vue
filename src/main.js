@@ -110,6 +110,9 @@ new Vue({
         },
         onInfinite: function (e) {
             console.log('infinite');
+        },
+        onClick: function (e) {
+            console.log('click');
         }
     }
 });
