@@ -33,6 +33,9 @@ import Progressbar from './components/progressbar.vue';
 import FormLabel from './components/form-label.vue';
 import FormInput from './components/form-input.vue';
 import FormSwitch from './components/form-switch.vue';
+import FormRange from './components/form-range.vue';
+import Swiper from './components/swiper.vue';
+import SwiperSlide from './components/swiper-slide.vue';
 
 new Vue({
     el: '#app',
@@ -76,6 +79,8 @@ new Vue({
         'f7-label': FormLabel,
         'f7-input': FormInput,
         'f7-switch': FormSwitch,
+        'f7-swiper': Swiper,
+        'f7-swiper-slide': SwiperSlide,
     },
     data: {
         items: [
@@ -91,7 +96,7 @@ new Vue({
         swipeoutDeleted: function (el){
             console.log('swipeoutDeleted');
         },
-        sort: function (e, el) {
+        onSort: function (e, el) {
             console.log('sort');
         },
         onFocus: function () {
