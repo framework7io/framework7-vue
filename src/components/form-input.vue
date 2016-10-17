@@ -1,5 +1,6 @@
 <script>
   import FormSwitch from './form-switch.vue';
+  import FormRange from './form-range.vue';
   export default {
     render: function (c) {
       var inputEl;
@@ -55,17 +56,10 @@
         }
         else {
           if (self.type === 'switch') {
-            // attrs.type = 'checkbox';
-            // inputEl = c('label', {'class': {'label-switch': true}}, [
-            //   c('input', {attrs: attrs, on: on}),
-            //   c('div', {'class': {'checkbox': true}})
-            // ]);
-            inputEl = c('f7-switch', {attrs: attrs, on: on});
+            inputEl = c('f7-switch', {props: attrs, on: on});
           }
           else if (self.type === 'range') {
-            inputEl = c('div', {'class': {'range-slider': true}}, [
-              c('input', {attrs: attrs, on: on})
-            ]);
+            inputEl = c('f7-range', {props: attrs, on: on});
           }
           else inputEl = c('input', {attrs: attrs, on: on});
         }
@@ -92,10 +86,10 @@
       checked: Boolean,
       disabled: Boolean,
       max: [String, Number],
-      maxlength: [String, Number],
       min: [String, Number],
-      minlength: [String, Number],
       step: [String, Number],
+      maxlength: [String, Number],
+      minlength: [String, Number],
       multiple: Boolean,
       readonly: Boolean,
       required: Boolean,
@@ -109,7 +103,8 @@
       }
     },
     components: {
-      'f7-switch': FormSwitch
+      'f7-switch': FormSwitch,
+      'f7-range': FormRange
     },
     methods: (function () {
       var eventMethods = {};
