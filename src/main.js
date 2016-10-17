@@ -104,6 +104,12 @@ new Vue({
         },
         onChange: function () {
             console.log('change');
+        },
+        onRefresh: function (e) {
+            console.log('refresh');
+        },
+        onInfinite: function (e) {
+            console.log('infinite');
         }
     }
 });

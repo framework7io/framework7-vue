@@ -39,7 +39,7 @@
         </f7-navbar>
         <f7-toolbar>This is toolbar</f7-toolbar>
         <f7-pages>
-          <f7-page name="home" subnavbar>
+          <f7-page name="home" subnavbar pull-to-refresh infinite-scroll @refresh="onRefresh" @infinite="onInfinite">
             <f7-card>
               <f7-card-header>Header</f7-card-header>
               <f7-card-content>Card Content</f7-card-content>
