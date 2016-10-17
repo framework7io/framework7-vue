@@ -1,5 +1,5 @@
 <template>
-  <label class="label-switch" :class="color ? 'color-' + color : ''">
+  <label class="label-switch" :class="color ? 'color-' + color : ''" @click="onClick">
     <input
       type="checkbox"
       :name="name"
@@ -11,11 +11,8 @@
       :required="required"
       :style="style"
 
-      @focus="onFocus"
-      @blur="onBlur"
       @input="onInput"
       @change="onChange"
-      @click="onClick"
     >
     <div class="checkbox"></div>
   </label>
@@ -36,7 +33,7 @@
     },
     methods: (function () {
       var eventMethods = {};
-      'Focus Blur Input Change Click'.split(' ').forEach(function (ev) {
+      'Input Change Click'.split(' ').forEach(function (ev) {
         eventMethods['on' + ev] = function (event) {
           this.$emit(ev.toLowerCase(), event, event.target)
         }
