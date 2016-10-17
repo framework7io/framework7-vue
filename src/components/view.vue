@@ -31,7 +31,7 @@
     },
     methods: {
       onF7Init: function () {
-        this.$root.f7.addView(this.$el, {
+        this.f7View = this.$root.f7.addView(this.$el, {
           domCache: true,
           dynamicNavbar: true
         });
