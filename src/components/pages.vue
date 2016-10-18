@@ -1,5 +1,8 @@
 <template>
-  <div class="pages" :class="classObject"><slot></slot></div>
+  <div class="pages" :class="classObject">
+    <slot></slot>
+    <component v-for="page in pages" :is="page" class="cached"></component>
+  </div>
 </template>
 <script>
   export default {
@@ -12,6 +15,11 @@
       'tabbar-through': Boolean,
       'tabbar-labels-fixed': Boolean,
       'tabbar-labels-through': Boolean
+    },
+    data: function () {
+      return {
+        pages: []
+      }
     },
     computed: {
       classObject: function () {
