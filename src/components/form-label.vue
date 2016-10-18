@@ -1,6 +1,10 @@
 <template>
-  <div class="item-title label"><slot></slot></div>
+  <div class="item-title" :class="{label: !floating, 'floating-label' : floating}"><slot></slot></div>
 </template>
 <script>
-  export default {}
+  export default {
+    props: {
+        floating: Boolean
+    }
+  }
 </script>
