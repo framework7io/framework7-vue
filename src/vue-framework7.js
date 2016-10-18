@@ -41,6 +41,10 @@ import FormInput from './components/form-input.vue';
 import FormSwitch from './components/form-switch.vue';
 import FormRange from './components/form-range.vue';
 import Chip from './components/chip.vue';
+import Fab from './components/fab.vue';
+import FabSpeedDial from './components/fab-speed-dial.vue';
+import FabActions from './components/fab-speed-dial-actions.vue';
+import FabAction from './components/fab-speed-dial-action.vue';
 import Swiper from './components/swiper.vue';
 import SwiperSlide from './components/swiper-slide.vue';
 
@@ -114,6 +118,10 @@ export default {
         'f7-switch': FormSwitch,
         'f7-range': FormRange,
         'f7-chip': Chip,
+        'f7-fab': Fab,
+        'f7-fab-speed-dial': FabSpeedDial,
+        'f7-fab-action': FabAction,
+        'f7-fab-actions': FabActions,
         'f7-swiper': Swiper,
         'f7-swiper-slide': SwiperSlide,
       }
