@@ -87,7 +87,7 @@
             <f7-block-title>Media List</f7-block-title>
             <f7-list media-list>
               <f7-list-item
-                v-for="n in 3"
+                v-for="n in 2"
                 :title="'Item ' + n"
                 :subtitle="'Subtitle ' + n"
                 :media="'<img src=\'http://lorempixel.com/160/160/people/' + n + '\' width=\'80\'>'"
@@ -123,6 +123,28 @@
                 :title="'Item ' + n"
               ></f7-list-item>
             </f7-list>
+
+            <f7-block-title>Accordion List</f7-block-title>
+            <f7-list accordion>
+              <f7-list-item
+                v-for="n in 3"
+                accordion-item
+                :title="'Item ' + n"
+              >
+                <f7-accordion-content>
+                  <f7-content-block>
+                    <p>Accordion content {{n}}</p>
+                  </f7-content-block>
+                </f7-accordion-content>
+              </f7-list-item>
+            </f7-list>
+            <f7-block-title>Separate Collapsible</f7-block-title>
+            <f7-content-block inner>
+              <f7-accordion-item v-for="n in 3">
+                <f7-accordion-toggle><b>Item {{n}}</b></f7-accordion-toggle>
+                <f7-accordion-content>Content {{n}}</f7-accordion-content>
+              </f7-accordion-item>
+            </f7-content-block>
 
             <f7-block-title>Grid</f7-block-title>
             <f7-content-block inner>
