@@ -41,6 +41,7 @@
   export default {
     props: {
       'name': String,
+      'cached': Boolean,
       'navbar-fixed': Boolean,
       'navbar-through': Boolean,
       'toolbar-fixed': Boolean,
@@ -64,6 +65,7 @@
     computed: {
       classObject: function () {
         return {
+          'cached': this.cached,
           'navbar-fixed': this.navbarFixed,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,
