@@ -58,7 +58,9 @@ export default {
           if (self.onF7Init) self.onF7Init(f7);
         });
         if (self === self.$root) {
-          self.f7 = new window.Framework7(self.framework7);
+          var f7 = new window.Framework7(self.$options.framework7);
+          window.f7 = f7;
+          self.f7 = f7;
           self.Dom7 = window.Dom7;
           self.Swiper = window.Swiper;
           self.Template7 = window.Template7;
