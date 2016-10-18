@@ -40,6 +40,7 @@ import FormLabel from './components/form-label.vue';
 import FormInput from './components/form-input.vue';
 import FormSwitch from './components/form-switch.vue';
 import FormRange from './components/form-range.vue';
+import Chip from './components/chip.vue';
 import Swiper from './components/swiper.vue';
 import SwiperSlide from './components/swiper-slide.vue';
 
@@ -112,6 +113,7 @@ export default {
         'f7-input': FormInput,
         'f7-switch': FormSwitch,
         'f7-range': FormRange,
+        'f7-chip': Chip,
         'f7-swiper': Swiper,
         'f7-swiper-slide': SwiperSlide,
       }
