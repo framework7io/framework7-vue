@@ -1,8 +1,20 @@
 <template>
-  <div class="view" :class="classObject"><slot></slot></div>
+  <div class="view"
+    :class="classObject"
+    @swipeBackMove="onSwipeBackMove"
+    @swipeBackBeforeChange="onSwipeBackBeforeChange"
+    @swipeBackAfterChange="onSwipeBackAfterChange"
+    @swipeBackBeforeReset="onSwipeBackBeforeReset"
+    @swipeBackAfterReset="onSwipeBackAfterReset"
+    >
+    <slot></slot>
+  </div>
 </template>
 <script>
   export default {
+    beforeDestroy: function () {
+      this.f7View.destroy();
+    },
     props: {
       'main': Boolean,
       'navbar-fixed': Boolean,
@@ -35,6 +47,21 @@
           domCache: true,
           dynamicNavbar: true
         });
+      },
+      onSwipeBackMove: function (event) {
+        this.$emit('swipeBackMove', event, event.detail);
+      },
+      onSwipeBackBeforeChange: function (event) {
+        this.$emit('swipeBackBeforeChange', event, event.detail);
+      },
+      onSwipeBackAfterChange: function (event) {
+        this.$emit('swipeBackAfterChange', event, event.detail);
+      },
+      onSwipeBackBeforeReset: function (event) {
+        this.$emit('swipeBackBeforeReset', event, event.detail);
+      },
+      onSwipeBackAfterReset: function (event) {
+        this.$emit('swipeBackAfterReset', event, event.detail);
       }
     }
   }

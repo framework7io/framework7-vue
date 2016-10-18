@@ -12,9 +12,6 @@
       colorComputed: function () {
         return this.color || this.theme || this.bg;
       }
-    },
-    data: function () {
-      return {};
     }
   }
 </script>

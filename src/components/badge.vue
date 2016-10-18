@@ -5,9 +5,6 @@
   export default {
     props: {
       'color': String
-    },
-    data: function () {
-      return {};
     }
   }
 </script>

@@ -11,9 +11,6 @@
     props: {
       'inset': Boolean,
       'inner': Boolean
-    },
-    data: function () {
-      return {};
     }
   }
 </script>

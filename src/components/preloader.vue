@@ -19,9 +19,6 @@
         }
         return s;
       }
-    },
-    data: function () {
-      return {};
     }
   }
 </script>

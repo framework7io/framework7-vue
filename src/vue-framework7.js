@@ -109,6 +109,7 @@ export default {
         'f7-label': FormLabel,
         'f7-input': FormInput,
         'f7-switch': FormSwitch,
+        'f7-range': FormRange,
         'f7-swiper': Swiper,
         'f7-swiper-slide': SwiperSlide,
       }

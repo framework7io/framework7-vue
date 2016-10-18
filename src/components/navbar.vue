@@ -7,9 +7,6 @@
 </template>
 <script>
   export default {
-    props: ['title'],
-    data: function () {
-      return {};
-    }
+    props: ['title']
   }
 </script>

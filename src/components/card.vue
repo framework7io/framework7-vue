@@ -19,9 +19,6 @@
       this.$options.template = template;
     },
     props: ['title', 'content', 'footer'],
-    data: function () {
-      return {};
-    },
     components: {
       'f7-card-header': CardHeader,
       'f7-card-footer': CardFooter,

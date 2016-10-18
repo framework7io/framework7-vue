@@ -27,7 +27,7 @@
     },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event.target)
+        this.$emit('click', event)
       }
     }
   }

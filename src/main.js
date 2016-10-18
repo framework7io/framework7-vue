@@ -6,20 +6,8 @@ Vue.use(VueFramework7);
 
 new Vue({
     el: '#app',
-    mounted: function () {
-
-    },
     framework7: {
-    },
-    data: {
-        items: [
-            {
-                title: 1,
-            },
-            {
-                title: 2
-            }
-        ]
+        root: '#app',
     },
     methods: {
         swipeoutDeleted: function (el){
@@ -34,8 +22,11 @@ new Vue({
         onChange: function () {
             console.log('change');
         },
-        onRefresh: function (e) {
+        onRefresh: function (e, done) {
             console.log('refresh');
+            setTimeout(function () {
+                done();
+            }, 2000);
         },
         onInfinite: function (e) {
             console.log('infinite');

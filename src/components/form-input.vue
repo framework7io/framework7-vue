@@ -1,6 +1,4 @@
 <script>
-  import FormSwitch from './form-switch.vue';
-  import FormRange from './form-range.vue';
   export default {
     render: function (c) {
       var inputEl;
@@ -102,15 +100,11 @@
         default: true
       }
     },
-    components: {
-      'f7-switch': FormSwitch,
-      'f7-range': FormRange
-    },
     methods: (function () {
       var eventMethods = {};
       'Focus Blur Input Change Click'.split(' ').forEach(function (ev) {
         eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event, event.target)
+          this.$emit(ev.toLowerCase(), event)
         }
       });
       return eventMethods

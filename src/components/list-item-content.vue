@@ -1,5 +1,4 @@
 <script>
-  import Badge from './badge.vue'
   export default {
     render: function (c) {
       var titleEl, afterWrapEl, afterEl, badgeEl, innerEl, titleRowEl, subtitleEl, textEl, mediaEl, inputEl, inputIconEl;
@@ -76,15 +75,12 @@
     data: function () {
       return {};
     },
-    components: {
-      'f7-badge': Badge
-    },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event, event.target)
+        this.$emit('click', event)
       },
       onChange: function (event) {
-        this.$emit('change', event, event.target)
+        this.$emit('change', event)
       }
     }
   }

@@ -39,7 +39,7 @@
       var eventMethods = {};
       'Input Change Click'.split(' ').forEach(function (ev) {
         eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event, event.target)
+          this.$emit(ev.toLowerCase(), event)
         }
       });
       return eventMethods

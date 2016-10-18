@@ -32,9 +32,6 @@
             if (self.rippleColor) co['ripple-' + self.rippleColor] = true;
             return co;
         }
-    },
-    data: function () {
-      return {};
     }
   }
 </script>

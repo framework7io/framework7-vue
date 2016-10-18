@@ -1,5 +1,16 @@
 <template>
-  <div class="page" :data-page="name" :class="classObject">
+  <div class="page"
+    :data-page="name"
+    :class="classObject"
+    @pageBeforeInit="onPageBeforeInit"
+    @pageInit="onPageInit"
+    @pageReinit="onPageReinit"
+    @pageBeforeAnimation="onPageBeforeAnimation"
+    @pageAfterAnimation="onPageAfterAnimation"
+    @pageBeforeRemove="onPageBeforeRemove"
+    @pageBack="onPageBack"
+    @pageAfterBack="onPageAfterBack"
+    >
     <slot name="fixed-bars"></slot>
     <div class="page-content"
       :class="classObjectPageContent"
@@ -78,22 +89,47 @@
     },
     methods: {
       onPullstart: function (event) {
-        this.$emit('pullstart', event, event.target);
+        this.$emit('pullstart', event);
       },
       onPullmove: function (event) {
-        this.$emit('pullmove', event, event.target);
+        this.$emit('pullmove', event);
       },
       onPullend: function (event) {
-        this.$emit('pullend', event, event.target);
+        this.$emit('pullend', event);
       },
       onRefresh: function (event) {
-        this.$emit('refresh', event, event.target);
+        this.$emit('refresh', event, event.detail.done);
       },
       onRefreshdone: function (event) {
-        this.$emit('refreshdone', event, event.target);
+        this.$emit('refreshdone', event);
       },
       onInfinite: function (event) {
-        this.$emit('infinite', event, event.target);
+        this.$emit('infinite', event);
+      },
+      onPageBeforeInit: function (event) {
+        this.f7PageData = event.detail.page;
+        this.$emit('pageBeforeInit', event, event.detail.page);
+      },
+      onPageInit: function (event) {
+        this.$emit('pageInit', event, event.detail.page);
+      },
+      onPageReinit: function (event) {
+        this.$emit('pageReinit', event, event.detail.page);
+      },
+      onPageBeforeAnimation: function (event) {
+        this.$emit('pageBeforeAnimation', event, event.detail.page);
+      },
+      onPageAfterAnimation: function (event) {
+        this.$emit('pageAfterAnimation', event, event.detail.page);
+      },
+      onPageBeforeRemove: function (event) {
+        this.$emit('pageBeforeRemove', event, event.detail.page);
+      },
+      onPageBack: function (event) {
+        this.$emit('pageBack', event, event.detail.page);
+      },
+      onPageAfterBack: function (event) {
+        this.$emit('pageAfterBack', event, event.detail.page);
       }
     }
   }

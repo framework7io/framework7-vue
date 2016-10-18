@@ -10,9 +10,6 @@
       'color': String,
       'progress': Number,
       'infinite': Boolean
-    },
-    data: function () {
-      return {};
     }
   }
 </script>
