@@ -1,65 +1,66 @@
 <script>
-  import ListItemContent from './list-item-content.vue'
   export default {
     render: function (c) {
       var liChildren, linkEl, itemContentEl;
+      var self = this;
 
       // Item Content
       itemContentEl = c('f7-list-item-content', {
         props: {
-          'title': this.title,
-          'text': this.text,
-          'media': this.media,
-          'subtitle': this.subtitle,
-          'after': this.after,
-          'badge': this.badge,
-          'badge-color': this.badgeColor,
-          'media-list': this.mediaListComputed,
+          'title': self.title,
+          'text': self.text,
+          'media': self.media,
+          'subtitle': self.subtitle,
+          'after': self.after,
+          'badge': self.badge,
+          'badge-color': self.badgeColor,
+          'media-list': self.mediaListComputed,
+          'accordion-item': self.accordionItem,
 
-          'checkbox': this.checkbox,
-          'checked': this.checked,
-          'radio': this.radio,
-          'name': this.name,
-          'value': this.value,
-          'readonly': this.readonly,
-          'required': this.required,
-          'disabled': this.disabledn
+          'checkbox': self.checkbox,
+          'checked': self.checked,
+          'radio': self.radio,
+          'name': self.name,
+          'value': self.value,
+          'readonly': self.readonly,
+          'required': self.required,
+          'disabled': self.disabledn
         },
-        on: this.link ? {} : {click: this.onClick, change: this.onChange}
-      }, this.$slots.default);
+        on: self.link ? {} : {click: self.onClick, change: self.onChange}
+      }, self.$slots.default);
 
       // Link
-      if (this.link) {
+      if (self.link || self.accordionItem) {
         linkEl = c('a', {
           attrs: {
-            href: this.link === true ? '#' : this.link
+            href: self.link === true || self.accordionItem ? '#' : self.link
           },
           'class': {
             'item-link': true,
-            'external': this.linkExternal
+            'external': self.linkExternal
           },
           on: {
-            click: this.onClick
+            click: self.onClick
           }
         }, [itemContentEl])
       }
 
-      if (this.dividerOrGroupTitle) {
-        liChildren = [c('span', this.$slots.default || this.title)]
+      if (self.dividerOrGroupTitle) {
+        liChildren = [c('span', self.$slots.default || self.title)]
       }
       else {
-        var linkItemEl = this.link ? linkEl : itemContentEl;
-        if (this.swipeout) {
+        var linkItemEl = self.link || self.accordionItem ? linkEl : itemContentEl;
+        if (self.swipeout) {
           liChildren = [c('div', {'class':{'swipeout-content': true}}, [linkItemEl])]
         }
         else {
           liChildren = [linkItemEl];
         }
-        if (this.sortableComputed) {
+        if (self.sortableComputed) {
           liChildren.push(c('div', {'class': {'sortable-handler': true}}));
         }
-        if (this.swipeout) {
-          liChildren.push(this.$slots.default);
+        if (self.swipeout || self.accordionItem) {
+          liChildren.push(self.$slots.default);
         }
       }
 
@@ -67,18 +68,19 @@
         'li',
         {
           'class': {
-            'item-divider' : this.divider,
-            'list-group-title': this.groupTitle,
-            'swipeout': this.swipeout
+            'item-divider' : self.divider,
+            'list-group-title': self.groupTitle,
+            'swipeout': self.swipeout,
+            'accordion-item': self.accordionItem
           },
           on: {
-            open: this.onOpen,
-            opened: this.onOpened,
-            close: this.onClose,
-            closed: this.onClosed,
-            delete: this.onDelete,
-            deleted: this.onDeleted,
-            swipeout: this.onSwipeout
+            open: self.onOpen,
+            opened: self.onOpened,
+            close: self.onClose,
+            closed: self.onClosed,
+            delete: self.onDelete,
+            deleted: self.onDeleted,
+            swipeout: self.onSwipeout
           }
         },
         liChildren
@@ -103,6 +105,7 @@
       'swipeout': Boolean,
       'sortable': Boolean,
       'sortable-computed': Boolean,
+      'accordion-item': Boolean,
 
       'checkbox': Boolean,
       'checked': Boolean,
@@ -124,39 +127,33 @@
         return this.mediaList || this.$parent.mediaList || this.$parent.mediaListComputed;
       }
     },
-    data: function () {
-      return {};
-    },
-    components: {
-      'f7-list-item-content': ListItemContent
-    },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event, event.target)
+        this.$emit('click', event)
       },
       onDeleted: function (event) {
-        this.$emit('deleted', event, event.target)
+        this.$emit('deleted', event)
       },
       onDelete: function (event) {
-        this.$emit('delete', event, event.target)
+        this.$emit('delete', event)
       },
       onClose: function (event) {
-        this.$emit('close', event, event.target)
+        this.$emit('close', event)
       },
       onClosed: function (event) {
-        this.$emit('closed', event, event.target)
+        this.$emit('closed', event)
       },
       onOpen: function (event) {
-        this.$emit('open', event, event.target)
+        this.$emit('open', event)
       },
       onOpened: function (event) {
-        this.$emit('opened', event, event.target)
+        this.$emit('opened', event)
       },
       onSwipeout: function (event) {
-        this.$emit('swipeout', event, event.target)
+        this.$emit('swipeout', event)
       },
       onChange: function (event) {
-        this.$emit('change', event, event.target)
+        this.$emit('change', event)
       }
     }
   }

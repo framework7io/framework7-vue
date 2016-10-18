@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import StatusBar from './components/status-bar.vue';
+import StatusBar from './components/statusbar.vue';
 import Panel from './components/panel.vue';
 import Views from './components/views.vue';
 import View from './components/view.vue';
@@ -22,10 +22,14 @@ import Badge from './components/badge.vue';
 import List from './components/list.vue';
 import ListGroup from './components/list-group.vue';
 import ListItem from './components/list-item.vue';
+import ListItemContent from './components/list-item-content.vue';
 import ListItemSwipeoutActions from './components/list-item-swipeout-actions.vue';
 import ListItemSwipeoutButton from './components/list-item-swipeout-button.vue';
 import ListButton from './components/list-button.vue';
 import ListLabel from './components/list-label.vue';
+import AccordionItem from './components/accordion-item.vue';
+import AccordionToggle from './components/accordion-toggle.vue';
+import AccordionContent from './components/accordion-content.vue';
 import ButtonsSegmented from './components/buttons-segmented.vue';
 import Button from './components/button.vue';
 import GridRow from './components/grid-row.vue';
@@ -86,10 +90,14 @@ export default {
         'f7-list': List,
         'f7-list-group': ListGroup,
         'f7-list-item': ListItem,
+        'f7-list-item-content': ListItemContent,
         'f7-list-button': ListButton,
         'f7-list-label': ListLabel,
         'f7-swipeout-actions': ListItemSwipeoutActions,
         'f7-swipeout-button': ListItemSwipeoutButton,
+        'f7-accordion-item': AccordionItem,
+        'f7-accordion-toggle': AccordionToggle,
+        'f7-accordion-content': AccordionContent,
         'f7-badge': Badge,
         'f7-buttons': ButtonsSegmented,
         'f7-segmented': ButtonsSegmented,
