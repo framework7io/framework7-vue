@@ -24,7 +24,9 @@
       'tabbar-fixed': Boolean,
       'tabbar-through': Boolean,
       'tabbar-labels-fixed': Boolean,
-      'tabbar-labels-through': Boolean
+      'tabbar-labels-through': Boolean,
+
+      'url': String,
     },
     computed: {
       classObject: function () {
@@ -37,16 +39,23 @@
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough
+          'tabbar-labels-through': this.tabbarLabesThrough,
         }
-      }
+      },
+
     },
     methods: {
-      onF7Init: function () {
-        this.f7View = this.$root.f7.addView(this.$el, {
+      onF7Init: function (f7) {
+        var self = this;
+        var params = {
           domCache: true,
+          url: self.url,
           dynamicNavbar: true
-        });
+        }
+        self.f7View = f7.addView(self.$el, params);
+        if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
+          self.f7View.router.load({url: self.url, reload: true});
+        }
       },
       onSwipeBackMove: function (event) {
         this.$emit('swipeBackMove', event, event.detail);

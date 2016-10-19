@@ -1,7 +1,7 @@
 <template>
-  <div class="pages" :class="classObject">
+  <div class="pages" :class="classObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
-    <component v-for="page in pages" :is="page" class="cached"></component>
+    <component v-for="page in pages" :is="page.component" class="cached"></component>
   </div>
 </template>
 <script>
@@ -32,6 +32,19 @@
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
           'tabbar-labels-through': this.tabbarLabesThrough
+        }
+      }
+    },
+    methods: {
+      onPageBeforeRemove: function (e) {
+        var indexToRemove;
+        for (var i = 0; i < this.pages.length; i++) {
+          if (e.target === this.pages[i].pageElement) {
+            indexToRemove = i;
+          }
+        }
+        if (typeof indexToRemove !== 'undefined') {
+          this.pages.splice(indexToRemove, 1);
         }
       }
     }

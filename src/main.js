@@ -1,55 +1,47 @@
-import Framework7 from 'framework7';
+// Import Vue
 import Vue from 'vue';
-import VueFramework7 from './vue-framework7.js';
 
-import About from './pages/about.vue';
-import Contacts from './pages/contacts.vue';
+// Import Framework7
+import Framework7Vue from './framework7-vue.js';
 
-Vue.use(VueFramework7);
+// Pages
+import ContentBlock from './pages/content-block.vue';
+// import Cards from './pages/cards.vue';
+// import List from './pages/lists.vue';
+// import Accordion from './pages/accordion.vue';
+// import Grid from './pages/grid.vue';
+// import Preloader from './pages/preloader.vue';
+// import Progressbar from './pages/progressbar.vue';
+// import Chips from './pages/chips.vue';
+// import Swiper from './pages/swiper.vue';
+// import Form from './pages/form.vue';
+
+Vue.use(Framework7Vue);
 
 window.app = new Vue({
     el: '#app',
     mounted: function () {
-        var $$ = window.Dom7;
-        var self = this;
-        var routes = self.$options.framework7.routes;
-        self.f7.params.preroute = function (view, params) {
-            var url = params.url;
-            var pageName = params.pageName;
-            if (url && pageName) {
-                return true;
-            }
-            var matchingRoute = false;
-            for (var i = 0; i < this.routes.length; i++) {
-                var route = this.routes[i];
-                if (url === route.path) matchingRoute = route;
-            }
-            if (matchingRoute) {
-                var pagesVue = view.pagesContainer.__vue__;
-                pagesVue.pages.push(matchingRoute.component);
-                Vue.nextTick(function () {
-                    var newPageName = $$(view.pagesContainer).find('.page.cached:last-child').attr('data-page');
-                    view.router.load({
-                        pageName: newPageName,
-                        url: url
-                    });
-                });
-                return false;
-            }
-            return true;
+
+    },
+    data: function () {
+        return {
+            items: [1,2,3]
         };
     },
     framework7: {
         root: '#app',
-        material: true,
         routes: [
             {
-                path: '/about/',
-                component: About
+                path: '/content-block/',
+                component: ContentBlock
             },
             {
-                path: '/contacts/',
-                component: Contacts
+                path: '/about/',
+                component: ContentBlock
+            },
+            {
+                path: 'user/:id/posts/:postId/',
+                component: ContentBlock
             }
         ],
     },

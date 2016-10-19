@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
   <title>Document</title>
-  <link rel="stylesheet" href="node_modules/framework7/dist/css/framework7.material.min.css">
-  <link rel="stylesheet" href="node_modules/framework7/dist/css/framework7.material.colors.css">
+
+  <link rel="stylesheet" href="framework7/framework7.ios.css">
+  <link rel="stylesheet" href="framework7/framework7.ios.colors.css">
   <style>
     #app {
       height: 100%;
@@ -23,24 +25,31 @@
     <f7-panel right cover>
       <p>Panel right content</p>
     </f7-panel>
-    <f7-views navbar-fixed toolbar-fixed>
+    <f7-views navbar-through toolbar-through>
       <f7-view main>
-        <f7-navbar title="Hello World">
-          <f7-navbar-left>Left</f7-navbar-left>
-          <f7-navbar-center>Hello World</f7-navbar-center>
-          <f7-navbar-right>Right</f7-navbar-right>
-          <f7-subnavbar>
-            <f7-buttons>
-              <f7-button>Button 1</f7-button>
-              <f7-button>Button 2</f7-button>
-              <f7-button>Button 3</f7-button>
-              <f7-button>Button 4</f7-button>
-            </f7-buttons>
-          </f7-subnavbar>
+        <f7-navbar>
+          <f7-nav-left sliding>Left</f7-nav-left>
+          <f7-nav-center sliding>Hello World</f7-nav-center>
+          <f7-nav-right sliding>Right</f7-nav-right>
         </f7-navbar>
         <f7-toolbar>This is toolbar</f7-toolbar>
         <f7-pages>
-          <f7-page name="home" with-subnavbar pull-to-refresh infinite-scroll hide-bars-on-scroll @refresh="onRefresh" @infinite="onInfinite">
+          <f7-page name="home">
+            <f7-list>
+              <f7-list-item title="Content Block" link="/content-block/"></f7-list-item>
+              <f7-list-item title="Cards" link="/cards/"></f7-list-item>
+              <f7-list-item title="Lists" link="/lists/"></f7-list-item>
+              <f7-list-item title="Accordion" link="/accordion/"></f7-list-item>
+              <f7-list-item title="Forms" link="/forms/"></f7-list-item>
+              <f7-list-item title="Chips" link="/chips/"></f7-list-item>
+            </f7-list>
+          </f7-page>
+          <!-- <f7-page name="home" with-subnavbar pull-to-refresh infinite-scroll hide-bars-on-scroll @refresh="onRefresh" @infinite="onInfinite">
+            <f7-list>
+              <f7-list-item title="About" link="/about/?q=56#user1"></f7-list-item>
+              <f7-list-item title="Contacts" link="/contacts/"></f7-list-item>
+              <f7-list-item title="Contacts" link="/"></f7-list-item>
+            </f7-list>
             <f7-fab-speed-dial>
               <f7-fab>
                 <i class="icon icon-plus"></i>
@@ -365,11 +374,12 @@
                 <f7-swiper-slide v-for="n in 10" class="bg-white color-black">Slide {{n}}</f7-swiper-slide>
               </f7-swiper>
             </f7-content-block>
-          </f7-page>
+          </f7-page> -->
         </f7-pages>
       </f7-view>
     </f7-views>
   </div>
+  <script src="framework7/framework7.js"></script>
   <script src="dist/framework7.vue.js"></script>
 </body>
 </html>
