@@ -26,6 +26,9 @@
       'tabbar-labels-fixed': Boolean,
       'tabbar-labels-through': Boolean,
 
+      'tab': Boolean,
+      'active': Boolean,
+
       'url': String,
       'init': {
         type: Boolean,
@@ -36,6 +39,8 @@
       classObject: function () {
         return {
           'view-main': this.main,
+          'active': this.active,
+          'tab': this.tab,
           'navbar-fixed': this.navbarFixed,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,

@@ -102,7 +102,10 @@
       'hide-navbar-on-scroll': Boolean,
       'hide-toolbar-on-scroll': Boolean,
       'hide-tabbar-on-scroll': Boolean,
-      'messages': Boolean
+      'messages': Boolean,
+      'tabs': Boolean,
+      'tabs-animated': Boolean,
+      'tabs-swipeable': Boolean,
     },
     computed: {
       classesObjectPage: function () {
@@ -117,7 +120,10 @@
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
           'tabbar-labels-through': this.tabbarLabesThrough,
-          'with-subnavbar': this.subnavbar || this.withSubnavbar
+          'with-subnavbar': this.subnavbar || this.withSubnavbar,
+          'tabs': this.tabs,
+          'tabs-animated-wrap': this.tabsAnimated,
+          'tabs-swipeable-wrap': this.tabSwipeable,
         }
       },
       classesObjectPageContent: function () {

@@ -11,11 +11,13 @@
       'tabbar-fixed': Boolean,
       'tabbar-through': Boolean,
       'tabbar-labels-fixed': Boolean,
-      'tabbar-labels-through': Boolean
+      'tabbar-labels-through': Boolean,
+      'tabs': Boolean
     },
     computed: {
       classObject: function () {
         return {
+          'tabs': this.tabs,
           'navbar-fixed': this.navbarFixed,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,
