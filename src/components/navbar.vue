@@ -1,7 +1,9 @@
 <template>
   <div class="navbar">
     <div class="navbar-inner">
-      <slot><div class="center" v-if="title" v-html="title"></div></slot>
+      <f7-nav-left v-if="backLink" :backLink="backLink" :sliding="sliding"></f7-nav-left>
+      <f7-nav-center v-if="title" :title="title" :sliding="sliding"></f7-nav-center>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -13,6 +15,10 @@
             self.$f7.sizeNavbars();
         });
     },
-    props: ['title']
+    props: {
+      backLink: [Boolean, String],
+      sliding: Boolean,
+      title: String
+    }
   }
 </script>
