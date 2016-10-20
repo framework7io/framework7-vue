@@ -49,6 +49,7 @@ import SwiperSlide from './components/swiper-slide.vue';
 import Messages from './components/messages.vue';
 import Message from './components/message.vue';
 import Messagebar from './components/messagebar.vue';
+import Searchbar from './components/searchbar.vue';
 
 export default {
   install: function (Vue, parameters) {
@@ -244,6 +245,7 @@ export default {
         'f7-messages': Messages,
         'f7-message': Message,
         'f7-messagebar': Messagebar,
+        'f7-searchbar': Searchbar,
       }
     });
   }
