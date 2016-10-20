@@ -6,76 +6,115 @@ import Framework7Vue from './framework7-vue.js';
 
 // Pages
 import ContentBlock from './pages/content-block.vue';
-// import Cards from './pages/cards.vue';
-// import List from './pages/lists.vue';
-// import Accordion from './pages/accordion.vue';
-// import Grid from './pages/grid.vue';
-// import Preloader from './pages/preloader.vue';
-// import Progressbar from './pages/progressbar.vue';
-// import Chips from './pages/chips.vue';
-// import Swiper from './pages/swiper.vue';
-// import Form from './pages/form.vue';
+import Cards from './pages/cards.vue';
+import Lists from './pages/lists.vue';
+import Sortable from './pages/sortable.vue';
+import Swipeout from './pages/swipeout.vue';
+import Accordion from './pages/accordion.vue';
+import Grid from './pages/grid.vue';
+import Forms from './pages/forms.vue';
+import Chips from './pages/chips.vue';
+import Preloader from './pages/preloader.vue';
+import Progressbar from './pages/progressbar.vue';
+import PullToRefresh from './pages/pull-refresh.vue';
+import InfiniteScroll from './pages/infinite.vue';
+import Swiper from './pages/swiper.vue';
+
+import DynamicRoute from './pages/dynamic-route.vue';
+import DataBinding from './pages/data-binding.vue';
+import DataBindingEdit from './pages/data-binding-edit.vue';
 
 Vue.use(Framework7Vue);
 
 window.app = new Vue({
     el: '#app',
-    mounted: function () {
-
-    },
     data: function () {
-        return {
-            items: [1,2,3]
-        };
+      return {
+        user: {
+          name: 'Vladimir',
+          lastName: 'Kharlampidi',
+          age: 30
+        }
+      };
     },
     framework7: {
-        root: '#app',
-        routes: [
-            {
-                path: '/content-block/',
-                component: ContentBlock
-            },
-            {
-                path: '/about/',
-                component: ContentBlock
-            },
-            {
-                path: 'user/:id/posts/:postId/',
-                component: ContentBlock
-            }
-        ],
+      root: '#app',
+      animateNavBackIcon: true,
+      routes: [
+        {
+          path: '/content-block/',
+          component: ContentBlock
+        },
+        {
+          path: '/cards/',
+          component: Cards
+        },
+        {
+          path: '/lists/',
+          component: Lists
+        },
+        {
+          path: '/sortable/',
+          component: Sortable
+        },
+        {
+          path: '/swipeout/',
+          component: Swipeout
+        },
+        {
+          path: '/accordion/',
+          component: Accordion
+        },
+        {
+          path: '/grid/',
+          component: Grid
+        },
+        {
+          path: '/forms/',
+          component: Forms
+        },
+        {
+          path: '/chips/',
+          component: Chips
+        },
+        {
+          path: '/progressbar/',
+          component: Progressbar
+        },
+        {
+          path: '/preloader/',
+          component: Preloader
+        },
+        {
+          path: '/pull-to-refresh/',
+          component: PullToRefresh
+        },
+        {
+          path: '/infinite/',
+          component: InfiniteScroll
+        },
+        {
+          path: '/swiper/',
+          component: Swiper
+        },
+        {
+          path: '/user/:id/posts/:post_id/',
+          component: DynamicRoute
+        },
+        {
+          path: '/data-binding/',
+          component: DataBinding
+        },
+        {
+          path: '/data-binding-edit/',
+          component: DataBindingEdit
+        }
+      ],
     },
     methods: {
-        swipeoutDeleted: function (el){
-            console.log('swipeoutDeleted');
-        },
-        onSort: function (e, el) {
-            console.log('sort');
-        },
-        onFocus: function () {
-            console.log('focus');
-        },
-        onChange: function () {
-            console.log('change');
-        },
-        onRefresh: function (e, done) {
-            console.log('refresh');
-            setTimeout(function () {
-                done();
-            }, 2000);
-        },
-        onInfinite: function (e) {
-            console.log('infinite');
-        },
-        onClick: function (e) {
-            console.log('click');
-        },
-        onChipDelete: function (e) {
-            console.log('chip-delete');
-        },
-        onF7Init: function () {
-            console.log('f7-init');
-        }
+      onF7Init: function () {
+        console.log('f7-init');
+      }
     }
 });
 
