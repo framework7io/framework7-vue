@@ -13,7 +13,7 @@
 <script>
   export default {
     beforeDestroy: function () {
-      this.f7View.destroy();
+      if (this.f7View) this.f7View.destroy();
     },
     props: {
       'main': Boolean,
@@ -27,6 +27,10 @@
       'tabbar-labels-through': Boolean,
 
       'url': String,
+      'init': {
+        type: Boolean,
+        default: true
+      }
     },
     computed: {
       classObject: function () {
@@ -47,6 +51,7 @@
     methods: {
       onF7Init: function (f7) {
         var self = this;
+        if (!self.init) return;
         var params = {
           domCache: true,
           url: self.url,

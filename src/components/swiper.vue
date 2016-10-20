@@ -12,17 +12,22 @@
 <script>
   export default {
     mounted: function () {
+      if (!this.init) return;
       this.swiper = new window.Swiper(this.$el, this.paramsComputed);
     },
     beforeDestroy: function () {
-      this.swiper.destroy();
+      if (this.swiper && this.swiper.destroy) this.swiper.destroy();
     },
     props: {
       'params': Object,
       'pagination': [Boolean, String, Object],
       'scrollbar': [Boolean, String, Object],
       'next-button': [Boolean, String, Object],
-      'prev-button': [Boolean, String, Object]
+      'prev-button': [Boolean, String, Object],
+      init: {
+        type: Boolean,
+        default: true
+      }
     },
     computed: {
       paramsComputed: function () {
