@@ -50,6 +50,8 @@ import Messages from './components/messages.vue';
 import Message from './components/message.vue';
 import Messagebar from './components/messagebar.vue';
 import Searchbar from './components/searchbar.vue';
+import Tabs from './components/tabs.vue';
+import Tab from './components/tab.vue';
 
 export default {
   install: function (Vue, parameters) {
@@ -246,6 +248,8 @@ export default {
         'f7-message': Message,
         'f7-messagebar': Messagebar,
         'f7-searchbar': Searchbar,
+        'f7-tabs': Tabs,
+        'f7-tab': Tab,
       }
     });
   }
