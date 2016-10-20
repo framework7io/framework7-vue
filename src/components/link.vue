@@ -15,7 +15,7 @@
       if (!self.text && self.$slots.default && self.$slots.default.length === 0) {
         self.classesObject['icon-only'] = true;
       }
-      self.classesObject['link'] = true;
+      self.classesObject['link'] = self.noLinkClass ? false : true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
