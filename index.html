@@ -28,353 +28,41 @@
     <f7-views navbar-through toolbar-through>
       <f7-view main>
         <f7-navbar>
-          <f7-nav-left sliding>Left</f7-nav-left>
+          <f7-nav-left sliding>
+            <f7-link icon="icon-bars" open-panel="left"></f7-link>
+          </f7-nav-left>
           <f7-nav-center sliding>Hello World</f7-nav-center>
-          <f7-nav-right sliding>Right</f7-nav-right>
+          <f7-nav-right sliding>
+            <f7-link icon="icon-bars" open-panel="right"></f7-link>
+          </f7-nav-right>
         </f7-navbar>
-        <f7-toolbar>This is toolbar</f7-toolbar>
+        <f7-toolbar>
+          <f7-link>Left</f7-link>
+          <f7-link>Right</f7-link>
+        </f7-toolbar>
         <f7-pages>
           <f7-page name="home">
             <f7-list>
               <f7-list-item title="Content Block" link="/content-block/"></f7-list-item>
               <f7-list-item title="Cards" link="/cards/"></f7-list-item>
               <f7-list-item title="Lists" link="/lists/"></f7-list-item>
+              <f7-list-item title="Sortable" link="/sortable/"></f7-list-item>
+              <f7-list-item title="Swipeout" link="/swipeout/"></f7-list-item>
               <f7-list-item title="Accordion" link="/accordion/"></f7-list-item>
               <f7-list-item title="Forms" link="/forms/"></f7-list-item>
               <f7-list-item title="Chips" link="/chips/"></f7-list-item>
+              <f7-list-item title="Grid" link="/grid/"></f7-list-item>
+              <f7-list-item title="Preloader" link="/preloader/"></f7-list-item>
+              <f7-list-item title="Progress Bar" link="/progressbar/"></f7-list-item>
+              <f7-list-item title="Pull To Refresh" link="/pull-to-refresh/"></f7-list-item>
+              <f7-list-item title="Infinite Scroll" link="/infinite/"></f7-list-item>
+              <f7-list-item title="Swiper" link="/swiper/"></f7-list-item>
+            </f7-list>
+            <f7-list>
+              <f7-list-item title="Dynamic Route" link="/user/45/posts/28/?sort=first#opened"></f7-list-item>
+              <f7-list-item title="Data Binding" link="/data-binding/"></f7-list-item>
             </f7-list>
           </f7-page>
-          <!-- <f7-page name="home" with-subnavbar pull-to-refresh infinite-scroll hide-bars-on-scroll @refresh="onRefresh" @infinite="onInfinite">
-            <f7-list>
-              <f7-list-item title="About" link="/about/?q=56#user1"></f7-list-item>
-              <f7-list-item title="Contacts" link="/contacts/"></f7-list-item>
-              <f7-list-item title="Contacts" link="/"></f7-list-item>
-            </f7-list>
-            <f7-fab-speed-dial>
-              <f7-fab>
-                <i class="icon icon-plus"></i>
-                <i class="icon icon-close"></i>
-              </f7-fab>
-              <f7-fab-actions>
-                <f7-fab-action>A</f7-fab-action>
-                <f7-fab-action>B</f7-fab-action>
-                <f7-fab-action>C</f7-fab-action>
-              </f7-fab-actions>
-            </f7-fab-speed-dial>
-            <f7-card>
-              <f7-card-header>Header</f7-card-header>
-              <f7-card-content>Card Content</f7-card-content>
-              <f7-card-footer>Footer</f7-card-footer>
-            </f7-card>
-
-            <f7-card title="Simple Card" content="Hello, i have simple content"></f7-card>
-
-            <f7-block-title>Content Block</f7-block-title>
-            <f7-content-block>
-              <p>I'm content block</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
-            </f7-content-block>
-            <f7-block-title>Inset + Inner Block</f7-block-title>
-            <f7-content-block inset inner>
-              <p>I'm content block</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sit quidem voluptate quam quisquam similique ipsa tenetur deleniti? Id error exercitationem quaerat placeat architecto delectus rerum doloribus nostrum! Perferendis, explicabo!</p>
-            </f7-content-block>
-
-            <f7-block-title>List</f7-block-title>
-            <f7-list>
-              <f7-list-item
-                v-for="n in 5"
-                :title="n === 3 ? 'Divider' : 'Item ' + n"
-                badge="3"
-                badge-color="red"
-                :divider="n === 3"
-              ></f7-list-item>
-              <f7-list-label>Hello I'm List Label</f7-list-label>
-            </f7-list>
-
-            <f7-block-title>Grouped List</f7-block-title>
-            <f7-list>
-              <f7-list-group v-for="n in 2">
-                <f7-list-item
-                  v-for="n in 3"
-                  :title="n === 1 ? 'Group Title' : 'Group Item ' + (n - 1)"
-                  :group-title="n === 1"
-                ></f7-list-item>
-              </f7-list-group>
-              <f7-list-label>Hello I'm List Label</f7-list-label>
-            </f7-list>
-
-            <f7-block-title>Media List</f7-block-title>
-            <f7-list media-list>
-              <f7-list-item
-                v-for="n in 2"
-                :title="'Item ' + n"
-                :subtitle="'Subtitle ' + n"
-                :media="'<img src=\'http://lorempixel.com/160/160/people/' + n + '\' width=\'80\'>'"
-                text="Some text <p>goes</p> here"
-                after="After"
-                link="http://google.com"
-              ></f7-list-item>
-            </f7-list>
-
-            <f7-block-title>Swipeout List</f7-block-title>
-            <f7-list>
-              <f7-list-item swipeout
-                v-for="n in 3"
-                :title="'Item ' + n"
-                @deleted="swipeoutDeleted"
-              >
-                <f7-swipeout-actions>
-                  <f7-swipeout-button close color="green">Close</f7-swipeout-button>
-                  <f7-swipeout-button delete overswipe>Delete</f7-swipeout-button>
-                </f7-swipeout-actions>
-              </f7-list-item>
-            </f7-list>
-
-            <f7-block-title>Buttons List</f7-block-title>
-            <f7-list inset>
-              <f7-list-button v-for="n in 3" :title="'List Button ' + n" link="http://google.com"></f7-list-button>
-            </f7-list>
-
-            <f7-block-title>Sortable List <a href="#" data-sortable=".sortable" class="open-sortable">Open</a> | <a href="#" data-sortable=".sortable" class="close-sortable">Done</a></f7-block-title>
-            <f7-list sortable @sort="onSort">
-              <f7-list-item
-                v-for="n in 5"
-                :title="'Item ' + n"
-              ></f7-list-item>
-            </f7-list>
-
-            <f7-block-title>Accordion List</f7-block-title>
-            <f7-list accordion>
-              <f7-list-item
-                v-for="n in 3"
-                accordion-item
-                :title="'Item ' + n"
-              >
-                <f7-accordion-content>
-                  <f7-content-block>
-                    <p>Accordion content {{n}}</p>
-                  </f7-content-block>
-                </f7-accordion-content>
-              </f7-list-item>
-            </f7-list>
-            <f7-block-title>Separate Collapsible</f7-block-title>
-            <f7-content-block inner>
-              <f7-accordion-item v-for="n in 3">
-                <f7-accordion-toggle><b>Item {{n}}</b></f7-accordion-toggle>
-                <f7-accordion-content>Content {{n}}</f7-accordion-content>
-              </f7-accordion-item>
-            </f7-content-block>
-
-            <f7-block-title>Grid</f7-block-title>
-            <f7-content-block inner>
-              <p>
-                <f7-grid>
-                  <f7-col style="border: 1px solid #e1e1e1">50%</f7-col>
-                  <f7-col style="border: 1px solid #e1e1e1">50%</f7-col>
-                </f7-grid>
-              </p>
-              <p>
-                <f7-grid>
-                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
-                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
-                  <f7-col style="border: 1px solid #e1e1e1">33%</f7-col>
-                </f7-grid>
-              </p>
-              <p>
-                <f7-grid>
-                  <f7-col width="50" tablet-width="80" style="border: 1px solid #e1e1e1">50%</f7-col>
-                  <f7-col width="25" tablet-width="10" style="border: 1px solid #e1e1e1">25%</f7-col>
-                  <f7-col width="25" tablet-width="10" style="border: 1px solid #e1e1e1">25%</f7-col>
-                </f7-grid>
-              </p>
-              <p>
-                <f7-grid no-gutter>
-                  <f7-col width="66" style="border: 1px solid #e1e1e1">66%</f7-col>
-                  <f7-col width="33" style="border: 1px solid #e1e1e1">33%</f7-col>
-                </f7-grid>
-              </p>
-            </f7-content-block>
-
-            <f7-block-title>Buttons</f7-block-title>
-            <f7-content-block inner>
-              <p><f7-button>Button</f7-button></p>
-              <p><f7-button round>Button Round</f7-button></p>
-              <p><f7-button fill>Button Fill</f7-button></p>
-              <p>
-                <f7-buttons>
-                  <f7-button round active>Button 1</f7-button>
-                  <f7-button round>Button 2</f7-button>
-                  <f7-button round>Button 3</f7-button>
-                </f7-buttons>
-              </p>
-              <p>
-                <f7-buttons color="orange">
-                  <f7-button round big>Button 1</f7-button>
-                  <f7-button round big active>Button 2</f7-button>
-                  <f7-button round big>Button 3</f7-button>
-                </f7-buttons>
-              </p>
-              <f7-grid>
-                <f7-col><f7-button big fill color="green">Send</f7-button></f7-col>
-                <f7-col><f7-button big fill color="red">Delete</f7-button></f7-col>
-              </f7-grid>
-            </f7-content-block>
-
-            <f7-block-title>Preloader</f7-block-title>
-            <f7-content-block inner>
-              <f7-grid>
-                <f7-col>
-                  <f7-preloader></f7-preloader>
-                </f7-col>
-                <f7-col style="background: #333">
-                  <f7-preloader color="white"></f7-preloader>
-                </f7-col>
-                <f7-col>
-                  <f7-preloader :size="44"></f7-preloader>
-                </f7-col>
-                <f7-col style="background: #333">
-                  <f7-preloader :size="44" color="white"></f7-preloader>
-                </f7-col>
-              </f7-grid>
-              <f7-grid>
-                <f7-col>
-                  <f7-preloader :size="44" color="red"></f7-preloader>
-                </f7-col>
-                <f7-col>
-                  <f7-preloader :size="44" color="blue"></f7-preloader>
-                </f7-col>
-                <f7-col>
-                  <f7-preloader :size="44" color="green"></f7-preloader>
-                </f7-col>
-                <f7-col>
-                  <f7-preloader :size="44" color="orange"></f7-preloader>
-                </f7-col>
-              </f7-grid>
-            </f7-content-block>
-
-            <f7-block-title>Progressbar</f7-block-title>
-            <f7-list>
-              <f7-list-item>
-                <f7-progressbar :progress="20"></f7-progressbar>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-progressbar :progress="50" color="red"></f7-progressbar>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-progressbar :progress="70" color="green"></f7-progressbar>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-progressbar infinite color="blue"></f7-progressbar>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-progressbar infinite color="multi"></f7-progressbar>
-              </f7-list-item>
-            </f7-list>
-
-            <f7-block-title>Form</f7-block-title>
-            <f7-list form>
-              <f7-list-item>
-                <f7-label>Name</f7-label>
-                <f7-input placeholder="Name"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Password</f7-label>
-                <f7-input type="password" placeholder="Password"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>E-mail</f7-label>
-                <f7-input type="email" placeholder="E-mail"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>URL</f7-label>
-                <f7-input type="url" placeholder="URL"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Phone</f7-label>
-                <f7-input type="tel" placeholder="Phone"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Birth date</f7-label>
-                <f7-input type="date" placeholder="Birth date" value="2014-04-30"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Date time</f7-label>
-                <f7-input type="datetime-local"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Gender</f7-label>
-                <f7-input type="select">
-                  <option value="1">Male</option>
-                  <option value="1">Female</option>
-                </f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Switch</f7-label>
-                <f7-input type="switch" @change="onChange"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Range</f7-label>
-                <f7-input type="range" min="0" max="100" step="1" value="90"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label>Textarea</f7-label>
-                <f7-input type="textarea" placeholder="Textarea"></f7-input>
-              </f7-list-item>
-            </f7-list>
-            <f7-block-title>Form With Floating Labels</f7-block-title>
-            <f7-list form>
-              <f7-list-item>
-                <f7-label floating>Name</f7-label>
-                <f7-input placeholder="Name"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label floating>Password</f7-label>
-                <f7-input type="password" placeholder="Password"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-label floating>E-mail</f7-label>
-                <f7-input type="email" placeholder="E-mail"></f7-input>
-              </f7-list-item>
-            </f7-list>
-            <f7-block-title>Form Without Labels</f7-block-title>
-            <f7-list form>
-              <f7-list-item>
-                <f7-input placeholder="Name"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-input type="password" placeholder="Password"></f7-input>
-              </f7-list-item>
-              <f7-list-item>
-                <f7-input type="email" placeholder="E-mail"></f7-input>
-              </f7-list-item>
-            </f7-list>
-            <f7-block-title>Checkboxes</f7-block-title>
-            <f7-list form>
-              <f7-list-item v-for="n in 3" checkbox name="my-checkbox" :value="n" :title="'Checkbox ' + n"></f7-list-item>
-            </f7-list>
-            <f7-block-title>Radios</f7-block-title>
-            <f7-list form>
-              <f7-list-item v-for="n in 3" radio name="my-radio" :checked="n === 1" :value="n" :title="'Radio ' + n"></f7-list-item>
-            </f7-list>
-            <f7-block-title>Chips</f7-block-title>
-            <f7-content-block>
-              <f7-chip text="Example Chip"></f7-chip>
-              <f7-chip text="Another Chip" bg="red" color="white"></f7-chip>
-              <f7-chip text="One More Chip" bg="green" color="white"></f7-chip>
-              <f7-chip text="Jane Doe" media='<img src="http://lorempixel.com/100/100/people/9/">'></f7-chip>
-              <f7-chip text="John Doe" bg="orange" media='<img src="http://lorempixel.com/100/100/people/3/">'></f7-chip>
-              <f7-chip text="Another Chip" deleteable @delete="onChipDelete"></f7-chip>
-              <f7-chip text="John Doe" media='<img src="http://lorempixel.com/100/100/people/3/">' deleteable @delete="onChipDelete"></f7-chip>
-
-            </f7-content-block>
-            <f7-block-title>Swiper</f7-block-title>
-            <f7-content-block>
-              <f7-swiper :params="{slidesPerView: 3, spaceBetween: 20}" pagination next-button prev-button scrollbar style="height:200px">
-                <f7-swiper-slide v-for="n in 10" class="bg-white color-black">Slide {{n}}</f7-swiper-slide>
-              </f7-swiper>
-            </f7-content-block>
-          </f7-page> -->
         </f7-pages>
       </f7-view>
     </f7-views>
