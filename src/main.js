@@ -22,6 +22,7 @@ import InfiniteScroll from './pages/infinite.vue';
 import Swiper from './pages/swiper.vue';
 import Messages from './pages/messages.vue';
 import Searchbar from './pages/searchbar.vue';
+import Tabs from './pages/tabs.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -111,6 +112,10 @@ window.app = new Vue({
         {
           path: '/searchbar/',
           component: Searchbar
+        },
+        {
+          path: '/tabs/',
+          component: Tabs
         },
         {
           path: '/user/:id/posts/:post_id/',
