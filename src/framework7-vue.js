@@ -29,6 +29,7 @@ import AccordionItem from './components/accordion-item.vue';
 import AccordionToggle from './components/accordion-toggle.vue';
 import AccordionContent from './components/accordion-content.vue';
 import ButtonsSegmented from './components/buttons-segmented.vue';
+import Link from './components/link.vue';
 import Button from './components/button.vue';
 import GridRow from './components/grid-row.vue';
 import GridCol from './components/grid-col.vue';
@@ -45,7 +46,9 @@ import FabActions from './components/fab-speed-dial-actions.vue';
 import FabAction from './components/fab-speed-dial-action.vue';
 import Swiper from './components/swiper.vue';
 import SwiperSlide from './components/swiper-slide.vue';
-import Link from './components/link.vue';
+import Messages from './components/messages.vue';
+import Message from './components/message.vue';
+import Messagebar from './components/messagebar.vue';
 
 export default {
   install: function (Vue, parameters) {
@@ -219,6 +222,7 @@ export default {
         'f7-accordion-toggle': AccordionToggle,
         'f7-accordion-content': AccordionContent,
         'f7-badge': Badge,
+        'f7-link': Link,
         'f7-buttons': ButtonsSegmented,
         'f7-segmented': ButtonsSegmented,
         'f7-button': Button,
@@ -237,7 +241,9 @@ export default {
         'f7-fab-actions': FabActions,
         'f7-swiper': Swiper,
         'f7-swiper-slide': SwiperSlide,
-        'f7-link': Link,
+        'f7-messages': Messages,
+        'f7-message': Message,
+        'f7-messagebar': Messagebar,
       }
     });
   }
