@@ -1,6 +1,7 @@
 <script>
   import LinkMixin from '../mixins/link.vue';
   export default {
+    mixins: [LinkMixin],
     render: function (c) {
       var iconEl, textEl, self = this;
       if (self.text) {
@@ -11,7 +12,7 @@
         iconClass[self.icon] = true;
         iconEl = c('i', {class:iconClass})
       }
-      if (!self.text && self.$slots.default.length === 0) {
+      if (!self.text && self.$slots.default && self.$slots.default.length === 0) {
         self.classesObject['icon-only'] = true;
       }
       self.classesObject['link'] = true;
@@ -22,10 +23,8 @@
           click: self.onClick
         }
       }, [iconEl, textEl, self.$slots.default]);
-
       return linkEl;
     },
-    mixins: [LinkMixin],
     methods: {
       onClick: function (event) {
         this.$emit('click', event);
