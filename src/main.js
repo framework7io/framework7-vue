@@ -20,6 +20,7 @@ import PullToRefresh from './pages/pull-refresh.vue';
 import InfiniteScroll from './pages/infinite.vue';
 import Swiper from './pages/swiper.vue';
 import Messages from './pages/messages.vue';
+import Searchbar from './pages/searchbar.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -101,6 +102,10 @@ window.app = new Vue({
         {
           path: '/messages/',
           component: Messages
+        },
+        {
+          path: '/searchbar/',
+          component: Searchbar
         },
         {
           path: '/user/:id/posts/:post_id/',
