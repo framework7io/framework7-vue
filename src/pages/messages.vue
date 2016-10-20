@@ -20,7 +20,7 @@
         @click:avatar="onAvatarClick"
       ></f7-message>
     </f7-messages>
-    <f7-messagebar send-link="Send" @submit="onSubmit"></f7-messagebar>
+    <f7-messagebar placeholder="Message" send-link="Send" @submit="onSubmit"></f7-messagebar>
   </f7-page>
 </template>
 <script>
