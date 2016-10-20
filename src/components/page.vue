@@ -25,16 +25,20 @@
           staticList.push(child);
           continue;
         }
-        var isFixed = false, withSubnavbar, withMessages;
+        var isFixed = false, withSubnavbar, withMessages, withSearchbar;
         if (tag.indexOf('messages') >= 0) withMessages = true;
+        if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
+        if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
         for (var j = 0; j < fixedTags.length; j++) {
           if (tag.indexOf(fixedTags[j]) >= 0) {
             isFixed = true;
           }
-          if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
         }
         if (isFixed) fixedList.push(child);
         else staticList.push(child);
+      }
+      if (fixedList.length > 0 && withSearchbar) {
+        fixedList.push(c('div', {class:{'searchbar-overlay': true}}));
       }
       if (withMessages) self.classesObjectPageContent['messages-content'] = true;
       pageContentEl = c('div', {
