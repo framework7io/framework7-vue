@@ -25,7 +25,7 @@
     <f7-panel right cover>
       <p>Panel right content</p>
     </f7-panel>
-    <f7-views navbar-through toolbar-through>
+    <f7-views navbar-through>
       <f7-view main>
         <f7-navbar>
           <f7-nav-left sliding>
@@ -36,12 +36,13 @@
             <f7-link icon="icon-bars" open-panel="right"></f7-link>
           </f7-nav-right>
         </f7-navbar>
-        <f7-toolbar>
-          <f7-link>Left</f7-link>
-          <f7-link>Right</f7-link>
-        </f7-toolbar>
         <f7-pages>
-          <f7-page name="home">
+          <f7-page toolbar-fixed>
+            <f7-toolbar>
+              <f7-link>Left</f7-link>
+              <f7-link>Right</f7-link>
+            </f7-toolbar>
+
             <f7-list>
               <f7-list-item title="Content Block" link="/content-block/"></f7-list-item>
               <f7-list-item title="Cards" link="/cards/"></f7-list-item>
@@ -57,6 +58,7 @@
               <f7-list-item title="Pull To Refresh" link="/pull-to-refresh/"></f7-list-item>
               <f7-list-item title="Infinite Scroll" link="/infinite/"></f7-list-item>
               <f7-list-item title="Swiper" link="/swiper/"></f7-list-item>
+              <f7-list-item title="Messages" link="/messages/"></f7-list-item>
             </f7-list>
             <f7-list>
               <f7-list-item title="Dynamic Route" link="/user/45/posts/28/?sort=first#opened"></f7-list-item>

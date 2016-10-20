@@ -19,6 +19,7 @@ import Progressbar from './pages/progressbar.vue';
 import PullToRefresh from './pages/pull-refresh.vue';
 import InfiniteScroll from './pages/infinite.vue';
 import Swiper from './pages/swiper.vue';
+import Messages from './pages/messages.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -96,6 +97,10 @@ window.app = new Vue({
         {
           path: '/swiper/',
           component: Swiper
+        },
+        {
+          path: '/messages/',
+          component: Messages
         },
         {
           path: '/user/:id/posts/:post_id/',
