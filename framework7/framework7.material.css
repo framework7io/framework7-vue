@@ -1405,6 +1405,51 @@ html:not(.watch-active-state) .tabbar a.tab-link:active,
   bottom: auto;
   top: 0;
 }
+.subnavbar input[type="text"],
+.navbar input[type="text"],
+.subnavbar input[type="password"],
+.navbar input[type="password"],
+.subnavbar input[type="search"],
+.navbar input[type="search"],
+.subnavbar input[type="email"],
+.navbar input[type="email"],
+.subnavbar input[type="tel"],
+.navbar input[type="tel"],
+.subnavbar input[type="url"],
+.navbar input[type="url"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 32px;
+  display: block;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-family: inherit;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: transparent;
+  padding: 0;
+  border-bottom: 1px solid #fff;
+}
+.subnavbar input[type="text"]::-webkit-input-placeholder,
+.navbar input[type="text"]::-webkit-input-placeholder,
+.subnavbar input[type="password"]::-webkit-input-placeholder,
+.navbar input[type="password"]::-webkit-input-placeholder,
+.subnavbar input[type="search"]::-webkit-input-placeholder,
+.navbar input[type="search"]::-webkit-input-placeholder,
+.subnavbar input[type="email"]::-webkit-input-placeholder,
+.navbar input[type="email"]::-webkit-input-placeholder,
+.subnavbar input[type="tel"]::-webkit-input-placeholder,
+.navbar input[type="tel"]::-webkit-input-placeholder,
+.subnavbar input[type="url"]::-webkit-input-placeholder,
+.navbar input[type="url"]::-webkit-input-placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
 /* === Relation between toolbar/navbar types and pages === */
 .page > .navbar,
 .view > .navbar,
@@ -1646,7 +1691,7 @@ html:not(.watch-active-state) .searchbar a:active:before,
 .searchbar input[type="search"] {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 32px;
   display: block;
   border: none;
   -webkit-appearance: none;
@@ -1658,17 +1703,19 @@ html:not(.watch-active-state) .searchbar a:active:before,
   color: #fff;
   font-size: 16px;
   font-weight: 400;
+  padding: 0;
+  border-bottom: 1px solid #fff;
+  height: 100%;
   padding: 0 36px 0 24px;
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: 0 center;
+  opacity: 0.6;
+  -webkit-background-size: 24px 24px;
+  background-size: 24px 24px;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20fill%3D'%23FFFFFF'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20width%3D'24'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M15.5%2014h-.79l-.28-.27C15.41%2012.59%2016%2011.11%2016%209.5%2016%205.91%2013.09%203%209.5%203S3%205.91%203%209.5%205.91%2016%209.5%2016c1.61%200%203.09-.59%204.23-1.57l.27.28v.79l5%204.99L20.49%2019l-4.99-5zm-6%200C7.01%2014%205%2011.99%205%209.5S7.01%205%209.5%205%2014%207.01%2014%209.5%2011.99%2014%209.5%2014z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
-  -webkit-background-size: 24px 24px;
-  background-size: 24px 24px;
-  border-bottom: 1px solid #fff;
-  opacity: 0.6;
 }
 .searchbar input[type="search"]::-webkit-input-placeholder {
   color: #ffffff;

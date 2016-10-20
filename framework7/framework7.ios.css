@@ -1498,6 +1498,35 @@ html.pixel-ratio-3 .toolbar:before {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.subnavbar input[type="text"],
+.navbar input[type="text"],
+.subnavbar input[type="password"],
+.navbar input[type="password"],
+.subnavbar input[type="search"],
+.navbar input[type="search"],
+.subnavbar input[type="email"],
+.navbar input[type="email"],
+.subnavbar input[type="tel"],
+.navbar input[type="tel"],
+.subnavbar input[type="url"],
+.navbar input[type="url"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 28px;
+  display: block;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 5px;
+  font-family: inherit;
+  color: #000;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 0 8px;
+  background-color: #fff;
+}
 @media all and (min-width: 768px) {
   .tabbar .toolbar-inner {
     -webkit-box-pack: center;
@@ -1811,7 +1840,7 @@ html.pixel-ratio-3 .searchbar:after {
 .searchbar input[type="search"] {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 28px;
   display: block;
   border: none;
   -webkit-appearance: none;
@@ -1823,8 +1852,10 @@ html.pixel-ratio-3 .searchbar:after {
   color: #000;
   font-size: 14px;
   font-weight: normal;
-  padding: 0 28px;
+  padding: 0 8px;
   background-color: #fff;
+  padding: 0 15px;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: 8px center;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2013%2013'%20enable-background%3D'new%200%200%2013%2013'%3E%3Cg%3E%3Cpath%20fill%3D'%23939398'%20d%3D'M5%2C1c2.2%2C0%2C4%2C1.8%2C4%2C4S7.2%2C9%2C5%2C9S1%2C7.2%2C1%2C5S2.8%2C1%2C5%2C1%20M5%2C0C2.2%2C0%2C0%2C2.2%2C0%2C5s2.2%2C5%2C5%2C5s5-2.2%2C5-5S7.8%2C0%2C5%2C0%20L5%2C0z'%2F%3E%3C%2Fg%3E%3Cline%20stroke%3D'%23939398'%20stroke-miterlimit%3D'10'%20x1%3D'12.6'%20y1%3D'12.6'%20x2%3D'8.2'%20y2%3D'8.2'%2F%3E%3C%2Fsvg%3E");
@@ -4773,6 +4804,17 @@ html.ios-gt-8 .messages-date {
 }
 .message-hide-avatar .message-avatar {
   opacity: 0;
+}
+.message-date {
+  font-size: 12px;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+.message-pic img + .message-date {
+  margin-top: 8px;
+}
+.message-sent .message-date {
+  text-align: right;
 }
 .message-sent {
   -ms-flex-item-align: end;
