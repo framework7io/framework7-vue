@@ -93,7 +93,7 @@
     </f7-list>
 
     <f7-block-title>Buttons</f7-block-title>
-    <f7-content-block inner>
+    <f7-block inner>
       <p><f7-button>Button</f7-button></p>
       <p><f7-button round>Button Round</f7-button></p>
       <p><f7-button fill>Button Fill</f7-button></p>
@@ -124,7 +124,7 @@
           <f7-col><f7-button fill raised color="pink">Raised</f7-button></f7-col>
         </f7-grid>
       </p>
-    </f7-content-block>
+    </f7-block>
   </f7-page>
 </template>
 <script>

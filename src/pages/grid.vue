@@ -3,7 +3,7 @@
     <f7-navbar back-link="Back" title="Grid" sliding></f7-navbar>
 
     <f7-block-title>Grid</f7-block-title>
-    <f7-content-block inner>
+    <f7-block inner>
       <p>
         <f7-grid>
           <f7-col :style="columnStyle">50%</f7-col>
@@ -30,7 +30,7 @@
           <f7-col width="33" :style="columnStyle">33%</f7-col>
         </f7-grid>
       </p>
-    </f7-content-block>
+    </f7-block>
   </f7-page>
 </template>
 <script>
