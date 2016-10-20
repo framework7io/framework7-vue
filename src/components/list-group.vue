@@ -10,7 +10,6 @@
     props: {
       'media-list': Boolean,
       'media-list-computed': Boolean,
-      'swipeout': Boolean,
       'sortable': Boolean,
       'sortable-computed': Boolean
     },

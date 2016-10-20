@@ -23,7 +23,8 @@
             'inset': self.inset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
-            'accordion-list': self.accordion
+            'accordion-list': self.accordion,
+            'contacts-block': self.contacts
           },
           on: {
             open: self.onOpen,
@@ -41,11 +42,11 @@
       'inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
-      'swipeout': Boolean,
       'sortable': Boolean,
       'form': Boolean,
       'label': String,
-      'accordion': Boolean
+      'accordion': Boolean,
+      'contacts': Boolean
     },
     data: function () {
       return {};

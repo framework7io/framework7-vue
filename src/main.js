@@ -8,6 +8,7 @@ import Framework7Vue from './framework7-vue.js';
 import ContentBlock from './pages/content-block.vue';
 import Cards from './pages/cards.vue';
 import Lists from './pages/lists.vue';
+import Contacts from './pages/contacts.vue';
 import Sortable from './pages/sortable.vue';
 import Swipeout from './pages/swipeout.vue';
 import Accordion from './pages/accordion.vue';
@@ -54,6 +55,10 @@ window.app = new Vue({
         {
           path: '/lists/',
           component: Lists
+        },
+        {
+          path: '/contacts/',
+          component: Contacts
         },
         {
           path: '/sortable/',
