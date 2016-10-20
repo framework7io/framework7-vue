@@ -58,88 +58,19 @@ export default {
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
 
-    /**
-     * From Vue Router
-     * https://github.com/vuejs/vue-router
-     * By Evan You
-     */
-    var PATH_REGEXP = new RegExp([
-      '(\\\\.)',
-      '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
-    ].join('|'), 'g')
-
-    function escapeGroup(group) {
-      return group.replace(/([=!:$\/()])/g, '\\$1')
-    }
+    // Parse Route
     function parseRoute(str) {
-      var tokens = []
-      var key = 0
-      var index = 0
-      var path = ''
-      var res
-
-      while ((res = PATH_REGEXP.exec(str)) != null) {
-        var m = res[0]
-        var escaped = res[1]
-        var offset = res.index
-        path += str.slice(index, offset)
-        index = offset + m.length
-
-        // Ignore already escaped sequences.
-        if (escaped) {
-          path += escaped[1]
-          continue
+      var parts = [];
+      str.split('/').forEach(function (part) {
+        if (part !== '') {
+          if (part.indexOf(':') === 0) {
+            parts.push({name: part.replace(':', '')});
+          }
+          else parts.push(part);
         }
-
-        var next = str[index]
-        var prefix = res[2]
-        var name = res[3]
-        var capture = res[4]
-        var group = res[5]
-        var modifier = res[6]
-        var asterisk = res[7]
-
-        // Push the current path onto the tokens.
-        if (path) {
-          path = path.split('/').filter(function (el) {
-            if (el !== '') tokens.push(el);
-          });
-          path = ''
-        }
-
-        var partial = prefix != null && next != null && next !== prefix
-        var repeat = modifier === '+' || modifier === '*'
-        var optional = modifier === '?' || modifier === '*'
-        var delimiter = res[2] || '/'
-        var pattern = capture || group || (asterisk ? '.*' : '[^' + delimiter + ']+?')
-
-        tokens.push({
-          name: name || key++,
-          prefix: prefix || '',
-          delimiter: delimiter,
-          optional: optional,
-          repeat: repeat,
-          partial: partial,
-          asterisk: !!asterisk,
-          pattern: escapeGroup(pattern)
-        })
-      }
-
-      // Match any characters still remaining.
-      if (index < str.length) {
-        path += str.substr(index)
-      }
-
-      // If the path exists, push it onto the end.
-      if (path && path !== '/') {
-        path.split('/').filter(function (el) {
-          if (el !== '') tokens.push(el)
-        });
-      }
-
-      return tokens
+      });
+      return parts;
     }
-
     // Routes Matching
     function findMatchingRoute(url, routes) {
       var matchingRoute;
@@ -161,13 +92,11 @@ export default {
         if (parsedRoute.length !== urlParts.length) continue;
         var matchedParts = 0;
         for (j = 0; j < parsedRoute.length; j++) {
-          for (k = 0; k < urlParts.length; k++) {
-            if (typeof parsedRoute[j] === 'string' && urlParts[k] === parsedRoute[j]) matchedParts ++;
+            if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) matchedParts ++;
             if (typeof parsedRoute[j] === 'object') {
-              params[parsedRoute[j].name] = urlParts[k];
+              params[parsedRoute[j].name] = urlParts[j];
               matchedParts ++;
             }
-          }
         }
         if (matchedParts === urlParts.length) matchingRoute = {
           query: query,
@@ -216,6 +145,9 @@ export default {
         f7Instance;
 
     function initFramework7(f7Params) {
+      if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
+        $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
+      }
       // Modify Parameters
       f7Params.routerRemoveTimeout = true;
 
@@ -270,6 +202,7 @@ export default {
         'f7-content-block-title': ContentBlockTitle,
         'f7-list-block-title': ContentBlockTitle,
         'f7-content-block': ContentBlock,
+        'f7-block': ContentBlock,
         'f7-card': Card,
         'f7-card-header': CardHeader,
         'f7-card-footer': CardFooter,
