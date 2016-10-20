@@ -1,44 +1,81 @@
-<template>
-  <div class="page"
-    :data-page="name"
-    :class="classObject"
-    @pageBeforeInit="onPageBeforeInit"
-    @pageInit="onPageInit"
-    @pageReinit="onPageReinit"
-    @pageBeforeAnimation="onPageBeforeAnimation"
-    @pageAfterAnimation="onPageAfterAnimation"
-    @pageBeforeRemove="onPageBeforeRemove"
-    @pageBack="onPageBack"
-    @pageAfterBack="onPageAfterBack"
-    >
-    <slot name="fixed-bars"></slot>
-    <div class="page-content"
-      :class="classObjectPageContent"
-      :data-ptr-distance="pullToRefreshDistance || ptrDistance"
-      :data-distance="infiniteScrollDistance"
-      @pullstart="onPullstart"
-      @pullmove="onPullmove"
-      @pullend="onPullend"
-      @refresh="onRefresh"
-      @refreshdone="onRefreshdone"
-      @infinite="onInfinite"
-    >
-      <div class="pull-to-refresh-layer" v-if="pullToRefresh">
-        <div class="preloader"></div>
-        <div class="pull-to-refresh-arrow"></div>
-      </div>
-      <div class="infinite-scroll-preloader" v-if="infiniteScroll && infiniteScroll === 'top'">
-        <div class="preloader"></div>
-      </div>
-      <slot></slot>
-      <div class="infinite-scroll-preloader" v-if="infiniteScroll && infiniteScroll !== 'top'">
-        <div class="preloader"></div>
-      </div>
-    </div>
-  </div>
-</template>
 <script>
   export default {
+    render: function (c) {
+      var pageEl, pageContentEl, ptrEl, infiniteEl, fixedList = [], staticList = [];
+      var self = this;
+
+      if (self.pullToRefresh) {
+        ptrEl = c('div', {class: {'pull-to-refresh-layer': true}} ,[
+          c('div', {class: {'preloader': true}}),
+          c('div', {class: {'pull-to-refresh-arrow': true}})
+        ]);
+      }
+      if (self.infiniteScroll) {
+        infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
+          c('div', {class: {'preloader': true}})
+        ]);
+      }
+
+      var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
+      var tag, child;
+      for (var i = 0; i < self.$slots.default.length; i++) {
+        child = self.$slots.default[i];
+        tag = child.tag;
+        if (!tag) {
+          staticList.push(child);
+          continue;
+        }
+        var isFixed = false, withSubnavbar, withMessages;
+        if (tag.indexOf('messages') >= 0) withMessages = true;
+        for (var j = 0; j < fixedTags.length; j++) {
+          if (tag.indexOf(fixedTags[j]) >= 0) {
+            isFixed = true;
+          }
+          if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
+        }
+        if (isFixed) fixedList.push(child);
+        else staticList.push(child);
+      }
+      if (withMessages) self.classesObjectPageContent['messages-content'] = true;
+      pageContentEl = c('div', {
+        class: self.classesObjectPageContent,
+        attrs: {
+          'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
+          'data-distance': self.infiniteScrollDistance
+        },
+        on: {
+          pullstart: self.onPullstart,
+          pullmove: self.onPullmove,
+          pullend: self.onPullend,
+          refresh: self.onRefresh,
+          refreshdone: self.onRefreshdone,
+          infinite: self.onInfinite
+        },
+      }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
+
+      fixedList.push(self.$slots.fixed);
+
+      if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
+      pageEl = c('div', {
+        class: self.classesObjectPage,
+        attrs: {
+          'data-page': self.name
+        },
+        on: {
+          pageBeforeInit: self.onPageBeforeInit,
+          pageInit: self.onPageInit,
+          pageReinit: self.onPageReinit,
+          pageBeforeAnimation: self.onPageBeforeAnimation,
+          pageAfterAnimation: self.onPageAfterAnimation,
+          pageBeforeRemove: self.onPageBeforeRemove,
+          pageBack: self.onPageBack,
+          pageAfterBack: self.onPageAfterBack
+        }
+      }, [fixedList, pageContentEl]);
+
+      return pageEl;
+
+    },
     props: {
       'name': String,
       'cached': Boolean,
@@ -60,11 +97,13 @@
       'hide-bars-on-scroll': Boolean,
       'hide-navbar-on-scroll': Boolean,
       'hide-toolbar-on-scroll': Boolean,
-      'hide-tabbar-on-scroll': Boolean
+      'hide-tabbar-on-scroll': Boolean,
+      'messages': Boolean
     },
     computed: {
-      classObject: function () {
+      classesObjectPage: function () {
         return {
+          'page': true,
           'cached': this.cached,
           'navbar-fixed': this.navbarFixed,
           'navbar-through': this.navbarThrough,
@@ -77,15 +116,17 @@
           'with-subnavbar': this.subnavbar || this.withSubnavbar
         }
       },
-      classObjectPageContent: function () {
+      classesObjectPageContent: function () {
         return {
+          'page-content': true,
           'pull-to-refresh-content': this.pullToRefresh,
           'infinite-scroll': this.infiniteScroll,
           'infinite-scroll-top': this.infiniteScroll === 'top',
           'hide-bars-on-scroll': this.hideBarsOnScroll,
           'hide-navbar-on-scroll': this.hideNavbarOnScroll,
           'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
-          'hide-tabbar-on-scroll': this.hideTabbarOnScroll
+          'hide-tabbar-on-scroll': this.hideTabbarOnScroll,
+          'messages-content': this.messages
         }
       }
     },
