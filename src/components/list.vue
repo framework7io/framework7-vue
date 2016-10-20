@@ -24,6 +24,11 @@
             'media-list': self.mediaList,
             'sortable': self.sortable,
             'accordion-list': self.accordion
+          },
+          on: {
+            open: self.onOpen,
+            close: self.onClose,
+            sort: self.onSort
           }
         },
         [
@@ -47,13 +52,13 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event, event.target)
+        this.$emit('open', event)
       },
       onClose: function (event) {
-        this.$emit('close', event, event.target)
+        this.$emit('close', event)
       },
       onSort: function (event) {
-        this.$emit('sort', event, event.target)
+        this.$emit('sort', event, event.detail)
       }
     }
   }
