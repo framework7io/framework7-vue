@@ -1,8 +1,12 @@
 <template>
-  <div class="subnavbar">
+  <div class="subnavbar" :class="sliding ? 'sliding' : false">
       <slot></slot>
   </div>
 </template>
 <script>
-  export default {}
+  export default {
+    props: {
+        sliding: Boolean
+    }
+  }
 </script>
