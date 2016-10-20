@@ -12,7 +12,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 18, 2016
+ * Released on: October 20, 2016
  */
 html,
 body,
@@ -5201,6 +5201,11 @@ html.with-statusbar-overlay body > .progressbar {
 .pull-to-refresh-content.pull-up .pull-to-refresh-arrow {
   -webkit-transform: rotate(180deg) translate3d(0, 0, 0);
   transform: rotate(180deg) translate3d(0, 0, 0);
+}
+/* === Infinite Scroll Preloader === */
+.infinite-scroll-preloader {
+  text-align: center;
+  padding: 5px 0;
 }
 /* === Autocomplete === */
 .autocomplete-page .autocomplete-found {

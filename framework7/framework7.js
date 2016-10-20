@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 19, 2016
+ * Released on: October 20, 2016
  */
 (function () {
 
@@ -2364,6 +2364,11 @@
         
             // Find old page (should be the last one) and remove older pages
             pagesInView = pagesContainer.children('.page:not(.cached)');
+            if (pageElement) {
+                pagesInView = pagesInView.filter(function (index, page) {
+                    if (page !== pageElement) return page;
+                });
+            }
         
             if (options.reload && options.reloadPrevious && pagesInView.length === 1)  {
                 view.allowPageChange = true;
@@ -2393,6 +2398,11 @@
                     }
                 }
                 oldPage = pagesContainer.children('.page:not(.cached)');
+            }
+            if (pageElement && oldPage.length > 1) {
+                oldPage = oldPage.filter(function (index, page) {
+                    if (page !== pageElement) return page;
+                });
             }
             if(view.params.domCache || pageElement) newPage.removeClass('cached');
         
@@ -3240,8 +3250,7 @@
                 view.contentCache[previousURL] = null;
                 delete view.contentCache[previousURL];
             }
-            if (!view.params.domCache &&
-                previousURL &&
+            if (previousURL &&
                 (previousURL in view.pageElementsCache) &&
                 // If the same page is in the history multiple times, don't remove it.
                 view.history.indexOf(previousURL) === -1) {
@@ -5169,7 +5178,7 @@
             return sortableContainer;
         };
         app.initSortable = function () {
-            var isTouched, isMoved, touchStartY, touchesDiff, sortingEl, sortingElHeight, sortingItems, minTop, maxTop, insertAfter, insertBefore, sortableContainer;
+            var isTouched, isMoved, touchStartY, touchesDiff, sortingEl, sortingElHeight, sortingItems, minTop, maxTop, insertAfter, insertBefore, sortableContainer, startIndex;
             
             function handleTouchStart(e) {
                 isMoved = false;
@@ -5177,6 +5186,7 @@
                 touchStartY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
                 /*jshint validthis:true */
                 sortingEl = $(this).parent();
+                startIndex = sortingEl.index();
                 sortingItems = sortingEl.parent().find('li');
                 sortableContainer = sortingEl.parents('.sortable');
                 e.preventDefault();
@@ -5241,11 +5251,11 @@
                 var virtualList, oldIndex, newIndex;
                 if (insertAfter) {
                     sortingEl.insertAfter(insertAfter);
-                    sortingEl.trigger('sort');
+                    sortingEl.trigger('sort', {startIndex: startIndex, newIndex: sortingEl.index()});
                 }
                 if (insertBefore) {
                     sortingEl.insertBefore(insertBefore);
-                    sortingEl.trigger('sort');
+                    sortingEl.trigger('sort', {startIndex: startIndex, newIndex: sortingEl.index()});
                 }
                 if ((insertAfter || insertBefore) && sortableContainer.hasClass('virtual-list')) {
                     virtualList = sortableContainer[0].f7VirtualList;
@@ -5266,7 +5276,6 @@
                 $(document).on(app.touchEvents.move, handleTouchMove);
                 $(document).on(app.touchEvents.end, handleTouchEnd);
             }
-                
         };
         
 
@@ -7652,7 +7661,7 @@
         
                     var pageName;
                     if (!template) {
-                        if (url.indexOf('#') === 0 && url !== '#')  {
+                        if (url && url.indexOf('#') === 0 && url !== '#')  {
                             if (view.params.domCache) {
                                 pageName = url.split('#')[1];
                             }
