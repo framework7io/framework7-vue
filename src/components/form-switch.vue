@@ -32,8 +32,12 @@
       color: String
     },
     methods: (function () {
-      var eventMethods = {};
-      'Input Change Click'.split(' ').forEach(function (ev) {
+      var eventMethods = {
+        onInput: function (event) {
+          this.$emit('input', event.target.value);
+        }
+      };
+      'Change Click'.split(' ').forEach(function (ev) {
         eventMethods['on' + ev] = function (event) {
           this.$emit(ev.toLowerCase(), event)
         }
