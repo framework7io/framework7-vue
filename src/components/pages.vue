@@ -1,7 +1,7 @@
 <template>
   <div class="pages" :class="classObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
-    <component v-for="page in pages" :is="page.component" class="cached"></component>
+    <component v-for="page in pages" :is="page.component"></component>
   </div>
 </template>
 <script>
