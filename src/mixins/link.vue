@@ -1,6 +1,8 @@
 <script>
   export default {
     props: {
+      noLinkClass: Boolean,
+
       color: String,
       external: Boolean,
       color: String,
@@ -91,9 +93,7 @@
       },
       classesObject: function () {
         var self = this;
-        var co = {
-          link: self.noLink ? false : true
-        };
+        var co = {};
         var pd = self.$options.propsData;
         if (self.rippleColor) co['ripple-color-' + self.rippleColor] = true;
         if (self.color) co['color-' + self.color] = true;
