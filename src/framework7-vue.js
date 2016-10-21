@@ -120,6 +120,7 @@ export default {
     function preroute(view, params, routes) {
       var url = params.url;
       var pageElement = params.pageElement;
+
       if (url && pageElement || !url || url === '#') {
         return true;
       }
@@ -129,6 +130,7 @@ export default {
       if (!pagesVue) return true;
 
       pagesVue.pages.push({component: matchingRoute.route.component});
+
       view.container.__vue__.$route = {
         route: matchingRoute.route.path,
         query: matchingRoute.query,
@@ -137,12 +139,14 @@ export default {
         url: matchingRoute.url,
         path: matchingRoute.path
       }
+
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
           pagesVue.pages[pagesVue.pages.length - 1].pageElement = newPage;
           params.pageElement = newPage;
           view.router.load(params);
       });
+
       return false;
     }
 
