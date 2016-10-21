@@ -129,8 +129,8 @@ export default {
       var pagesVue = view.pagesContainer.__vue__;
       if (!pagesVue) return true;
 
-      pagesVue.pages.push({component: matchingRoute.route.component});
-
+      var id = new Date().getTime();
+      Vue.set(pagesVue.pages, id, {component: matchingRoute.route.component});
       view.container.__vue__.$route = {
         route: matchingRoute.route.path,
         query: matchingRoute.query,
@@ -139,12 +139,16 @@ export default {
         url: matchingRoute.url,
         path: matchingRoute.path
       }
-
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
-          pagesVue.pages[pagesVue.pages.length - 1].pageElement = newPage;
+          pagesVue.pages[id].pageElement = newPage;
           params.pageElement = newPage;
-          view.router.load(params);
+          if (params.isBack) {
+            view.router.back(params);
+          }
+          else {
+            view.router.load(params);
+          }
       });
 
       return false;
