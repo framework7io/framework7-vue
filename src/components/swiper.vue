@@ -11,11 +11,8 @@
 </template>
 <script>
   export default {
-    mounted: function () {
-      if (!this.init) return;
-      this.swiper = new window.Swiper(this.$el, this.paramsComputed);
-    },
     beforeDestroy: function () {
+      if (!this.init) return;
       if (this.swiper && this.swiper.destroy) this.swiper.destroy();
     },
     props: {
@@ -60,6 +57,12 @@
           return true;
         }
         return false;
+      }
+    },
+    methods: {
+      onF7Init: function () {
+        if (!this.init) return;
+        this.swiper = new window.Swiper(this.$el, this.paramsComputed);
       }
     }
   }
