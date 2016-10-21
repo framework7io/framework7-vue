@@ -2361,7 +2361,7 @@
             }
         
             newPage.addClass(options.reload ? 'page-on-' + reloadPosition : 'page-on-right');
-        
+
             // Find old page (should be the last one) and remove older pages
             pagesInView = pagesContainer.children('.page:not(.cached)');
             if (pageElement) {
@@ -2404,6 +2404,7 @@
                     if (page !== pageElement) return page;
                 });
             }
+
             if(view.params.domCache || pageElement) newPage.removeClass('cached');
         
             // Dynamic navbar
@@ -2515,6 +2516,14 @@
                     view.history.indexOf(lastUrl) === -1) {
                     view.contentCache[lastUrl] = null;
                     delete view.contentCache[lastUrl];
+                }
+                else if (lastUrl &&
+                    lastUrl in view.pageElementsCache &&
+                    lastUrl !== url &&
+                    (view.history.indexOf(lastUrl) === -1 || view.history.indexOf(lastUrl) === view.history.length - 1)) {
+                    view.pageElementsCache[lastUrl] = null;
+                    delete view.pageElementsCache[lastUrl];
+
                 }
                 view.history[view.history.length - (options.reloadPrevious ? 2 : 1)] = url;
             }
