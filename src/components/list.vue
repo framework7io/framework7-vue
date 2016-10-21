@@ -6,13 +6,15 @@
 
       blockChildren = self.grouped ? self.$slots.default : c('ul', {}, self.$slots.default)
       var outOfList = [], ulSlots = [];
-      for (var i = 0; i < self.$slots.default.length; i++) {
-        var tag = self.$slots.default[i].tag;
-        if (tag && !(tag == 'li' || tag.indexOf('list-item')>=0 || tag.indexOf('list-button')>=0)) {
-          outOfList.push(self.$slots.default[i]);
-        }
-        else {
-          ulSlots.push(self.$slots.default[i]);
+      if (self.$slots.default) {
+        for (var i = 0; i < self.$slots.default.length; i++) {
+          var tag = self.$slots.default[i].tag;
+          if (tag && !(tag == 'li' || tag.indexOf('list-item')>=0 || tag.indexOf('list-button')>=0)) {
+            outOfList.push(self.$slots.default[i]);
+          }
+          else {
+            ulSlots.push(self.$slots.default[i]);
+          }
         }
       }
       blockEl = c(

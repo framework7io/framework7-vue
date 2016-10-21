@@ -17,26 +17,30 @@
       }
 
       var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
-      var tag, child;
-      for (var i = 0; i < self.$slots.default.length; i++) {
-        child = self.$slots.default[i];
-        tag = child.tag;
-        if (!tag) {
-          staticList.push(child);
-          continue;
-        }
-        var isFixed = false, withSubnavbar, withMessages, withSearchbar;
-        if (tag.indexOf('messages') >= 0) withMessages = true;
-        if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
-        if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
-        for (var j = 0; j < fixedTags.length; j++) {
-          if (tag.indexOf(fixedTags[j]) >= 0) {
-            isFixed = true;
+
+      var tag, child, withSubnavbar, withMessages, withSearchbar;
+      if (self.$slots.default) {
+        for (var i = 0; i < self.$slots.default.length; i++) {
+          child = self.$slots.default[i];
+          tag = child.tag;
+          if (!tag) {
+            staticList.push(child);
+            continue;
           }
+          var isFixed = false;
+          if (tag.indexOf('messages') >= 0) withMessages = true;
+          if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
+          if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
+          for (var j = 0; j < fixedTags.length; j++) {
+            if (tag.indexOf(fixedTags[j]) >= 0) {
+              isFixed = true;
+            }
+          }
+          if (isFixed) fixedList.push(child);
+          else staticList.push(child);
         }
-        if (isFixed) fixedList.push(child);
-        else staticList.push(child);
       }
+
       if (fixedList.length > 0 && withSearchbar) {
         fixedList.push(c('div', {class:{'searchbar-overlay': true}}));
       }
