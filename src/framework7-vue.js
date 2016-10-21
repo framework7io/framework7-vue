@@ -156,7 +156,10 @@ export default {
 
     function initFramework7(f7Params) {
       if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
-        $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
+        if ($$('.statusbar-overlay').length > 0) {
+          $$('<div class="panel-overlay"></div>').insertAfter('.statusbar-overlay');
+        }
+        else $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
       }
       // Modify Parameters
       f7Params.routerRemoveTimeout = true;
