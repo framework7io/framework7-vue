@@ -1,17 +1,19 @@
-<template>
-  <div class="view"
-    :class="classObject"
-    @swipeBackMove="onSwipeBackMove"
-    @swipeBackBeforeChange="onSwipeBackBeforeChange"
-    @swipeBackAfterChange="onSwipeBackAfterChange"
-    @swipeBackBeforeReset="onSwipeBackBeforeReset"
-    @swipeBackAfterReset="onSwipeBackAfterReset"
-    >
-    <slot></slot>
-  </div>
-</template>
 <script>
   export default {
+    render: function (c) {
+      var hasNavbar, hasPages, pagesEl, navbarEl, self = this;
+      if (self.$slots.default) {
+        for (var i = 0; i < self.$slots.default.length; i++) {
+          var child = self.$slots.default[i];
+          if (child.tag.indexOf('navbar') >= 0) hasNavbar = true;
+          if (child.tag.indexOf('pages') >= 0) hasPages = true;
+        }
+      }
+      if (!hasPages) pagesEl = c('f7-pages');
+      if (!hasNavbar) navbarEl = c('f7-navbar');
+
+      return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
+    },
     beforeDestroy: function () {
       if (this.f7View) this.f7View.destroy();
     },
@@ -36,8 +38,9 @@
       }
     },
     computed: {
-      classObject: function () {
+      classesObject: function () {
         return {
+          'view': true,
           'view-main': this.main,
           'active': this.active,
           'tab': this.tab,
