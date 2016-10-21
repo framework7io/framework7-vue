@@ -5,8 +5,8 @@
       if (self.$slots.default) {
         for (var i = 0; i < self.$slots.default.length; i++) {
           var child = self.$slots.default[i];
-          if (child.tag.indexOf('navbar') >= 0) hasNavbar = true;
-          if (child.tag.indexOf('pages') >= 0) hasPages = true;
+          if (child.tag && child.tag.indexOf('navbar') >= 0) hasNavbar = true;
+          if (child.tag && child.tag.indexOf('pages') >= 0) hasPages = true;
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
