@@ -1,11 +1,14 @@
 <template>
   <div class="pages" :class="classObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
-    <component v-for="page in pages" :is="page.component"></component>
+    <component v-for="(page, key) in pages" :is="page.component"></component>
   </div>
 </template>
 <script>
   export default {
+    updated: function () {
+      console.log('Pages Updated')
+    },
     props: {
       'navbar-fixed': Boolean,
       'navbar-through': Boolean,
@@ -18,7 +21,7 @@
     },
     data: function () {
       return {
-        pages: []
+        pages: {}
       }
     },
     computed: {
@@ -37,15 +40,14 @@
     },
     methods: {
       onPageBeforeRemove: function (e) {
-        var indexToRemove;
-        for (var i = 0; i < this.pages.length; i++) {
-          if (e.target === this.pages[i].pageElement) {
-            indexToRemove = i;
+        var idToRemove;
+        for (var id in this.pages) {
+          if (e.target === this.pages[id].pageElement) {
+            idToRemove = id;
+            break;
           }
         }
-        if (typeof indexToRemove !== 'undefined') {
-          this.pages.splice(indexToRemove, 1);
-        }
+        if (idToRemove) this.$set(this.pages, idToRemove, {});
       }
     }
   }
