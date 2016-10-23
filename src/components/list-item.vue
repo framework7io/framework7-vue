@@ -103,8 +103,30 @@
       'text': [String, Number],
       'media': String,
       'subtitle': [String, Number],
+
+      // Link Props
       'link': [String, Boolean],
       'link-external': Boolean,
+
+      'link-force': Boolean,
+      'link-reload': Boolean,
+      'link-animate-pages': Boolean,
+      'link-ignore-cache': Boolean,
+      'link-page-name': String,
+      'link-template': String,
+
+      'link-view': String,
+      'link-open-panel': [String, Boolean],
+      'link-close-panel': String,
+      'link-open-popup': [String, Boolean],
+      'link-close-popup': Boolean,
+      'link-open-popover': [String, Boolean],
+      'link-close-popover': Boolean,
+      'link-open-login-screen': [String, Boolean],
+      'link-close-login-screen': Boolean,
+      'link-open-picker': [String, Boolean],
+      'link-close-picker': Boolean,
+
       'after': [String, Number],
       'badge': [String, Number],
       'badge-color': String,
@@ -118,6 +140,8 @@
       'sortable': Boolean,
       'sortable-computed': Boolean,
       'accordion-item': Boolean,
+
+      // Smart Select
       'smart-select': Boolean,
       'smart-select-searchbar': Boolean,
       'smart-select-searchbar-paceholder': String,
@@ -131,6 +155,7 @@
       'smart-select-navbar-theme': String,
       'smart-select-form-theme': String,
 
+      // Inputs
       'checkbox': Boolean,
       'checked': Boolean,
       'radio': Boolean,
