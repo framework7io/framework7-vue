@@ -1,9 +1,13 @@
 <template>
   <div class="left" :class="{sliding:sliding}">
-    <a href="#" class="back link" v-if="backLink" :class="{'icon-only': backLink === true}">
-      <i class="icon icon-back"></i>
-      <span v-if="backLink !== true && !$material">{{backLink}}</span>
-    </a>
+    <f7-link
+      v-if="backLink"
+      href="#"
+      back
+      icon="icon-back"
+      :class="{'icon-only': backLink === true}"
+      :text="backLink !== true && !$material ? backLink : false"
+      ></f7-link>
     <slot></slot>
   </div>
 </template>
