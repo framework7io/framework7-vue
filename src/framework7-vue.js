@@ -55,6 +55,9 @@ import Tab from './components/tab.vue';
 
 export default {
   install: function (Vue, parameters) {
+    // Parameters
+    parameters = parameters || {};
+
     // Hub
     var eventHub = new Vue();
 
@@ -159,23 +162,32 @@ export default {
         f7Instance;
 
     function initFramework7(f7Params) {
+      // Add Panel Overlay
       if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
         if ($$('.statusbar-overlay').length > 0) {
           $$('<div class="panel-overlay"></div>').insertAfter('.statusbar-overlay');
         }
         else $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
       }
+
       // Modify Parameters
       f7Params.routerRemoveTimeout = true;
 
       // Correct Prerouting
       f7Params.routes = f7Params.routes || [];
+
+      var initialPreroute = f7Params.preroute;
       f7Params.preroute = function (view, params) {
-        return preroute(view, params, f7Params.routes);
+        var passToVueRouter = true;
+        if (initialPreroute) {
+          passToVueRouter = initialPreroute(view, params);
+        }
+        if (passToVueRouter) return preroute(view, params, f7Params.routes);
+        else return false;
       };
 
       // Init
-      f7Instance = Vue.prototype.$f7 = window.f7 = window.$f7 = new window.Framework7(f7Params);
+      f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
       // Set Flag
       f7Ready = true;
@@ -187,7 +199,11 @@ export default {
     // Mixins
     Vue.mixin({
       beforeCreate: function () {
-        if (this.$parent && this.$parent.$parent && this.$parent.$parent.$route) this.$route = this.$parent.$parent.$route;
+        var self = this;
+        if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) self.$route = self.$parent.$parent.$route;
+        if (typeof self.$material === 'undefined') {
+          Vue.prototype.$material = (self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.material;
+        }
       },
       mounted: function () {
         var self = this;
