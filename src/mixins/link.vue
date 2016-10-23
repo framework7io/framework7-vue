@@ -9,6 +9,9 @@
       theme: String,
       text: String,
       icon: String,
+      iconMaterial: String,
+      iconIon: String,
+      iconFa: String,
       rippleColor: String,
       href: {
         type: String,
@@ -62,6 +65,11 @@
 
       // Active
       active: Boolean,
+
+      // Badge
+      badge: [String, Number],
+      iconBadge: [String, Number],
+      badgeColor: [String],
 
       // Back Link
       back: Boolean
