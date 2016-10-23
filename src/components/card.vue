@@ -1,8 +1,4 @@
 <script>
-  import Vue from 'vue';
-  import CardHeader from './card-header.vue';
-  import CardFooter from './card-footer.vue';
-  import CardContent from './card-content.vue';
   export default {
     template: '',
     created: function () {
@@ -18,11 +14,6 @@
 
       this.$options.template = template;
     },
-    props: ['title', 'content', 'footer'],
-    components: {
-      'f7-card-header': CardHeader,
-      'f7-card-footer': CardFooter,
-      'f7-card-content': CardContent
-    }
+    props: ['title', 'content', 'footer']
   }
 </script>
