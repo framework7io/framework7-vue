@@ -6,9 +6,6 @@
 </template>
 <script>
   export default {
-    updated: function () {
-      console.log('Pages Updated')
-    },
     props: {
       'navbar-fixed': Boolean,
       'navbar-through': Boolean,
