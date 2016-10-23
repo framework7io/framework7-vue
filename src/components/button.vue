@@ -6,10 +6,13 @@
       if (self.text) {
         textEl = c('span', {}, self.text);
       }
-      if (self.icon) {
-        var iconClass = {'icon': true};
-        iconClass[self.icon] = true;
-        iconEl = c('i', {class:iconClass})
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+        iconEl = c('f7-icon', {props: {
+          material: self.iconMaterial,
+          ion: self.iconIon,
+          fa: self.iconFa,
+          icon: self.icon
+        }})
       }
       self.classesObject['button'] = true;
       var linkEl = c('a', {

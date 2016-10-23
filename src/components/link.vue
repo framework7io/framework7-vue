@@ -3,19 +3,25 @@
   export default {
     mixins: [LinkMixin],
     render: function (c) {
-      var iconEl, textEl, self = this;
+      var iconEl, textEl, isTabbarLabel, badgeEl, iconBadgeEl, self = this;
+      isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar & self.$parent.labels;
       if (self.text) {
-        textEl = c('span', {}, self.text);
+        if (self.badge) badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge);
+        textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
       }
-      if (self.icon) {
-        var iconClass = {'icon': true};
-        iconClass[self.icon] = true;
-        iconEl = c('i', {class:iconClass})
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+        if (self.iconBadge) iconBadgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.iconBadge);
+        iconEl = c('f7-icon', {props: {
+          material: self.iconMaterial,
+          ion: self.iconIon,
+          fa: self.iconFa,
+          icon: self.icon
+        }}, [iconBadgeEl])
       }
       if (!self.text && self.$slots.default && self.$slots.default.length === 0) {
         self.classesObject['icon-only'] = true;
       }
-      self.classesObject['link'] = self.noLinkClass ? false : true;
+      self.classesObject['link'] = self.noLinkClass || isTabbarLabel ? false : true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
