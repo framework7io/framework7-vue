@@ -1,5 +1,6 @@
 <template>
   <div class="login-screen"
+    :class="classesObject"
     @open="onOpen"
     @opened="onOpened"
     @close="onClose"
@@ -10,6 +11,18 @@
 </template>
 <script>
   export default {
+    props: {
+      theme: String,
+      layout: String
+    },
+    computed: {
+      classesObject: function () {
+        var co = {};
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
+      }
+    },
     methods: {
       onOpen: function (event) {
         this.$emit('open', event);

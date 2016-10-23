@@ -1,5 +1,5 @@
 <template>
-  <div class="pages" :class="classObject" @pageBeforeRemove="onPageBeforeRemove">
+  <div class="pages" :class="classesObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
     <component v-for="(page, key) in pages" :is="page.component"></component>
   </div>
@@ -14,7 +14,9 @@
       'tabbar-fixed': Boolean,
       'tabbar-through': Boolean,
       'tabbar-labels-fixed': Boolean,
-      'tabbar-labels-through': Boolean
+      'tabbar-labels-through': Boolean,
+      'theme': String,
+      'layout': String
     },
     data: function () {
       return {
@@ -22,8 +24,8 @@
       }
     },
     computed: {
-      classObject: function () {
-        return {
+      classesObject: function () {
+        var co = {
           'navbar-fixed': this.navbarFixed,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,
@@ -33,6 +35,9 @@
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
           'tabbar-labels-through': this.tabbarLabesThrough
         }
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
       }
     },
     methods: {

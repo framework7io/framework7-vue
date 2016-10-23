@@ -12,11 +12,13 @@
       'tabbar-through': Boolean,
       'tabbar-labels-fixed': Boolean,
       'tabbar-labels-through': Boolean,
-      'tabs': Boolean
+      'tabs': Boolean,
+      'theme': String,
+      'layout': String
     },
     computed: {
       classObject: function () {
-        return {
+        var co = {
           'tabs': this.tabs,
           'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$material,
           'navbar-through': this.navbarThrough,
@@ -27,6 +29,9 @@
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
           'tabbar-labels-through': this.tabbarLabesThrough
         }
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
       }
     }
   }

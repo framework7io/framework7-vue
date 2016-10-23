@@ -54,11 +54,14 @@
       'init': {
         type: Boolean,
         default: true
-      }
+      },
+
+      'theme': String,
+      'layout': String
     },
     computed: {
       classesObject: function () {
-        return {
+        var co = {
           'view': true,
           'view-main': this.main,
           'active': this.active,
@@ -72,6 +75,9 @@
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
           'tabbar-labels-through': this.tabbarLabesThrough,
         }
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
       },
 
     },

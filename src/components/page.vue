@@ -114,10 +114,12 @@
       'tabs-animated': Boolean,
       'tabs-swipeable': Boolean,
       'login-screen': Boolean,
+      'theme': String,
+      'layout': String
     },
     computed: {
       classesObjectPage: function () {
-        return {
+        var co = {
           'page': true,
           'cached': this.cached,
           'navbar-fixed': this.navbarFixed,
@@ -136,6 +138,9 @@
           'tabs-animated-wrap': this.tabsAnimated,
           'tabs-swipeable-wrap': this.tabSwipeable,
         }
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
       },
       classesObjectPageContent: function () {
         return {

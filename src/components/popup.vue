@@ -1,6 +1,6 @@
 <template>
   <div class="popup"
-    :class="tabletFullscreen ? 'tablet-fullscreen' : false"
+    :class="classesObject"
     @open="onOpen"
     @opened="onOpened"
     @close="onClose"
@@ -12,7 +12,19 @@
 <script>
   export default {
     props: {
-      'tablet-fullscreen': Boolean
+      'tablet-fullscreen': Boolean,
+      'theme': String,
+      'layout': String
+    },
+    computed: {
+      classesObject: function () {
+        var co = {
+          'tablet-fullscreen': this.tabletFullscreen
+        };
+        if (this.theme) co['theme-' + this.theme] = true;
+        if (this.layout) co['layout-' + this.layout] = true;
+        return co;
+      }
     },
     methods: {
       onOpen: function (event) {
