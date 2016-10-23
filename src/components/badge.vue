@@ -1,5 +1,5 @@
 <template>
-  <div class="badge" :class="color ? 'color-' + color : ''"><slot></slot></div>
+  <span class="badge" :class="color ? 'color-' + color : ''"><slot></slot></span>
 </template>
 <script>
   export default {
