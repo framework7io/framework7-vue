@@ -67,6 +67,33 @@ export default {
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
 
+    // Detect and load Theme
+    if (parameters.theme === 'auto') {
+      if (window && window.navigator.userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)) {
+        parameters.theme = 'material';
+      }
+      else {
+        parameters.theme = 'ios';
+      }
+    }
+    if (parameters.theme === 'material') {
+      parameters.ios = false;
+      parameters.material = true;
+      Vue.prototype.$ios = false;
+      Vue.prototype.$material = true;
+    }
+    else if (parameters.theme === 'ios') {
+      parameters.ios = true;
+      parameters.material = false;
+      Vue.prototype.$ios = false;
+      Vue.prototype.$material = true;
+    }
+    if (parameters.theme && parameters[parameters.theme + 'Styles']) {
+      parameters[parameters.theme + 'Styles'].forEach(function (stylesheet) {
+        $$('head').append('<link rel="stylesheet" href="' +stylesheet+ '">')
+      });
+    }
+
     // Parse Route
     function parseRoute(str) {
       var parts = [];
@@ -162,6 +189,8 @@ export default {
         f7Instance;
 
     function initFramework7(f7Params) {
+      f7Params = f7Params || {};
+
       // Add Panel Overlay
       if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
         if ($$('.statusbar-overlay').length > 0) {
@@ -170,6 +199,10 @@ export default {
         else $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
       }
 
+      // Material
+      if (typeof f7Params.material === 'undefined' && Vue.prototype.$material) {
+        f7Params.material = true;
+      }
       // Modify Parameters
       f7Params.routerRemoveTimeout = true;
 
@@ -203,6 +236,7 @@ export default {
         if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) self.$route = self.$parent.$parent.$route;
         if (typeof self.$material === 'undefined') {
           Vue.prototype.$material = (self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.material;
+          Vue.prototype.$ios = !Vue.prototype.$material;
         }
       },
       mounted: function () {
