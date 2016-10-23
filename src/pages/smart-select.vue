@@ -49,16 +49,5 @@
   </f7-page>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        columnStyle: 'border: 1px solid #e5e5e5; padding:5px; text-align: center'
-      }
-    },
-    methods: {
-      onChange: function (event){
-        console.log('change');
-      }
-    }
-  }
+  export default {}
 </script>
