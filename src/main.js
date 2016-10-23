@@ -30,6 +30,7 @@ import BarsSubnavbar from './pages/bars-subnavbar.vue';
 import BarsTabbar from './pages/bars-tabbar.vue';
 import BarsTabbarLabels from './pages/bars-tabbar-labels.vue';
 import Fab from './pages/fab.vue';
+import LoginScreen from './pages/login-screen.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -151,6 +152,10 @@ window.app = new Vue({
         {
           path: '/fab/',
           component: Fab
+        },
+        {
+          path: '/login-screen/',
+          component: LoginScreen
         },
         {
           path: '/user/:id/posts/:post_id/',
