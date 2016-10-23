@@ -24,6 +24,11 @@ import Swiper from './pages/swiper.vue';
 import Messages from './pages/messages.vue';
 import Searchbar from './pages/searchbar.vue';
 import Tabs from './pages/tabs.vue';
+import Bars from './pages/bars.vue';
+import BarsHide from './pages/bars-hide.vue';
+import BarsSubnavbar from './pages/bars-subnavbar.vue';
+import BarsTabbar from './pages/bars-tabbar.vue';
+import BarsTabbarLabels from './pages/bars-tabbar-labels.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -121,6 +126,26 @@ window.app = new Vue({
         {
           path: '/tabs/',
           component: Tabs
+        },
+        {
+          path: '/bars/',
+          component: Bars
+        },
+        {
+          path: '/bars-hide/',
+          component: BarsHide
+        },
+        {
+          path: '/bars-subnavbar/',
+          component: BarsSubnavbar
+        },
+        {
+          path: '/bars-tabbar/',
+          component: BarsTabbar
+        },
+        {
+          path: '/bars-tabbar-labels/',
+          component: BarsTabbarLabels
         },
         {
           path: '/user/:id/posts/:post_id/',
