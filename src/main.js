@@ -14,6 +14,7 @@ import Swipeout from './pages/swipeout.vue';
 import Accordion from './pages/accordion.vue';
 import Grid from './pages/grid.vue';
 import Forms from './pages/forms.vue';
+import SmartSelect from './pages/smart-select.vue';
 import Chips from './pages/chips.vue';
 import Preloader from './pages/preloader.vue';
 import Progressbar from './pages/progressbar.vue';
@@ -80,6 +81,10 @@ window.app = new Vue({
         {
           path: '/forms/',
           component: Forms
+        },
+        {
+          path: '/smart-select/',
+          component: SmartSelect
         },
         {
           path: '/chips/',

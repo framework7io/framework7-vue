@@ -26,18 +26,30 @@
           'required': self.required,
           'disabled': self.disabledn
         },
-        on: self.link ? {} : {click: self.onClick, change: self.onChange}
+        on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
       }, self.$slots.default);
 
       // Link
-      if (self.link || self.accordionItem) {
+      if (self.link || self.accordionItem || self.smartSelect) {
         linkEl = c('a', {
           attrs: {
-            href: self.link === true || self.accordionItem ? '#' : self.link
+            href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+            'data-searchbar': self.smartSelectSearchbar,
+            'data-searchbar-paceholder': self.smartSelectSearchbarPlaceholder,
+            'data-searchbar-cancel': self.smartSelectSearchbarCancel,
+            'data-page-title': self.smartSelectPageTitle,
+            'data-back-text': self.smartSelectBackText,
+            'data-back-on-select': self.smartSelectBackOnSelect,
+            'data-virtual-list': self.smartSelectVirtualList,
+            'data-virtual-list-height': self.smartSelectVirtualListHeight,
+            'data-open-in': self.smartSelectOpenIn,
+            'data-navbar-theme': self.smartSelectNavbarTheme,
+            'data-form-theme': self.smartSelectFormTheme,
           },
           'class': {
             'item-link': true,
-            'external': self.linkExternal
+            'external': self.linkExternal,
+            'smart-select': self.smartSelect
           },
           on: {
             click: self.onClick
@@ -49,7 +61,7 @@
         liChildren = [c('span', self.$slots.default || self.title)]
       }
       else {
-        var linkItemEl = self.link || self.accordionItem ? linkEl : itemContentEl;
+        var linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
         if (self.swipeout) {
           liChildren = [c('div', {'class':{'swipeout-content': true}}, [linkItemEl])]
         }
@@ -106,6 +118,18 @@
       'sortable': Boolean,
       'sortable-computed': Boolean,
       'accordion-item': Boolean,
+      'smart-select': Boolean,
+      'smart-select-searchbar': Boolean,
+      'smart-select-searchbar-paceholder': String,
+      'smart-select-searchbar-cancel': String,
+      'smart-select-page-title': String,
+      'smart-select-back-text': String,
+      'smart-select-back-on-select': Boolean,
+      'smart-select-virtual-list': Boolean,
+      'smart-select-virtual-list-height': Number,
+      'smart-select-open-in': String, //popup or picker or page
+      'smart-select-navbar-theme': String,
+      'smart-select-form-theme': String,
 
       'checkbox': Boolean,
       'checked': Boolean,
