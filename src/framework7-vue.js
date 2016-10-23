@@ -17,6 +17,7 @@ import CardContent from './components/card-content.vue';
 import ContentBlock from './components/content-block.vue';
 import ContentBlockTitle from './components/content-block-title.vue';
 import Badge from './components/badge.vue';
+import Icon from './components/icon.vue';
 import List from './components/list.vue';
 import ListGroup from './components/list-group.vue';
 import ListItem from './components/list-item.vue';
@@ -286,6 +287,7 @@ export default {
         'f7-accordion-toggle': AccordionToggle,
         'f7-accordion-content': AccordionContent,
         'f7-badge': Badge,
+        'f7-icon': Icon,
         'f7-link': Link,
         'f7-buttons': ButtonsSegmented,
         'f7-segmented': ButtonsSegmented,
