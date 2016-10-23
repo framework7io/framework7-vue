@@ -18,9 +18,9 @@
         });
       }
       // Media
-      if (self.media || self.checkbox || self.radio && self.$root.$options.framework7.material) {
+      if (self.media || self.checkbox || self.radio && self.$material) {
         inputIconEl = '<i class="icon icon-form-' +(self.radio ? 'radio' : 'checkbox')+ '"></i>'
-        if (self.checkbox || self.radio && self.$root.$options.framework7.material) {
+        if (self.checkbox || self.radio && self.$material) {
           mediaEl = c('div', {'class': {'item-media': true}, domProps: {innerHTML: inputIconEl + (self.media ? self.media : '')}});
         }
         else {

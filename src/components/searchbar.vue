@@ -11,7 +11,7 @@
         >
         <a href="#" class="searchbar-clear" @click="onClearClick" v-if="clear"></a>
       </div>
-      <a href="#" class="searchbar-cancel" @click="onCancelClick" v-if="cancelLink && !material">{{cancelLink}}</a>
+      <a href="#" class="searchbar-cancel" @click="onCancelClick" v-if="cancelLink && !$material">{{cancelLink}}</a>
     </slot>
   </form>
 </template>
@@ -65,13 +65,6 @@
       init: {
         type: Boolean,
         default: true
-      }
-    },
-    computed: {
-      material: function () {
-        var mt = false;
-        if ((this.$f7 && this.$f7.params.material) || (this.$root.$options.framework7 && this.$root.$options.framework7.material)) mt = true;
-        return mt;
       }
     },
     methods: {

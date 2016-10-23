@@ -10,12 +10,8 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar) {
-        var isMaterial = false;
-        if (self.$material || (self.root.$options.framework7 && self.root.$options.framework7.material) || (self.$f7 && self.$f7.params && self.$f7.params.material)) {
-          isMaterial = true;
-        }
-        if (!isMaterial) navbarEl = c('f7-navbar');
+      if (!hasNavbar && !self.material) {
+        navbarEl = c('f7-navbar');
       }
 
       return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
@@ -52,7 +48,7 @@
       'animate-pages': Boolean,
       'preload-previous-page': Boolean,
 
-      params: Object,
+      'params': Object,
 
       'url': String,
       'init': {
@@ -67,7 +63,7 @@
           'view-main': this.main,
           'active': this.active,
           'tab': this.tab,
-          'navbar-fixed': this.navbarFixed,
+          'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$material,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,
           'toolbar-through': this.toolbarThrough,
