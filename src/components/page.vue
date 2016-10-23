@@ -113,6 +113,7 @@
       'tabs': Boolean,
       'tabs-animated': Boolean,
       'tabs-swipeable': Boolean,
+      'login-screen': Boolean,
     },
     computed: {
       classesObjectPage: function () {
@@ -146,7 +147,8 @@
           'hide-navbar-on-scroll': this.hideNavbarOnScroll,
           'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
           'hide-tabbar-on-scroll': this.hideTabbarOnScroll,
-          'messages-content': this.messages
+          'messages-content': this.messages,
+          'login-screen-content': this.loginScreen
         }
       }
     },
