@@ -29,6 +29,7 @@ import BarsHide from './pages/bars-hide.vue';
 import BarsSubnavbar from './pages/bars-subnavbar.vue';
 import BarsTabbar from './pages/bars-tabbar.vue';
 import BarsTabbarLabels from './pages/bars-tabbar-labels.vue';
+import Fab from './pages/fab.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -146,6 +147,10 @@ window.app = new Vue({
         {
           path: '/bars-tabbar-labels/',
           component: BarsTabbarLabels
+        },
+        {
+          path: '/fab/',
+          component: Fab
         },
         {
           path: '/user/:id/posts/:post_id/',
