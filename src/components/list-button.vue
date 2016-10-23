@@ -1,7 +1,7 @@
 <template>
   <li>
-    <a v-if="title" class="item-link list-button" :href="(typeof link !== 'string' ? '#' : link)" :class="{'external': external || linkExternal}" v-html="title"></a>
-    <a v-else class="item-link list-button" :href="(typeof link !== 'string' ? '#' : link)" :class="{'external': external || linkExternal}"><slot></slot></a>
+    <a v-if="title" class="item-link list-button" :href="(typeof link !== 'string' ? '#' : link)" :class="{'external': external || linkExternal, 'back': back}" v-html="title"></a>
+    <a v-else class="item-link list-button" :href="(typeof link !== 'string' ? '#' : link)" :class="{'external': external || linkExternal, 'back': back}"><slot></slot></a>
   </li>
 </template>
 <script>
@@ -11,6 +11,7 @@
       'link': [String, Boolean],
       'external': Boolean,
       'link-external': Boolean,
+      'back': Boolean
     },
     data: function () {
       return {};
