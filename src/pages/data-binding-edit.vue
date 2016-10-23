@@ -18,7 +18,6 @@
         </f7-input>
       </f7-list-item>
     </f7-list>
-    <!-- <input v-model="user.name" type="text" :value="user.name"> -->
   </f7-page>
 </template>
 <script>
