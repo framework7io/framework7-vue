@@ -10,7 +10,13 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar) navbarEl = c('f7-navbar');
+      if (!hasNavbar) {
+        var isMaterial = false;
+        if (self.$material || (self.root.$options.framework7 && self.root.$options.framework7.material) || (self.$f7 && self.$f7.params && self.$f7.params.material)) {
+          isMaterial = true;
+        }
+        if (!isMaterial) navbarEl = c('f7-navbar');
+      }
 
       return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
     },
@@ -30,6 +36,23 @@
 
       'tab': Boolean,
       'active': Boolean,
+
+      'dynamic-navbar': Boolean,
+      'dom-cache': Boolean,
+      'links-view': [String, Object],
+      'reload-pages': Boolean,
+      'unique-history': Boolean,
+      'unique-history-ignore-get-parameters': Boolean,
+      'allow-duplicate-urls': Boolean,
+      'swipe-back-page': Boolean,
+      'swipe-back-page-animate-shadow': Boolean,
+      'swipe-back-page-animate-opacity': Boolean,
+      'swipe-back-page-active-area': Boolean,
+      'swipe-back-page-threshold': Boolean,
+      'animate-pages': Boolean,
+      'preload-previous-page': Boolean,
+
+      params: Object,
 
       'url': String,
       'init': {
@@ -60,11 +83,25 @@
       onF7Init: function (f7) {
         var self = this;
         if (!self.init) return;
-        var params = {
-          domCache: true,
+        var propsData = self.$options.propsData;
+        var params = self.params || {
           url: self.url,
-          dynamicNavbar: true
+          dynamicNavbar: propsData.dynamicNavbar,
+          domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
+          linksView: propsData.linksView,
+          reloadPages: propsData.reloadPages,
+          uniqueHistory: propsData.uniqueHistory,
+          uniqueHistoryIgnoreGetParameters: propsData.uniqueHistoryIgnoreGetParameters,
+          allowDuplicateUrls: propsData.allowDuplicateUrls,
+          swipeBackPage: propsData.swipeBackPage,
+          swipeBackPageAnimateShadow: propsData.swipeBackPageAnimateShadow,
+          swipeBackPageAnimateOpacity: propsData.swipeBackPageAnimateOpacity,
+          swipeBackPageActiveArea: propsData.swipeBackPageActiveArea,
+          swipeBackPageThreshold: propsData.swipeBackPageThreshold,
+          animatePages: propsData.animatePages,
+          preloadPreviousPage: propsData.preloadPreviousPage,
         }
+
         self.f7View = f7.addView(self.$el, params);
         if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
           self.f7View.router.load({url: self.url, reload: true});
