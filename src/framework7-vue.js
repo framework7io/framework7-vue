@@ -58,6 +58,7 @@ import Popover from './components/popover.vue';
 import Popup from './components/popup.vue';
 import LoginScreen from './components/login-screen.vue';
 import LoginScreenTitle from './components/login-screen-title.vue';
+import PhotoBrowser from './components/photo-browser.vue';
 
 import Template7Template from './components/template7-template.vue';
 
@@ -329,6 +330,7 @@ export default {
         'f7-popup': Popup,
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
+        'f7-photo-browser': PhotoBrowser,
         't7-template': Template7Template,
       }
     });
