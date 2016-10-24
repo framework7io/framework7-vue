@@ -1,4 +1,3 @@
-
 import buble from 'rollup-plugin-buble';
 import vue from 'rollup-plugin-vue';
 export default {
