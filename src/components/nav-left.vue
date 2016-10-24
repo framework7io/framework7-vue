@@ -6,7 +6,7 @@
       back
       icon="icon-back"
       :class="{'icon-only': backLink === true}"
-      :text="backLink !== true && !$material ? backLink : false"
+      :text="backLink !== true && !$material ? backLink : undefined"
       ></f7-link>
     <slot></slot>
   </div>
