@@ -2,7 +2,7 @@
 import Vue from 'vue';
 
 // Import Framework7
-import Framework7Vue from './framework7-vue.js';
+import Framework7Vue from './../src/framework7-vue.js';
 
 // Pages
 import ContentBlock from './pages/content-block.vue';
