@@ -2,7 +2,7 @@
 import Vue from 'vue';
 
 // Import Framework7 Vue Plugin
-import Framework7Vue from './../src/framework7-vue.js';
+import Framework7Vue from '../src/framework7-vue.js';
 
 // Import Routes
 import Routes from './routes.js';
