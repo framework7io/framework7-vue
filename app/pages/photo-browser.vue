@@ -11,7 +11,7 @@
       ></f7-photo-browser>
 
     <f7-link v-for="(photo, index) in photos" @click="openPhotoBrowser(index)">
-      <img :data-src="photo.url || photo"  style="width: 20%; height: 20vw">
+      <img :src="photo.url || photo"  style="width: 20%; height: 20vw">
     </f7-link>
   </f7-page>
 </template>
