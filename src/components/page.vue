@@ -45,22 +45,26 @@
         fixedList.push(c('div', {class:{'searchbar-overlay': true}}));
       }
       if (withMessages) self.classesObjectPageContent['messages-content'] = true;
-      pageContentEl = c('div', {
-        class: self.classesObjectPageContent,
-        attrs: {
-          'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
-          'data-distance': self.infiniteScrollDistance
-        },
-        on: {
-          pullstart: self.onPullstart,
-          pullmove: self.onPullmove,
-          pullend: self.onPullend,
-          refresh: self.onRefresh,
-          refreshdone: self.onRefreshdone,
-          infinite: self.onInfinite
-        },
-      }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
-
+      if (!self.noPageContent) {
+        pageContentEl = c('div', {
+          class: self.classesObjectPageContent,
+          attrs: {
+            'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
+            'data-distance': self.infiniteScrollDistance
+          },
+          on: {
+            pullstart: self.onPullstart,
+            pullmove: self.onPullmove,
+            pullend: self.onPullend,
+            refresh: self.onRefresh,
+            refreshdone: self.onRefreshdone,
+            infinite: self.onInfinite
+          },
+        }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
+      }
+      else {
+        pageContentEl = [self.$slots.default];
+      }
       fixedList.push(self.$slots.fixed);
 
       if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
@@ -111,8 +115,7 @@
       'hide-tabbar-on-scroll': Boolean,
       'messages': Boolean,
       'tabs': Boolean,
-      'tabs-animated': Boolean,
-      'tabs-swipeable': Boolean,
+      'no-page-content': Boolean,
       'login-screen': Boolean,
       'theme': String,
       'layout': String
@@ -134,9 +137,7 @@
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
           'no-tabbar': this.noTabbar,
-          'tabs': this.tabs,
-          'tabs-animated-wrap': this.tabsAnimated,
-          'tabs-swipeable-wrap': this.tabSwipeable,
+          'tabs': this.tabs
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
