@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base app/ --open --inline --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "release": "rollup -c"
+    "dist": "rollup -c"
   },
   "bugs": {
     "url": "https://github.com/nolimits4web/Framework7-Vue/issues"
