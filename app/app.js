@@ -31,6 +31,7 @@ import BarsTabbar from './pages/bars-tabbar.vue';
 import BarsTabbarLabels from './pages/bars-tabbar-labels.vue';
 import Fab from './pages/fab.vue';
 import LoginScreen from './pages/login-screen.vue';
+import VirtualList from './pages/virtual-list.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -158,6 +159,10 @@ window.app = new Vue({
           component: LoginScreen
         },
         {
+          path: '/virtual-list/',
+          component: VirtualList
+        },
+        {
           path: '/user/:id/posts/:post_id/',
           component: DynamicRoute
         },
@@ -177,4 +182,3 @@ window.app = new Vue({
       }
     }
 });
-
