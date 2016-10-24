@@ -12,8 +12,9 @@
 <script>
   export default {
     beforeDestroy: function () {
-      if (!this.init) return;
-      if (this.swiper && this.swiper.destroy) this.swiper.destroy();
+      var self = this;
+      if (!self.init) return;
+      if (self.swiper && self.swiper.destroy) self.swiper.destroy();
     },
     props: {
       'params': Object,

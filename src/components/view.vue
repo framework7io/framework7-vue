@@ -17,7 +17,8 @@
       return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
     },
     beforeDestroy: function () {
-      if (this.f7View) this.f7View.destroy();
+      var self = this;
+      if (self.f7View && self.f7View.destroy) self.f7View.destroy();
     },
     props: {
       'main': Boolean,
