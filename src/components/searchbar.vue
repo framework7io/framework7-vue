@@ -81,6 +81,7 @@
         this.$emit('blur', event);
       },
       onSearch: function (event) {
+        if(!event.detail) return;
         this.$emit('search', event.detail.query, event.detail.foundItems);
       },
       onClear: function (event) {
