@@ -1,3 +1,65 @@
+/* Components */
+import StatusBar from './components/statusbar.vue';
+import Panel from './components/panel.vue';
+import Views from './components/views.vue';
+import View from './components/view.vue';
+import Pages from './components/pages.vue';
+import Page from './components/page.vue';
+import Navbar from './components/navbar.vue';
+import NavCenter from './components/nav-center.vue';
+import NavLeft from './components/nav-left.vue';
+import NavRight from './components/nav-right.vue';
+import Subnavbar from './components/subnavbar.vue';
+import Toolbar from './components/toolbar.vue';
+import Card from './components/card.vue';
+import CardHeader from './components/card-header.vue';
+import CardFooter from './components/card-footer.vue';
+import CardContent from './components/card-content.vue';
+import ContentBlock from './components/content-block.vue';
+import ContentBlockTitle from './components/content-block-title.vue';
+import Badge from './components/badge.vue';
+import Icon from './components/icon.vue';
+import List from './components/list.vue';
+import ListGroup from './components/list-group.vue';
+import ListItem from './components/list-item.vue';
+import ListItemContent from './components/list-item-content.vue';
+import ListItemSwipeoutActions from './components/list-item-swipeout-actions.vue';
+import ListItemSwipeoutButton from './components/list-item-swipeout-button.vue';
+import ListButton from './components/list-button.vue';
+import ListLabel from './components/list-label.vue';
+import AccordionItem from './components/accordion-item.vue';
+import AccordionToggle from './components/accordion-toggle.vue';
+import AccordionContent from './components/accordion-content.vue';
+import ButtonsSegmented from './components/buttons-segmented.vue';
+import Link from './components/link.vue';
+import Button from './components/button.vue';
+import GridRow from './components/grid-row.vue';
+import GridCol from './components/grid-col.vue';
+import Preloader from './components/preloader.vue';
+import Progressbar from './components/progressbar.vue';
+import FormLabel from './components/form-label.vue';
+import FormInput from './components/form-input.vue';
+import FormSwitch from './components/form-switch.vue';
+import FormRange from './components/form-range.vue';
+import Chip from './components/chip.vue';
+import Fab from './components/fab.vue';
+import FabSpeedDial from './components/fab-speed-dial.vue';
+import FabActions from './components/fab-speed-dial-actions.vue';
+import FabAction from './components/fab-speed-dial-action.vue';
+import Swiper from './components/swiper.vue';
+import SwiperSlide from './components/swiper-slide.vue';
+import Messages from './components/messages.vue';
+import Message from './components/message.vue';
+import Messagebar from './components/messagebar.vue';
+import Searchbar from './components/searchbar.vue';
+import Tabs from './components/tabs.vue';
+import Tab from './components/tab.vue';
+import Popover from './components/popover.vue';
+import Popup from './components/popup.vue';
+import LoginScreen from './components/login-screen.vue';
+import LoginScreenTitle from './components/login-screen-title.vue';
+
+/* Plugin */
 export default {
   install: function (Vue, parameters) {
     // Parameters
@@ -35,7 +97,7 @@ export default {
     }
     if (parameters.theme && parameters[parameters.theme + 'Styles']) {
       parameters[parameters.theme + 'Styles'].forEach(function (stylesheet) {
-        $$('head').append('<link rel="stylesheet" href="' +stylesheet+ '">')
+        $$('head').append('<link rel="stylesheet" href="' +stylesheet+ '">');
       });
     }
 
@@ -79,13 +141,15 @@ export default {
               matchedParts ++;
             }
         }
-        if (matchedParts === urlParts.length) matchingRoute = {
-          query: query,
-          hash: hash,
-          params: params,
-          url: url,
-          path: path,
-          route: route
+        if (matchedParts === urlParts.length) {
+          matchingRoute = {
+            query: query,
+            hash: hash,
+            params: params,
+            url: url,
+            path: path,
+            route: route
+          };
         }
       }
       return matchingRoute;
@@ -113,7 +177,7 @@ export default {
         params: matchingRoute.params,
         url: matchingRoute.url,
         path: matchingRoute.path
-      }
+      };
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
           pagesVue.pages[id].pageElement = newPage;
@@ -134,6 +198,7 @@ export default {
         f7Instance;
 
     function initFramework7(f7Params) {
+      if (!window.Framework7) return;
       f7Params = f7Params || {};
 
       // Add Panel Overlay
@@ -198,65 +263,69 @@ export default {
         }
       },
       components: {
-        'f7-statusbar': require('./components/statusbar.vue'),
-        'f7-views': require('./components/views.vue'),
-        'f7-panel': require('./components/panel.vue'),
-        'f7-view': require('./components/view.vue'),
-        'f7-pages': require('./components/pages.vue'),
-        'f7-page': require('./components/page.vue'),
-        'f7-navbar': require('./components/navbar.vue'),
-        'f7-nav-left': require('./components/nav-left.vue'),
-        'f7-nav-center': require('./components/nav-center.vue'),
-        'f7-nav-right': require('./components/nav-right.vue'),
-        'f7-subnavbar': require('./components/subnavbar.vue'),
-        'f7-toolbar': require('./components/toolbar.vue'),
-        'f7-block-title': require('./components/block-title.vue'),
-        'f7-block': require('./components/block.vue'),
-        'f7-card': require('./components/card.vue'),
-        'f7-card-header': require('./components/card-header.vue'),
-        'f7-card-footer': require('./components/card-footer.vue'),
-        'f7-card-content': require('./components/card-content.vue'),
-        'f7-list': require('./components/list.vue'),
-        'f7-list-group': require('./components/list-group.vue'),
-        'f7-list-item': require('./components/list-item.vue'),
-        'f7-list-item-content': require('./components/list-item-content.vue'),
-        'f7-list-button': require('./components/list-button.vue'),
-        'f7-list-label': require('./components/list-label.vue'),
-        'f7-swipeout-actions': require('./components/list-item-swipeout-actions.vue'),
-        'f7-swipeout-button': require('./components/list-item-swipeout-button.vue'),
-        'f7-accordion-item': require('./components/accordion-item.vue'),
-        'f7-accordion-toggle': require('./components/accordion-toggle.vue'),
-        'f7-accordion-content': require('./components/accordion-content.vue'),
-        'f7-badge': require('./components/badge.vue'),
-        'f7-icon': require('./components/icon.vue'),
-        'f7-link': require('./components/link.vue'),
-        'f7-buttons': require('./components/buttons-segmented.vue'),
-        'f7-button': require('./components/button.vue'),
-        'f7-grid': require('./components/grid-row.vue'),
-        'f7-col': require('./components/grid-col.vue'),
-        'f7-preloader': require('./components/preloader.vue'),
-        'f7-progressbar': require('./components/progressbar.vue'),
-        'f7-label': require('./components/form-label.vue'),
-        'f7-input': require('./components/form-input.vue'),
-        'f7-switch': require('./components/form-switch.vue'),
-        'f7-range': require('./components/form-range.vue'),
-        'f7-chip': require('./components/chip.vue'),
-        'f7-fab': require('./components/fab.vue'),
-        'f7-fab-speed-dial': require('./components/fab-speed-dial.vue'),
-        'f7-fab-actions': require('./components/fab-speed-dial-actions.vue'),
-        'f7-fab-action': require('./components/fab-speed-dial-action.vue'),
-        'f7-swiper': require('./components/swiper.vue'),
-        'f7-swiper-slide': require('./components/swiper-slide.vue'),
-        'f7-messages': require('./components/messages.vue'),
-        'f7-message': require('./components/message.vue'),
-        'f7-messagebar': require('./components/messagebar.vue'),
-        'f7-searchbar': require('./components/searchbar.vue'),
-        'f7-tabs': require('./components/tabs.vue'),
-        'f7-tab': require('./components/tab.vue'),
-        'f7-popover': require('./components/popover.vue'),
-        'f7-popup': require('./components/popup.vue'),
-        'f7-login-screen': require('./components/login-screen.vue'),
-        'f7-login-screen-title': require('./components/login-screen-title.vue'),
+        'f7-statusbar': StatusBar,
+        'f7-views': Views,
+        'f7-panel': Panel,
+        'f7-view': View,
+        'f7-pages': Pages,
+        'f7-page': Page,
+        'f7-navbar': Navbar,
+        'f7-nav-left': NavLeft,
+        'f7-nav-center': NavCenter,
+        'f7-nav-right': NavRight,
+        'f7-subnavbar': Subnavbar,
+        'f7-toolbar': Toolbar,
+        'f7-block-title': ContentBlockTitle,
+        'f7-content-block-title': ContentBlockTitle,
+        'f7-list-block-title': ContentBlockTitle,
+        'f7-content-block': ContentBlock,
+        'f7-block': ContentBlock,
+        'f7-card': Card,
+        'f7-card-header': CardHeader,
+        'f7-card-footer': CardFooter,
+        'f7-card-content': CardContent,
+        'f7-list': List,
+        'f7-list-group': ListGroup,
+        'f7-list-item': ListItem,
+        'f7-list-item-content': ListItemContent,
+        'f7-list-button': ListButton,
+        'f7-list-label': ListLabel,
+        'f7-swipeout-actions': ListItemSwipeoutActions,
+        'f7-swipeout-button': ListItemSwipeoutButton,
+        'f7-accordion-item': AccordionItem,
+        'f7-accordion-toggle': AccordionToggle,
+        'f7-accordion-content': AccordionContent,
+        'f7-badge': Badge,
+        'f7-icon': Icon,
+        'f7-link': Link,
+        'f7-buttons': ButtonsSegmented,
+        'f7-segmented': ButtonsSegmented,
+        'f7-button': Button,
+        'f7-grid': GridRow,
+        'f7-col': GridCol,
+        'f7-preloader': Preloader,
+        'f7-progressbar': Progressbar,
+        'f7-label': FormLabel,
+        'f7-input': FormInput,
+        'f7-switch': FormSwitch,
+        'f7-range': FormRange,
+        'f7-chip': Chip,
+        'f7-fab': Fab,
+        'f7-fab-speed-dial': FabSpeedDial,
+        'f7-fab-action': FabAction,
+        'f7-fab-actions': FabActions,
+        'f7-swiper': Swiper,
+        'f7-swiper-slide': SwiperSlide,
+        'f7-messages': Messages,
+        'f7-message': Message,
+        'f7-messagebar': Messagebar,
+        'f7-searchbar': Searchbar,
+        'f7-tabs': Tabs,
+        'f7-tab': Tab,
+        'f7-popover': Popover,
+        'f7-popup': Popup,
+        'f7-login-screen': LoginScreen,
+        'f7-login-screen-title': LoginScreenTitle,
       }
     });
   }
