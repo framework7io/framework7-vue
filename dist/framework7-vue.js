@@ -80,7 +80,7 @@ var View = {
       }
     }
     if (!hasPages) { pagesEl = c('f7-pages'); }
-    if (!hasNavbar && !self.$material) {
+    if (!hasNavbar && !self.$material && self.dynamicNavbar) {
       navbarEl = c('f7-navbar');
     }
 
@@ -502,7 +502,7 @@ var NavCenter = {render: function(){with(this){return _h('div',{staticClass:"cen
   }
 };
 
-var NavLeft = {render: function(){with(this){return _h('div',{staticClass:"left",class:{sliding:sliding}},[(backLink)?_h('f7-link',{class:{'icon-only': backLink === true},attrs:{"href":"#","back":"","icon":"icon-back","text":backLink !== true && !$material ? backLink : false}}):_e(),_t("default")])}},staticRenderFns: [],
+var NavLeft = {render: function(){with(this){return _h('div',{staticClass:"left",class:{sliding:sliding}},[(backLink)?_h('f7-link',{class:{'icon-only': backLink === true},attrs:{"href":"#","back":"","icon":"icon-back","text":backLink !== true && !$material ? backLink : undefined}}):_e(),_t("default")])}},staticRenderFns: [],
   props: {
     backLink: [Boolean, String],
     sliding: Boolean
@@ -1163,16 +1163,83 @@ var ListItemSwipeoutButton = {render: function(){with(this){return _h('a',{class
   }
 };
 
-var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:{'external': external || linkExternal, 'back': back},attrs:{"href":(typeof link !== 'string' ? '#' : link)},domProps:{"innerHTML":_s(title)}}):_h('a',{staticClass:"item-link list-button",class:{'external': external || linkExternal, 'back': back},attrs:{"href":(typeof link !== 'string' ? '#' : link)}},[_t("default")])])}},staticRenderFns: [],
+var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopover === 'string' ? openPopover : false,"data-popover":typeof openPicker === 'string' ? openPicker : false,"data-picker":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-login-screen":typeof openSortable === 'string' ? openSortable : false,"data-sortable":typeof toggleSortable === 'string' ? toggleSortable : false,"data-tab":typeof tabLink === 'string' ? tabLink : false},domProps:{"innerHTML":_s(title)}}):_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopover === 'string' ? openPopover : false,"data-popover":typeof openPicker === 'string' ? openPicker : false,"data-picker":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-login-screen":typeof openSortable === 'string' ? openSortable : false,"data-sortable":typeof toggleSortable === 'string' ? toggleSortable : false,"data-tab":typeof tabLink === 'string' ? tabLink : false}},[_t("default")])])}},staticRenderFns: [],
   props: {
     'title': [String, Number],
     'link': [String, Boolean],
     'external': Boolean,
     'link-external': Boolean,
-    'back': Boolean
+    'back': Boolean,
+
+    // View
+    view: String,
+
+    // Panel
+    openPanel: [String, Boolean],
+    closePanel: String,
+
+    // Popup
+    openPopup: [String, Boolean],
+    closePopup: Boolean,
+
+    // Popover
+    openPopover: [String, Boolean],
+    closePopover: Boolean,
+
+    // Login Screen
+    openLoginScreen: [String, Boolean],
+    closeLoginScreen: Boolean,
+
+    // Picker
+    openPicker: [String, Boolean],
+    closePicker: Boolean,
+
+    // Tab
+    tabLink: [Boolean, String],
+
+    // Sortable
+    openSortable: [String, Boolean],
+    closeSortable: Boolean,
+    toggleSortable: [String, Boolean],
   },
-  data: function () {
-    return {};
+  computed: {
+    classesObject: function () {
+      var self = this;
+      var co = {
+        'external': self.external || self.linkExternal,
+        'back': self.back
+      };
+
+      // Panel
+      if (self.closePanel) { co['close-panel'] = true; }
+      if (self.openPanel) { co['open-panel'] = true; }
+
+      // Popup
+      if (self.closePopup) { co['close-popup'] = true; }
+      if (self.openPopup) { co['open-popup'] = true; }
+
+      // Popover
+      if (self.closePopover) { co['close-popover'] = true; }
+      if (self.openPopover) { co['open-popover'] = true; }
+
+      // Picker
+      if (self.closePicker) { co['close-picker'] = true; }
+      if (self.openPicker) { co['open-picker'] = true; }
+
+      // Login Screen
+      if (self.closeLoginScreen) { co['close-login-screen'] = true; }
+      if (self.openLoginScreen) { co['open-login-screen'] = true; }
+
+      // Sortable
+      if (self.closeSortable) { co['close-sortable'] = true; }
+      if (self.openSortable) { co['open-sortable'] = true; }
+      if (self.toggleSortable) { co['toggle-sortable'] = true; }
+
+      // Tab
+      if (self.tabLink) { co['tab-link'] = true; }
+
+      return co;
+    }
   },
   methods: {
     onClick: function (event) {
@@ -2113,16 +2180,18 @@ var Popover = {render: function(){with(this){return _h('div',{staticClass:"popov
   }
 };
 
-var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",class:classesObject,on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",class:classesObject,style:(opened ? 'display: block' : false),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
   props: {
     'tablet-fullscreen': Boolean,
     'theme': String,
-    'layout': String
+    'layout': String,
+    'opened': Boolean
   },
   computed: {
     classesObject: function () {
       var co = {
-        'tablet-fullscreen': this.tabletFullscreen
+        'tablet-fullscreen': this.tabletFullscreen,
+        'modal-in': this.opened
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
@@ -2145,14 +2214,77 @@ var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",
   }
 };
 
-var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"login-screen",class:classesObject,on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+var PickerModal = {
+  render: function (c) {
+    var pickerEl, innerEl, fixedList = [], staticList = [];
+    var self = this;
+
+    var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
+
+    var tag, child;
+
+    if (self.$slots.default) {
+      for (var i = 0; i < self.$slots.default.length; i++) {
+        child = self.$slots.default[i];
+        tag = child.tag;
+        if (!tag) {
+          staticList.push(child);
+          continue;
+        }
+        var isFixed = false;
+        for (var j = 0; j < fixedTags.length; j++) {
+          if (tag.indexOf(fixedTags[j]) >= 0) {
+            isFixed = true;
+          }
+        }
+        if (isFixed) { fixedList.push(child); }
+        else { staticList.push(child); }
+      }
+    }
+
+    innerEl = c('div', {
+      class: {
+        'picker-modal-inner': true
+      },
+    }, staticList);
+
+    return c('div', {
+      class: self.classesObject,
+      attrs: {
+        style: self.opened ? 'display: block' : false
+      }
+    }, [fixedList, innerEl]);
+  },
   props: {
-    theme: String,
-    layout: String
+    'opened': Boolean,
+    'theme': String,
+    'layout': String,
   },
   computed: {
     classesObject: function () {
-      var co = {};
+      var co = {
+        'picker-modal': true,
+        'opened': this.opened
+      };
+      if (this.theme) { co['theme-' + this.theme] = true; }
+      if (this.opened) { co['modal-in'] = this.opened; }
+      if (this.layout) { co['layout-' + this.layout] = true; }
+      return co;
+    }
+  }
+};
+
+var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"login-screen",class:classesObject,style:(opened ? 'display: block' : false),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+  props: {
+    theme: String,
+    layout: String,
+    opened: Boolean
+  },
+  computed: {
+    classesObject: function () {
+      var co = {
+        'modal-in': this.opened
+      };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
       return co;
@@ -2572,6 +2704,7 @@ var framework7Vue = {
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
         'f7-photo-browser': PhotoBrowser,
+        'f7-picker-modal': PickerModal,
         't7-template': Template7Template,
       }
     });
