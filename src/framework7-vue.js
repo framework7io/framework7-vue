@@ -57,6 +57,7 @@ import Tabs from './components/tabs.vue';
 import Tab from './components/tab.vue';
 import Popover from './components/popover.vue';
 import Popup from './components/popup.vue';
+import PickerModal from './components/picker-modal.vue';
 import LoginScreen from './components/login-screen.vue';
 import LoginScreenTitle from './components/login-screen-title.vue';
 import PhotoBrowser from './components/photo-browser.vue';
@@ -333,6 +334,7 @@ export default {
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
         'f7-photo-browser': PhotoBrowser,
+        'f7-picker-modal': PickerModal,
         't7-template': Template7Template,
       }
     });

@@ -5,6 +5,7 @@
     @opened="onOpened"
     @close="onClose"
     @closed="onClosed"
+    :style="opened ? 'display: block' : false"
   >
     <slot></slot>
   </div>
@@ -13,11 +14,14 @@
   export default {
     props: {
       theme: String,
-      layout: String
+      layout: String,
+      opened: Boolean
     },
     computed: {
       classesObject: function () {
-        var co = {};
+        var co = {
+          'modal-in': this.opened
+        };
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
         return co;

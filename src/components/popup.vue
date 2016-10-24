@@ -5,6 +5,7 @@
     @opened="onOpened"
     @close="onClose"
     @closed="onClosed"
+    :style="opened ? 'display: block' : false"
   >
     <slot></slot>
   </div>
@@ -14,12 +15,14 @@
     props: {
       'tablet-fullscreen': Boolean,
       'theme': String,
-      'layout': String
+      'layout': String,
+      'opened': Boolean
     },
     computed: {
       classesObject: function () {
         var co = {
-          'tablet-fullscreen': this.tabletFullscreen
+          'tablet-fullscreen': this.tabletFullscreen,
+          'modal-in': this.opened
         };
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
