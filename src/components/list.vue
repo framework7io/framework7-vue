@@ -40,7 +40,9 @@
             'sortable': self.sortable,
             'accordion-list': self.accordion,
             'contacts-block': self.contacts,
-            'virtual-list': self.virtual
+            'virtual-list': self.virtual,
+            'tab': self.tab,
+            'active': self.active
           },
           on: {
             open: self.onOpen,
@@ -63,6 +65,10 @@
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
+
+      // Tab
+      'tab': Boolean,
+      'active': Boolean,
 
       // Virtual List
       'virtual': Boolean,

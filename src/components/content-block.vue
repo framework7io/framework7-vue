@@ -12,15 +12,17 @@
       'inset': Boolean,
       'inner': Boolean,
       'tabs': Boolean,
-      'tab': Boolean
+      'tab': Boolean,
+      'active': Boolean
     },
     computed: {
       classesObject: function () {
+        var self = this;
         return {
-          'inset': this.inset,
-          'tabs': this.tabs,
-          'tab': this.tab,
-          'active': this.active
+          'inset': self.inset,
+          'tabs': self.tabs,
+          'tab': self.tab,
+          'active': self.active
         }
       }
     }
