@@ -5,6 +5,7 @@ import Views from './components/views.vue';
 import View from './components/view.vue';
 import Pages from './components/pages.vue';
 import Page from './components/page.vue';
+import PageContent from './components/page-content.vue';
 import Navbar from './components/navbar.vue';
 import NavCenter from './components/nav-center.vue';
 import NavLeft from './components/nav-left.vue';
@@ -273,6 +274,7 @@ export default {
         'f7-view': View,
         'f7-pages': Pages,
         'f7-page': Page,
+        'f7-page-content': PageContent,
         'f7-navbar': Navbar,
         'f7-nav-left': NavLeft,
         'f7-nav-center': NavCenter,
