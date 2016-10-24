@@ -130,6 +130,7 @@
       'after': [String, Number],
       'badge': [String, Number],
       'badge-color': String,
+      'media-item': Boolean,
       'media-list-item': Boolean,
       'media-list': Boolean,
       'media-list-computed': Boolean,
@@ -173,7 +174,7 @@
         return this.sortable || this.$parent.sortable || this.$parent.sortableComputed;
       },
       mediaListComputed: function () {
-        return this.mediaList || this.$parent.mediaList || this.$parent.mediaListComputed;
+        return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
       }
     },
     methods: {
