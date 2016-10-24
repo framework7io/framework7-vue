@@ -87,7 +87,8 @@ var View = {
     return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
   },
   beforeDestroy: function () {
-    if (this.f7View) { this.f7View.destroy(); }
+    var self = this;
+    if (self.f7View && self.f7View.destroy) { self.f7View.destroy(); }
   },
   props: {
     'main': Boolean,
@@ -294,22 +295,26 @@ var Page = {
       fixedList.push(c('div', {class:{'searchbar-overlay': true}}));
     }
     if (withMessages) { self.classesObjectPageContent['messages-content'] = true; }
-    pageContentEl = c('div', {
-      class: self.classesObjectPageContent,
-      attrs: {
-        'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
-        'data-distance': self.infiniteScrollDistance
-      },
-      on: {
-        pullstart: self.onPullstart,
-        pullmove: self.onPullmove,
-        pullend: self.onPullend,
-        refresh: self.onRefresh,
-        refreshdone: self.onRefreshdone,
-        infinite: self.onInfinite
-      },
-    }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
-
+    if (!self.noPageContent) {
+      pageContentEl = c('div', {
+        class: self.classesObjectPageContent,
+        attrs: {
+          'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
+          'data-distance': self.infiniteScrollDistance
+        },
+        on: {
+          pullstart: self.onPullstart,
+          pullmove: self.onPullmove,
+          pullend: self.onPullend,
+          refresh: self.onRefresh,
+          refreshdone: self.onRefreshdone,
+          infinite: self.onInfinite
+        },
+      }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
+    }
+    else {
+      pageContentEl = [self.$slots.default];
+    }
     fixedList.push(self.$slots.fixed);
 
     if (withSubnavbar) { self.classesObjectPage['with-subnavbar'] = true; }
@@ -360,8 +365,7 @@ var Page = {
     'hide-tabbar-on-scroll': Boolean,
     'messages': Boolean,
     'tabs': Boolean,
-    'tabs-animated': Boolean,
-    'tabs-swipeable': Boolean,
+    'no-page-content': Boolean,
     'login-screen': Boolean,
     'theme': String,
     'layout': String
@@ -383,9 +387,7 @@ var Page = {
         'no-navbar': this.noNavbar,
         'no-toolbar': this.noToolbar,
         'no-tabbar': this.noTabbar,
-        'tabs': this.tabs,
-        'tabs-animated-wrap': this.tabsAnimated,
-        'tabs-swipeable-wrap': this.tabSwipeable,
+        'tabs': this.tabs
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
@@ -449,6 +451,22 @@ var Page = {
     },
     onPageAfterBack: function (event) {
       this.$emit('pageAfterBack', event, event.detail.page);
+    }
+  }
+};
+
+var PageContent = {render: function(){with(this){return _h('div',{staticClass:"page-content",class:classesObject},[_t("default")])}},staticRenderFns: [],
+  props: {
+    'tab': Boolean,
+    'active': Boolean
+  },
+  computed: {
+    classesObject: function () {
+      var self = this;
+      return {
+        'tab': self.tab,
+        'active': self.active
+      }
     }
   }
 };
@@ -556,15 +574,17 @@ var ContentBlock = {render: function(){with(this){return _h('div',{staticClass:"
     'inset': Boolean,
     'inner': Boolean,
     'tabs': Boolean,
-    'tab': Boolean
+    'tab': Boolean,
+    'active': Boolean
   },
   computed: {
     classesObject: function () {
+      var self = this;
       return {
-        'inset': this.inset,
-        'tabs': this.tabs,
-        'tab': this.tab,
-        'active': this.active
+        'inset': self.inset,
+        'tabs': self.tabs,
+        'tab': self.tab,
+        'active': self.active
       }
     }
   }
@@ -578,30 +598,76 @@ var Badge = {render: function(){with(this){return _h('span',{staticClass:"badge"
   }
 };
 
-var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",class:classesObject},[_s(material),_t("default")])}},staticRenderFns: [],
+var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",class:classesObject},[_s(materialTextComputed),_t("default")])}},staticRenderFns: [],
   props: {
     'color': String,
     'material': String, //Material Icons
     'ion': String, //Ionicons
     'fa': String, //Font Awesome
+    'f7': String, //Font Awesome
     'icon': String, //Custom
+    'if-material': String,
+    'if-ios': String,
   },
   computed: {
+    materialTextComputed: function () {
+      var self = this;
+      var text = self.material;
+      if (self.ifMaterial && self.$material && self.ifMaterial.indexOf('material:')>=0) {
+        text = self.ifMaterial.split(':')[1];
+      }
+      else if (self.ifIos && self.$ios && self.ifIos.indexOf('material:')>=0) {
+        text = self.ifIos.split(':')[1];
+      }
+      return text;
+    },
     classesObject: function () {
-      var co = {
-        'material-icons': this.material,
-        'fa': this.fa
-      };
+      var co = {};
+      var self = this;
+      if (self.ifMaterial || self.ifIos) {
+        var parts = self[self.$material ? 'ifMaterial' : 'ifIos'].split(':');
+        var prop = parts[0];
+        var value = parts[1];
+        if (prop === 'material' || prop === 'fa') {
+          co[prop === 'fa' ? 'fa' : 'material-icons'] = true;
+        }
+        if (prop !== 'material' && prop !== 'icon') {
+          co[prop + '-' + value] = true;
+        }
+        if (prop === 'icon') {
+          co[value] = true;
+        }
+      }
+      else {
+        co = {
+          'material-icons': this.material,
+          'fa': this.fa
+        };
+        if (this.ion) { co['ion-' + this.ion] = true; }
+        if (this.f7) { co['f7-' + this.ion] = true; }
+        if (this.fa) { co['fa-' + this.fa] = true; }
+        if (this.icon) { co[this.icon] = true; }
+      }
       if (this.color) { co['color-' + this.color] = true; }
-      if (this.ion) { co['ion-' + this.ion] = true; }
-      if (this.fa) { co['fa-' + this.fa] = true; }
-      if (this.icon) { co[this.icon] = true; }
       return co;
     }
   }
 };
 
 var List = {
+  beforeDestroy: function () {
+    var self = this;
+    if (!(self.virtual && self.virtualInit && self.f7VirtualList)) { return; }
+    if (self.f7VirtualList.destroy) { self.f7VirtualList.destroy(); }
+  },
+  watch: {
+    virtualItems: function () {
+      // Items Updated
+      var self = this;
+      if (!(self.virtual && self.virtualInit && self.f7VirtualList)) { return; }
+      self.f7VirtualList.replaceAllItems(self.virtualItems);
+    },
+  },
   render: function (c) {
     var blockEl, blockChildren;
     var self = this;
@@ -628,7 +694,10 @@ var List = {
           'media-list': self.mediaList,
           'sortable': self.sortable,
           'accordion-list': self.accordion,
-          'contacts-block': self.contacts
+          'contacts-block': self.contacts,
+          'virtual-list': self.virtual,
+          'tab': self.tab,
+          'active': self.active
         },
         on: {
           open: self.onOpen,
@@ -650,10 +719,36 @@ var List = {
     'form': Boolean,
     'label': String,
     'accordion': Boolean,
-    'contacts': Boolean
-  },
-  data: function () {
-    return {};
+    'contacts': Boolean,
+
+    // Tab
+    'tab': Boolean,
+    'active': Boolean,
+
+    // Virtual List
+    'virtual': Boolean,
+    'virtual-init': {
+      type: Boolean,
+      default: true
+    },
+    'virtual-items': [Array, Object],
+    'virtual-height': [Number, Function],
+    'virtual-rows-before': Number,
+    'virtual-rows-after': Number,
+    'virtual-cols': {
+      type: Number,
+      default: 1
+    },
+    'virtual-cache': {
+      type: Boolean,
+      default: true
+    },
+    'virtual-filtered-only': {
+      type: Boolean,
+      default: false
+    },
+    'virtual-search-by-item': Function,
+    'virtual-search-all': Function,
   },
   methods: {
     onOpen: function (event) {
@@ -664,6 +759,39 @@ var List = {
     },
     onSort: function (event) {
       this.$emit('sort', event, event.detail);
+    },
+    onF7Init: function (f7) {
+      var self = this;
+      // Init Virtual List
+      if (!(self.virtual && self.virtualInit)) { return; }
+      var $$ = self.$$;
+      var template = $$(self.$el).find('script').html();
+      if (!template) { return; }
+      template = self.$t7.compile(template);
+
+      self.f7VirtualList = f7.virtualList(self.$el, {
+        items: self.virtualItems || [],
+        template: template,
+        height: self.virtualHeight || undefined,
+        cols: self.virtualCols,
+        rowsBefore: self.virtualRowsBefore || undefined,
+        rowsAfter: self.virtualRowsAfter || undefined,
+        showFilteredItemsOnly: self.virtualFilteredOnly,
+        searchByItem: self.virtualSearchByItem,
+        searchAll: self.virtualSearchAll,
+        onItemBeforeInsert: function (list, item) {
+          self.$emit('virtualItemBeforeInsert', list, item);
+        },
+        onBeforeClear: function (list, fragment) {
+          self.$emit('virtualBeforeClear', list, fragment);
+        },
+        onItemsBeforeInsert: function (list, fragment) {
+          self.$emit('virtualItemsBeforeInsert', list, fragment);
+        },
+        onItemsAfterInsert: function (list, fragment) {
+          self.$emit('virtualItemsAfterInsert', list, fragment);
+        },
+      });
     }
   }
 };
@@ -819,6 +947,7 @@ var ListItem = {
     'after': [String, Number],
     'badge': [String, Number],
     'badge-color': String,
+    'media-item': Boolean,
     'media-list-item': Boolean,
     'media-list': Boolean,
     'media-list-computed': Boolean,
@@ -862,7 +991,7 @@ var ListItem = {
       return this.sortable || this.$parent.sortable || this.$parent.sortableComputed;
     },
     mediaListComputed: function () {
-      return this.mediaList || this.$parent.mediaList || this.$parent.mediaListComputed;
+      return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
     }
   },
   methods: {
@@ -1615,8 +1744,9 @@ var FabAction = {render: function(){with(this){return _h('a',{class:color ? 'col
 
 var Swiper = {render: function(){with(this){return _h('div',{staticClass:"swiper-container"},[_h('div',{staticClass:"swiper-wrapper"},[_t("default")]),(paginationComputed === true)?_h('div',{staticClass:"swiper-pagination"}):_e(),(scrollbarComputed === true)?_h('div',{staticClass:"swiper-scrollbar"}):_e(),(nextButtonComputed === true)?_h('div',{staticClass:"swiper-button-next"}):_e(),(prevButtonComputed === true)?_h('div',{staticClass:"swiper-button-prev"}):_e()])}},staticRenderFns: [],
   beforeDestroy: function () {
-    if (!this.init) { return; }
-    if (this.swiper && this.swiper.destroy) { this.swiper.destroy(); }
+    var self = this;
+    if (!self.init) { return; }
+    if (self.swiper && self.swiper.destroy) { self.swiper.destroy(); }
   },
   props: {
     'params': Object,
@@ -1901,6 +2031,7 @@ var Searchbar = {render: function(){with(this){return _h('form',{staticClass:"se
       this.$emit('blur', event);
     },
     onSearch: function (event) {
+      if(!event.detail) { return; }
       this.$emit('search', event.detail.query, event.detail.foundItems);
     },
     onClear: function (event) {
@@ -2045,6 +2176,131 @@ var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"l
 
 var LoginScreenTitle = {render: function(){with(this){return _h('div',{staticClass:"login-screen-title"},[_t("default")])}},staticRenderFns: [],};
 
+var PhotoBrowser = {
+  render: function () {},
+  beforeDestroy: function () {
+    var self = this;
+    if (self.f7PhotoBrowser && self.f7PhotoBrowser.destroy) { self.f7PhotoBrowser.destroy(); }
+  },
+  props: {
+    init: {
+      type: Boolean,
+      default: true
+    },
+    params: Object,
+    photos: Array,
+    initialSlide: Number,
+    spaceBetween: Number,
+    speed: Number,
+    zoom: Boolean,
+    zoomMax: Number,
+    zoomMin: Number,
+    exposition: Boolean,
+    expositionHideCaptions: Boolean,
+    type: String,
+    navbar: Boolean,
+    toolbar: Boolean,
+    theme: String,
+    swipeToClose: Boolean,
+    backLinkText: String,
+    ofText: String,
+    loop: Boolean,
+    lazyLoading: Boolean,
+    lazyLoadingInPrevNext: Boolean,
+    lazyLoadingOnTransitionStart: Boolean,
+  },
+  methods: {
+    open: function (index) {
+      return this.f7PhotoBrowser.open(index)
+    },
+    close: function () {
+      return this.f7PhotoBrowser.close()
+    },
+    toggleZoom: function () {
+      return this.f7PhotoBrowser.toggleZoom()
+    },
+    toggleExposition: function () {
+      return this.f7PhotoBrowser.toggleExposition()
+    },
+    enableExposition: function () {
+      return this.f7PhotoBrowser.enableExposition()
+    },
+    disableExposition: function () {
+      return this.f7PhotoBrowser.disableExposition()
+    },
+    onF7Init: function (f7) {
+      var self = this;
+      // Init Virtual List
+      if (!self.init) { return; }
+      var params = self.$options.propsData;
+      self.f7PhotoBrowser = f7.photoBrowser(self.params || {
+        photos: params.photos,
+        initialSlide: params.initialSlide,
+        spaceBetween: params.spaceBetween,
+        speed: params.speed,
+        zoom: params.zoom,
+        zoomMax: params.zoomMax,
+        zoomMin: params.zoomMin,
+        exposition: params.exposition,
+        expositionHideCaptions: params.expositionHideCaptions,
+        type: params.type,
+        navbar: params.navbar,
+        toolbar: params.toolbar,
+        theme: params.theme,
+        swipeToClose: params.swipeToClose,
+        backLinkText: params.backLinkText,
+        ofText: params.ofText,
+        loop: params.loop,
+        lazyLoading: params.lazyLoading,
+        lazyLoadingInPrevNext: params.lazyLoadingInPrevNext,
+        lazyLoadingOnTransitionStart: params.lazyLoadingOnTransitionStart,
+        onOpen: function (pb) {
+          self.$emit('open', pb);
+        },
+        onClose: function (pb) {
+          self.$emit('close', pb);
+        },
+        onSwipeToClose: function (pb) {
+          self.$emit('swipeToClose', pb);
+        },
+        onSlideChangeStart: function (swiper) {
+          self.$emit('slideChangeStart', swiper);
+        },
+        onSlideChangeEnd: function (swiper) {
+          self.$emit('slideChangeEnd', swiper);
+        },
+        onTransitionStart: function (swiper) {
+          self.$emit('transitionStart', swiper);
+        },
+        onTransitionEnd: function (swiper) {
+          self.$emit('transitionEnd', swiper);
+        },
+        onClick: function (swiper, event) {
+          self.$emit('click', swiper, event);
+        },
+        onTap: function (swiper, event) {
+          self.$emit('tap', swiper, event);
+        },
+        onDoubleTap: function (swiper, event) {
+          self.$emit('doubleTap', swiper, event);
+        },
+        onLazyImageLoad: function (swiper, event) {
+          self.$emit('lazyImageLoad', swiper, event);
+        },
+        onLazyImageReady: function (swiper, event) {
+          self.$emit('lazyImageReady', swiper, event);
+        }
+      });
+    }
+  }
+};
+
+var Template7Template = {
+  render: function (c) {
+      return c('script', {attrs: {type:'text/template7'}}, this.$slots.default)
+  }
+};
+
 /* Components */
 /* Plugin */
 var framework7Vue = {
@@ -2060,6 +2316,7 @@ var framework7Vue = {
     Vue.prototype.Dom7 = $$;
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
+    Vue.prototype.$t7 = window.Template7;
 
     // Detect and load Theme
     if (parameters.theme === 'auto') {
@@ -2256,6 +2513,7 @@ var framework7Vue = {
         'f7-view': View,
         'f7-pages': Pages,
         'f7-page': Page,
+        'f7-page-content': PageContent,
         'f7-navbar': Navbar,
         'f7-nav-left': NavLeft,
         'f7-nav-center': NavCenter,
@@ -2313,6 +2571,8 @@ var framework7Vue = {
         'f7-popup': Popup,
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
+        'f7-photo-browser': PhotoBrowser,
+        't7-template': Template7Template,
       }
     });
   }
