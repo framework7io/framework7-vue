@@ -32,6 +32,7 @@ import BarsTabbarLabels from './pages/bars-tabbar-labels.vue';
 import Fab from './pages/fab.vue';
 import LoginScreen from './pages/login-screen.vue';
 import VirtualList from './pages/virtual-list.vue';
+import PhotoBrowser from './pages/photo-browser.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -161,6 +162,10 @@ window.app = new Vue({
         {
           path: '/virtual-list/',
           component: VirtualList
+        },
+        {
+          path: '/photo-browser/',
+          component: PhotoBrowser
         },
         {
           path: '/user/:id/posts/:post_id/',
