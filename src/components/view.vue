@@ -10,7 +10,7 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar && !self.$material) {
+      if (!hasNavbar && !self.$material && self.dynamicNavbar) {
         navbarEl = c('f7-navbar');
       }
 
