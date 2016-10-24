@@ -59,6 +59,8 @@ import Popup from './components/popup.vue';
 import LoginScreen from './components/login-screen.vue';
 import LoginScreenTitle from './components/login-screen-title.vue';
 
+import Template7Template from './components/template7-template.vue';
+
 /* Plugin */
 export default {
   install: function (Vue, parameters) {
@@ -73,6 +75,7 @@ export default {
     Vue.prototype.Dom7 = $$;
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
+    Vue.prototype.$t7 = window.Template7;
 
     // Detect and load Theme
     if (parameters.theme === 'auto') {
@@ -326,6 +329,7 @@ export default {
         'f7-popup': Popup,
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
+        't7-template': Template7Template,
       }
     });
   }
