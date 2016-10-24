@@ -12,7 +12,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 20, 2016
+ * Released on: October 24, 2016
  */
 html,
 body,
@@ -39,13 +39,15 @@ body {
 }
 @media all and (width: 1024px) and (height: 691px) and (orientation: landscape) {
   html,
-  body {
+  body,
+  .framework7-root {
     height: 671px;
   }
 }
 @media all and (width: 1024px) and (height: 692px) and (orientation: landscape) {
   html,
-  body {
+  body,
+  .framework7-root {
     height: 672px;
   }
 }
@@ -2208,6 +2210,100 @@ i.icon.icon-plus {
   border-radius: 16px;
   padding: 0px 4px;
   min-width: 16px;
+}
+/* === Chips === */
+.chip {
+  font-size: 12px;
+  font-weight: normal;
+  color: #000;
+  background: rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 16px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  margin: 2px 0;
+}
+.chip-media {
+  width: 21px;
+  height: 21px;
+  margin-left: -8px;
+  vertical-align: top;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 21px;
+  color: #fff;
+  font-size: 14px;
+  -webkit-flex-shrink: 0;
+  -ms-flex: 0 0 auto;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.chip-media img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  display: block;
+}
+.chip-media + .chip-label {
+  margin-left: 4px;
+}
+.chip-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  -webkit-flex-shrink: 1;
+  -ms-flex: 0 1 auto;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.chip-label + .chip-delete {
+  margin-left: 4px;
+}
+.chip-delete {
+  margin-right: -8px;
+  width: 23px;
+  height: 23px;
+  text-align: center;
+  line-height: 23px;
+  cursor: pointer;
+  -webkit-flex-shrink: 0;
+  -ms-flex: 0 0 auto;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2028%2028'%3E%3Ccircle%20cx%3D'14'%20cy%3D'14'%20r%3D'14'%20fill%3D'%238e8e93'%2F%3E%3Cline%20stroke%3D'%23000'%20stroke-width%3D'2'%20stroke-miterlimit%3D'10'%20x1%3D'8'%20y1%3D'8'%20x2%3D'20'%20y2%3D'20'%2F%3E%3Cline%20fill%3D'none'%20stroke%3D'%23000'%20stroke-width%3D'2'%20stroke-miterlimit%3D'10'%20x1%3D'20'%20y1%3D'8'%20x2%3D'8'%20y2%3D'20'%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: 13px 13px;
+  background-size: 13px 13px;
+  opacity: 0.7;
+}
+html:not(.watch-active-state) .chip-delete:active,
+.chip-delete.active-state {
+  opacity: 1;
 }
 /* === Content Block === */
 .content-block {
@@ -5049,7 +5145,8 @@ html.with-statusbar-overlay body .panel {
   -webkit-animation: progressbar-infinite 1s linear infinite;
   animation: progressbar-infinite 1s linear infinite;
 }
-html.with-statusbar-overlay body > .progressbar-infinite {
+html.with-statusbar-overlay body > .progressbar-infinite,
+html.with-statusbar-overlay .framework7-root > .progressbar-infinite {
   top: 20px;
 }
 .progressbar-infinite.color-multi {
@@ -5071,7 +5168,8 @@ html.with-statusbar-overlay body > .progressbar-infinite {
   -webkit-animation: progressbar-infinite-multicolor 3s linear infinite;
   animation: progressbar-infinite-multicolor 3s linear infinite;
 }
-html.with-statusbar-overlay body > .progressbar-infinite.color-multi {
+html.with-statusbar-overlay body > .progressbar-infinite.color-multi,
+html.with-statusbar-overlay .framework7-root > .progressbar-infinite.color-multi {
   top: 20px;
 }
 body > .progressbar,
@@ -5080,12 +5178,14 @@ body > .progressbar,
 .page > .progressbar,
 .panel > .progressbar,
 .popup > .progressbar,
+.framework7-root > .progressbar,
 body > .progressbar-infinite,
 .view > .progressbar-infinite,
 .views > .progressbar-infinite,
 .page > .progressbar-infinite,
 .panel > .progressbar-infinite,
-.popup > .progressbar-infinite {
+.popup > .progressbar-infinite,
+.framework7-root > .progressbar-infinite {
   position: absolute;
   left: 0;
   top: 0;
@@ -5835,31 +5935,37 @@ button.swiper-pagination-bullet {
   height: 100%;
   z-index: 11500;
 }
-body > .photo-browser {
+body > .photo-browser,
+.framework7-root > .photo-browser {
   opacity: 0;
   display: none;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
-body > .photo-browser.photo-browser-in {
+body > .photo-browser.photo-browser-in,
+.framework7-root > .photo-browser.photo-browser-in {
   display: block;
   -webkit-animation: photoBrowserIn 400ms forwards;
   animation: photoBrowserIn 400ms forwards;
 }
-body > .photo-browser.photo-browser-out {
+body > .photo-browser.photo-browser-out,
+.framework7-root > .photo-browser.photo-browser-out {
   display: block;
   -webkit-animation: photoBrowserOut 400ms forwards;
   animation: photoBrowserOut 400ms forwards;
 }
-html.with-statusbar-overlay body > .photo-browser {
+html.with-statusbar-overlay body > .photo-browser,
+html.with-statusbar-overlay .framework7-root > .photo-browser {
   height: -webkit-calc(100% - 20px);
   height: calc(100% - 20px);
   top: 20px;
 }
 .popup > .photo-browser .navbar,
 body > .photo-browser .navbar,
+.framework7-root > .photo-browser .navbar,
 .popup > .photo-browser .toolbar,
-body > .photo-browser .toolbar {
+body > .photo-browser .toolbar,
+.framework7-root > .photo-browser .toolbar {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }

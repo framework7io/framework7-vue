@@ -12,7 +12,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 20, 2016
+ * Released on: October 24, 2016
  */
 html,
 body,
@@ -2047,7 +2047,7 @@ i.icon.icon-close {
   align-items: center;
   margin: 2px 0;
 }
-.chip .chip-media {
+.chip-media {
   width: 32px;
   height: 32px;
   margin-left: -12px;
@@ -2074,7 +2074,7 @@ i.icon.icon-close {
   -webkit-justify-content: center;
   justify-content: center;
 }
-.chip .chip-media img {
+.chip-media img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -2082,10 +2082,10 @@ i.icon.icon-close {
   border-radius: 50%;
   display: block;
 }
-.chip .chip-media + .chip-label {
+.chip-media + .chip-label {
   margin-left: 8px;
 }
-.chip .chip-label {
+.chip-label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2096,10 +2096,10 @@ i.icon.icon-close {
   flex-shrink: 1;
   min-width: 0;
 }
-.chip .chip-label + .chip-delete {
+.chip-label + .chip-delete {
   margin-left: 4px;
 }
-.chip .chip-delete {
+.chip-delete {
   margin-right: -8px;
   width: 24px;
   height: 24px;
@@ -2116,8 +2116,8 @@ i.icon.icon-close {
   background-size: 20px 20px;
   opacity: 0.54;
 }
-html:not(.watch-active-state) .chip .chip-delete:active,
-.chip .chip-delete.active-state {
+html:not(.watch-active-state) .chip-delete:active,
+.chip-delete.active-state {
   opacity: 1;
 }
 /* === Content Block === */
@@ -5567,7 +5567,8 @@ html.with-statusbar-overlay body .panel {
   -webkit-animation: progressbar-infinite-2 2s linear infinite;
   animation: progressbar-infinite-2 2s linear infinite;
 }
-html.with-statusbar-overlay body > .progressbar-infinite {
+html.with-statusbar-overlay body > .progressbar-infinite,
+html.with-statusbar-overlay .framework7-root > .progressbar-infinite {
   top: 20px;
 }
 .progressbar-infinite.color-multi {
@@ -5596,12 +5597,14 @@ body > .progressbar,
 .page > .progressbar,
 .panel > .progressbar,
 .popup > .progressbar,
+.framework7-root > .progressbar,
 body > .progressbar-infinite,
 .view > .progressbar-infinite,
 .views > .progressbar-infinite,
 .page > .progressbar-infinite,
 .panel > .progressbar-infinite,
-.popup > .progressbar-infinite {
+.popup > .progressbar-infinite,
+.framework7-root > .progressbar-infinite {
   position: absolute;
   left: 0;
   top: 0;
@@ -5617,7 +5620,8 @@ body > .progressbar-infinite,
   -webkit-animation: progressbar-out 300ms forwards;
   animation: progressbar-out 300ms forwards;
 }
-html.with-statusbar-overlay body > .progressbar {
+html.with-statusbar-overlay body > .progressbar,
+html.with-statusbar-overlay .framework7-root > .progressbar {
   top: 20px;
 }
 @-webkit-keyframes progressbar-in {
@@ -6471,31 +6475,37 @@ button.swiper-pagination-bullet {
   height: 100%;
   z-index: 11500;
 }
-body > .photo-browser {
+body > .photo-browser,
+.framework7-root > .photo-browser {
   opacity: 0;
   display: none;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
-body > .photo-browser.photo-browser-in {
+body > .photo-browser.photo-browser-in,
+.framework7-root > .photo-browser.photo-browser-in {
   display: block;
   -webkit-animation: photoBrowserIn 400ms forwards;
   animation: photoBrowserIn 400ms forwards;
 }
-body > .photo-browser.photo-browser-out {
+body > .photo-browser.photo-browser-out,
+.framework7-root > .photo-browser.photo-browser-out {
   display: block;
   -webkit-animation: photoBrowserOut 400ms forwards;
   animation: photoBrowserOut 400ms forwards;
 }
-html.with-statusbar-overlay body > .photo-browser {
+html.with-statusbar-overlay body > .photo-browser,
+html.with-statusbar-overlay .framework7-root > .photo-browser {
   height: -webkit-calc(100% - 20px);
   height: calc(100% - 20px);
   top: 20px;
 }
 .popup > .photo-browser .navbar,
 body > .photo-browser .navbar,
+.framework7-root > .photo-browser .navbar,
 .popup > .photo-browser .toolbar,
-body > .photo-browser .toolbar {
+body > .photo-browser .toolbar,
+.framework7-root > .photo-browser .toolbar {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }

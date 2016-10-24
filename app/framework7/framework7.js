@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 20, 2016
+ * Released on: October 24, 2016
  */
 (function () {
 
@@ -2361,7 +2361,7 @@
             }
         
             newPage.addClass(options.reload ? 'page-on-' + reloadPosition : 'page-on-right');
-
+        
             // Find old page (should be the last one) and remove older pages
             pagesInView = pagesContainer.children('.page:not(.cached)');
             if (pageElement) {
@@ -2404,7 +2404,6 @@
                     if (page !== pageElement) return page;
                 });
             }
-
             if(view.params.domCache || pageElement) newPage.removeClass('cached');
         
             // Dynamic navbar
@@ -2523,7 +2522,6 @@
                     (view.history.indexOf(lastUrl) === -1 || view.history.indexOf(lastUrl) === view.history.length - 1)) {
                     view.pageElementsCache[lastUrl] = null;
                     delete view.pageElementsCache[lastUrl];
-
                 }
                 view.history[view.history.length - (options.reloadPrevious ? 2 : 1)] = url;
             }
@@ -3465,6 +3463,7 @@
             app.closeModal('.modal.modal-in');
         };
         app.showIndicator = function () {
+            if ($('.preloader-indicator-overlay').length > 0) return;
             app.root.append('<div class="preloader-indicator-overlay"></div><div class="preloader-indicator-modal"><span class="preloader preloader-white">' + (app.params.material ? app.params.materialPreloaderHtml : '') + '</span></div>');
         };
         app.hideIndicator = function () {
