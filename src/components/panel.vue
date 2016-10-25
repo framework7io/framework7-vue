@@ -1,5 +1,5 @@
 <template>
-  <div class="panel" :class="'panel-' + sideComputed + ' panel-' + effectComputed">
+  <div class="panel" :class="classesObject">
     <slot></slot>
   </div>
 </template>
@@ -11,24 +11,21 @@
       'cover': Boolean,
       'reveal': Boolean,
       'left': Boolean,
-      'right': Boolean
+      'right': Boolean,
+      'theme': String,
+      'layout': String
     },
     computed: {
-      sideComputed: function () {
-        if (!this.side) {
-          if (this.left) return 'left';
-          if (this.right) return 'right';
-          return 'right'
-        }
-        return this.side;
-      },
-      effectComputed: function () {
-        if (!this.effect) {
-          if (this.cover) return 'cover';
-          if (this.reveal) return 'reveal';
-          return 'cover'
-        }
-        return this.effect;
+      classesObject: function () {
+        var self = this;
+        var side = self.side || (self.left ? 'left' : 'right');
+        var effect = self.effect || (self.reveal ? 'reveal' : 'cover');
+        var co = {};
+        co['panel-' + side] = true;
+        co['panel-' + effect] = true;
+        if (self.layout) co['layout-' + self.layout] = true;
+        if (self.theme) co['theme-' + self.theme] = true;
+        return co;
       }
     }
   }
