@@ -1,18 +1,21 @@
 <script>
   export default {
-    template: '',
-    created: function () {
-      var template = '<div class="card">';
+    render: function (c) {
       var self = this;
-      ['header', 'content', 'footer'].forEach(function (part) {
-        var prop = part;
-        if (part === 'header') prop = 'title';
-        if (self[prop]) template += '<f7-card-' + (part) + '>' + self[prop] + '</f7-card-' + (part) + '>'
-      });
-      template += '<slot></slot>';
-      template += '</div>';
+      var headerEl, contentEl, contentChildEl, footerEl;
 
-      this.$options.template = template;
+      if (self.title) {
+        headerEl = c('f7-card-header', {domProps: {innerHTML: self.title}});
+      }
+      if (self.content) {
+        contentChildEl = c('div', {domProps: {innerHTML: self.content}});
+        contentEl = c('f7-card-content', {}, [contentChildEl]);
+      }
+      if (self.footer) {
+        footerEl = c('f7-card-footer', {domProps: {innerHTML: self.footer}});
+      }
+
+      return c('div', {class: {'card': true}}, [headerEl, contentEl, footerEl, self.$slots.default]);
     },
     props: ['title', 'content', 'footer']
   }
