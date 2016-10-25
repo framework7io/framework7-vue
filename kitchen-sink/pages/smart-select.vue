@@ -39,7 +39,7 @@
           </optgroup>
         </select>
       </f7-list-item>
-      <f7-list-item smart-select title="Mac or Windows">
+      <f7-list-item smart-select smart-select-back-on-select title="Mac or Windows">
         <select name="mac-windows">
           <option value="mac">Mac</option>
           <option value="windows">Windows</option>

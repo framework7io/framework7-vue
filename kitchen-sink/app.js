@@ -14,6 +14,12 @@ Vue.use(Framework7Vue);
 var app = new Vue({
     // Root Element
     el: '#app',
+    // Framework7 Parameters
+    framework7: {
+      root: '#app', //Should be same as app el
+      animateNavBackIcon: true,
+      routes: Routes,
+    },
     // Custom App Data
     data: function () {
       return {
@@ -23,13 +29,6 @@ var app = new Vue({
           age: 30
         }
       };
-    },
-    // Framework7 Parameters
-    framework7: {
-      root: '#app', //Should be same as app.el
-      animateNavBackIcon: true,
-      material: true,
-      routes: Routes,
     },
     // Custom App Methods
     methods: {

@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width">
   <title>Document</title>
 
-  <link rel="stylesheet" href="framework7/framework7.material.css">
-  <link rel="stylesheet" href="framework7/framework7.material.colors.css">
+  <link rel="stylesheet" href="framework7/framework7.ios.css">
+  <link rel="stylesheet" href="framework7/framework7.ios.colors.css">
 </head>
 <body>
 
   <div id="app">
     <f7-statusbar></f7-statusbar>
-    <f7-panel left reveal>
-      <p>Panel left content</p>
+    <f7-panel left reveal layout="dark" theme="pink">
+      <f7-view navbar-fixed>
+        <f7-pages>
+          <f7-page>
+            <f7-navbar title="Left Panel"></f7-navbar>
+            <f7-list>
+              <f7-list-item link="/cards/" title="Cards"></f7-list-item>
+              <f7-list-item link="/lists/" title="Lists"></f7-list-item>
+            </f7-list>
+          </f7-page>
+        </f7-pages>
+      </f7-view>
     </f7-panel>
     <f7-panel right cover>
       <p>Panel right content</p>
