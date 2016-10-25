@@ -26,7 +26,7 @@
     computed: {
       classesObject: function () {
         var co = {
-          'navbar-fixed': this.navbarFixed,
+          'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
           'navbar-through': this.navbarThrough,
           'toolbar-fixed': this.toolbarFixed,
           'toolbar-through': this.toolbarThrough,
