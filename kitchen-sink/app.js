@@ -28,6 +28,7 @@ var app = new Vue({
     framework7: {
       root: '#app', //Should be same as app.el
       animateNavBackIcon: true,
+      material: true,
       routes: Routes,
     },
     // Custom App Methods

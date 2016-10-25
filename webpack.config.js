@@ -8,11 +8,11 @@ const path = require('path') ;
 module.exports = {
 
     entry: {
-        app : "./app/app.js",
+        app : "./kitchen-sink/app.js",
     },
     
     output: {       
-        path  : __dirname + '/app/',
+        path  : __dirname + '/kitchen-sink/',
         publicPath:'/',
         filename: 'build.js'
     },
