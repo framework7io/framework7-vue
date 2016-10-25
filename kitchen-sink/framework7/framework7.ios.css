@@ -12,7 +12,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 24, 2016
+ * Released on: October 25, 2016
  */
 html,
 body,
@@ -1991,7 +1991,7 @@ html:not(.watch-active-state) .searchbar.searchbar-active .searchbar-cancel:acti
   border-radius: 17px;
   box-shadow: none;
   display: block;
-  padding: 6px 8px 6px 15px;
+  padding: 6px 15px;
   margin: 0;
   width: 100%;
   height: 34px;
@@ -2017,33 +2017,6 @@ html:not(.watch-active-state) .searchbar.searchbar-active .searchbar-cancel:acti
 }
 .messagebar textarea + .link {
   margin-left: 8px;
-}
-.messagebar .messagebar-send-link {
-  position: absolute;
-  right: 8px;
-  height: 27px;
-  width: 27px;
-  border-radius: 50%;
-  background: #007aff;
-  margin-right: 4px;
-  bottom: 9px;
-  text-align: center;
-  line-height: 27px;
-  font-size: 0;
-}
-html:not(.watch-active-state) .messagebar .messagebar-send-link:active,
-.messagebar .messagebar-send-link.active-state {
-  opacity: 0.3;
-}
-.messagebar .messagebar-send-link i.icon {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate3d(-50%, -50%, 0);
-  transform: translate3d(-50%, -50%, 0);
-}
-.messagebar .messagebar-send-link + textarea {
-  padding-right: 39px;
 }
 .messagebar .link {
   -webkit-flex-shrink: 0;
@@ -2164,17 +2137,6 @@ i.icon.icon-next {
 }
 i.icon.icon-prev {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2015%2015'%3E%3Cg%3E%3Cpath%20fill%3D'%23007aff'%20d%3D'M14%2C1.6v11.8L2.2%2C7.6L14%2C1.6%20M15%2C0L0%2C7.6L15%2C15V0L15%2C0z'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-}
-i.icon.icon-arrow-up,
-i.icon.icon-arrow-down {
-  width: 12px;
-  height: 15px;
-}
-i.icon.icon-arrow-up {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D'0%200%2036%2044'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke%3D'none'%20stroke-width%3D'1'%20fill%3D'none'%20fill-rule%3D'evenodd'%3E%3Cpath%20d%3D'M22.2999878%2C12.4271301%20L22.2999878%2C40.4993613%20C22.2999878%2C42.4327107%2020.7290512%2C44%2018.7999878%2C44%20C16.8669912%2C44%2015.2999878%2C42.4314309%2015.2999878%2C40.4993613%20L15.2999878%2C11.601935%20L6.9310438%2C19.9708789%20C5.56133209%2C21.3405906%203.34014142%2C21.3401414%201.97608764%2C19.9760876%20C0.609252617%2C18.6092526%200.608381903%2C16.3940459%201.98129633%2C15.0211315%20L15.8437366%2C1.15869121%20C16.5286358%2C0.473792046%2017.4264316%2C0.131476442%2018.3235066%2C0.130924702%20C19.2618035%2C0.0973903921%2020.2119572%2C0.439604649%2020.9310438%2C1.15869121%20L34.7934841%2C15.0211315%20C36.1631958%2C16.3908432%2036.1627465%2C18.6120339%2034.7986928%2C19.9760876%20C33.4318577%2C21.3429227%2031.216651%2C21.3437934%2029.8437366%2C19.9708789%20L22.2999878%2C12.4271301%20Z'%20fill%3D'%23007aff'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-}
-i.icon.icon-arrow-down {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D'0%200%2036%2044'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke%3D'none'%20stroke-width%3D'1'%20fill%3D'none'%20fill-rule%3D'evenodd'%3E%3Cpath%20d%3D'M22.2999878%2C12.4271301%20L22.2999878%2C40.4993613%20C22.2999878%2C42.4327107%2020.7290512%2C44%2018.7999878%2C44%20C16.8669912%2C44%2015.2999878%2C42.4314309%2015.2999878%2C40.4993613%20L15.2999878%2C11.601935%20L6.9310438%2C19.9708789%20C5.56133209%2C21.3405906%203.34014142%2C21.3401414%201.97608764%2C19.9760876%20C0.609252617%2C18.6092526%200.608381903%2C16.3940459%201.98129633%2C15.0211315%20L15.8437366%2C1.15869121%20C16.5286358%2C0.473792046%2017.4264316%2C0.131476442%2018.3235066%2C0.130924702%20C19.2618035%2C0.0973903921%2020.2119572%2C0.439604649%2020.9310438%2C1.15869121%20L34.7934841%2C15.0211315%20C36.1631958%2C16.3908432%2036.1627465%2C18.6120339%2034.7986928%2C19.9760876%20C33.4318577%2C21.3429227%2031.216651%2C21.3437934%2029.8437366%2C19.9708789%20L22.2999878%2C12.4271301%20Z'%20fill%3D'%23007aff'%20transform%3D'translate(18.386268%2C%2022.064340)%20rotate(-180.000000)%20translate(-18.386268%2C%20-22.064340)%20'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 i.icon.icon-plus {
   width: 25px;
