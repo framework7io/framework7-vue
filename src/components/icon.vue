@@ -17,10 +17,10 @@
       materialTextComputed: function () {
         var self = this;
         var text = self.material;
-        if (self.ifMaterial && self.$material && self.ifMaterial.indexOf('material:')>=0) {
+        if (self.ifMaterial && self.$theme.material && self.ifMaterial.indexOf('material:')>=0) {
           text = self.ifMaterial.split(':')[1];
         }
-        else if (self.ifIos && self.$ios && self.ifIos.indexOf('material:')>=0) {
+        else if (self.ifIos && self.$theme.ios && self.ifIos.indexOf('material:')>=0) {
           text = self.ifIos.split(':')[1];
         }
         return text;
@@ -29,7 +29,7 @@
         var co = {};
         var self = this;
         if (self.ifMaterial || self.ifIos) {
-          var parts = self[self.$material ? 'ifMaterial' : 'ifIos'].split(':');
+          var parts = self[self.$theme.material ? 'ifMaterial' : 'ifIos'].split(':');
           var prop = parts[0];
           var value = parts[1];
           if (prop === 'material' || prop === 'fa') {

@@ -11,7 +11,7 @@
         >
         <a href="#" class="searchbar-clear" @click="onClearClick" v-if="clear"></a>
       </div>
-      <a href="#" class="searchbar-cancel" @click="onCancelClick" v-if="cancelLink && !$material">{{cancelLink}}</a>
+      <a href="#" class="searchbar-cancel" @click="onCancelClick" v-if="cancelLink && !$theme.material">{{cancelLink}}</a>
     </slot>
   </form>
 </template>

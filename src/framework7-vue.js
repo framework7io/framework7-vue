@@ -79,32 +79,31 @@ export default {
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
     Vue.prototype.$t7 = window.Template7;
+    Vue.prototype.$device = window.Framework7.prototype.device;
 
-    // Detect and load Theme
+    // Theme
+    var theme = {
+      ios: false,
+      material: false
+    };
+
+    Vue.prototype.$theme = theme;
+
     if (parameters.theme === 'auto') {
       if (window && window.navigator.userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)) {
-        parameters.theme = 'material';
+        theme.material = true;
       }
       else {
-        parameters.theme = 'ios';
+        theme.ios = true;
       }
     }
     if (parameters.theme === 'material') {
-      parameters.ios = false;
-      parameters.material = true;
-      Vue.prototype.$ios = false;
-      Vue.prototype.$material = true;
+      theme.ios = false;
+      theme.material = true;
     }
     else if (parameters.theme === 'ios') {
-      parameters.ios = true;
-      parameters.material = false;
-      Vue.prototype.$ios = false;
-      Vue.prototype.$material = true;
-    }
-    if (parameters.theme && parameters[parameters.theme + 'Styles']) {
-      parameters[parameters.theme + 'Styles'].forEach(function (stylesheet) {
-        $$('head').append('<link rel="stylesheet" href="' +stylesheet+ '">');
-      });
+      theme.ios = true;
+      theme.material = false;
     }
 
     // Parse Route
@@ -216,7 +215,7 @@ export default {
       }
 
       // Material
-      if (typeof f7Params.material === 'undefined' && Vue.prototype.$material) {
+      if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
       }
       // Modify Parameters
@@ -249,10 +248,16 @@ export default {
     Vue.mixin({
       beforeCreate: function () {
         var self = this;
+        // Route
         if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) self.$route = self.$parent.$parent.$route;
-        if (typeof self.$material === 'undefined') {
-          Vue.prototype.$material = (self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.material;
-          Vue.prototype.$ios = !Vue.prototype.$material;
+        // Theme
+        if (theme.ios === false && theme.material === false) {
+          if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
+            theme.material = true;
+          }
+          else {
+            theme.ios = true;
+          }
         }
       },
       mounted: function () {

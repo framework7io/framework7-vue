@@ -5,8 +5,8 @@
       href="#"
       back
       icon="icon-back"
-      :class="{'icon-only': backLink === true}"
-      :text="backLink !== true && !$material ? backLink : undefined"
+      :class="{'icon-only': (backLink === true || backLink && $theme.material)}"
+      :text="backLink !== true && !$theme.material ? backLink : undefined"
       ></f7-link>
     <slot></slot>
   </div>
