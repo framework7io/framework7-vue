@@ -1,4 +1,5 @@
 {
     "esnext": true,
-    "withstmt": true
+    "withstmt": true,
+    "asi": true
 }
