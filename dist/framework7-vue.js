@@ -1,3 +1,16 @@
+/**
+ * Framework7 Vue 0.5.0
+ * Full Featured Mobile HTML Framework For Building iOS & Android Apps
+ * http://www.framework7.io/
+ * 
+ * Copyright 2016, Vladimir Kharlampidi
+ * The iDangero.us
+ * http://www.idangero.us/
+ * 
+ * Licensed under MIT
+ * 
+ * Released on: October 25, 2016
+ */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -6,31 +19,28 @@
 
 var StatusBar = {render: function(){with(this){return _m(0)}},staticRenderFns: [function(){with(this){return _h('div',{staticClass:"statusbar-overlay"})}}],};
 
-var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",class:'panel-' + sideComputed + ' panel-' + effectComputed},[_t("default")])}},staticRenderFns: [],
+var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",class:classesObject},[_t("default")])}},staticRenderFns: [],
   props: {
     'side': String,
     'effect': String,
     'cover': Boolean,
     'reveal': Boolean,
     'left': Boolean,
-    'right': Boolean
+    'right': Boolean,
+    'theme': String,
+    'layout': String
   },
   computed: {
-    sideComputed: function () {
-      if (!this.side) {
-        if (this.left) { return 'left'; }
-        if (this.right) { return 'right'; }
-        return 'right'
-      }
-      return this.side;
-    },
-    effectComputed: function () {
-      if (!this.effect) {
-        if (this.cover) { return 'cover'; }
-        if (this.reveal) { return 'reveal'; }
-        return 'cover'
-      }
-      return this.effect;
+    classesObject: function () {
+      var self = this;
+      var side = self.side || (self.left ? 'left' : 'right');
+      var effect = self.effect || (self.reveal ? 'reveal' : 'cover');
+      var co = {};
+      co['panel-' + side] = true;
+      co['panel-' + effect] = true;
+      if (self.layout) { co['layout-' + self.layout] = true; }
+      if (self.theme) { co['theme-' + self.theme] = true; }
+      return co;
     }
   }
 };
@@ -53,7 +63,7 @@ var Views = {render: function(){with(this){return _h('div',{staticClass:"views",
     classObject: function () {
       var co = {
         'tabs': this.tabs,
-        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$material,
+        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
         'navbar-through': this.navbarThrough,
         'toolbar-fixed': this.toolbarFixed,
         'toolbar-through': this.toolbarThrough,
@@ -80,7 +90,7 @@ var View = {
       }
     }
     if (!hasPages) { pagesEl = c('f7-pages'); }
-    if (!hasNavbar && !self.$material && self.dynamicNavbar) {
+    if (!hasNavbar && !self.$theme.material && self.dynamicNavbar) {
       navbarEl = c('f7-navbar');
     }
 
@@ -137,7 +147,7 @@ var View = {
         'view-main': this.main,
         'active': this.active,
         'tab': this.tab,
-        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$material,
+        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
         'navbar-through': this.navbarThrough,
         'toolbar-fixed': this.toolbarFixed,
         'toolbar-through': this.toolbarThrough,
@@ -219,7 +229,7 @@ var Pages = {render: function(){with(this){return _h('div',{staticClass:"pages",
   computed: {
     classesObject: function () {
       var co = {
-        'navbar-fixed': this.navbarFixed,
+        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
         'navbar-through': this.navbarThrough,
         'toolbar-fixed': this.toolbarFixed,
         'toolbar-through': this.toolbarThrough,
@@ -375,7 +385,7 @@ var Page = {
       var co = {
         'page': true,
         'cached': this.cached,
-        'navbar-fixed': this.navbarFixed,
+        'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
         'navbar-through': this.navbarThrough,
         'toolbar-fixed': this.toolbarFixed,
         'toolbar-through': this.toolbarThrough,
@@ -502,7 +512,7 @@ var NavCenter = {render: function(){with(this){return _h('div',{staticClass:"cen
   }
 };
 
-var NavLeft = {render: function(){with(this){return _h('div',{staticClass:"left",class:{sliding:sliding}},[(backLink)?_h('f7-link',{class:{'icon-only': backLink === true},attrs:{"href":"#","back":"","icon":"icon-back","text":backLink !== true && !$material ? backLink : undefined}}):_e(),_t("default")])}},staticRenderFns: [],
+var NavLeft = {render: function(){with(this){return _h('div',{staticClass:"left",class:{sliding:sliding}},[(backLink)?_h('f7-link',{class:{'icon-only': (backLink === true || backLink && $theme.material)},attrs:{"href":"#","back":"","icon":"icon-back","text":backLink !== true && !$theme.material ? backLink : undefined}}):_e(),_t("default")])}},staticRenderFns: [],
   props: {
     backLink: [Boolean, String],
     sliding: Boolean
@@ -546,19 +556,22 @@ var Toolbar = {render: function(){with(this){return _h('div',{staticClass:"toolb
 };
 
 var Card = {
-  template: '',
-  created: function () {
-    var template = '<div class="card">';
+  render: function (c) {
     var self = this;
-    ['header', 'content', 'footer'].forEach(function (part) {
-      var prop = part;
-      if (part === 'header') { prop = 'title'; }
-      if (self[prop]) { template += '<f7-card-' + (part) + '>' + self[prop] + '</f7-card-' + (part) + '>'; }
-    });
-    template += '<slot></slot>';
-    template += '</div>';
+    var headerEl, contentEl, contentChildEl, footerEl;
 
-    this.$options.template = template;
+    if (self.title) {
+      headerEl = c('f7-card-header', {domProps: {innerHTML: self.title}});
+    }
+    if (self.content) {
+      contentChildEl = c('div', {domProps: {innerHTML: self.content}});
+      contentEl = c('f7-card-content', {}, [contentChildEl]);
+    }
+    if (self.footer) {
+      footerEl = c('f7-card-footer', {domProps: {innerHTML: self.footer}});
+    }
+
+    return c('div', {class: {'card': true}}, [headerEl, contentEl, footerEl, self.$slots.default]);
   },
   props: ['title', 'content', 'footer']
 };
@@ -575,7 +588,9 @@ var ContentBlock = {render: function(){with(this){return _h('div',{staticClass:"
     'inner': Boolean,
     'tabs': Boolean,
     'tab': Boolean,
-    'active': Boolean
+    'active': Boolean,
+    'no-hairlines': Boolean,
+    'no-hairlines-between': Boolean,
   },
   computed: {
     classesObject: function () {
@@ -584,7 +599,9 @@ var ContentBlock = {render: function(){with(this){return _h('div',{staticClass:"
         'inset': self.inset,
         'tabs': self.tabs,
         'tab': self.tab,
-        'active': self.active
+        'active': self.active,
+        'no-hairlines': self.noHairlines,
+        'no-hairlines-between': self.noHairlinesBetween,
       }
     }
   }
@@ -613,10 +630,10 @@ var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",clas
     materialTextComputed: function () {
       var self = this;
       var text = self.material;
-      if (self.ifMaterial && self.$material && self.ifMaterial.indexOf('material:')>=0) {
+      if (self.ifMaterial && self.$theme.material && self.ifMaterial.indexOf('material:')>=0) {
         text = self.ifMaterial.split(':')[1];
       }
-      else if (self.ifIos && self.$ios && self.ifIos.indexOf('material:')>=0) {
+      else if (self.ifIos && self.$theme.ios && self.ifIos.indexOf('material:')>=0) {
         text = self.ifIos.split(':')[1];
       }
       return text;
@@ -625,7 +642,7 @@ var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",clas
       var co = {};
       var self = this;
       if (self.ifMaterial || self.ifIos) {
-        var parts = self[self.$material ? 'ifMaterial' : 'ifIos'].split(':');
+        var parts = self[self.$theme.material ? 'ifMaterial' : 'ifIos'].split(':');
         var prop = parts[0];
         var value = parts[1];
         if (prop === 'material' || prop === 'fa') {
@@ -697,7 +714,9 @@ var List = {
           'contacts-block': self.contacts,
           'virtual-list': self.virtual,
           'tab': self.tab,
-          'active': self.active
+          'active': self.active,
+          'no-hairlines': self.noHairlines,
+          'no-hairlines-between': self.noHairlinesBetween
         },
         on: {
           open: self.onOpen,
@@ -720,6 +739,9 @@ var List = {
     'label': String,
     'accordion': Boolean,
     'contacts': Boolean,
+
+    'no-hairlines': Boolean,
+    'no-hairlines-between': Boolean,
 
     // Tab
     'tab': Boolean,
@@ -862,11 +884,33 @@ var ListItem = {
           'data-open-in': self.smartSelectOpenIn,
           'data-navbar-theme': self.smartSelectNavbarTheme,
           'data-form-theme': self.smartSelectFormTheme,
+
+          'data-view': typeof self.linkView === 'string' ? self.linkView : false,
+          'data-panel': typeof self.linkOpenPanel === 'string' ? self.linkOpenPanel : false,
+          'data-popup': typeof self.linkOpenPopup === 'string' ? self.linkOpenPopup : false,
+          'data-popover': typeof self.linkOpenPopover === 'string' ? self.linkOpenPopover : false,
+          'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
+          'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
+          'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : false,
+          'data-sortable': typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false,
         },
         'class': {
           'item-link': true,
           'external': self.linkExternal,
-          'smart-select': self.smartSelect
+          'smart-select': self.smartSelect,
+          'close-panel': self.linkClosePanel,
+          'open-panel': self.linkOpenPanel,
+          'close-popup': self.linkClosePopup,
+          'open-popup': self.linkOpenPopup,
+          'close-popover': self.linkClosePopover,
+          'open-popover': self.linkOpenPopover,
+          'close-picker': self.linkClosePicker,
+          'open-picker': self.linkOpenPicker,
+          'close-login-screen': self.linkCloseLoginScreen,
+          'open-login-screen': self.linkOpenLoginScreen,
+          'close-sortable': self.linkCloseSortable,
+          'open-sortable': self.linkOpenSortable,
+          'toggle-sortable': self.linkToggleSortable,
         },
         on: {
           click: self.onClick
@@ -934,7 +978,7 @@ var ListItem = {
 
     'link-view': String,
     'link-open-panel': [String, Boolean],
-    'link-close-panel': String,
+    'link-close-panel': Boolean,
     'link-open-popup': [String, Boolean],
     'link-close-popup': Boolean,
     'link-open-popover': [String, Boolean],
@@ -1044,9 +1088,9 @@ var ListItemContent = {
       });
     }
     // Media
-    if (self.media || self.checkbox || self.radio && self.$material) {
+    if (self.media || self.checkbox || self.radio && self.$theme.material) {
       inputIconEl = '<i class="icon icon-form-' +(self.radio ? 'radio' : 'checkbox')+ '"></i>';
-      if (self.checkbox || self.radio && self.$material) {
+      if (self.checkbox || self.radio && self.$theme.material) {
         mediaEl = c('div', {'class': {'item-media': true}, domProps: {innerHTML: inputIconEl + (self.media ? self.media : '')}});
       }
       else {
@@ -1176,7 +1220,7 @@ var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{
 
     // Panel
     openPanel: [String, Boolean],
-    closePanel: String,
+    closePanel: Boolean,
 
     // Popup
     openPopup: [String, Boolean],
@@ -1322,7 +1366,7 @@ var LinkMixin = {
 
     // Panel
     openPanel: [String, Boolean],
-    closePanel: String,
+    closePanel: Boolean,
 
     // Popup
     openPopup: [String, Boolean],
@@ -2033,7 +2077,7 @@ var Messagebar = {render: function(){with(this){return _h('div',{staticClass:"to
   }
 };
 
-var Searchbar = {render: function(){with(this){return _h('form',{staticClass:"searchbar",on:{"search":onSearch,"enablesearch":onEnable,"disablesearch":onDisable,"clearsearch":onClear}},[_t("default",[_h('div',{staticClass:"searchbar-input"},[_h('input',{attrs:{"type":"search","placeholder":placeholder},on:{"input":onInput,"change":onChange,"focus":onFocus,"blur":onBlur}})," ",(clear)?_h('a',{staticClass:"searchbar-clear",attrs:{"href":"#"},on:{"click":onClearClick}}):_e()]),(cancelLink && !$material)?_h('a',{staticClass:"searchbar-cancel",attrs:{"href":"#"},on:{"click":onCancelClick}},[_s(cancelLink)]):_e()])])}},staticRenderFns: [],
+var Searchbar = {render: function(){with(this){return _h('form',{staticClass:"searchbar",on:{"search":onSearch,"enablesearch":onEnable,"disablesearch":onDisable,"clearsearch":onClear}},[_t("default",[_h('div',{staticClass:"searchbar-input"},[_h('input',{attrs:{"type":"search","placeholder":placeholder},on:{"input":onInput,"change":onChange,"focus":onFocus,"blur":onBlur}})," ",(clear)?_h('a',{staticClass:"searchbar-clear",attrs:{"href":"#"},on:{"click":onClearClick}}):_e()]),(cancelLink && !$theme.material)?_h('a',{staticClass:"searchbar-cancel",attrs:{"href":"#"},on:{"click":onCancelClick}},[_s(cancelLink)]):_e()])])}},staticRenderFns: [],
   beforeDestroy: function () {
     if (this.f7Searchbar && this.f7Searchbar.destroy) { this.f7Searchbar.destroy(); }
   },
@@ -2449,32 +2493,31 @@ var framework7Vue = {
     Vue.prototype.$$ = $$;
     Vue.prototype.Template7 = window.Template7;
     Vue.prototype.$t7 = window.Template7;
+    Vue.prototype.$device = window.Framework7.prototype.device;
 
-    // Detect and load Theme
+    // Theme
+    var theme = {
+      ios: false,
+      material: false
+    };
+
+    Vue.prototype.$theme = theme;
+
     if (parameters.theme === 'auto') {
       if (window && window.navigator.userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)) {
-        parameters.theme = 'material';
+        theme.material = true;
       }
       else {
-        parameters.theme = 'ios';
+        theme.ios = true;
       }
     }
     if (parameters.theme === 'material') {
-      parameters.ios = false;
-      parameters.material = true;
-      Vue.prototype.$ios = false;
-      Vue.prototype.$material = true;
+      theme.ios = false;
+      theme.material = true;
     }
     else if (parameters.theme === 'ios') {
-      parameters.ios = true;
-      parameters.material = false;
-      Vue.prototype.$ios = false;
-      Vue.prototype.$material = true;
-    }
-    if (parameters.theme && parameters[parameters.theme + 'Styles']) {
-      parameters[parameters.theme + 'Styles'].forEach(function (stylesheet) {
-        $$('head').append('<link rel="stylesheet" href="' +stylesheet+ '">');
-      });
+      theme.ios = true;
+      theme.material = false;
     }
 
     // Parse Route
@@ -2586,7 +2629,7 @@ var framework7Vue = {
       }
 
       // Material
-      if (typeof f7Params.material === 'undefined' && Vue.prototype.$material) {
+      if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
       }
       // Modify Parameters
@@ -2619,10 +2662,16 @@ var framework7Vue = {
     Vue.mixin({
       beforeCreate: function () {
         var self = this;
+        // Route
         if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) { self.$route = self.$parent.$parent.$route; }
-        if (typeof self.$material === 'undefined') {
-          Vue.prototype.$material = (self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.material;
-          Vue.prototype.$ios = !Vue.prototype.$material;
+        // Theme
+        if (theme.ios === false && theme.material === false) {
+          if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
+            theme.material = true;
+          }
+          else {
+            theme.ios = true;
+          }
         }
       },
       mounted: function () {
@@ -2714,3 +2763,5 @@ var framework7Vue = {
 return framework7Vue;
 
 })));
+
+//# sourceMappingURL=framework7-vue.js.map
