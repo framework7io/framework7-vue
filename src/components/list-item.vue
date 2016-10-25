@@ -52,8 +52,7 @@
             'data-popover': typeof self.linkOpenPopover === 'string' ? self.linkOpenPopover : false,
             'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
             'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
-            'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : false,
-            'data-sortable': typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false,
+            'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : (typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false),
           },
           'class': {
             'item-link': true,
