@@ -45,11 +45,33 @@
             'data-open-in': self.smartSelectOpenIn,
             'data-navbar-theme': self.smartSelectNavbarTheme,
             'data-form-theme': self.smartSelectFormTheme,
+
+            'data-view': typeof self.linkView === 'string' ? self.linkView : false,
+            'data-panel': typeof self.linkOpenPanel === 'string' ? self.linkOpenPanel : false,
+            'data-popup': typeof self.linkOpenPopup === 'string' ? self.linkOpenPopup : false,
+            'data-popover': typeof self.linkOpenPopover === 'string' ? self.linkOpenPopover : false,
+            'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
+            'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
+            'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : false,
+            'data-sortable': typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false,
           },
           'class': {
             'item-link': true,
             'external': self.linkExternal,
-            'smart-select': self.smartSelect
+            'smart-select': self.smartSelect,
+            'close-panel': self.linkClosePanel,
+            'open-panel': self.linkOpenPanel,
+            'close-popup': self.linkClosePopup,
+            'open-popup': self.linkOpenPopup,
+            'close-popover': self.linkClosePopover,
+            'open-popover': self.linkOpenPopover,
+            'close-picker': self.linkClosePicker,
+            'open-picker': self.linkOpenPicker,
+            'close-login-screen': self.linkCloseLoginScreen,
+            'open-login-screen': self.linkOpenLoginScreen,
+            'close-sortable': self.linkCloseSortable,
+            'open-sortable': self.linkOpenSortable,
+            'toggle-sortable': self.linkToggleSortable,
           },
           on: {
             click: self.onClick
@@ -117,7 +139,7 @@
 
       'link-view': String,
       'link-open-panel': [String, Boolean],
-      'link-close-panel': String,
+      'link-close-panel': Boolean,
       'link-open-popup': [String, Boolean],
       'link-close-popup': Boolean,
       'link-open-popover': [String, Boolean],

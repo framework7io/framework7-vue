@@ -41,7 +41,7 @@
 
       // Panel
       openPanel: [String, Boolean],
-      closePanel: String,
+      closePanel: Boolean,
 
       // Popup
       openPopup: [String, Boolean],
