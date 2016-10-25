@@ -1,2 +1,11 @@
-# Framework7-Vue
-WIP
+# Framework7 + Vue = ♥
+
+Install Dependencies
+```
+$ npm i
+```
+
+Start Kitchen Sink:
+```
+$ npm run dev
+```
