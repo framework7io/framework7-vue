@@ -2312,6 +2312,16 @@ html:not(.watch-active-state) .chip-delete:active,
   color: #6d6d72;
   box-sizing: border-box;
 }
+.content-block.no-hairlines:before,
+.content-block.no-hairlines ul:before,
+.content-block.no-hairlines .content-block-inner:before {
+  display: none;
+}
+.content-block.no-hairlines:after,
+.content-block.no-hairlines ul:after,
+.content-block.no-hairlines .content-block-inner:after {
+  display: none;
+}
 .content-block-title {
   position: relative;
   overflow: hidden;
@@ -3058,6 +3068,23 @@ html.pixel-ratio-3 .list-block li li:last-child .item-inner:after,
 html.pixel-ratio-3 .list-block li:last-child li .item-inner:after {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
+}
+.list-block.no-hairlines:before,
+.list-block.no-hairlines ul:before,
+.list-block.no-hairlines .content-block-inner:before {
+  display: none;
+}
+.list-block.no-hairlines:after,
+.list-block.no-hairlines ul:after,
+.list-block.no-hairlines .content-block-inner:after {
+  display: none;
+}
+.list-block.no-hairlines-between .item-inner:after,
+.list-block.no-hairlines-between .list-button:after,
+.list-block.no-hairlines-between .item-divider:after,
+.list-block.no-hairlines-between .list-group-title:after,
+.list-block.no-hairlines-between .list-group-title:after {
+  display: none;
 }
 /* === Contacts === */
 .contacts-content {
@@ -4072,6 +4099,9 @@ html.pixel-ratio-3 .modal-buttons-vertical .modal-button:after {
   width: 100%;
   -webkit-transform: translate3d(0, 100%, 0);
   transform: translate3d(0, 100%, 0);
+  max-height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 @media (min-width: 496px) {
   .actions-modal {
