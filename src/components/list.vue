@@ -42,7 +42,9 @@
             'contacts-block': self.contacts,
             'virtual-list': self.virtual,
             'tab': self.tab,
-            'active': self.active
+            'active': self.active,
+            'no-hairlines': self.noHairlines,
+            'no-hairlines-between': self.noHairlinesBetween
           },
           on: {
             open: self.onOpen,
@@ -65,6 +67,9 @@
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
+
+      'no-hairlines': Boolean,
+      'no-hairlines-between': Boolean,
 
       // Tab
       'tab': Boolean,

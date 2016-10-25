@@ -13,7 +13,9 @@
       'inner': Boolean,
       'tabs': Boolean,
       'tab': Boolean,
-      'active': Boolean
+      'active': Boolean,
+      'no-hairlines': Boolean,
+      'no-hairlines-between': Boolean,
     },
     computed: {
       classesObject: function () {
@@ -22,7 +24,9 @@
           'inset': self.inset,
           'tabs': self.tabs,
           'tab': self.tab,
-          'active': self.active
+          'active': self.active,
+          'no-hairlines': self.noHairlines,
+          'no-hairlines-between': self.noHairlinesBetween,
         }
       }
     }
