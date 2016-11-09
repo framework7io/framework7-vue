@@ -13,6 +13,7 @@
       iconMaterial: String,
       iconIon: String,
       iconFa: String,
+      iconF7: String,
       rippleColor: String,
       href: {
         type: String,

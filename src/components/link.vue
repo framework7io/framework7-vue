@@ -15,6 +15,7 @@
           material: self.iconMaterial,
           ion: self.iconIon,
           fa: self.iconFa,
+          f7: self.iconF7,
           icon: self.icon
         }}, [iconBadgeEl])
       }
