@@ -1,8 +1,8 @@
 /**
- * Framework7 1.4.2
- * Full Featured Mobile HTML Framework For Building iOS & Android Apps
+ * Framework7 1.5.0
+ * Full featured mobile HTML framework for building iOS & Android apps
  * 
- * http://www.idangero.us/framework7
+ * http://framework7.io/
  * 
  * Copyright 2016, Vladimir Kharlampidi
  * The iDangero.us
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 24, 2016
+ * Released on: November 8, 2016
  */
 (function () {
 
@@ -23,7 +23,7 @@
         var app = this;
     
         // Version
-        app.version = '1.4.2';
+        app.version = '1.5.0';
     
         // Default Parameters
         app.params = {
@@ -41,6 +41,7 @@
             allowDuplicateUrls: false,
             router: true,
             routerRemoveTimeout: false,
+            routerRemoveWithTimeout: false,
             // Push State
             pushState: false,
             pushStateRoot: undefined,
@@ -83,6 +84,7 @@
             swipeout: true,
             swipeoutActionsNoFold: false,
             swipeoutNoFollow: false,
+            swipeoutRemoveWithTimeout: false,
             // Smart Select Back link template
             smartSelectOpenIn: 'page', // or 'popup' or 'picker'
             smartSelectBackText: 'Back',
@@ -247,6 +249,9 @@
             // Content cache
             view.contentCache = {};
         
+            // Context cache
+            view.contextCache = {};
+        
             // Pages cache
             view.pagesCache = {};
             view.pageElementsCache = {};
@@ -289,7 +294,7 @@
                     viewURL = pushStateRoot;
                 }
                 else {
-                    if (viewURL.indexOf(pushStateSeparator) >= 0 && viewURL.indexOf(pushStateSeparator + '#') < 0) viewURL = viewURL.split(pushStateSeparator)[0];
+                    if (pushStateSeparator && viewURL.indexOf(pushStateSeparator) >= 0 && viewURL.indexOf(pushStateSeparator + '#') < 0) viewURL = viewURL.split(pushStateSeparator)[0];
                 }
         
             }
@@ -1953,7 +1958,7 @@
         ======================================================*/
         app.router = {
             _remove: function (el) {
-                if (app.params.routerRemoveTimeout) {
+                if (app.params.routerRemoveTimeout || app.params.routerRemoveWithTimeout) {
                     setTimeout(function () {
                         $(el).remove();
                     }, 0);
@@ -2135,7 +2140,12 @@
                     t7_template = template;
                 }
         
-                if (context) t7_ctx = context;
+                if (context) {
+                    t7_ctx = context;
+                    if (context && url) {
+                        view.contextCache[url] = context;
+                    }
+                }
                 else {
                     if (contextName) {
                         if (contextName.indexOf('.') >= 0) {
@@ -2165,7 +2175,12 @@
                             if (t7.templates[templateName] === template) t7_ctx = t7.data[templateName];
                         }
                     }
-                    if (!t7_ctx) t7_ctx = {};
+                    if (!t7_ctx && url && url in view.contextCache) {
+                        t7_ctx = view.contextCache[url];
+                    }
+                    if (!t7_ctx) {
+                        t7_ctx = {};
+                    }
                 }
         
                 if (t7_template && t7_ctx) {
@@ -2417,6 +2432,13 @@
                     (view.history.indexOf(lastUrl) === -1 || view.history.indexOf(lastUrl) === view.history.length - 1)) {
                     view.pageElementsCache[lastUrl] = null;
                     delete view.pageElementsCache[lastUrl];
+                }
+                if (lastUrl &&
+                    lastUrl in view.contextCache &&
+                    lastUrl !== url &&
+                    (view.history.indexOf(lastUrl) === -1 || view.history.indexOf(lastUrl) === view.history.length - 1)) {
+                    view.contextCache[lastUrl] = null;
+                    delete view.contextCache[lastUrl];
                 }
                 view.history[view.history.length - (options.reloadPrevious ? 2 : 1)] = url;
             }
@@ -3158,6 +3180,14 @@
                 view.history.indexOf(previousURL) === -1) {
                 view.pageElementsCache[previousURL] = null;
                 delete view.pageElementsCache[previousURL];
+            }
+            // Check for context cache
+            if (previousURL &&
+                (previousURL in view.contextCache) &&
+                // If the same page is in the history multiple times, don't remove it.
+                view.history.indexOf(previousURL) === -1) {
+                view.contextCache[previousURL] = null;
+                delete view.contextCache[previousURL];
             }
         
             if (app.params.pushState && view.main) app.pushStateClearQueue();
@@ -4440,7 +4470,9 @@
             var defaults = {
                 autoLayout: true,
                 newMessagesFirst: false,
-                messageTemplate: 
+                scrollMessages: true,
+                scrollMessagesOnlyOnEdge: false,
+                messageTemplate:
                     '{{#if day}}' +
                     '<div class="messages-date">{{day}} {{#if time}}, <span>{{time}}</span>{{/if}}</div>' +
                     '{{/if}}' +
@@ -4486,7 +4518,16 @@
                 if (!m.container.hasClass('messages-auto-layout')) m.container.addClass('messages-auto-layout');
                 m.container.find('.message').each(function () {
                     var message = $(this);
-                    if (message.find('.message-text img').length > 0) message.addClass('message-pic');
+                    if (message.find('.message-text img').length > 0) {
+                        var childNodes = message.find('.message-text')[0].childNodes;
+                        var onlyPic = true;
+                        for (var i = 0 ; i < childNodes.length; i++) {
+                            if (childNodes[i].nodeType === 1 && childNodes[i].nodeName.toLowerCase() !== 'img') onlyPic = false;
+                            if (childNodes[i].nodeType === 3 && childNodes[i].textContent.trim() !== '') onlyPic = false;
+                        }
+                        if (onlyPic) message.addClass('message-pic');
+                        else message.removeClass('message-pic');
+                    }
                     if (message.find('.message-avatar').length > 0) message.addClass('message-with-avatar');
                 });
                 m.container.find('.message').each(function () {
@@ -4511,7 +4552,6 @@
                         }
                     }
                 });
-                
             };
         
             // Add Message
@@ -4537,22 +4577,31 @@
                     props.type = props.type || 'sent';
                     if (!props.text) continue;
                     props.hasImage = props.text.indexOf('<img') >= 0;
+                    if (props.onlyImage === false) props.hasImage = false;
                     if (animate) props.position = method === 'append' ? 'bottom' : 'top';
         
                     newMessagesHTML += m.template(props);
                 }
-                var heightBefore, scrollBefore;
-                if (method === 'prepend') {
-                    heightBefore = m.pageContent[0].scrollHeight;
+                var scrollHeightBefore = m.pageContent[0].scrollHeight,
+                    heightBefore = m.pageContent[0].offsetHeight,
                     scrollBefore = m.pageContent[0].scrollTop;
-                }
                 m.container[method](newMessagesHTML);
                 if (m.params.autoLayout) m.layout();
                 if (method === 'prepend') {
-                    m.pageContent[0].scrollTop = scrollBefore + (m.pageContent[0].scrollHeight - heightBefore);
+                    m.pageContent[0].scrollTop = scrollBefore + (m.pageContent[0].scrollHeight - scrollHeightBefore);
                 }
-                if ((method === 'append' && !m.params.newMessagesFirst) || (method === 'prepend' && m.params.newMessagesFirst)) {
-                    m.scrollMessages(animate ? undefined : 0);
+                if (m.params.scrollMessages && (method === 'append' && !m.params.newMessagesFirst) || (method === 'prepend' && m.params.newMessagesFirst)) {
+                    if (m.params.scrollMessagesOnlyOnEdge) {
+                        var onEdge = false;
+                        if (m.params.newMessagesFirst) {
+                            if (scrollBefore === 0) onEdge = true;
+                        }
+                        else {
+                            if (scrollBefore - (scrollHeightBefore - heightBefore) >= -10) onEdge = true;
+                        }
+                        if (onEdge) m.scrollMessages(animate ? undefined : 0);
+                    }
+                    else m.scrollMessages(animate ? undefined : 0);
                 }
                 var messages = m.container.find('.message');
                 if (newMessages.length === 1) {
@@ -4568,11 +4617,11 @@
                     else {
                         for (i = 0; i < newMessages.length; i++) {
                             messagesToReturn.push(messages[i]);
-                        }   
+                        }
                     }
                     return messagesToReturn;
                 }
-                
+        
             };
             m.removeMessage = function (message) {
                 message = $(message);
@@ -4611,10 +4660,10 @@
                     m.addMessages(m.params.messages, undefined, false);
                 }
                 else {
-                    if (m.params.autoLayout) m.layout();    
+                    if (m.params.autoLayout) m.layout();
                     m.scrollMessages(0);
                 }
-                
+        
             };
             m.destroy = function () {
                 m = null;
@@ -5043,7 +5092,12 @@
                     if (virtualList && typeof virtualIndex !== 'undefined') virtualList.deleteItem(virtualIndex);
                 }
                 else {
-                    el.remove();
+                    if (app.params.swipeoutRemoveWithTimeout) {
+                        setTimeout(function () {
+                            el.remove();
+                        }, 0);
+                    }
+                    else el.remove();
                 }
             });
             var translate = '-100%';
@@ -5224,9 +5278,17 @@
                         itemAfter.text(valueText.join(', '));
                     }
                 }
-                
+        
+                $select.on('change', function () {
+                    var valueText = [];
+                    for (var i = 0; i < select.length; i++) {
+                        if (select[i].selected) valueText.push(select[i].textContent.trim());
+                    }
+                    smartSelect.find('.item-after').text(valueText.join(', '));
+                });
+        
             });
-            
+        
         };
         app.smartSelectAddOption = function (select, option, index) {
             select = $(select);
@@ -5954,9 +6016,14 @@
                 vl.render();
             };
             // Handle resize event
+            vl._isVisible = function (el) {
+                return !!( el.offsetWidth || el.offsetHeight || el.getClientRects().length );
+            };
             vl.handleResize = function (e) {
-                vl.setListSize();
-                vl.render(true);
+                if (vl._isVisible(vl.listBlock[0])) {
+                    vl.setListSize();
+                    vl.render(true);
+                }
             };
         
             vl.attachEvents = function (detach) {
@@ -7534,13 +7601,11 @@
                 }
         
                 // Speed Dial
-                if (app.params.material) {
-                    if (clicked.hasClass('floating-button') && clicked.parent().hasClass('speed-dial')) {
-                        clicked.parent().toggleClass('speed-dial-opened');
-                    }
-                    if (clicked.hasClass('close-speed-dial')) {
-                        $('.speed-dial-opened').removeClass('speed-dial-opened');
-                    }
+                if (clicked.hasClass('floating-button') && clicked.parent().hasClass('speed-dial')) {
+                    clicked.parent().toggleClass('speed-dial-opened');
+                }
+                if (clicked.hasClass('close-speed-dial')) {
+                    $('.speed-dial-opened').removeClass('speed-dial-opened');
                 }
         
                 // Load Page
@@ -7789,6 +7854,9 @@
                             input.val(formData[name]);
                             break;
                     }
+                }
+                if (tag === 'select' && input.parents('.smart-select').length > 0) {
+                    input.trigger('change');
                 }
             });
             form.trigger('formFromJSON formFromData', {formData: formData});
@@ -8922,18 +8990,20 @@
                     pageContent = a.input.parents('.page-content'),
                     paddingTop = parseInt(pageContent.css('padding-top'), 10),
                     paddingBottom = parseInt(pageContent.css('padding-top'), 10),
-                    inputOffset = a.input.offset(),
-                    listBlockOffset = listBlock.length > 0 ? listBlock.offset() : 0,
-                    maxHeight = pageContent[0].scrollHeight - paddingBottom - (inputOffset.top + pageContent[0].scrollTop) - a.input[0].offsetHeight;
+                    // inputOffset = a.input.offset(),
+                    listBlockOffsetLeft = listBlock.length > 0 ? listBlock.offset().left - listBlock.parent().offset().left : 0,
+                    inputOffsetLeft = a.input.offset().left - (listBlock.length > 0 ? listBlock.offset().left : 0),
+                    inputOffsetTop = a.input.offset().top - (pageContent.offset().top - pageContent[0].scrollTop),
+                    maxHeight = pageContent[0].scrollHeight - paddingBottom - (inputOffsetTop + pageContent[0].scrollTop) - a.input[0].offsetHeight;
         
                 a.dropdown.css({
-                    left: (listBlock.length > 0 ? listBlockOffset.left : inputOffset.left) + 'px',
-                    top: inputOffset.top + pageContent[0].scrollTop + a.input[0].offsetHeight + 'px',
+                    left: (listBlock.length > 0 ? listBlockOffsetLeft : inputOffsetLeft) + 'px',
+                    top: inputOffsetTop + pageContent[0].scrollTop + a.input[0].offsetHeight + 'px',
                     width: (listBlock.length > 0 ? listBlock[0].offsetWidth : a.input[0].offsetWidth) + 'px'
                 });
                 a.dropdown.children('.autocomplete-dropdown-inner').css({
                     maxHeight: maxHeight + 'px',
-                    paddingLeft: listBlock.length > 0 && !a.params.expandInput ? inputOffset.left - (material ? 16 : 15) + 'px' : ''
+                    paddingLeft: listBlock.length > 0 && !a.params.expandInput ? inputOffsetLeft - (material ? 16 : 15) + 'px' : ''
                 });
             };
         
@@ -10922,7 +10992,10 @@
                 }, params.hold);
             }
         
-            list[params.material ? 'append' : 'prepend'](item[0]);
+            if (!app.params.material) {
+                app.closeNotification(list.children('li.notification-item:last-child'));
+            }
+            list.append(item[0]);
             container.show();
         
             var itemHeight = item.outerHeight(), clientLeft;
@@ -10936,13 +11009,13 @@
                 container.transition('');
             }
             else {
-                item.css('marginTop', -itemHeight + 'px');
+                item.transform('translate3d(0,' + (-itemHeight) + 'px,0)');
                 item.transition(0);
         
                 clientLeft = item[0].clientLeft;
         
                 item.transition('');
-                item.css('marginTop', '0px');
+                item.transform('translate3d(0,0px,0)');
             }
         
             container.transform('translate3d(0, 0,0)');
@@ -12198,10 +12271,6 @@
             fireAjaxCallback('ajaxStart', {xhr: xhr}, 'start', xhr);
             fireAjaxCallback(undefined, undefined, 'beforeSend', xhr);
         
-        
-            // Send XHR
-            xhr.send(postData);
-        
             // Timeout
             if (options.timeout > 0) {
                 xhr.onabort = function () {
@@ -12213,6 +12282,9 @@
                     fireAjaxCallback('ajaxComplete', {xhr: xhr, timeout: true}, 'complete', xhr, 'timeout');
                 }, options.timeout);
             }
+        
+            // Send XHR
+            xhr.send(postData);
         
             // Return XHR object
             return xhr;
@@ -12645,6 +12717,189 @@
     window.Dom7 = Dom7;
     
 
+    /*========================
+    Animate7 Animate Engine
+    ==========================*/
+    var Animate7 = function (elements, props, params) {
+        props = props || {};
+        params = params || {};
+        var defaults = {
+            duration: 300,
+            easing: 'swing', // or 'linear'
+            /* Callbacks
+            begin(elements)
+            complete(elements)
+            progress(elements, complete, remaining, start, tweenValue)
+            */
+        };
+    
+        for (var def in defaults) {
+            if (typeof params[def] === 'undefined') {
+                params[def] = defaults[def];
+            }
+        }
+    
+        var a = this;
+        a.params = params;
+        a.props = props;
+        a.elements = $(elements);
+        if (a.elements.length === 0) {
+            return a;
+        }
+    
+        a.easingProgress = function (easing, progress) {
+            if (easing === 'swing') {
+                return 0.5 - Math.cos( progress * Math.PI ) / 2;
+            }
+            if (typeof easing === 'function') {
+                return easing(progress);
+            }
+            return progress;
+        };
+    
+        a.stop = function () {
+            if (a.frameId) {
+                $.cancelAnimationFrame(a.frameId);
+            }
+            a.animating = false;
+            a.elements.each(function (index, el) {
+                delete el.animate7Instance;
+            });
+            a.que = [];
+        };
+        a.done = function (complete) {
+            a.animating = false;
+            a.elements.each(function (index, el) {
+                delete el.animate7Instance;
+            });
+            if (complete) complete(elements);
+            if (a.que.length > 0) {
+                var que = a.que.shift();
+                a.animate(que[0], que[1]);
+            }
+        };
+        a.animating = false;
+        a.que = [];
+        a.animate = function (props, params) {
+            if (a.animating) {
+                a.que.push([props, params]);
+                return a;
+            }
+            a.params = params;
+    
+            var _elements = [];
+    
+            // Define & Cache Initials & Units
+            a.elements.each(function (index, el) {
+                var initialFullValue, initialValue, unit, finalValue, finalFullValue;
+    
+                _elements[index] = {
+                    _container: el
+                };
+    
+                for (var prop in props) {
+                    initialFullValue = window.getComputedStyle(el, null).getPropertyValue(prop).replace(',', '.');
+                    initialValue = parseFloat(initialFullValue);
+                    unit = initialFullValue.replace(initialValue, '');
+                    finalValue = props[prop];
+                    finalFullValue = props[prop] + unit;
+                    _elements[index][prop] = {
+                        initialFullValue: initialFullValue,
+                        initialValue: initialValue,
+                        unit: unit,
+                        finalValue: finalValue,
+                        finalFullValue: finalFullValue,
+                        currentValue: initialValue
+                    };
+    
+                }
+            });
+    
+            var startTime = null,
+                time,
+                elementsDone = 0,
+                propsDone = 0,
+                done,
+                began = false;
+    
+            a.animating = true;
+    
+            function render() {
+                time = new Date().getTime();
+                var progress, easeProgress, el;
+                if (!began) {
+                    began = true;
+                    if (params.begin) params.begin(elements);
+                }
+                if (startTime === null) {
+                    startTime = time;
+                }
+                if (params.progress) {
+                    params.progress(
+                        a.elements,
+                        Math.max(Math.min((time - startTime) / params.duration, 1), 0),
+                        ((startTime + params.duration) - time < 0 ? 0 : (startTime + params.duration) - time),
+                        startTime
+                    );
+                }
+    
+                for (var i = 0; i < _elements.length; i++) {
+                    if (done) continue;
+                    el = _elements[i];
+                    if (el.done) continue;
+    
+                    for (var prop in props) {
+                        progress = Math.max(Math.min((time - startTime) / params.duration, 1), 0);
+                        easeProgress = a.easingProgress(params.easing, progress);
+    
+                        el[prop].currentValue = el[prop].initialValue + easeProgress * (el[prop].finalValue - el[prop].initialValue);
+    
+                        if (el[prop].finalValue > el[prop].initialValue && el[prop].currentValue >= el[prop].finalValue || el[prop].finalValue < el[prop].initialValue && el[prop].currentValue <= el[prop].finalValue)  {
+                            el._container.style[prop] = el[prop].finalValue + el[prop].unit;
+                            propsDone ++;
+                            if (propsDone === Object.keys(props).length) {
+                                el.done = true;
+                                elementsDone++;
+                            }
+                            if (elementsDone === _elements.length) {
+                                done = true;
+                            }
+                        }
+                        if (done) {
+                            a.done(params.complete);
+                            return a;
+                        }
+                        el._container.style[prop] = el[prop].currentValue + el[prop].unit;
+                    }
+                }
+    
+                // Then call
+                a.frameId = $.requestAnimationFrame(render);
+            }
+            a.frameId = $.requestAnimationFrame(render);
+            return a;
+        };
+        var foundInstance;
+        for (var i = 0; i < a.elements.length; i++) {
+            if (a.elements[i].animate7Instance) {
+                foundInstance = a.elements[i].animate7Instance;
+            }
+            else a.elements[i].animate7Instance = a;
+        }
+        if (foundInstance) {
+            return foundInstance.animate(props, params);
+        }
+        else a.animate(props, params);
+        return a;
+    };
+    window.Animate7 = function (elements, props, params){
+        return new Animate7(elements, props, params);
+    };
+    Dom7.fn.animate = function (props, params) {
+        new Animate7(this, props, params);
+        return this;
+    };
+
     /*===========================
     Features Support Detection
     ===========================*/
@@ -13024,7 +13279,7 @@
                             variable += '[' + part + ']';
                         }
                         else {
-                            if (part.indexOf('this') === 0) {
+                            if (part === 'this' || part.indexOf('this.') >= 0 || part.indexOf('this[') >= 0 || part.indexOf('this(') >= 0) {
                                 variable = part.replace('this', ctx);
                             }
                             else {
