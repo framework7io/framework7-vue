@@ -4,7 +4,7 @@
     mixins: [LinkMixin],
     render: function (c) {
       var iconEl, textEl, isTabbarLabel, badgeEl, iconBadgeEl, self = this;
-      isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar & self.$parent.labels;
+      isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar && self.$parent.labels;
       if (self.text) {
         if (self.badge) badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge);
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
@@ -18,7 +18,7 @@
           icon: self.icon
         }}, [iconBadgeEl])
       }
-      if (!self.text && self.$slots.default && self.$slots.default.length === 0) {
+      if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
         self.classesObject['icon-only'] = true;
       }
       self.classesObject['link'] = self.noLinkClass || isTabbarLabel ? false : true;

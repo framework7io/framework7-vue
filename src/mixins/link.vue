@@ -3,11 +3,12 @@
     props: {
       noLinkClass: Boolean,
 
-      color: String,
       external: Boolean,
       color: String,
+      bg: String,
       theme: String,
       text: String,
+      iconOnly: Boolean,
       icon: String,
       iconMaterial: String,
       iconIon: String,
@@ -105,8 +106,8 @@
         var pd = self.$options.propsData;
         if (self.rippleColor) co['ripple-color-' + self.rippleColor] = true;
         if (self.color) co['color-' + self.color] = true;
-        if (self.theme) co['color-' + self.theme] = true;
-        if (self.bg) co['color-' + self.bg] = true;
+        if (self.theme) co['theme-' + self.theme] = true;
+        if (self.bg) co['bg-' + self.bg] = true;
         if (self.back) co['back'] = true;
         if (self.external) co['external'] = true;
 
