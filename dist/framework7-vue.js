@@ -1,6 +1,6 @@
 /**
- * Framework7 Vue 0.5.0
- * Full Featured Mobile HTML Framework For Building iOS & Android Apps
+ * Framework7 Vue 0.5.1
+ * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
  * Copyright 2016, Vladimir Kharlampidi
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 25, 2016
+ * Released on: November 9, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -264,13 +264,13 @@ var Page = {
     var pageEl, pageContentEl, ptrEl, infiniteEl, fixedList = [], staticList = [];
     var self = this;
 
-    if (self.pullToRefresh) {
+    if (self.pullToRefresh && (self.ptrLayer || self.pullToRefreshLayer)) {
       ptrEl = c('div', {class: {'pull-to-refresh-layer': true}} ,[
         c('div', {class: {'preloader': true}}),
         c('div', {class: {'pull-to-refresh-arrow': true}})
       ]);
     }
-    if (self.infiniteScroll) {
+    if (self.infiniteScroll && self.infiniteScrollPreloader) {
       infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
         c('div', {class: {'preloader': true}})
       ]);
@@ -367,8 +367,20 @@ var Page = {
     'pull-to-refresh': Boolean,
     'pull-to-refresh-distance': Number,
     'ptr-distance': Number,
+    'pull-to-refresh-layer': {
+      type: Boolean,
+      default: true
+    },
+    'ptr-layer': {
+      type: Boolean,
+      default: true
+    },
     'infinite-scroll': [Boolean, String],
     'infinite-scroll-distance': Number,
+    'infinite-scroll-preloader': {
+      type: Boolean,
+      default: true
+    },
     'hide-bars-on-scroll': Boolean,
     'hide-navbar-on-scroll': Boolean,
     'hide-toolbar-on-scroll': Boolean,
@@ -378,7 +390,8 @@ var Page = {
     'no-page-content': Boolean,
     'login-screen': Boolean,
     'theme': String,
-    'layout': String
+    'layout': String,
+    'no-swipeback': Boolean
   },
   computed: {
     classesObjectPage: function () {
@@ -397,7 +410,8 @@ var Page = {
         'no-navbar': this.noNavbar,
         'no-toolbar': this.noToolbar,
         'no-tabbar': this.noTabbar,
-        'tabs': this.tabs
+        'tabs': this.tabs,
+        'no-swipeback': this.noSwipeBack
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
@@ -615,25 +629,25 @@ var Badge = {render: function(){with(this){return _h('span',{staticClass:"badge"
   }
 };
 
-var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",class:classesObject},[_s(materialTextComputed),_t("default")])}},staticRenderFns: [],
+var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",class:classesObject},[_s(iconTextComputed),_t("default")])}},staticRenderFns: [],
   props: {
     'color': String,
     'material': String, //Material Icons
+    'f7': String, //Framework7 Icons
     'ion': String, //Ionicons
     'fa': String, //Font Awesome
-    'f7': String, //Font Awesome
     'icon': String, //Custom
     'if-material': String,
     'if-ios': String,
   },
   computed: {
-    materialTextComputed: function () {
+    iconTextComputed: function () {
       var self = this;
-      var text = self.material;
-      if (self.ifMaterial && self.$theme.material && self.ifMaterial.indexOf('material:')>=0) {
+      var text = self.material || self.f7;
+      if (self.ifMaterial && self.$theme.material && (self.ifMaterial.indexOf('material:')>=0 || self.ifMaterial.indexOf('f7:')>=0)) {
         text = self.ifMaterial.split(':')[1];
       }
-      else if (self.ifIos && self.$theme.ios && self.ifIos.indexOf('material:')>=0) {
+      else if (self.ifIos && self.$theme.ios && (self.ifIos.indexOf('material:')>=0 || self.ifIos.indexOf('f7:')>=0)) {
         text = self.ifIos.split(':')[1];
       }
       return text;
@@ -645,10 +659,12 @@ var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",clas
         var parts = self[self.$theme.material ? 'ifMaterial' : 'ifIos'].split(':');
         var prop = parts[0];
         var value = parts[1];
-        if (prop === 'material' || prop === 'fa') {
-          co[prop === 'fa' ? 'fa' : 'material-icons'] = true;
+        if (prop === 'material' || prop === 'fa' || prop === 'f7') {
+          co['fa'] = prop === 'fa';
+          co['material-icons'] = prop === 'material';
+          co['f7-icons'] = prop === 'f7';
         }
-        if (prop !== 'material' && prop !== 'icon') {
+        if (prop === 'fa' || prop === 'ion') {
           co[prop + '-' + value] = true;
         }
         if (prop === 'icon') {
@@ -658,10 +674,10 @@ var Icon = {render: function(){with(this){return _h('i',{staticClass:"icon",clas
       else {
         co = {
           'material-icons': this.material,
+          'f7-icons': this.f7,
           'fa': this.fa
         };
         if (this.ion) { co['ion-' + this.ion] = true; }
-        if (this.f7) { co['f7-' + this.ion] = true; }
         if (this.fa) { co['fa-' + this.fa] = true; }
         if (this.icon) { co[this.icon] = true; }
       }
@@ -891,8 +907,14 @@ var ListItem = {
           'data-popover': typeof self.linkOpenPopover === 'string' ? self.linkOpenPopover : false,
           'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
           'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
-          'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : false,
-          'data-sortable': typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false,
+          'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : (typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false),
+
+          'data-force': self.linkForce,
+          'data-reload': self.linkReload,
+          'data-animate-pages': self.linkAnimatePages,
+          'data-ignore-cache': self.linkIgnoreCache,
+          'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
+          'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
         },
         'class': {
           'item-link': true,
@@ -1207,7 +1229,7 @@ var ListItemSwipeoutButton = {render: function(){with(this){return _h('a',{class
   }
 };
 
-var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopover === 'string' ? openPopover : false,"data-popover":typeof openPicker === 'string' ? openPicker : false,"data-picker":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-login-screen":typeof openSortable === 'string' ? openSortable : false,"data-sortable":typeof toggleSortable === 'string' ? toggleSortable : false,"data-tab":typeof tabLink === 'string' ? tabLink : false},domProps:{"innerHTML":_s(title)}}):_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopover === 'string' ? openPopover : false,"data-popover":typeof openPicker === 'string' ? openPicker : false,"data-picker":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-login-screen":typeof openSortable === 'string' ? openSortable : false,"data-sortable":typeof toggleSortable === 'string' ? toggleSortable : false,"data-tab":typeof tabLink === 'string' ? tabLink : false}},[_t("default")])])}},staticRenderFns: [],
+var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false},domProps:{"innerHTML":_s(title)}}):_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false}},[_t("default")])])}},staticRenderFns: [],
   props: {
     'title': [String, Number],
     'link': [String, Boolean],
@@ -1332,15 +1354,17 @@ var LinkMixin = {
   props: {
     noLinkClass: Boolean,
 
-    color: String,
     external: Boolean,
     color: String,
+    bg: String,
     theme: String,
     text: String,
+    iconOnly: Boolean,
     icon: String,
     iconMaterial: String,
     iconIon: String,
     iconFa: String,
+    iconF7: String,
     rippleColor: String,
     href: {
       type: String,
@@ -1434,8 +1458,8 @@ var LinkMixin = {
       var pd = self.$options.propsData;
       if (self.rippleColor) { co['ripple-color-' + self.rippleColor] = true; }
       if (self.color) { co['color-' + self.color] = true; }
-      if (self.theme) { co['color-' + self.theme] = true; }
-      if (self.bg) { co['color-' + self.bg] = true; }
+      if (self.theme) { co['theme-' + self.theme] = true; }
+      if (self.bg) { co['bg-' + self.bg] = true; }
       if (self.back) { co['back'] = true; }
       if (self.external) { co['external'] = true; }
 
@@ -1489,7 +1513,7 @@ var Link = {
   mixins: [LinkMixin],
   render: function (c) {
     var iconEl, textEl, isTabbarLabel, badgeEl, iconBadgeEl, self = this;
-    isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar & self.$parent.labels;
+    isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar && self.$parent.labels;
     if (self.text) {
       if (self.badge) { badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge); }
       textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
@@ -1500,10 +1524,11 @@ var Link = {
         material: self.iconMaterial,
         ion: self.iconIon,
         fa: self.iconFa,
+        f7: self.iconF7,
         icon: self.icon
       }}, [iconBadgeEl]);
     }
-    if (!self.text && self.$slots.default && self.$slots.default.length === 0) {
+    if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
       self.classesObject['icon-only'] = true;
     }
     self.classesObject['link'] = self.noLinkClass || isTabbarLabel ? false : true;
@@ -1949,8 +1974,13 @@ var Messages = {render: function(){with(this){return _h('div',{staticClass:"mess
       type: Boolean,
       default: true
     },
-    newFirst: Boolean,
+    newMessagesFirst: Boolean,
     messages: Array,
+    scrollMessages: {
+      type: Boolean,
+      default: true
+    },
+    scrollMessagesOnlyOnEdge: Boolean,
     init: {
       type: Boolean,
       default: true
@@ -1962,8 +1992,10 @@ var Messages = {render: function(){with(this){return _h('div',{staticClass:"mess
       if (!self.init) { return; }
       self.f7Messages = f7.messages(self.$el, {
         autoLayout:  self.autoLayout,
-        newMessagesFirst: self.newFirst,
-        messages: self.messages
+        newMessagesFirst: self.newMessagesFirst,
+        messages: self.messages,
+        scrollMessages: self.scrollMessages,
+        scrollMessagesOnlyOnEdge: self.scrollMessagesOnlyOnEdge,
       });
     }
   }
