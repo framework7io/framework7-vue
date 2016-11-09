@@ -53,6 +53,13 @@
             'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
             'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
             'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : (typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false),
+
+            'data-force': self.linkForce,
+            'data-reload': self.linkReload,
+            'data-animate-pages': self.linkAnimatePages,
+            'data-ignore-cache': self.linkIgnoreCache,
+            'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
+            'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
           },
           'class': {
             'item-link': true,
