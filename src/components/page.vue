@@ -4,13 +4,13 @@
       var pageEl, pageContentEl, ptrEl, infiniteEl, fixedList = [], staticList = [];
       var self = this;
 
-      if (self.pullToRefresh) {
+      if (self.pullToRefresh && (self.ptrLayer || self.pullToRefreshLayer)) {
         ptrEl = c('div', {class: {'pull-to-refresh-layer': true}} ,[
           c('div', {class: {'preloader': true}}),
           c('div', {class: {'pull-to-refresh-arrow': true}})
         ]);
       }
-      if (self.infiniteScroll) {
+      if (self.infiniteScroll && self.infiniteScrollPreloader) {
         infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
           c('div', {class: {'preloader': true}})
         ]);
@@ -107,8 +107,20 @@
       'pull-to-refresh': Boolean,
       'pull-to-refresh-distance': Number,
       'ptr-distance': Number,
+      'pull-to-refresh-layer': {
+        type: Boolean,
+        default: true
+      },
+      'ptr-layer': {
+        type: Boolean,
+        default: true
+      },
       'infinite-scroll': [Boolean, String],
       'infinite-scroll-distance': Number,
+      'infinite-scroll-preloader': {
+        type: Boolean,
+        default: true
+      },
       'hide-bars-on-scroll': Boolean,
       'hide-navbar-on-scroll': Boolean,
       'hide-toolbar-on-scroll': Boolean,
@@ -118,7 +130,8 @@
       'no-page-content': Boolean,
       'login-screen': Boolean,
       'theme': String,
-      'layout': String
+      'layout': String,
+      'no-swipeback': Boolean
     },
     computed: {
       classesObjectPage: function () {
@@ -137,7 +150,8 @@
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
           'no-tabbar': this.noTabbar,
-          'tabs': this.tabs
+          'tabs': this.tabs,
+          'no-swipeback': this.noSwipeBack
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
