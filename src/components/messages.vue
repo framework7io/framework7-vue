@@ -34,8 +34,13 @@
         type: Boolean,
         default: true
       },
-      newFirst: Boolean,
+      newMessagesFirst: Boolean,
       messages: Array,
+      scrollMessages: {
+        type: Boolean,
+        default: true
+      },
+      scrollMessagesOnlyOnEdge: Boolean,
       init: {
         type: Boolean,
         default: true
@@ -47,8 +52,10 @@
         if (!self.init) return;
         self.f7Messages = f7.messages(self.$el, {
           autoLayout:  self.autoLayout,
-          newMessagesFirst: self.newFirst,
-          messages: self.messages
+          newMessagesFirst: self.newMessagesFirst,
+          messages: self.messages,
+          scrollMessages: self.scrollMessages,
+          scrollMessagesOnlyOnEdge: self.scrollMessagesOnlyOnEdge,
         })
       }
     }
