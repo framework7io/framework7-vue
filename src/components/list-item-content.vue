@@ -9,11 +9,11 @@
           slotsMedia = [];
       if (self.$slots.default && self.$slots.default.length > 0) {
         for (var i = 0; i < self.$slots.default.length; i++) {
-          var slotName = self.$slots.default[i].data.slot;
+          var slotName = self.$slots.default[i].data ? self.$slots.default[i].data.slot : undefined;
           if (slotName && slotName === 'content') slotsContent.push(self.$slots.default[i]);
           if (slotName && slotName === 'after') slotsAfter.push(self.$slots.default[i]);
-          if (slotName && slotName === 'inner') slotsInner.push(self.$slots.default[i]);
           if (slotName && slotName === 'media') slotsMedia.push(self.$slots.default[i]);
+          if (!slotName || slotName && slotName === 'inner') slotsInner.push(self.$slots.default[i]);
         }
       }
       // Input

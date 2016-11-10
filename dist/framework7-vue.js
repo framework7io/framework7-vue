@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.5.2
+ * Framework7 Vue 0.5.3
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -882,7 +882,7 @@ var ListItem = {
         'disabled': self.disabledn
       },
       on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-    }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after]);
+    }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after, self.$slots.default]);
 
     // Link
     if (self.link || self.accordionItem || self.smartSelect) {
@@ -954,7 +954,10 @@ var ListItem = {
       if (self.sortableComputed) {
         liChildren.push(c('div', {'class': {'sortable-handler': true}}));
       }
-      liChildren.push(self.$slots.default);
+      if (self.swipeout || self.accordionItem) {
+        liChildren.push(self.$slots.default);
+      }
+      liChildren.push(self.$slots.root);
     }
 
     return c(
@@ -1099,11 +1102,11 @@ var ListItemContent = {
         slotsMedia = [];
     if (self.$slots.default && self.$slots.default.length > 0) {
       for (var i = 0; i < self.$slots.default.length; i++) {
-        var slotName = self.$slots.default[i].data.slot;
+        var slotName = self.$slots.default[i].data ? self.$slots.default[i].data.slot : undefined;
         if (slotName && slotName === 'content') { slotsContent.push(self.$slots.default[i]); }
         if (slotName && slotName === 'after') { slotsAfter.push(self.$slots.default[i]); }
-        if (slotName && slotName === 'inner') { slotsInner.push(self.$slots.default[i]); }
         if (slotName && slotName === 'media') { slotsMedia.push(self.$slots.default[i]); }
+        if (!slotName || slotName && slotName === 'inner') { slotsInner.push(self.$slots.default[i]); }
       }
     }
     // Input

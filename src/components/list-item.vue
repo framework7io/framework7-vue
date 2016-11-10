@@ -27,7 +27,7 @@
           'disabled': self.disabledn
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-      }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after]);
+      }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after, self.$slots.default]);
 
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
@@ -99,7 +99,10 @@
         if (self.sortableComputed) {
           liChildren.push(c('div', {'class': {'sortable-handler': true}}));
         }
-        liChildren.push(self.$slots.default);
+        if (self.swipeout || self.accordionItem) {
+          liChildren.push(self.$slots.default);
+        }
+        liChildren.push(self.$slots.root);
       }
 
       return c(
