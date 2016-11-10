@@ -27,7 +27,7 @@
           'disabled': self.disabledn
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-      }, self.$slots.default);
+      }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after]);
 
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
@@ -99,9 +99,7 @@
         if (self.sortableComputed) {
           liChildren.push(c('div', {'class': {'sortable-handler': true}}));
         }
-        if (self.swipeout || self.accordionItem) {
-          liChildren.push(self.$slots.default);
-        }
+        liChildren.push(self.$slots.default);
       }
 
       return c(
