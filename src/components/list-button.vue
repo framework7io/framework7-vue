@@ -12,6 +12,7 @@
       :data-sortable="typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false)"
       :data-tab="typeof tabLink === 'string' ? tabLink : false"
       v-html="title"
+      @click="onClick"
       ></a>
     <a v-else
       class="item-link list-button"
@@ -24,6 +25,7 @@
       :data-login-screen="typeof openLoginScreen === 'string' ? openLoginScreen : false"
       :data-sortable="typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false)"
       :data-tab="typeof tabLink === 'string' ? tabLink : false"
+      @click="onClick"
       ><slot></slot></a>
   </li>
 </template>
