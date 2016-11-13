@@ -27,7 +27,10 @@ var app = new Vue({
           name: 'Vladimir',
           lastName: 'Kharlampidi',
           age: 30
-        }
+        },
+        popupOpened: false,
+        loginScreenOpened: false,
+        pickerOpened: false
       };
     },
     // Custom App Methods

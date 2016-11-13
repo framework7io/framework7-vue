@@ -90,11 +90,16 @@
       </f7-block>
     </f7-popover>
     <!-- Picker Modal-->
-    <f7-picker-modal id="demo-picker">
+    <f7-picker-modal id="demo-picker" :opened="pickerOpened">
       <f7-toolbar>
         <f7-nav-left></f7-nav-left>
         <f7-nav-right>
+          <!-- Using state: -->
+          <f7-link @click="pickerOpened=false">Done</f7-link>
+          <!--
+          Or using F7 API:
           <f7-link close-picker>Done</f7-link>
+          -->
         </f7-nav-right>
       </f7-toolbar>
       <f7-block>
@@ -102,13 +107,18 @@
       </f7-block>
     </f7-picker-modal>
     <!-- Popup -->
-    <f7-popup id="demo-popup">
+    <f7-popup id="demo-popup" :opened="popupOpened">
       <f7-view>
         <f7-pages>
           <f7-page navbar-fixed>
             <f7-navbar title="Demo Popup">
               <f7-nav-right>
+                <!-- Using state: -->
+                <f7-link @click="popupOpened=false">Close</f7-link>
+                <!--
+                Or using F7 API:
                 <f7-link close-popup>Close</f7-link>
+                -->
               </f7-nav-right>
             </f7-navbar>
             <f7-block>
@@ -123,7 +133,7 @@
       </f7-view>
     </f7-popup>
     <!-- Login Screen -->
-    <f7-login-screen id="demo-login-screen">
+    <f7-login-screen id="demo-login-screen" :opened="loginScreenOpened">
       <f7-view>
         <f7-pages>
           <f7-page login-screen>
@@ -139,7 +149,12 @@
               </f7-list-item>
             </f7-list>
             <f7-list>
+              <!-- Using state: -->
+              <f7-list-button title="Sign In" @click="loginScreenOpened=false"></f7-list-button>
+              <!--
+              Or using F7 API:
               <f7-list-button title="Sign In" close-login-screen></f7-list-button>
+              -->
               <f7-list-label>
                 <p>Click Sign In to close Login Screen</p>
               </f7-list-label>

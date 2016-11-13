@@ -5,10 +5,24 @@
     <f7-block>
       <f7-grid>
         <f7-col>
+          <!--
+          Using state:
+          -->
+          <f7-button @click="openLoginScreen">Login Screen</f7-button>
+          <!--
+          Or using F7 API:
           <f7-button open-login-screen="#demo-login-screen">Login Screen</f7-button>
+          -->
         </f7-col>
         <f7-col>
+          <!--
+          Using state:
+          -->
+          <f7-button @click="openPopup">Popup</f7-button>
+          <!--
+          Or using F7 API:
           <f7-button open-popup="#demo-popup">Popup</f7-button>
+          -->
         </f7-col>
       </f7-grid>
     </f7-block>
@@ -18,7 +32,14 @@
           <f7-button open-popover="#demo-popover">Popover</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button open-popup="#demo-picker">Picker</f7-button>
+          <!--
+          Using state:
+          -->
+          <f7-button @click="openPicker">Picker</f7-button>
+          <!--
+          Or using F7 API:
+          <f7-button open-picker="#demo-picker">Picker</f7-button>
+          -->
         </f7-col>
       </f7-grid>
     </f7-block>
@@ -73,6 +94,18 @@
         setTimeout(function () {
           self.$f7.hidePreloader();
         }, 3000);
+      },
+      openPopup: function () {
+        var self = this;
+        self.$root.popupOpened = true;
+      },
+      openPicker: function () {
+        var self = this;
+        self.$root.pickerOpened = true;
+      },
+      openLoginScreen: function () {
+        var self = this;
+        self.$root.loginScreenOpened = true;
       }
     }
   }

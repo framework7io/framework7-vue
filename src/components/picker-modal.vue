@@ -28,17 +28,34 @@
       }
 
       innerEl = c('div', {
-        class: {
-          'picker-modal-inner': true
-        },
+        staticClass: 'picker-modal-inner'
       }, staticList)
 
       return c('div', {
         class: self.classesObject,
-        attrs: {
-          style: self.opened ? 'display: block' : false
+        staticClass: 'picker-modal',
+        style: {
+          'display': self.opened ? 'block': false
+        },
+        on: {
+          open: self.onOpen,
+          opened: self.onOpened,
+          close: self.onClose,
+          closed: self.onClosed
         }
       }, [fixedList, innerEl]);
+    },
+    watch: {
+      opened: function (opened) {
+        var self = this;
+        if (!self.$f7) return;
+        if (opened) {
+          self.$f7.pickerModal(self.$el)
+        }
+        else {
+          self.$f7.closeModal(self.$el)
+        }
+      }
     },
     props: {
       'opened': Boolean,
@@ -48,13 +65,33 @@
     computed: {
       classesObject: function () {
         var co = {
-          'picker-modal': true,
-          'opened': this.opened
+          'modal-in': this.opened,
+          'modal-out': !this.opened
         };
         if (this.theme) co['theme-' + this.theme] = true;
-        if (this.opened) co['modal-in'] = this.opened;
         if (this.layout) co['layout-' + this.layout] = true;
         return co;
+      }
+    },
+    methods: {
+      onOpen: function (event) {
+        this.$emit('open', event);
+      },
+      onOpened: function (event) {
+        this.$emit('opened', event);
+      },
+      onClose: function (event) {
+        this.$emit('close', event);
+      },
+      onClosed: function (event) {
+        this.$emit('closed', event);
+      },
+      onF7Init: function () {
+        var $$ = this.$$;
+        if (!$$) return;
+        if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
+          $$(this.$root.$el).append('<div class="picker-modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>')
+        }
       }
     }
   }
