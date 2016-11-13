@@ -1,19 +1,22 @@
 <template>
   <div class="toolbar messagebar">
     <div class="toolbar-inner">
-      <slot name="before"></slot>
+      <slot name="before-textarea"></slot>
       <slot>
         <textarea
+          ref="area"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :name="name"
+          :readonly="readonly"
           @input="onInput"
           @change="onChange"
           @focus="onFocus"
           @blur="onBlur"
-          :placeholder="placeholder"
-          ref="area"
         >{{value}}</textarea>
         <f7-link v-if="sendLink" @click="onClick">{{sendLink}}</f7-link>
       </slot>
-      <slot name="after"></slot>
+      <slot name="after-textarea"></slot>
     </div>
   </div>
 </template>
@@ -33,14 +36,17 @@
       },
       maxHeight: Number,
       sendLink: String,
-      value: [String, Number]
+      value: [String, Number],
+      disabled: Boolean,
+      readonly: Boolean,
+      name: String
     },
     methods: {
       onChange: function (event) {
         this.$emit('change', event);
       },
       onInput: function (event) {
-        this.$emit('click', event.target.value);
+        this.$emit('input', event.target.value);
       },
       onFocus: function (event) {
         this.$emit('focus', event);
