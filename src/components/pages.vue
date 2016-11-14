@@ -1,5 +1,5 @@
 <template>
-  <div class="pages" :class="classesObject" @pageBeforeRemove="onPageBeforeRemove">
+  <div class="pages" ref="pages" :class="classesObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
     <component v-for="(page, key) in pages" :is="page.component"></component>
   </div>

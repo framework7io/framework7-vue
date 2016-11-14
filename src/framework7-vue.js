@@ -206,14 +206,6 @@ export default {
       if (!window.Framework7) return;
       f7Params = f7Params || {};
 
-      // Add Panel Overlay
-      if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
-        if ($$('.statusbar-overlay').length > 0) {
-          $$('<div class="panel-overlay"></div>').insertAfter('.statusbar-overlay');
-        }
-        else $$(f7Params.root).prepend('<div class="panel-overlay"></div>');
-      }
-
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
@@ -249,7 +241,9 @@ export default {
       beforeCreate: function () {
         var self = this;
         // Route
-        if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) self.$route = self.$parent.$parent.$route;
+        if (self.$parent && self.$parent.$refs.pages) {
+          self.$route = self.$parent.$parent.$route;
+        }
         // Theme
         if (theme.ios === false && theme.material === false) {
           if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
