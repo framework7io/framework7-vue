@@ -2,6 +2,7 @@
   export default {
     props: {
       noLinkClass: Boolean,
+      noFastclick: Boolean,
 
       external: Boolean,
       color: String,
@@ -109,8 +110,10 @@
         if (self.color) co['color-' + self.color] = true;
         if (self.theme) co['theme-' + self.theme] = true;
         if (self.bg) co['bg-' + self.bg] = true;
-        if (self.back) co['back'] = true;
-        if (self.external) co['external'] = true;
+
+        co['back'] = self.back;
+        co['external'] = self.external;
+        co['no-fastclick'] = self.noFastclick;
 
         // Button
         ['round', 'fill', 'big', 'raised'].forEach(function (prop, index) {
@@ -118,7 +121,7 @@
         });
 
         // Active
-        if (self.active) co['active'] = true;
+        co['active'] = self.active;
 
         // Panel
         if (self.closePanel) co['close-panel'] = true;

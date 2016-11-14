@@ -37,6 +37,9 @@
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
+      'link-back': Boolean,
+      'no-fastclick': Boolean,
+      'link-no-fastlick': Boolean,
 
       // View
       view: String,
@@ -74,7 +77,8 @@
         var self = this;
         var co = {
           'external': self.external || self.linkExternal,
-          'back': self.back
+          'back': self.back || self.linkBack
+          'no-fastclick': self.noFastclick || self.linkNoFastclick
         };
 
         // Panel

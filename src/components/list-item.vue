@@ -64,6 +64,8 @@
           'class': {
             'item-link': true,
             'external': self.linkExternal,
+            'back': self.linkBack,
+            'no-fastclick': self.linkNoFastclick,
             'smart-select': self.smartSelect,
             'close-panel': self.linkClosePanel,
             'open-panel': self.linkOpenPanel,
@@ -136,6 +138,8 @@
       // Link Props
       'link': [String, Boolean],
       'link-external': Boolean,
+      'link-back': Boolean,
+      'link-no-fastclick': Boolean,
 
       'link-force': Boolean,
       'link-reload': Boolean,
