@@ -1,5 +1,6 @@
 <template>
   <div class="toolbar messagebar">
+    <slot name="before-inner"></slot>
     <div class="toolbar-inner">
       <slot name="before-textarea"></slot>
       <slot>
@@ -18,6 +19,7 @@
       </slot>
       <slot name="after-textarea"></slot>
     </div>
+    <slot name="after-inner"></slot>
   </div>
 </template>
 <script>

@@ -1,8 +1,10 @@
 <template>
   <div class="toolbar" :class="classesObject">
+    <slot name="before-inner"></slot>
     <div class="toolbar-inner">
       <slot></slot>
     </div>
+    <slot name="after-inner"></slot>
   </div>
 </template>
 <script>

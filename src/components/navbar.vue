@@ -1,10 +1,12 @@
 <template>
   <div class="navbar" :class="classesObject">
+    <slot name="before-inner"></slot>
     <div class="navbar-inner">
       <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding"></f7-nav-left>
       <f7-nav-center v-if="title" :title="title" :sliding="sliding"></f7-nav-center>
       <slot></slot>
     </div>
+    <slot name="after-inner"></slot>
   </div>
 </template>
 <script>
