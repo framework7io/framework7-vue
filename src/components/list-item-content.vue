@@ -27,6 +27,9 @@
             disabled: self.disabled,
             required: self.required,
             type: self.radio ? 'radio' : 'checkbox'
+          },
+          on: {
+            change: self.onChange
           }
         });
       }
@@ -73,7 +76,7 @@
       }
       innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [titleRowEl, subtitleEl, textEl, self.$slots.inner] : [titleEl, afterWrapEl, slotsInner]);
       // Finalize
-      return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick, change: self.onChange}}, [inputEl, mediaEl, innerEl, slotsContent]);
+      return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [inputEl, mediaEl, innerEl, slotsContent]);
     },
     props: {
       'title': [String, Number],
