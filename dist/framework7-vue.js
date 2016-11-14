@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.5.3
+ * Framework7 Vue 0.5.6
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: November 10, 2016
+ * Released on: November 14, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -495,7 +495,7 @@ var PageContent = {render: function(){with(this){return _h('div',{staticClass:"p
   }
 };
 
-var Navbar = {render: function(){with(this){return _h('div',{staticClass:"navbar",class:classesObject},[_h('div',{staticClass:"navbar-inner"},[(backLink)?_h('f7-nav-left',{attrs:{"back-link":backLink,"sliding":sliding}}):_e(),(title)?_h('f7-nav-center',{attrs:{"title":title,"sliding":sliding}}):_e(),_t("default")])])}},staticRenderFns: [],
+var Navbar = {render: function(){with(this){return _h('div',{staticClass:"navbar",class:classesObject},[_t("before-inner"),_h('div',{staticClass:"navbar-inner"},[(backLink)?_h('f7-nav-left',{attrs:{"back-link":backLink,"sliding":sliding}}):_e(),(title)?_h('f7-nav-center',{attrs:{"title":title,"sliding":sliding}}):_e(),_t("default")]),_t("after-inner")])}},staticRenderFns: [],
   updated: function () {
       var self = this;
       self.$nextTick(function () {
@@ -545,7 +545,7 @@ var Subnavbar = {render: function(){with(this){return _h('div',{staticClass:"sub
   }
 };
 
-var Toolbar = {render: function(){with(this){return _h('div',{staticClass:"toolbar",class:classesObject},[_h('div',{staticClass:"toolbar-inner"},[_t("default")])])}},staticRenderFns: [],
+var Toolbar = {render: function(){with(this){return _h('div',{staticClass:"toolbar",class:classesObject},[_t("before-inner"),_h('div',{staticClass:"toolbar-inner"},[_t("default")]),_t("after-inner")])}},staticRenderFns: [],
   props: {
       bottom: Boolean,
       tabbar: Boolean,
@@ -1120,6 +1120,9 @@ var ListItemContent = {
           disabled: self.disabled,
           required: self.required,
           type: self.radio ? 'radio' : 'checkbox'
+        },
+        on: {
+          change: self.onChange
         }
       });
     }
@@ -1166,7 +1169,7 @@ var ListItemContent = {
     }
     innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [titleRowEl, subtitleEl, textEl, self.$slots.inner] : [titleEl, afterWrapEl, slotsInner]);
     // Finalize
-    return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick, change: self.onChange}}, [inputEl, mediaEl, innerEl, slotsContent]);
+    return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [inputEl, mediaEl, innerEl, slotsContent]);
   },
   props: {
     'title': [String, Number],
@@ -1252,7 +1255,7 @@ var ListItemSwipeoutButton = {render: function(){with(this){return _h('a',{class
   }
 };
 
-var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false},domProps:{"innerHTML":_s(title)}}):_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false}},[_t("default")])])}},staticRenderFns: [],
+var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false},domProps:{"innerHTML":_s(title)},on:{"click":onClick}}):_h('a',{staticClass:"item-link list-button",class:classesObject,attrs:{"href":(typeof link !== 'string' ? '#' : link),"data-panel":typeof openPanel === 'string' ? openPanel : false,"data-popup":typeof openPopup === 'string' ? openPopup : false,"data-popover":typeof openPopover === 'string' ? openPopover : false,"data-picker":typeof openPicker === 'string' ? openPicker : false,"data-login-screen":typeof openLoginScreen === 'string' ? openLoginScreen : false,"data-sortable":typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false),"data-tab":typeof tabLink === 'string' ? tabLink : false},on:{"click":onClick}},[_t("default")])])}},staticRenderFns: [],
   props: {
     'title': [String, Number],
     'link': [String, Boolean],
@@ -2086,7 +2089,7 @@ var Message = {render: function(){with(this){return _h('div',{class:classesObjec
   }
 };
 
-var Messagebar = {render: function(){with(this){return _h('div',{staticClass:"toolbar messagebar"},[_h('div',{staticClass:"toolbar-inner"},[_t("before"),_t("default",[_h('textarea',{ref:"area",attrs:{"placeholder":placeholder},on:{"input":onInput,"change":onChange,"focus":onFocus,"blur":onBlur}},[_s(value)]),(sendLink)?_h('f7-link',{on:{"click":onClick}},[_s(sendLink)]):_e()]),_t("after")])])}},staticRenderFns: [],
+var Messagebar = {render: function(){with(this){return _h('div',{staticClass:"toolbar messagebar"},[_t("before-inner"),_h('div',{staticClass:"toolbar-inner"},[_t("before-textarea"),_h('textarea',{ref:"area",attrs:{"placeholder":placeholder,"disabled":disabled,"name":name,"readonly":readonly},on:{"input":onInput,"change":onChange,"focus":onFocus,"blur":onBlur}},[_s(value)]),(sendLink)?_h('f7-link',{on:{"click":onClick}},[_s(sendLink)]):_e(),_t("after-textarea")]),_t("after-inner")])}},staticRenderFns: [],
   beforeDestroy: function () {
     if (this.f7Messagebar && this.f7Messagebar.destroy) { this.f7Messagebar.destroy(); }
   },
@@ -2101,14 +2104,17 @@ var Messagebar = {render: function(){with(this){return _h('div',{staticClass:"to
     },
     maxHeight: Number,
     sendLink: String,
-    value: [String, Number]
+    value: [String, Number],
+    disabled: Boolean,
+    readonly: Boolean,
+    name: String
   },
   methods: {
     onChange: function (event) {
       this.$emit('change', event);
     },
     onInput: function (event) {
-      this.$emit('click', event.target.value);
+      this.$emit('input', event.target.value);
     },
     onFocus: function (event) {
       this.$emit('focus', event);
@@ -2280,6 +2286,18 @@ var Popover = {render: function(){with(this){return _h('div',{staticClass:"popov
 };
 
 var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",class:classesObject,style:(opened ? 'display: block' : false),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+  watch: {
+    opened: function (opened) {
+      var self = this;
+      if (!self.$f7) { return; }
+      if (opened) {
+        self.$f7.popup(self.$el);
+      }
+      else {
+        self.$f7.closeModal(self.$el);
+      }
+    }
+  },
   props: {
     'tablet-fullscreen': Boolean,
     'theme': String,
@@ -2290,7 +2308,8 @@ var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",
     classesObject: function () {
       var co = {
         'tablet-fullscreen': this.tabletFullscreen,
-        'modal-in': this.opened
+        'modal-in': this.opened,
+        'modal-out': !this.opened
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
@@ -2310,6 +2329,13 @@ var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",
     onClosed: function (event) {
       this.$emit('closed', event);
     },
+    onF7Init: function () {
+      var $$ = this.$$;
+      if (!$$) { return; }
+      if ($$('.popup-overlay').length === 0) {
+        $$(this.$root.$el).append('<div class="popup-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+      }
+    }
   }
 };
 
@@ -2342,17 +2368,34 @@ var PickerModal = {
     }
 
     innerEl = c('div', {
-      class: {
-        'picker-modal-inner': true
-      },
+      staticClass: 'picker-modal-inner'
     }, staticList);
 
     return c('div', {
       class: self.classesObject,
-      attrs: {
-        style: self.opened ? 'display: block' : false
+      staticClass: 'picker-modal',
+      style: {
+        'display': self.opened ? 'block': false
+      },
+      on: {
+        open: self.onOpen,
+        opened: self.onOpened,
+        close: self.onClose,
+        closed: self.onClosed
       }
     }, [fixedList, innerEl]);
+  },
+  watch: {
+    opened: function (opened) {
+      var self = this;
+      if (!self.$f7) { return; }
+      if (opened) {
+        self.$f7.pickerModal(self.$el);
+      }
+      else {
+        self.$f7.closeModal(self.$el);
+      }
+    }
   },
   props: {
     'opened': Boolean,
@@ -2362,18 +2405,50 @@ var PickerModal = {
   computed: {
     classesObject: function () {
       var co = {
-        'picker-modal': true,
-        'opened': this.opened
+        'modal-in': this.opened,
+        'modal-out': !this.opened
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
-      if (this.opened) { co['modal-in'] = this.opened; }
       if (this.layout) { co['layout-' + this.layout] = true; }
       return co;
+    }
+  },
+  methods: {
+    onOpen: function (event) {
+      this.$emit('open', event);
+    },
+    onOpened: function (event) {
+      this.$emit('opened', event);
+    },
+    onClose: function (event) {
+      this.$emit('close', event);
+    },
+    onClosed: function (event) {
+      this.$emit('closed', event);
+    },
+    onF7Init: function () {
+      var $$ = this.$$;
+      if (!$$) { return; }
+      if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
+        $$(this.$root.$el).append('<div class="picker-modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+      }
     }
   }
 };
 
 var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"login-screen",class:classesObject,style:(opened ? 'display: block' : false),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+  watch: {
+    opened: function (opened) {
+      var self = this;
+      if (!self.$f7) { return; }
+      if (opened) {
+        self.$f7.loginScreen(self.$el);
+      }
+      else {
+        self.$f7.closeModal(self.$el);
+      }
+    }
+  },
   props: {
     theme: String,
     layout: String,
@@ -2382,7 +2457,8 @@ var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"l
   computed: {
     classesObject: function () {
       var co = {
-        'modal-in': this.opened
+        'modal-in': this.opened,
+        'modal-out': !this.opened
       };
       if (this.theme) { co['theme-' + this.theme] = true; }
       if (this.layout) { co['layout-' + this.layout] = true; }
