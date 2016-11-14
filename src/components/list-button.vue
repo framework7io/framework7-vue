@@ -77,7 +77,7 @@
         var self = this;
         var co = {
           'external': self.external || self.linkExternal,
-          'back': self.back || self.linkBack
+          'back': self.back || self.linkBack,
           'no-fastclick': self.noFastclick || self.linkNoFastclick
         };
 
