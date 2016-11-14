@@ -3,20 +3,18 @@
     <slot name="before-inner"></slot>
     <div class="toolbar-inner">
       <slot name="before-textarea"></slot>
-      <slot>
-        <textarea
-          ref="area"
-          :placeholder="placeholder"
-          :disabled="disabled"
-          :name="name"
-          :readonly="readonly"
-          @input="onInput"
-          @change="onChange"
-          @focus="onFocus"
-          @blur="onBlur"
-        >{{value}}</textarea>
-        <f7-link v-if="sendLink" @click="onClick">{{sendLink}}</f7-link>
-      </slot>
+      <textarea
+        ref="area"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :name="name"
+        :readonly="readonly"
+        @input="onInput"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+      >{{value}}</textarea>
+      <f7-link v-if="sendLink" @click="onClick">{{sendLink}}</f7-link>
       <slot name="after-textarea"></slot>
     </div>
     <slot name="after-inner"></slot>
