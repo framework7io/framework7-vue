@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.5.6
+ * Framework7 Vue 0.5.7
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -19,7 +19,7 @@
 
 var StatusBar = {render: function(){with(this){return _m(0)}},staticRenderFns: [function(){with(this){return _h('div',{staticClass:"statusbar-overlay"})}}],};
 
-var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",class:classesObject},[_t("default")])}},staticRenderFns: [],
+var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",class:classesObject,style:({'display': opened ? 'block' : ''}),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
   props: {
     'side': String,
     'effect': String,
@@ -28,7 +28,8 @@ var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",
     'left': Boolean,
     'right': Boolean,
     'theme': String,
-    'layout': String
+    'layout': String,
+    'opened': Boolean
   },
   computed: {
     classesObject: function () {
@@ -40,7 +41,53 @@ var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",
       co['panel-' + effect] = true;
       if (self.layout) { co['layout-' + self.layout] = true; }
       if (self.theme) { co['theme-' + self.theme] = true; }
+      co['active'] = self.opened;
       return co;
+    }
+  },
+  watch: {
+    opened: function (opened) {
+      var self = this;
+      if (!self.$f7) { return; }
+      var side = self.side || (self.left ? 'left' : 'right');
+      if (opened) {
+        self.$f7.openPanel(side);
+      }
+      else {
+        self.$f7.closePanel(side);
+      }
+    }
+  },
+  mounted: function () {
+    var self = this;
+    var $$ = self.$$;
+    if (!$$) { return; }
+    var side = self.side || (self.left ? 'left' : 'right');
+    var effect = self.effect || (self.reveal ? 'reveal' : 'cover');
+    if (self.opened) {
+      $$('body').addClass('with-panel-' + side + '-' + effect);
+    }
+  },
+  methods: {
+    onOpen: function (event) {
+      this.$emit('open', event);
+    },
+    onOpened: function (event) {
+      this.$emit('opened', event);
+    },
+    onClose: function (event) {
+      this.$emit('open', event);
+    },
+    onClosed: function (event) {
+      this.$emit('closed', event);
+    },
+    onF7Init: function () {
+      var self = this;
+      var $$ = self.$$;
+      if (!$$) { return; }
+      if ($$(self.$root.$el).find('.panel-overlay').length === 0) {
+        $$('<div class="panel-overlay"></div>').insertBefore(self.$el);
+      }
     }
   }
 };
@@ -208,7 +255,7 @@ var View = {
   }
 };
 
-var Pages = {render: function(){with(this){return _h('div',{staticClass:"pages",class:classesObject,on:{"pagebeforeremove":onPageBeforeRemove}},[_t("default"),_l((pages),function(page,key){return _h(page.component,{tag:"component"})})])}},staticRenderFns: [],
+var Pages = {render: function(){with(this){return _h('div',{ref:"pages",staticClass:"pages",class:classesObject,on:{"pagebeforeremove":onPageBeforeRemove}},[_t("default"),_l((pages),function(page,key){return _h(page.component,{tag:"component"})})])}},staticRenderFns: [],
   props: {
     'navbar-fixed': Boolean,
     'navbar-through': Boolean,
@@ -919,6 +966,8 @@ var ListItem = {
         'class': {
           'item-link': true,
           'external': self.linkExternal,
+          'back': self.linkBack,
+          'no-fastclick': self.linkNoFastclick,
           'smart-select': self.smartSelect,
           'close-panel': self.linkClosePanel,
           'open-panel': self.linkOpenPanel,
@@ -991,6 +1040,8 @@ var ListItem = {
     // Link Props
     'link': [String, Boolean],
     'link-external': Boolean,
+    'link-back': Boolean,
+    'link-no-fastclick': Boolean,
 
     'link-force': Boolean,
     'link-reload': Boolean,
@@ -1262,6 +1313,9 @@ var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{
     'external': Boolean,
     'link-external': Boolean,
     'back': Boolean,
+    'link-back': Boolean,
+    'no-fastclick': Boolean,
+    'link-no-fastlick': Boolean,
 
     // View
     view: String,
@@ -1299,7 +1353,8 @@ var ListButton = {render: function(){with(this){return _h('li',[(title)?_h('a',{
       var self = this;
       var co = {
         'external': self.external || self.linkExternal,
-        'back': self.back
+        'back': self.back || self.linkBack,
+        'no-fastclick': self.noFastclick || self.linkNoFastclick
       };
 
       // Panel
@@ -1379,6 +1434,7 @@ var ButtonsSegmented = {render: function(){with(this){return _h('div',{staticCla
 var LinkMixin = {
   props: {
     noLinkClass: Boolean,
+    noFastclick: Boolean,
 
     external: Boolean,
     color: String,
@@ -1486,8 +1542,10 @@ var LinkMixin = {
       if (self.color) { co['color-' + self.color] = true; }
       if (self.theme) { co['theme-' + self.theme] = true; }
       if (self.bg) { co['bg-' + self.bg] = true; }
-      if (self.back) { co['back'] = true; }
-      if (self.external) { co['external'] = true; }
+
+      co['back'] = self.back;
+      co['external'] = self.external;
+      co['no-fastclick'] = self.noFastclick;
 
       // Button
       ['round', 'fill', 'big', 'raised'].forEach(function (prop, index) {
@@ -1495,7 +1553,7 @@ var LinkMixin = {
       });
 
       // Active
-      if (self.active) { co['active'] = true; }
+      co['active'] = self.active;
 
       // Panel
       if (self.closePanel) { co['close-panel'] = true; }
@@ -2751,14 +2809,6 @@ var framework7Vue = {
       if (!window.Framework7) { return; }
       f7Params = f7Params || {};
 
-      // Add Panel Overlay
-      if ($$('.panel').length > 0 && $$('.panel-overlay').length === 0) {
-        if ($$('.statusbar-overlay').length > 0) {
-          $$('<div class="panel-overlay"></div>').insertAfter('.statusbar-overlay');
-        }
-        else { $$(f7Params.root).prepend('<div class="panel-overlay"></div>'); }
-      }
-
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
@@ -2794,7 +2844,9 @@ var framework7Vue = {
       beforeCreate: function () {
         var self = this;
         // Route
-        if (self.$parent && self.$parent.$parent && self.$parent.$parent.$route) { self.$route = self.$parent.$parent.$route; }
+        if (self.$parent && self.$parent.$refs.pages) {
+          self.$route = self.$parent.$parent.$route;
+        }
         // Theme
         if (theme.ios === false && theme.material === false) {
           if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
