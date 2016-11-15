@@ -30,7 +30,8 @@ var app = new Vue({
         },
         popupOpened: false,
         loginScreenOpened: false,
-        pickerOpened: false
+        pickerOpened: false,
+        actionsOpened: false
       };
     },
     // Custom App Methods

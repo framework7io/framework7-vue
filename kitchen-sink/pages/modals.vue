@@ -41,6 +41,9 @@
           <f7-button open-picker="#demo-picker">Picker</f7-button>
           -->
         </f7-col>
+        <f7-col>
+          <f7-button @click="openActions">Actions</f7-button>
+        </f7-col>
       </f7-grid>
     </f7-block>
 
@@ -106,6 +109,10 @@
       openLoginScreen: function () {
         var self = this;
         self.$root.loginScreenOpened = true;
+      },
+      openActions: function () {
+        var self = this;
+        self.$root.actionsOpened = true;
       }
     }
   }

@@ -163,6 +163,17 @@
         </f7-pages>
       </f7-view>
     </f7-login-screen>
+    <!-- Actions -->
+    <f7-actions :opened="actionsOpened" @closed="actionsOpened=false">
+      <f7-actions-group>
+        <f7-actions-label>Hello</f7-actions-label>
+        <f7-actions-button>Button 1</f7-actions-button>
+        <f7-actions-button>Button 2</f7-actions-button>
+      </f7-actions-group>
+      <f7-actions-group>
+        <f7-actions-button color="red" bold>Cancel</f7-actions-button>
+      </f7-actions-group>
+    </f7-actions>
   </div>
   <script src="framework7/framework7.js"></script>
   <script src="build.js"></script>

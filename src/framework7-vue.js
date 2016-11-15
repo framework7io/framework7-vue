@@ -60,6 +60,10 @@ import Popup from './components/popup.vue';
 import PickerModal from './components/picker-modal.vue';
 import LoginScreen from './components/login-screen.vue';
 import LoginScreenTitle from './components/login-screen-title.vue';
+import Actions from './components/actions.vue';
+import ActionsGroup from './components/actions-group.vue';
+import ActionsButton from './components/actions-button.vue';
+import ActionsLabel from './components/actions-label.vue';
 import PhotoBrowser from './components/photo-browser.vue';
 
 import Template7Template from './components/template7-template.vue';
@@ -332,8 +336,12 @@ export default {
         'f7-popup': Popup,
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
-        'f7-photo-browser': PhotoBrowser,
         'f7-picker-modal': PickerModal,
+        'f7-actions': Actions,
+        'f7-actions-group': ActionsGroup,
+        'f7-actions-label': ActionsLabel,
+        'f7-actions-button': ActionsButton,
+        'f7-photo-browser': PhotoBrowser,
         't7-template': Template7Template,
       }
     });
