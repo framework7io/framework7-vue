@@ -75,11 +75,10 @@
         this.$emit('closed', event);
       },
       onF7Init: function () {
-        var self = this;
-        var $$ = self.$$
+        var $$ = this.$$
         if (!$$) return;
-        if ($$(self.$root.$el).find('.panel-overlay').length === 0) {
-          $$('<div class="panel-overlay"></div>').insertBefore(self.$el)
+        if ($$('.panel-overlay').length === 0) {
+          $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
         }
       }
     }

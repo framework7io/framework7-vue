@@ -59,7 +59,7 @@
         var $$ = this.$$;
         if (!$$) return;
         if ($$('.popup-overlay').length === 0) {
-          $$(this.$root.$el).append('<div class="popup-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>')
+          $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
       }
     }
