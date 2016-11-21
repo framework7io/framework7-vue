@@ -16,10 +16,12 @@
       opened: function (opened) {
         var self = this;
         if (!self.$f7) return;
+        var $$ = self.$$;
         if (opened) {
           self.$f7.loginScreen(self.$el)
         }
         else {
+          if (!$$(self.$el).hasClass('modal-in')) return;
           self.$f7.closeModal(self.$el)
         }
       }

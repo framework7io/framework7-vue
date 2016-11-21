@@ -107,7 +107,7 @@
       </f7-block>
     </f7-picker-modal>
     <!-- Popup -->
-    <f7-popup id="demo-popup" :opened="popupOpened">
+    <f7-popup id="demo-popup" :opened="popupOpened" @closed="popupOpened=false">
       <f7-view>
         <f7-pages>
           <f7-page navbar-fixed>
