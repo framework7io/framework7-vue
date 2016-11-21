@@ -68,10 +68,7 @@
     },
     props: {
       // Inputs
-      type: {
-        type: String,
-        default: 'text'
-      },
+      type: String,
       name: String,
       placeholder: String,
       id: String,

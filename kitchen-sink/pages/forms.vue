@@ -6,7 +6,7 @@
     <f7-list form>
       <f7-list-item>
         <f7-label>Name</f7-label>
-        <f7-input placeholder="Name"></f7-input>
+        <f7-input type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Password</f7-label>
@@ -57,7 +57,7 @@
     <f7-list form>
       <f7-list-item>
         <f7-label floating>Name</f7-label>
-        <f7-input placeholder="Name"></f7-input>
+        <f7-input type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label floating>Password</f7-label>
@@ -72,7 +72,7 @@
     <f7-block-title>Form Without Labels</f7-block-title>
     <f7-list form>
       <f7-list-item>
-        <f7-input placeholder="Name"></f7-input>
+        <f7-input type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-input type="password" placeholder="Password"></f7-input>
