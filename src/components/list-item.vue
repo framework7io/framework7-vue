@@ -27,7 +27,7 @@
           'disabled': self.disabledn
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-      }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after, self.$slots.default]);
+      }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, self.$slots.default]);
 
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
@@ -104,6 +104,7 @@
         if (self.swipeout || self.accordionItem) {
           liChildren.push(self.$slots.default);
         }
+        liChildren.unshift(self.$slots['root-start']);
         liChildren.push(self.$slots.root);
       }
 

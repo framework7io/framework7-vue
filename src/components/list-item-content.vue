@@ -3,16 +3,24 @@
     render: function (c) {
       var titleEl, afterWrapEl, afterEl, badgeEl, innerEl, titleRowEl, subtitleEl, textEl, mediaEl, inputEl, inputIconEl;
       var self = this;
-      var slotsContent = [],
+      var slotsContentStart = [],
+          slotsContent = [],
+          slotsInnerStart = [],
           slotsInner = [],
+          slotsAfterStart = [],
           slotsAfter = [],
+          slotsMediaStart = [],
           slotsMedia = [];
       if (self.$slots.default && self.$slots.default.length > 0) {
         for (var i = 0; i < self.$slots.default.length; i++) {
           var slotName = self.$slots.default[i].data ? self.$slots.default[i].data.slot : undefined;
+          if (slotName && slotName === 'content-start') slotsContentStart.push(self.$slots.default[i]);
           if (slotName && slotName === 'content') slotsContent.push(self.$slots.default[i]);
+          if (slotName && slotName === 'after-start') slotsAfterStart.push(self.$slots.default[i]);
           if (slotName && slotName === 'after') slotsAfter.push(self.$slots.default[i]);
+          if (slotName && slotName === 'media-start') slotsMediaStart.push(self.$slots.default[i]);
           if (slotName && slotName === 'media') slotsMedia.push(self.$slots.default[i]);
+          if (slotName && slotName === 'inner-start') slotsInnerStart.push(self.$slots.default[i]);
           if (!slotName || slotName && slotName === 'inner') slotsInner.push(self.$slots.default[i]);
         }
       }
@@ -34,7 +42,7 @@
         });
       }
       // Media
-      if (self.media || self.checkbox || self.radio && self.$theme.material || slotsMedia.length) {
+      if (self.media || self.checkbox || self.radio && self.$theme.material || slotsMediaStart.length || slotsMedia.length) {
         if (self.checkbox || self.radio && self.$theme.material) {
           if (self.media) {
             inputIconEl = '<i class="icon icon-form-' +(self.radio ? 'radio' : 'checkbox')+ '"></i>'
@@ -44,12 +52,12 @@
             var iconClasses = {'icon': true};
             iconClasses['icon-form-' + (self.radio ? 'radio' : 'checkbox')] = true;
             inputIconEl = c('i', {'class': iconClasses})
-            mediaEl = c('div', {'class': {'item-media': true}}, [inputIconEl, slotsMedia]);
+            mediaEl = c('div', {'class': {'item-media': true}}, [slotsMediaStart, inputIconEl, slotsMedia]);
           }
         }
         else {
           if (self.media) mediaEl = c('div', {'class': {'item-media': true}, domProps: {innerHTML: self.media}});
-          else mediaEl = c('div', {'class': {'item-media': true}}, [slotsMedia]);
+          else mediaEl = c('div', {'class': {'item-media': true}}, [slotsMediaStart, slotsMedia]);
         }
       }
       // Inner Elements
@@ -69,14 +77,14 @@
         if (self.badge) {
           badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, [self.badge])
         }
-        afterWrapEl = c('div', {'class': {'item-after': true}}, [afterEl, badgeEl, slotsAfter]);
+        afterWrapEl = c('div', {'class': {'item-after': true}}, [slotsAfterStart, afterEl, badgeEl, slotsAfter]);
       }
       if (self.mediaList) {
         titleRowEl = c('div', {'class': {'item-title-row': true}}, [titleEl, afterWrapEl])
       }
-      innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [titleRowEl, subtitleEl, textEl, self.$slots.inner] : [titleEl, afterWrapEl, slotsInner]);
+      innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [slotsInnerStart, titleRowEl, subtitleEl, textEl, slotsInner] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner]);
       // Finalize
-      return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [inputEl, mediaEl, innerEl, slotsContent]);
+      return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [slotsContentStart, inputEl, mediaEl, innerEl, slotsContent]);
     },
     props: {
       'title': [String, Number],
