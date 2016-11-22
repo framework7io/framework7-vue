@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.5.7
+ * Framework7 Vue 0.5.8
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: November 14, 2016
+ * Released on: November 22, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -17,7 +17,7 @@
   (global.Framework7Vue = factory());
 }(this, (function () {
 
-var StatusBar = {render: function(){with(this){return _m(0)}},staticRenderFns: [function(){with(this){return _h('div',{staticClass:"statusbar-overlay"})}}],};
+var StatusBar = {render: function(){with(this){return _h('div',{staticClass:"statusbar-overlay"})}},staticRenderFns: [],};
 
 var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",class:classesObject,style:({'display': opened ? 'block' : ''}),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
   props: {
@@ -82,11 +82,10 @@ var Panel = {render: function(){with(this){return _h('div',{staticClass:"panel",
       this.$emit('closed', event);
     },
     onF7Init: function () {
-      var self = this;
-      var $$ = self.$$;
+      var $$ = this.$$;
       if (!$$) { return; }
-      if ($$(self.$root.$el).find('.panel-overlay').length === 0) {
-        $$('<div class="panel-overlay"></div>').insertBefore(self.$el);
+      if ($$('.panel-overlay').length === 0) {
+        $$('<div class="panel-overlay"></div>').insertBefore(this.$el);
       }
     }
   }
@@ -929,7 +928,7 @@ var ListItem = {
         'disabled': self.disabledn
       },
       on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-    }, [self.$slots.content, self.$slots.media, self.$slots.inner, self.$slots.after, self.$slots.default]);
+    }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, self.$slots.default]);
 
     // Link
     if (self.link || self.accordionItem || self.smartSelect) {
@@ -1006,6 +1005,7 @@ var ListItem = {
       if (self.swipeout || self.accordionItem) {
         liChildren.push(self.$slots.default);
       }
+      liChildren.unshift(self.$slots['root-start']);
       liChildren.push(self.$slots.root);
     }
 
@@ -1147,16 +1147,24 @@ var ListItemContent = {
   render: function (c) {
     var titleEl, afterWrapEl, afterEl, badgeEl, innerEl, titleRowEl, subtitleEl, textEl, mediaEl, inputEl, inputIconEl;
     var self = this;
-    var slotsContent = [],
+    var slotsContentStart = [],
+        slotsContent = [],
+        slotsInnerStart = [],
         slotsInner = [],
+        slotsAfterStart = [],
         slotsAfter = [],
+        slotsMediaStart = [],
         slotsMedia = [];
     if (self.$slots.default && self.$slots.default.length > 0) {
       for (var i = 0; i < self.$slots.default.length; i++) {
         var slotName = self.$slots.default[i].data ? self.$slots.default[i].data.slot : undefined;
+        if (slotName && slotName === 'content-start') { slotsContentStart.push(self.$slots.default[i]); }
         if (slotName && slotName === 'content') { slotsContent.push(self.$slots.default[i]); }
+        if (slotName && slotName === 'after-start') { slotsAfterStart.push(self.$slots.default[i]); }
         if (slotName && slotName === 'after') { slotsAfter.push(self.$slots.default[i]); }
+        if (slotName && slotName === 'media-start') { slotsMediaStart.push(self.$slots.default[i]); }
         if (slotName && slotName === 'media') { slotsMedia.push(self.$slots.default[i]); }
+        if (slotName && slotName === 'inner-start') { slotsInnerStart.push(self.$slots.default[i]); }
         if (!slotName || slotName && slotName === 'inner') { slotsInner.push(self.$slots.default[i]); }
       }
     }
@@ -1178,7 +1186,7 @@ var ListItemContent = {
       });
     }
     // Media
-    if (self.media || self.checkbox || self.radio && self.$theme.material || slotsMedia.length) {
+    if (self.media || self.checkbox || self.radio && self.$theme.material || slotsMediaStart.length || slotsMedia.length) {
       if (self.checkbox || self.radio && self.$theme.material) {
         if (self.media) {
           inputIconEl = '<i class="icon icon-form-' +(self.radio ? 'radio' : 'checkbox')+ '"></i>';
@@ -1188,12 +1196,12 @@ var ListItemContent = {
           var iconClasses = {'icon': true};
           iconClasses['icon-form-' + (self.radio ? 'radio' : 'checkbox')] = true;
           inputIconEl = c('i', {'class': iconClasses});
-          mediaEl = c('div', {'class': {'item-media': true}}, [inputIconEl, slotsMedia]);
+          mediaEl = c('div', {'class': {'item-media': true}}, [slotsMediaStart, inputIconEl, slotsMedia]);
         }
       }
       else {
         if (self.media) { mediaEl = c('div', {'class': {'item-media': true}, domProps: {innerHTML: self.media}}); }
-        else { mediaEl = c('div', {'class': {'item-media': true}}, [slotsMedia]); }
+        else { mediaEl = c('div', {'class': {'item-media': true}}, [slotsMediaStart, slotsMedia]); }
       }
     }
     // Inner Elements
@@ -1213,14 +1221,14 @@ var ListItemContent = {
       if (self.badge) {
         badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, [self.badge]);
       }
-      afterWrapEl = c('div', {'class': {'item-after': true}}, [afterEl, badgeEl, slotsAfter]);
+      afterWrapEl = c('div', {'class': {'item-after': true}}, [slotsAfterStart, afterEl, badgeEl, slotsAfter]);
     }
     if (self.mediaList) {
       titleRowEl = c('div', {'class': {'item-title-row': true}}, [titleEl, afterWrapEl]);
     }
-    innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [titleRowEl, subtitleEl, textEl, self.$slots.inner] : [titleEl, afterWrapEl, slotsInner]);
+    innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [slotsInnerStart, titleRowEl, subtitleEl, textEl, slotsInner] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner]);
     // Finalize
-    return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [inputEl, mediaEl, innerEl, slotsContent]);
+    return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [slotsContentStart, inputEl, mediaEl, innerEl, slotsContent]);
   },
   props: {
     'title': [String, Number],
@@ -1789,10 +1797,7 @@ var FormInput = {
   },
   props: {
     // Inputs
-    type: {
-      type: String,
-      default: 'text'
-    },
+    type: String,
     name: String,
     placeholder: String,
     id: String,
@@ -1836,7 +1841,7 @@ var FormInput = {
   })()
 };
 
-var FormSwitch = {render: function(){with(this){return _h('label',{staticClass:"label-switch",class:color ? 'color-' + color : '',on:{"click":onClick}},[_h('input',{style:(style),attrs:{"type":"checkbox","name":name,"id":id,"disabled":disabled,"readonly":readonly,"required":required},domProps:{"value":value,"checked":checked},on:{"input":onInput,"change":onChange}}),_m(0)])}},staticRenderFns: [function(){with(this){return _h('div',{staticClass:"checkbox"})}}],
+var FormSwitch = {render: function(){with(this){return _h('label',{staticClass:"label-switch",class:color ? 'color-' + color : '',on:{"click":onClick}},[_h('input',{style:(style),attrs:{"type":"checkbox","name":name,"id":id,"disabled":disabled,"readonly":readonly,"required":required},domProps:{"value":value,"checked":checked},on:{"input":onInput,"change":onChange}}),_h('div',{staticClass:"checkbox"})])}},staticRenderFns: [],
   props: {
     name: String,
     id: String,
@@ -2326,7 +2331,7 @@ var Tab = {render: function(){with(this){return _h('div',{staticClass:"tab",clas
   }
 };
 
-var Popover = {render: function(){with(this){return _h('div',{staticClass:"popover",on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_m(0),_h('div',{staticClass:"popover-content"},[_t("default")])])}},staticRenderFns: [function(){with(this){return _h('div',{staticClass:"popover-angle"})}}],
+var Popover = {render: function(){with(this){return _h('div',{staticClass:"popover",on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_h('div',{staticClass:"popover-angle"}),_h('div',{staticClass:"popover-content"},[_t("default")])])}},staticRenderFns: [],
   methods: {
     onOpen: function (event) {
       this.$emit('open', event);
@@ -2348,10 +2353,12 @@ var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",
     opened: function (opened) {
       var self = this;
       if (!self.$f7) { return; }
+      var $$ = self.$$;
       if (opened) {
         self.$f7.popup(self.$el);
       }
       else {
+        if (!$$(self.$el).hasClass('modal-in')) { return; }
         self.$f7.closeModal(self.$el);
       }
     }
@@ -2391,7 +2398,7 @@ var Popup = {render: function(){with(this){return _h('div',{staticClass:"popup",
       var $$ = this.$$;
       if (!$$) { return; }
       if ($$('.popup-overlay').length === 0) {
-        $$(this.$root.$el).append('<div class="popup-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+        $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
       }
     }
   }
@@ -2488,7 +2495,7 @@ var PickerModal = {
       var $$ = this.$$;
       if (!$$) { return; }
       if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
-        $$(this.$root.$el).append('<div class="picker-modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+        $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
       }
     }
   }
@@ -2499,10 +2506,12 @@ var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"l
     opened: function (opened) {
       var self = this;
       if (!self.$f7) { return; }
+      var $$ = self.$$;
       if (opened) {
         self.$f7.loginScreen(self.$el);
       }
       else {
+        if (!$$(self.$el).hasClass('modal-in')) { return; }
         self.$f7.closeModal(self.$el);
       }
     }
@@ -2540,6 +2549,98 @@ var LoginScreen = {render: function(){with(this){return _h('div',{staticClass:"l
 };
 
 var LoginScreenTitle = {render: function(){with(this){return _h('div',{staticClass:"login-screen-title"},[_t("default")])}},staticRenderFns: [],};
+
+var Actions = {render: function(){with(this){return _h('div',{staticClass:"actions-modal",class:{'modal-in': opened},style:({'display': opened ? 'block' : ''}),on:{"open":onOpen,"opened":onOpened,"close":onClose,"closed":onClosed}},[_t("default")])}},staticRenderFns: [],
+  watch: {
+    opened: function (opened) {
+      var self = this;
+      if (!self.$f7) { return; }
+      if (opened) {
+        self.$f7.openModal(self.$el);
+      }
+      else {
+        self.$f7.closeModal(self.$el);
+      }
+    }
+  },
+  props: {
+      opened: Boolean
+  },
+  methods: {
+    onOpen: function (event) {
+      this.$emit('open', event);
+    },
+    onOpened: function (event) {
+      this.$emit('opened', event);
+    },
+    onClose: function (event) {
+      this.$emit('close', event);
+    },
+    onClosed: function (event) {
+      this.$emit('closed', event);
+    },
+    onF7Init: function () {
+      var $$ = this.$$;
+      if (!$$) { return; }
+      if ($$('.modal-overlay').length === 0) {
+        $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
+      }
+    }
+  }
+};
+
+var ActionsGroup = {render: function(){with(this){return _h('div',{staticClass:"actions-modal-group"},[_t("default")])}},staticRenderFns: [],};
+
+var ActionsButton = {render: function(){with(this){return _h('div',{staticClass:"actions-modal-button",class:classesObject,on:{"click":onClick}},[_t("default")])}},staticRenderFns: [],
+  props: {
+    'color': String,
+    'bold': Boolean,
+    'close': {
+      type: Boolean,
+      default: true
+    }
+  },
+  computed: {
+    classesObject: function () {
+      var self = this;
+      var co = {
+        'actions-modal-button-bold': self.bold
+      };
+      if (self.color) { co['color-' + self.color] = true; }
+      return co;
+    }
+  },
+  methods: {
+    onClick: function (event) {
+      if (this.close && this.$f7) {
+        this.$f7.closeModal(this.$parent.$parent.$el);
+      }
+      this.$emit('click', event);
+    }
+  }
+};
+
+var ActionsLabel = {render: function(){with(this){return _h('div',{staticClass:"actions-modal-label",class:classesObject,on:{"click":onClick}},[_t("default")])}},staticRenderFns: [],
+  props: {
+    color: String,
+    bold: Boolean
+  },
+  computed: {
+    classesObject: function () {
+      var self = this;
+      var co = {
+        'actions-modal-button-bold': self.bold
+      };
+      if (self.color) { co['color-' + self.color] = true; }
+      return co
+    }
+  },
+  methods: {
+    onClick: function (event) {
+      this.$emit('click', event);
+    }
+  }
+};
 
 var PhotoBrowser = {
   render: function () {},
@@ -2935,8 +3036,12 @@ var framework7Vue = {
         'f7-popup': Popup,
         'f7-login-screen': LoginScreen,
         'f7-login-screen-title': LoginScreenTitle,
-        'f7-photo-browser': PhotoBrowser,
         'f7-picker-modal': PickerModal,
+        'f7-actions': Actions,
+        'f7-actions-group': ActionsGroup,
+        'f7-actions-label': ActionsLabel,
+        'f7-actions-button': ActionsButton,
+        'f7-photo-browser': PhotoBrowser,
         't7-template': Template7Template,
       }
     });
