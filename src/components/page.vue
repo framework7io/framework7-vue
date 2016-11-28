@@ -4,7 +4,7 @@
       var pageEl, pageContentEl, ptrEl, infiniteEl, fixedList = [], staticList = [];
       var self = this;
 
-      if (self.pullToRefresh && (self.ptrLayer || self.pullToRefreshLayer)) {
+      if (self.pullToRefresh && (self.ptrLayer && self.pullToRefreshLayer)) {
         ptrEl = c('div', {class: {'pull-to-refresh-layer': true}} ,[
           c('div', {class: {'preloader': true}}),
           c('div', {class: {'pull-to-refresh-arrow': true}})
@@ -47,6 +47,7 @@
       if (withMessages) self.classesObjectPageContent['messages-content'] = true;
       if (!self.noPageContent) {
         pageContentEl = c('div', {
+          staticClass: 'page-content',
           class: self.classesObjectPageContent,
           attrs: {
             'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
@@ -69,6 +70,7 @@
 
       if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
       pageEl = c('div', {
+          staticClass: 'page',
         class: self.classesObjectPage,
         attrs: {
           'data-page': self.name
@@ -136,7 +138,6 @@
     computed: {
       classesObjectPage: function () {
         var co = {
-          'page': true,
           'cached': this.cached,
           'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
           'navbar-through': this.navbarThrough,
@@ -159,7 +160,6 @@
       },
       classesObjectPageContent: function () {
         return {
-          'page-content': true,
           'pull-to-refresh-content': this.pullToRefresh,
           'infinite-scroll': this.infiniteScroll,
           'infinite-scroll-top': this.infiniteScroll === 'top',

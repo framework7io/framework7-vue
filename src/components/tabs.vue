@@ -2,7 +2,7 @@
   export default {
     render: function (c) {
       var self = this;
-      var tabs = c('div', {class: {tabs: true}}, [self.$slots.default]);
+      var tabs = c('div', {staticClass: 'tabs'}, [self.$slots.default]);
       if (self.animated || self.swipeable) return c('div', {class: self.classesObject}, [tabs]);
       else return tabs;
     },

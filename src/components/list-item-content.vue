@@ -56,19 +56,19 @@
           }
         }
         else {
-          if (self.media) mediaEl = c('div', {'class': {'item-media': true}, domProps: {innerHTML: self.media}});
-          else mediaEl = c('div', {'class': {'item-media': true}}, [slotsMediaStart, slotsMedia]);
+          if (self.media) mediaEl = c('div', {staticClass: 'item-media', domProps: {innerHTML: self.media}});
+          else mediaEl = c('div', {staticClass: 'item-media'}, [slotsMediaStart, slotsMedia]);
         }
       }
       // Inner Elements
       if (self.title) {
-        titleEl = c('div', {'class': {'item-title': true}, domProps: {innerHTML: self.title}}, [self.title]);
+        titleEl = c('div', {staticClass: 'item-title', domProps: {innerHTML: self.title}}, [self.title]);
       }
       if (self.subtitle) {
-        subtitleEl = c('div', {'class': {'item-subtitle': true}, domProps: {innerHTML: self.subtitle}}, [self.subtitle]);
+        subtitleEl = c('div', {staticClass: 'item-subtitle', domProps: {innerHTML: self.subtitle}}, [self.subtitle]);
       }
       if (self.text) {
-        textEl = c('div', {'class': {'item-text': true}, domProps: {innerHTML: self.text}});
+        textEl = c('div', {staticClass: 'item-text', domProps: {innerHTML: self.text}});
       }
       if (self.after || self.badge || slotsAfter.length) {
         if (self.after) {
@@ -77,14 +77,14 @@
         if (self.badge) {
           badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, [self.badge])
         }
-        afterWrapEl = c('div', {'class': {'item-after': true}}, [slotsAfterStart, afterEl, badgeEl, slotsAfter]);
+        afterWrapEl = c('div', {staticClass: 'item-after'}, [slotsAfterStart, afterEl, badgeEl, slotsAfter]);
       }
       if (self.mediaList) {
-        titleRowEl = c('div', {'class': {'item-title-row': true}}, [titleEl, afterWrapEl])
+        titleRowEl = c('div', {staticClass: 'item-title-row'}, [titleEl, afterWrapEl])
       }
-      innerEl = c('div', {'class': {'item-inner': true}}, self.mediaList ? [slotsInnerStart, titleRowEl, subtitleEl, textEl, slotsInner] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner]);
+      innerEl = c('div', {staticClass: 'item-inner'}, self.mediaList ? [slotsInnerStart, titleRowEl, subtitleEl, textEl, slotsInner] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner]);
       // Finalize
-      return c((self.checkbox || self.radio) ? 'label': 'div', {'class': {'item-content': true, 'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [slotsContentStart, inputEl, mediaEl, innerEl, slotsContent]);
+      return c((self.checkbox || self.radio) ? 'label': 'div', {staticClass: 'item-content', 'class': {'label-checkbox': self.checkbox, 'label-radio': self.radio}, on: {click: self.onClick}}, [slotsContentStart, inputEl, mediaEl, innerEl, slotsContent]);
     },
     props: {
       'title': [String, Number],

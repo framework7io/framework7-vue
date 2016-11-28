@@ -15,7 +15,7 @@
         footerEl = c('f7-card-footer', {domProps: {innerHTML: self.footer}});
       }
 
-      return c('div', {class: {'card': true}}, [headerEl, contentEl, footerEl, self.$slots.default]);
+      return c('div', {staticClass: 'card'}, [headerEl, contentEl, footerEl, self.$slots.default]);
     },
     props: ['title', 'content', 'footer']
   }

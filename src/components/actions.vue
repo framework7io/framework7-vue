@@ -1,5 +1,5 @@
 <template>
-  <div class="actions-modal"
+  <div class="actions-modal keep-on-close"
     :class="{'modal-in': opened}"
     :style="{'display': opened ? 'block' : ''}"
     @open="onOpen"

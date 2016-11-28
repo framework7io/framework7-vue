@@ -49,7 +49,7 @@
         }
       }
       else {
-        if(self.$slots.default && self.$slots.default.length > 0) {
+        if(self.$slots.default && self.$slots.default.length > 0 || !self.type) {
           inputEl = self.$slots.default;
         }
         else {
@@ -63,7 +63,7 @@
         }
       }
 
-      var itemInput = self.wrap ? c('div', {'class': {'item-input': true}}, [inputEl]) : inputEl;
+      var itemInput = self.wrap ? c('div', {staticClass: 'item-input'}, [inputEl]) : inputEl;
       return itemInput;
     },
     props: {

@@ -33,8 +33,8 @@
       blockEl = c(
         self.form ? 'form' : 'div',
         {
+          staticClass: 'list-block',
           'class': {
-            'list-block': true,
             'inset': self.inset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
