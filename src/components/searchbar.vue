@@ -1,26 +1,65 @@
-<template>
-  <form class="searchbar" @search="onSearch" @enableSearch="onEnable" @disableSearch="onDisable" @clearSearch="onClear">
-    <slot>
-      <div class="searchbar-input">
-        <input type="search"
-        :placeholder="placeholder"
-        @input="onInput"
-        @change="onChange"
-        @focus="onFocus"
-        @blur="onBlur"
-        >
-        <a href="#" class="searchbar-clear" @click="onClearClick" v-if="clear"></a>
-      </div>
-      <a href="#" class="searchbar-cancel" @click="onCancelClick" v-if="cancelLink && !$theme.material">{{cancelLink}}</a>
-    </slot>
-  </form>
-</template>
 <script>
   export default {
+    render: function (c) {
+      var self = this;
+      var clearEl, cancelEl, inputEl, inputWrapEl;
+      inputEl = c('input', {
+        attrs: {
+          'placeholder': self.placeholder,
+          'type': 'search'
+        },
+        on: {
+          input: self.onInput,
+          change: self.onChange,
+          focus: self.onFocus,
+          blue: self.onBlur
+        }
+      });
+      if (self.clear) {
+        clearEl = c('a', {
+          staticClass: 'searchbar-clear',
+          attrs: {
+            'href' : '#'
+          },
+          on: {
+            click: self.onClearClick
+          }
+        });
+      }
+      if (self.cancelLink) {
+        cancelEl = c('a', {
+          staticClass: 'searchbar-cancel',
+          attrs: {
+            'href' : '#'
+          },
+          domProps: {
+            innerHTML: self.cancelLink
+          },
+          on: {
+            click: self.onCancelClick
+          }
+        });
+      }
+      inputWrapEl = c('div', {staticClass:'searchbar-input'}, [inputEl, clearEl])
+
+      return c(self.form ? 'form' : 'div', {
+        staticClass: 'searchbar',
+        on: {
+          search: self.onSearch,
+          enableSearch: self.onEnable,
+          disableSearch: self.onDisable,
+          clearSearch: self.onClear
+        }
+      }, [self.$slots['before-input'], inputWrapEl, self.$slots['after-input'], cancelEl, self.$slots.default]);
+    },
     beforeDestroy: function () {
       if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
     },
     props: {
+      form: {
+        type: Boolean,
+        default: true
+      },
       placeholder: {
         type: String,
         default: 'Search'
