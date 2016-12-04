@@ -99,6 +99,7 @@
       },
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
+      'virtual-render-item': Function
     },
     methods: {
       onOpen: function (event) {
@@ -116,8 +117,8 @@
         if (!(self.virtual && self.virtualInit)) return;
         var $$ = self.$$;
         var template = $$(self.$el).find('script').html();
-        if (!template) return;
-        template = self.$t7.compile(template);
+        if (!template && !self.virtualRenderItem) return;
+        if (template) template = self.$t7.compile(template);
 
         self.f7VirtualList = f7.virtualList(self.$el, {
           items: self.virtualItems || [],
@@ -129,6 +130,7 @@
           showFilteredItemsOnly: self.virtualFilteredOnly,
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
+          renderItem: self.virtualRenderItem,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtualItemBeforeInsert', list, item);
           },
