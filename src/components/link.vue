@@ -9,7 +9,7 @@
         if (self.badge) badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge);
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
       }
-      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7) {
         if (self.iconBadge) iconBadgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.iconBadge);
         iconEl = c('f7-icon', {props: {
           material: self.iconMaterial,
