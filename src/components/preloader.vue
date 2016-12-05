@@ -2,7 +2,17 @@
   <span class="preloader"
     :class="(color ? ('color-' + color + ' preloader-' + color) : '')"
     :style="(sizeComputed ? 'width:' + (sizeComputed) + 'px; height:' + (sizeComputed) + 'px' : '')"
-  ></span>
+  >
+    <span class="preloader-inner" v-if="$theme.material">
+      <span class="preloader-inner-gap"></span>
+      <span class="preloader-inner-left">
+        <span class="preloader-inner-half-circle"></span>
+      </span>
+      <span class="preloader-inner-right">
+        <span class="preloader-inner-half-circle"></span>
+      </span>
+    </span>
+  </span>
 </template>
 <script>
   export default {
