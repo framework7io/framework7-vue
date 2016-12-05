@@ -6,12 +6,15 @@
       if (self.text) {
         textEl = c('span', {}, self.text);
       }
-      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || self.iconIfMaterial || self.iconIfIos) {
         iconEl = c('f7-icon', {props: {
           material: self.iconMaterial,
           ion: self.iconIon,
           fa: self.iconFa,
-          icon: self.icon
+          f7: self.iconF7,
+          icon: self.icon,
+          ifMaterial: self.iconIfMaterial,
+          ifIos: self.iconIfIos
         }})
       }
       self.classesObject['button'] = true;

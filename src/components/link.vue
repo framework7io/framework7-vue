@@ -9,14 +9,16 @@
         if (self.badge) badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge);
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
       }
-      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7) {
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || self.iconIfMaterial || self.iconIfIos) {
         if (self.iconBadge) iconBadgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.iconBadge);
         iconEl = c('f7-icon', {props: {
           material: self.iconMaterial,
           ion: self.iconIon,
           fa: self.iconFa,
           f7: self.iconF7,
-          icon: self.icon
+          icon: self.icon,
+          ifMaterial: self.iconIfMaterial,
+          ifIos: self.iconIfIos
         }}, [iconBadgeEl])
       }
       if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
