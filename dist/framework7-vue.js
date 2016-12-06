@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.6.0
+ * Framework7 Vue 0.6.1
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: November 28, 2016
+ * Released on: December 5, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -254,7 +254,7 @@ var View = {
   }
 };
 
-var Pages = {render: function(){var _vm=this;return _vm._h('div',{ref:"pages",staticClass:"pages",class:_vm.classesObject,on:{"pagebeforeremove":_vm.onPageBeforeRemove}},[_vm._t("default"),_vm._l((_vm.pages),function(page,key){return _vm._h(page.component,{tag:"component"})})])},staticRenderFns: [],
+var Pages = {render: function(){var _vm=this;return _vm._h('div',{ref:"pages",staticClass:"pages",class:_vm.classesObject,on:{"pageBeforeRemove":_vm.onPageBeforeRemove}},[_vm._t("default"),_vm._l((_vm.pages),function(page,key){return _vm._h(page.component,{tag:"component"})})])},staticRenderFns: [],
   props: {
     'navbar-fixed': Boolean,
     'navbar-through': Boolean,
@@ -833,6 +833,7 @@ var List = {
     },
     'virtual-search-by-item': Function,
     'virtual-search-all': Function,
+    'virtual-render-item': Function
   },
   methods: {
     onOpen: function (event) {
@@ -850,8 +851,8 @@ var List = {
       if (!(self.virtual && self.virtualInit)) { return; }
       var $$ = self.$$;
       var template = $$(self.$el).find('script').html();
-      if (!template) { return; }
-      template = self.$t7.compile(template);
+      if (!template && !self.virtualRenderItem) { return; }
+      if (template) { template = self.$t7.compile(template); }
 
       self.f7VirtualList = f7.virtualList(self.$el, {
         items: self.virtualItems || [],
@@ -863,6 +864,7 @@ var List = {
         showFilteredItemsOnly: self.virtualFilteredOnly,
         searchByItem: self.virtualSearchByItem,
         searchAll: self.virtualSearchAll,
+        renderItem: self.virtualRenderItem,
         onItemBeforeInsert: function (list, item) {
           self.$emit('virtualItemBeforeInsert', list, item);
         },
@@ -1455,6 +1457,8 @@ var LinkMixin = {
     iconIon: String,
     iconFa: String,
     iconF7: String,
+    iconIfMaterial: String,
+    iconIfIos: String,
     rippleColor: String,
     href: {
       type: String,
@@ -1610,14 +1614,16 @@ var Link = {
       if (self.badge) { badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge); }
       textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
     }
-    if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+    if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || self.iconIfMaterial || self.iconIfIos) {
       if (self.iconBadge) { iconBadgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.iconBadge); }
       iconEl = c('f7-icon', {props: {
         material: self.iconMaterial,
         ion: self.iconIon,
         fa: self.iconFa,
         f7: self.iconF7,
-        icon: self.icon
+        icon: self.icon,
+        ifMaterial: self.iconIfMaterial,
+        ifIos: self.iconIfIos
       }}, [iconBadgeEl]);
     }
     if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
@@ -1646,12 +1652,15 @@ var Button = {
     if (self.text) {
       textEl = c('span', {}, self.text);
     }
-    if (self.icon || self.iconMaterial || self.iconIon || self.iconFa) {
+    if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || self.iconIfMaterial || self.iconIfIos) {
       iconEl = c('f7-icon', {props: {
         material: self.iconMaterial,
         ion: self.iconIon,
         fa: self.iconFa,
-        icon: self.icon
+        f7: self.iconF7,
+        icon: self.icon,
+        ifMaterial: self.iconIfMaterial,
+        ifIos: self.iconIfIos
       }});
     }
     self.classesObject['button'] = true;
@@ -1697,7 +1706,7 @@ var GridCol = {render: function(){var _vm=this;return _vm._h('div',{class:('col-
   }
 };
 
-var Preloader = {render: function(){var _vm=this;return _vm._h('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:((_vm.sizeComputed ? 'width:' + (_vm.sizeComputed) + 'px; height:' + (_vm.sizeComputed) + 'px' : ''))})},staticRenderFns: [],
+var Preloader = {render: function(){var _vm=this;return _vm._h('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:((_vm.sizeComputed ? 'width:' + (_vm.sizeComputed) + 'px; height:' + (_vm.sizeComputed) + 'px' : ''))},[(_vm.$theme.material)?_vm._h('span',{staticClass:"preloader-inner"},[_vm._h('span',{staticClass:"preloader-inner-gap"})," ",_vm._m(0),_vm._m(1)]):_vm._e()])},staticRenderFns: [function(){var _vm=this;return _vm._h('span',{staticClass:"preloader-inner-left"},[_vm._h('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;return _vm._h('span',{staticClass:"preloader-inner-right"},[_vm._h('span',{staticClass:"preloader-inner-half-circle"})])}],
   props: {
     'color': String,
     'size': [Number, String],
