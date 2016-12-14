@@ -2,7 +2,7 @@
   "name": "framework7-vue",
   "version": "0.6.1",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
-  "main": "dist/js/framework7-vue.min.js",
+  "main": "dist/framework7-vue.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Framework7-Vue.git"
