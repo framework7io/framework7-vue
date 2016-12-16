@@ -6,7 +6,7 @@
         sourcemaps = require('gulp-sourcemaps'),
         rollup = require('rollup-stream'),
         buble = require('rollup-plugin-buble'),
-        vue = require('rollup-plugin-vue'),
+        vue = require('rollup-plugin-vue2'),
         source = require('vinyl-source-stream'),
         buffer = require('vinyl-buffer'),
         rename = require('gulp-rename'),
