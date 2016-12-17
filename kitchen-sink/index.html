@@ -107,7 +107,7 @@
       </f7-block>
     </f7-picker-modal>
     <!-- Popup -->
-    <f7-popup id="demo-popup" :opened="popupOpened" @closed="popupOpened=false">
+    <f7-popup id="demo-popup" :opened="popupOpened" @popup:closed="popupOpened=false">
       <f7-view>
         <f7-pages>
           <f7-page navbar-fixed>
@@ -164,7 +164,7 @@
       </f7-view>
     </f7-login-screen>
     <!-- Actions -->
-    <f7-actions :opened="actionsOpened" @closed="actionsOpened=false">
+    <f7-actions :opened="actionsOpened" @actions:closed="actionsOpened=false">
       <f7-actions-group>
         <f7-actions-label>Hello</f7-actions-label>
         <f7-actions-button>Button 1</f7-actions-button>

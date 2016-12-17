@@ -1,11 +1,11 @@
 <template>
   <div class="login-screen"
     :class="classesObject"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
-    :style="opened ? 'display: block' : false"
+    @loginscreen:open="onOpen"
+    @loginscreen:opened="onOpened"
+    @loginscreen:close="onClose"
+    @loginscreen:closed="onClosed"
+    :style="{'display': opened ? 'block' : ''}"
   >
     <slot></slot>
   </div>
@@ -44,16 +44,16 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('loginscreen:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('loginscreen:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('loginscreen:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('loginscreen:closed', event);
       },
     }
   }

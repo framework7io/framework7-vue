@@ -7,7 +7,7 @@
     </f7-navbar>
 
     <f7-block-title>Sortable List</f7-block-title>
-    <f7-list id="sortable" sortable @sort="onSort" @open="onOpen" @close="onClose">
+    <f7-list id="sortable" sortable @sortable:sort="onSort" @sortable:open="onOpen" @sortable:close="onClose">
       <f7-list-item
         v-for="items in items"
         :title="'Item ' + items"

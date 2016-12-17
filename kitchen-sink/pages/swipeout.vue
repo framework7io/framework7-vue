@@ -7,7 +7,7 @@
       <f7-list-item swipeout
         v-for="n in 3"
         :title="'Item ' + n"
-        @deleted="onSwipeoutDeleted"
+        @swipeout:deleted="onSwipeoutDeleted"
       >
         <f7-swipeout-actions>
           <f7-swipeout-button delete>Delete</f7-swipeout-button>
@@ -20,7 +20,7 @@
       <f7-list-item swipeout
         v-for="n in 3"
         :title="'Item ' + n"
-        @deleted="onSwipeoutDeleted"
+        @swipeout:deleted="onSwipeoutDeleted"
       >
         <f7-swipeout-actions>
           <f7-swipeout-button close color="green">Close</f7-swipeout-button>
@@ -34,7 +34,7 @@
       <f7-list-item swipeout
         v-for="n in 3"
         :title="'Item ' + n"
-        @deleted="onSwipeoutDeleted"
+        @swipeout:deleted="onSwipeoutDeleted"
       >
         <f7-swipeout-actions left>
           <f7-swipeout-button close color="blue">Reply</f7-swipeout-button>

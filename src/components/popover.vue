@@ -1,9 +1,9 @@
 <template>
   <div class="popover"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
+    @popover:open="onOpen"
+    @popover:opened="onOpened"
+    @popover:close="onClose"
+    @popover:closed="onClosed"
   >
     <div class="popover-angle"></div>
     <div class="popover-content">
@@ -15,16 +15,16 @@
   export default {
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('popover:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('popover:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('popover:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('popover:closed', event);
       },
     }
   }

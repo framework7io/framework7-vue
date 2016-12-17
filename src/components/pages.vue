@@ -18,7 +18,7 @@
           staticClass:"pages",
           ref: 'pages',
           on: {
-            pageBeforeRemove: self.onPageBeforeRemove
+            'page:beforeremove': self.onPageBeforeRemove
           }
         },
         [

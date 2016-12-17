@@ -12,10 +12,10 @@
 <script>
   export default {
     updated: function () {
-        var self = this;
-        self.$nextTick(function () {
-            self.$f7.sizeNavbars();
-        });
+      var self = this;
+      self.$nextTick(function () {
+          self.$f7.sizeNavbars();
+      });
     },
     props: {
       backLink: [Boolean, String],

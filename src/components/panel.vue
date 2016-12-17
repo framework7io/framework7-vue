@@ -3,10 +3,10 @@
     class="panel"
     :class="classesObject"
     :style="{'display': opened ? 'block' : ''}"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
+    @panel:open="onOpen"
+    @panel:opened="onOpened"
+    @panel:close="onClose"
+    @panel:closed="onClosed"
   >
     <slot></slot>
   </div>
@@ -63,16 +63,16 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('panel:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('panel:opened', event);
       },
       onClose: function (event) {
-        this.$emit('open', event);
+        this.$emit('panel:open', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('panel:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$

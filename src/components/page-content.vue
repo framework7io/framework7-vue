@@ -1,5 +1,5 @@
 <template>
-  <div class="page-content" :class="classesObject"><slot></slot></div>
+  <div class="page-content" :class="classesObject" @tab:show="onTabShow" @tab:hide="onTabHide"><slot></slot></div>
 </template>
 <script>
   export default {
@@ -14,6 +14,14 @@
           'tab': self.tab,
           'active': self.active
         }
+      }
+    },
+    methods: {
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
       }
     }
   }

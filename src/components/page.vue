@@ -54,12 +54,12 @@
             'data-distance': self.infiniteScrollDistance
           },
           on: {
-            pullstart: self.onPullstart,
-            pullmove: self.onPullmove,
-            pullend: self.onPullend,
-            refresh: self.onRefresh,
-            refreshdone: self.onRefreshdone,
-            infinite: self.onInfinite
+            'ptr:pullstart': self.onPtrPullstart,
+            'ptr:pullmove': self.onPtrPullmove,
+            'ptr:pullend': self.onPtrPullend,
+            'ptr:refresh': self.onPtrRefresh,
+            'ptr:done': self.onPtrRefreshdone,
+            'infinite': self.onInfinite
           },
         }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
       }
@@ -76,14 +76,14 @@
           'data-page': self.name
         },
         on: {
-          pageBeforeInit: self.onPageBeforeInit,
-          pageInit: self.onPageInit,
-          pageReinit: self.onPageReinit,
-          pageBeforeAnimation: self.onPageBeforeAnimation,
-          pageAfterAnimation: self.onPageAfterAnimation,
-          pageBeforeRemove: self.onPageBeforeRemove,
-          pageBack: self.onPageBack,
-          pageAfterBack: self.onPageAfterBack
+          'page:beforeinit': self.onPageBeforeInit,
+          'page:init': self.onPageInit,
+          'page:reinit': self.onPageReinit,
+          'page:beforeanimation': self.onPageBeforeAnimation,
+          'page:afteranimation': self.onPageAfterAnimation,
+          'page:beforeremove': self.onPageBeforeRemove,
+          'page:back': self.onPageBack,
+          'page:afterback': self.onPageAfterBack
         }
       }, [fixedList, pageContentEl]);
 
@@ -173,48 +173,48 @@
       }
     },
     methods: {
-      onPullstart: function (event) {
-        this.$emit('pullstart', event);
+      onPtrPullstart: function (event) {
+        this.$emit('ptr:pullstart', event);
       },
-      onPullmove: function (event) {
-        this.$emit('pullmove', event);
+      onPtrPullmove: function (event) {
+        this.$emit('ptr:pullmove', event);
       },
-      onPullend: function (event) {
-        this.$emit('pullend', event);
+      onPtrPullend: function (event) {
+        this.$emit('ptr:pullend', event);
       },
-      onRefresh: function (event) {
-        this.$emit('refresh', event, event.detail.done);
+      onPtrRefresh: function (event) {
+        this.$emit('ptr:refresh', event, event.detail.done);
       },
-      onRefreshdone: function (event) {
-        this.$emit('refreshdone', event);
+      onPtrRefreshdone: function (event) {
+        this.$emit('ptr:done', event);
       },
       onInfinite: function (event) {
         this.$emit('infinite', event);
       },
       onPageBeforeInit: function (event) {
         this.f7PageData = event.detail.page;
-        this.$emit('pageBeforeInit', event, event.detail.page);
+        this.$emit('page:beforeinit', event, event.detail.page);
       },
       onPageInit: function (event) {
-        this.$emit('pageInit', event, event.detail.page);
+        this.$emit('page:init', event, event.detail.page);
       },
       onPageReinit: function (event) {
-        this.$emit('pageReinit', event, event.detail.page);
+        this.$emit('page:reinit', event, event.detail.page);
       },
       onPageBeforeAnimation: function (event) {
-        this.$emit('pageBeforeAnimation', event, event.detail.page);
+        this.$emit('page:beforeanimation', event, event.detail.page);
       },
       onPageAfterAnimation: function (event) {
-        this.$emit('pageAfterAnimation', event, event.detail.page);
+        this.$emit('page:afteranimation', event, event.detail.page);
       },
       onPageBeforeRemove: function (event) {
-        this.$emit('pageBeforeRemove', event, event.detail.page);
+        this.$emit('page:beforeremove', event, event.detail.page);
       },
       onPageBack: function (event) {
-        this.$emit('pageBack', event, event.detail.page);
+        this.$emit('page:back', event, event.detail.page);
       },
       onPageAfterBack: function (event) {
-        this.$emit('pageAfterBack', event, event.detail.page);
+        this.$emit('page:afterback', event, event.detail.page);
       }
     }
   }

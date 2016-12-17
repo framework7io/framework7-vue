@@ -27,7 +27,7 @@
           'disabled': self.disabled
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-      }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, self.$slots.default]);
+      }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, (self.swipeout || self.accordionItem ? [] : self.$slots.default)]);
 
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
@@ -118,13 +118,17 @@
             'accordion-item': self.accordionItem
           },
           on: {
-            open: self.onOpen,
-            opened: self.onOpened,
-            close: self.onClose,
-            closed: self.onClosed,
-            delete: self.onDelete,
-            deleted: self.onDeleted,
-            swipeout: self.onSwipeout
+            'swipeout:open': self.onSwipeoutOpen,
+            'swipeout:opened': self.onSwipeoutOpened,
+            'swipeout:close': self.onSwipeoutClose,
+            'swipeout:closed': self.onSwipeoutClosed,
+            'swipeout:delete': self.onSwipeoutDelete,
+            'swipeout:deleted': self.onSwipeoutDeleted,
+            'swipeout': self.onSwipeout,
+            'accordion:open': self.onAccOpen,
+            'accordion:opened': self.onAccOpened,
+            'accordion:close': self.onAccClose,
+            'accordion:closed': self.onAccClosed,
           }
         },
         liChildren
@@ -215,26 +219,38 @@
       onClick: function (event) {
         this.$emit('click', event)
       },
-      onDeleted: function (event) {
-        this.$emit('deleted', event)
+      onSwipeoutDeleted: function (event) {
+        this.$emit('swipeout:deleted', event)
       },
-      onDelete: function (event) {
-        this.$emit('delete', event)
+      onSwipeoutDelete: function (event) {
+        this.$emit('swipeout:delete', event)
       },
-      onClose: function (event) {
-        this.$emit('close', event)
+      onSwipeoutClose: function (event) {
+        this.$emit('swipeout:close', event)
       },
-      onClosed: function (event) {
-        this.$emit('closed', event)
+      onSwipeoutClosed: function (event) {
+        this.$emit('swipeout:closed', event)
       },
-      onOpen: function (event) {
-        this.$emit('open', event)
+      onSwipeoutOpen: function (event) {
+        this.$emit('swipeout:open', event)
       },
-      onOpened: function (event) {
-        this.$emit('opened', event)
+      onSwipeoutOpened: function (event) {
+        this.$emit('swipeout:opened', event)
       },
       onSwipeout: function (event) {
         this.$emit('swipeout', event)
+      },
+      onAccClose: function (event) {
+        this.$emit('accordion:close', event)
+      },
+      onAccClosed: function (event) {
+        this.$emit('accordion:closed', event)
+      },
+      onAccOpen: function (event) {
+        this.$emit('accordion:open', event)
+      },
+      onAccOpened: function (event) {
+        this.$emit('accordion:opened', event)
       },
       onChange: function (event) {
         this.$emit('change', event)

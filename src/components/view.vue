@@ -14,7 +14,22 @@
         navbarEl = c('f7-navbar');
       }
 
-      return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
+      return c(
+        'div',
+        {
+          class: self.classesObject,
+          on: {
+            'swipeback:move': self.onSwipeBackMove,
+            'swipeback:beforechange': self.onSwipeBackBeforeChange,
+            'swipeback:afterchange': self.onSwipeBackAfterChange,
+            'swipeback:beforereset': self.onSwipeBackBeforeReset,
+            'swipeback:afterreset': self.onSwipeBackAfterReset,
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide
+          }
+        },
+        [navbarEl, pagesEl, self.$slots.default]
+      );
     },
     beforeDestroy: function () {
       var self = this;
@@ -111,19 +126,25 @@
         }
       },
       onSwipeBackMove: function (event) {
-        this.$emit('swipeBackMove', event, event.detail);
+        this.$emit('swipeback:move', event, event.detail);
       },
       onSwipeBackBeforeChange: function (event) {
-        this.$emit('swipeBackBeforeChange', event, event.detail);
+        this.$emit('swipeback:beforechange', event, event.detail);
       },
       onSwipeBackAfterChange: function (event) {
-        this.$emit('swipeBackAfterChange', event, event.detail);
+        this.$emit('swipeback:afterchange', event, event.detail);
       },
       onSwipeBackBeforeReset: function (event) {
-        this.$emit('swipeBackBeforeReset', event, event.detail);
+        this.$emit('swipeback:beforereset', event, event.detail);
       },
       onSwipeBackAfterReset: function (event) {
-        this.$emit('swipeBackAfterReset', event, event.detail);
+        this.$emit('swipeback:afterreset', event, event.detail);
+      },
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
       }
     }
   }

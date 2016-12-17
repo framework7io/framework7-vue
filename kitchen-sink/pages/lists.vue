@@ -46,11 +46,5 @@
   </f7-page>
 </template>
 <script>
-  export default {
-    methods: {
-      onSwipeoutDeleted: function (event){
-          console.log('swipeoutDeleted');
-      }
-    }
-  }
+  export default {}
 </script>

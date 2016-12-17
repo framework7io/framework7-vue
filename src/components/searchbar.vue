@@ -45,10 +45,10 @@
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
         on: {
-          search: self.onSearch,
-          enableSearch: self.onEnable,
-          disableSearch: self.onDisable,
-          clearSearch: self.onClear
+          'searchbar:search': self.onSearch,
+          'searchbar:enable': self.onEnable,
+          'searchbar:disable': self.onDisable,
+          'searchbar:clear': self.onClear
         }
       }, [self.$slots['before-input'], inputWrapEl, self.$slots['after-input'], cancelEl, self.$slots.default]);
     },
@@ -121,16 +121,16 @@
       },
       onSearch: function (event) {
         if(!event.detail) return;
-        this.$emit('search', event.detail.query, event.detail.foundItems);
+        this.$emit('searchbar:search', event.detail.query, event.detail.foundItems);
       },
       onClear: function (event) {
-        this.$emit('clear', event);
+        this.$emit('searchbar:clear', event);
       },
       onEnable: function (event) {
-        this.$emit('enable', event);
+        this.$emit('searchbar:enable', event);
       },
       onDisable: function (event) {
-        this.$emit('disable', event);
+        this.$emit('searchbar:disable', event);
       },
       onClearClick: function (event) {
         this.$emit('click:clear', event);

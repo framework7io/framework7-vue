@@ -1,9 +1,9 @@
 <template>
   <div class="accordion-item"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
+    @accordion:open="onOpen"
+    @accordion:opened="onOpened"
+    @accordion:close="onClose"
+    @accordion:closed="onClosed"
   >
     <slot></slot>
   </div>
@@ -12,16 +12,16 @@
   export default {
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('accordion:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('accordion:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('accordion:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('accordion:closed', event);
       }
     }
   }

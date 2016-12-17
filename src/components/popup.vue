@@ -1,11 +1,11 @@
 <template>
   <div class="popup"
     :class="classesObject"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
-    :style="opened ? 'display: block' : false"
+    @popup:open="onOpen"
+    @popup:opened="onOpened"
+    @popup:close="onClose"
+    @popup:closed="onClosed"
+    :style="{'display': opened ? 'block' : ''}"
   >
     <slot></slot>
   </div>
@@ -46,16 +46,16 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('popup:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('popup:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('popup:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('popup:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;

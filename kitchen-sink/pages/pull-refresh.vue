@@ -1,5 +1,5 @@
 <template>
-  <f7-page pull-to-refresh @refresh="onRefresh">
+  <f7-page pull-to-refresh @ptr:refresh="onRefresh">
     <f7-navbar back-link="Back" title="Pull To Refresh" sliding></f7-navbar>
 
     <f7-block-title>Pull To Refresh</f7-block-title>

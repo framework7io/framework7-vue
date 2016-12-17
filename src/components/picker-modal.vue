@@ -38,10 +38,10 @@
           'display': self.opened ? 'block': false
         },
         on: {
-          open: self.onOpen,
-          opened: self.onOpened,
-          close: self.onClose,
-          closed: self.onClosed
+          'picker:open': self.onOpen,
+          'picker:opened': self.onOpened,
+          'picker:close': self.onClose,
+          'picker:closed': self.onClosed
         }
       }, [fixedList, innerEl]);
     },
@@ -75,16 +75,16 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('picker:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('picker:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('picker:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('picker:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;

@@ -7,10 +7,10 @@
       <f7-list-item accordion-item
         v-for="n in 3"
         :title="'Item ' + n"
-        @open="onOpen"
-        @opened="onOpened"
-        @close="onClose"
-        @closed="onClosed"
+        @accordion:open="onOpen"
+        @accordion:opened="onOpened"
+        @accordion:close="onClose"
+        @accordion:closed="onClosed"
       >
         <f7-accordion-content>
           <f7-block>

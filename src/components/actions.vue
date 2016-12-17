@@ -2,10 +2,10 @@
   <div class="actions-modal keep-on-close"
     :class="{'modal-in': opened}"
     :style="{'display': opened ? 'block' : ''}"
-    @open="onOpen"
-    @opened="onOpened"
-    @close="onClose"
-    @closed="onClosed"
+    @actions:open="onOpen"
+    @actions:opened="onOpened"
+    @actions:close="onClose"
+    @actions:closed="onClosed"
   >
     <slot></slot>
   </div>
@@ -29,16 +29,16 @@
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('actions:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('actions:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('actions:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('actions:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;

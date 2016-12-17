@@ -47,9 +47,9 @@
             'no-hairlines-between': self.noHairlinesBetween
           },
           on: {
-            open: self.onOpen,
-            close: self.onClose,
-            sort: self.onSort
+            'sortable:open': self.onSortableOpen,
+            'sortable:close': self.onSortableClose,
+            'sortable:sort': self.onSortableSort
           }
         },
         [
@@ -102,14 +102,14 @@
       'virtual-render-item': Function
     },
     methods: {
-      onOpen: function (event) {
-        this.$emit('open', event)
+      onSortableOpen: function (event) {
+        this.$emit('sortable:open', event)
       },
-      onClose: function (event) {
-        this.$emit('close', event)
+      onSortableClose: function (event) {
+        this.$emit('sortable:close', event)
       },
-      onSort: function (event) {
-        this.$emit('sort', event, event.detail)
+      onSortableSort: function (event) {
+        this.$emit('sortable:sort', event, event.detail)
       },
       onF7Init: function (f7) {
         var self = this;
