@@ -173,6 +173,9 @@ export default {
         return true;
       }
       var matchingRoute = findMatchingRoute(url, routes);
+      var inHistory = view.history.indexOf(url) >= 0;
+      var inDomCache = view.pagesCache[url];
+      if (inHistory && inDomCache) return true;
       if (!matchingRoute) return true;
       var pagesVue = view.pagesContainer.__vue__;
       if (!pagesVue) return true;
