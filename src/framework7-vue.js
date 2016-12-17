@@ -187,6 +187,7 @@ export default {
         url: matchingRoute.url,
         path: matchingRoute.path
       };
+      view.container.__vue__.$router = view.router;
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
           pagesVue.pages[id].pageElement = newPage;
@@ -247,6 +248,7 @@ export default {
         // Route
         if (self.$parent && self.$parent.$refs.pages) {
           self.$route = self.$parent.$parent.$route;
+          self.$router = self.$parent.$parent.$router;
         }
         // Theme
         if (theme.ios === false && theme.material === false) {

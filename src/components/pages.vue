@@ -16,6 +16,7 @@
       return c('div',
         {
           staticClass:"pages",
+          ref: 'pages',
           on: {
             pageBeforeRemove: self.onPageBeforeRemove
           }
