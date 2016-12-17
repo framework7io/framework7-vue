@@ -1,11 +1,31 @@
-<template>
+<!-- <template>
   <div class="pages" ref="pages" :class="classesObject" @pageBeforeRemove="onPageBeforeRemove">
     <slot></slot>
     <component v-for="(page, key) in pages" :is="page.component"></component>
   </div>
-</template>
+</template> -->
 <script>
   export default {
+    render: function (c) {
+      var self = this;
+      var pages = [];
+      for (var pageId in self.pages) {
+        var page = self.pages[pageId];
+        pages.push(c(page.component, {tag: 'component'}))
+      }
+      return c('div',
+        {
+          staticClass:"pages",
+          on: {
+            pageBeforeRemove: self.onPageBeforeRemove
+          }
+        },
+        [
+          self.$slots.default,
+          pages
+        ]
+      )
+    },
     props: {
       'navbar-fixed': Boolean,
       'navbar-through': Boolean,
