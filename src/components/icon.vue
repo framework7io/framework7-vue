@@ -1,5 +1,5 @@
 <template>
-  <i class="icon" :class="classesObject">{{iconTextComputed}}<slot></slot></i>
+  <i class="icon" :style="{'font-size':sizeComputed}" :class="classesObject">{{iconTextComputed}}<slot></slot></i>
 </template>
 <script>
   export default {
@@ -12,8 +12,17 @@
       'icon': String, //Custom
       'if-material': String,
       'if-ios': String,
+      'size': [String, Number]
     },
     computed: {
+      sizeComputed: function () {
+        var self = this;
+        var size = self.size;
+        if (typeof size === 'number' || parseFloat(size) === size * 1) {
+          size = size + 'px';
+        }
+        return size;
+      },
       iconTextComputed: function () {
         var self = this;
         var text = self.material || self.f7;
