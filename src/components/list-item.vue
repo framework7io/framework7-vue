@@ -24,7 +24,7 @@
           'value': self.value,
           'readonly': self.readonly,
           'required': self.required,
-          'disabled': self.disabledn
+          'disabled': self.disabled
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
       }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, self.$slots.default]);
