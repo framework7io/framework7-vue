@@ -65,6 +65,11 @@ import ActionsGroup from './components/actions-group.vue';
 import ActionsButton from './components/actions-button.vue';
 import ActionsLabel from './components/actions-label.vue';
 import PhotoBrowser from './components/photo-browser.vue';
+import Timeline from './components/timeline.vue';
+import TimelineItem from './components/timeline-item.vue';
+import TimelineItemChild from './components/timeline-item-child.vue';
+import TimelineYear from './components/timeline-year.vue';
+import TimelineMonth from './components/timeline-month.vue';
 
 import Template7Template from './components/template7-template.vue';
 
@@ -347,6 +352,11 @@ export default {
         'f7-actions-label': ActionsLabel,
         'f7-actions-button': ActionsButton,
         'f7-photo-browser': PhotoBrowser,
+        'f7-timeline': Timeline,
+        'f7-timeline-item': TimelineItem,
+        'f7-timeline-item-child': TimelineItemChild,
+        'f7-timeline-year': TimelineYear,
+        'f7-timeline-month': TimelineMonth,
         't7-template': Template7Template,
       }
     });

@@ -30,6 +30,9 @@ import LoginScreen from './pages/login-screen.vue';
 import VirtualList from './pages/virtual-list.vue';
 import PhotoBrowser from './pages/photo-browser.vue';
 import Modals from './pages/modals.vue';
+import TimelineVertical from './pages/timeline-vertical.vue';
+import TimelineHorizontal from './pages/timeline-horizontal.vue';
+import TimelineCalendar from './pages/timeline-calendar.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -172,5 +175,17 @@ export default [
   {
     path: '/data-binding-edit/',
     component: DataBindingEdit
+  },
+  {
+    path: '/timeline-vertical/',
+    component: TimelineVertical
+  },
+  {
+    path: '/timeline-horizontal/',
+    component: TimelineHorizontal
+  },
+  {
+    path: '/timeline-calendar/',
+    component: TimelineCalendar
   }
 ];
