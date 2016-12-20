@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.6.2
+ * Framework7 Vue 0.7.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: December 17, 2016
+ * Released on: December 20, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],true)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -74,16 +74,16 @@ staticRenderFns: [],
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('panel:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('panel:opened', event);
       },
       onClose: function (event) {
-        this.$emit('open', event);
+        this.$emit('panel:open', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('panel:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;
@@ -146,7 +146,22 @@ var View = {
         navbarEl = c('f7-navbar');
       }
 
-      return c('div', {class: self.classesObject}, [navbarEl, pagesEl, self.$slots.default]);
+      return c(
+        'div',
+        {
+          class: self.classesObject,
+          on: {
+            'swipeback:move': self.onSwipeBackMove,
+            'swipeback:beforechange': self.onSwipeBackBeforeChange,
+            'swipeback:afterchange': self.onSwipeBackAfterChange,
+            'swipeback:beforereset': self.onSwipeBackBeforeReset,
+            'swipeback:afterreset': self.onSwipeBackAfterReset,
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide
+          }
+        },
+        [navbarEl, pagesEl, self.$slots.default]
+      );
     },
     beforeDestroy: function () {
       var self = this;
@@ -243,19 +258,25 @@ var View = {
         }
       },
       onSwipeBackMove: function (event) {
-        this.$emit('swipeBackMove', event, event.detail);
+        this.$emit('swipeback:move', event, event.detail);
       },
       onSwipeBackBeforeChange: function (event) {
-        this.$emit('swipeBackBeforeChange', event, event.detail);
+        this.$emit('swipeback:beforechange', event, event.detail);
       },
       onSwipeBackAfterChange: function (event) {
-        this.$emit('swipeBackAfterChange', event, event.detail);
+        this.$emit('swipeback:afterchange', event, event.detail);
       },
       onSwipeBackBeforeReset: function (event) {
-        this.$emit('swipeBackBeforeReset', event, event.detail);
+        this.$emit('swipeback:beforereset', event, event.detail);
       },
       onSwipeBackAfterReset: function (event) {
-        this.$emit('swipeBackAfterReset', event, event.detail);
+        this.$emit('swipeback:afterreset', event, event.detail);
+      },
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
       }
     }
   };
@@ -273,7 +294,7 @@ var Pages = {
           staticClass:"pages",
           ref: 'pages',
           on: {
-            pageBeforeRemove: self.onPageBeforeRemove
+            'page:beforeremove': self.onPageBeforeRemove
           }
         },
         [
@@ -387,12 +408,12 @@ var Page = {
             'data-distance': self.infiniteScrollDistance
           },
           on: {
-            pullstart: self.onPullstart,
-            pullmove: self.onPullmove,
-            pullend: self.onPullend,
-            refresh: self.onRefresh,
-            refreshdone: self.onRefreshdone,
-            infinite: self.onInfinite
+            'ptr:pullstart': self.onPtrPullstart,
+            'ptr:pullmove': self.onPtrPullmove,
+            'ptr:pullend': self.onPtrPullend,
+            'ptr:refresh': self.onPtrRefresh,
+            'ptr:done': self.onPtrRefreshdone,
+            'infinite': self.onInfinite
           },
         }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
       }
@@ -409,14 +430,14 @@ var Page = {
           'data-page': self.name
         },
         on: {
-          pageBeforeInit: self.onPageBeforeInit,
-          pageInit: self.onPageInit,
-          pageReinit: self.onPageReinit,
-          pageBeforeAnimation: self.onPageBeforeAnimation,
-          pageAfterAnimation: self.onPageAfterAnimation,
-          pageBeforeRemove: self.onPageBeforeRemove,
-          pageBack: self.onPageBack,
-          pageAfterBack: self.onPageAfterBack
+          'page:beforeinit': self.onPageBeforeInit,
+          'page:init': self.onPageInit,
+          'page:reinit': self.onPageReinit,
+          'page:beforeanimation': self.onPageBeforeAnimation,
+          'page:afteranimation': self.onPageAfterAnimation,
+          'page:beforeremove': self.onPageBeforeRemove,
+          'page:back': self.onPageBack,
+          'page:afterback': self.onPageAfterBack
         }
       }, [fixedList, pageContentEl]);
 
@@ -506,54 +527,54 @@ var Page = {
       }
     },
     methods: {
-      onPullstart: function (event) {
-        this.$emit('pullstart', event);
+      onPtrPullstart: function (event) {
+        this.$emit('ptr:pullstart', event);
       },
-      onPullmove: function (event) {
-        this.$emit('pullmove', event);
+      onPtrPullmove: function (event) {
+        this.$emit('ptr:pullmove', event);
       },
-      onPullend: function (event) {
-        this.$emit('pullend', event);
+      onPtrPullend: function (event) {
+        this.$emit('ptr:pullend', event);
       },
-      onRefresh: function (event) {
-        this.$emit('refresh', event, event.detail.done);
+      onPtrRefresh: function (event) {
+        this.$emit('ptr:refresh', event, event.detail.done);
       },
-      onRefreshdone: function (event) {
-        this.$emit('refreshdone', event);
+      onPtrRefreshdone: function (event) {
+        this.$emit('ptr:done', event);
       },
       onInfinite: function (event) {
         this.$emit('infinite', event);
       },
       onPageBeforeInit: function (event) {
         this.f7PageData = event.detail.page;
-        this.$emit('pageBeforeInit', event, event.detail.page);
+        this.$emit('page:beforeinit', event, event.detail.page);
       },
       onPageInit: function (event) {
-        this.$emit('pageInit', event, event.detail.page);
+        this.$emit('page:init', event, event.detail.page);
       },
       onPageReinit: function (event) {
-        this.$emit('pageReinit', event, event.detail.page);
+        this.$emit('page:reinit', event, event.detail.page);
       },
       onPageBeforeAnimation: function (event) {
-        this.$emit('pageBeforeAnimation', event, event.detail.page);
+        this.$emit('page:beforeanimation', event, event.detail.page);
       },
       onPageAfterAnimation: function (event) {
-        this.$emit('pageAfterAnimation', event, event.detail.page);
+        this.$emit('page:afteranimation', event, event.detail.page);
       },
       onPageBeforeRemove: function (event) {
-        this.$emit('pageBeforeRemove', event, event.detail.page);
+        this.$emit('page:beforeremove', event, event.detail.page);
       },
       onPageBack: function (event) {
-        this.$emit('pageBack', event, event.detail.page);
+        this.$emit('page:back', event, event.detail.page);
       },
       onPageAfterBack: function (event) {
-        this.$emit('pageAfterBack', event, event.detail.page);
+        this.$emit('page:afterback', event, event.detail.page);
       }
     }
   };
 
 var PageContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"page-content",class:_vm.classesObject},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"page-content",class:_vm.classesObject,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],true)},
 staticRenderFns: [],
     props: {
       'tab': Boolean,
@@ -567,6 +588,14 @@ staticRenderFns: [],
           'active': self.active
         }
       }
+    },
+    methods: {
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
+      }
     }
   };
 
@@ -574,10 +603,10 @@ var Navbar = {
 render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],true),_vm._v(" "),_vm._t("after-inner")],true)},
 staticRenderFns: [],
     updated: function () {
-        var self = this;
-        self.$nextTick(function () {
-            self.$f7.sizeNavbars();
-        });
+      var self = this;
+      self.$nextTick(function () {
+          self.$f7.sizeNavbars();
+      });
     },
     props: {
       backLink: [Boolean, String],
@@ -845,9 +874,9 @@ var List = {
             'no-hairlines-between': self.noHairlinesBetween
           },
           on: {
-            open: self.onOpen,
-            close: self.onClose,
-            sort: self.onSort
+            'sortable:open': self.onSortableOpen,
+            'sortable:close': self.onSortableClose,
+            'sortable:sort': self.onSortableSort
           }
         },
         [
@@ -900,14 +929,14 @@ var List = {
       'virtual-render-item': Function
     },
     methods: {
-      onOpen: function (event) {
-        this.$emit('open', event);
+      onSortableOpen: function (event) {
+        this.$emit('sortable:open', event);
       },
-      onClose: function (event) {
-        this.$emit('close', event);
+      onSortableClose: function (event) {
+        this.$emit('sortable:close', event);
       },
-      onSort: function (event) {
-        this.$emit('sort', event, event.detail);
+      onSortableSort: function (event) {
+        this.$emit('sortable:sort', event, event.detail);
       },
       onF7Init: function (f7) {
         var self = this;
@@ -996,7 +1025,7 @@ var ListItem = {
           'disabled': self.disabled
         },
         on: (self.link || self.accordionItem || self.smartSelect) ? {} : {click: self.onClick, change: self.onChange}
-      }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, self.$slots.default]);
+      }, [self.$slots['content-start'], self.$slots.content, self.$slots['media-start'], self.$slots.media, self.$slots['inner-start'], self.$slots.inner, self.$slots['after-start'], self.$slots.after, (self.swipeout || self.accordionItem ? [] : self.$slots.default)]);
 
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
@@ -1087,13 +1116,17 @@ var ListItem = {
             'accordion-item': self.accordionItem
           },
           on: {
-            open: self.onOpen,
-            opened: self.onOpened,
-            close: self.onClose,
-            closed: self.onClosed,
-            delete: self.onDelete,
-            deleted: self.onDeleted,
-            swipeout: self.onSwipeout
+            'swipeout:open': self.onSwipeoutOpen,
+            'swipeout:opened': self.onSwipeoutOpened,
+            'swipeout:close': self.onSwipeoutClose,
+            'swipeout:closed': self.onSwipeoutClosed,
+            'swipeout:delete': self.onSwipeoutDelete,
+            'swipeout:deleted': self.onSwipeoutDeleted,
+            'swipeout': self.onSwipeout,
+            'accordion:open': self.onAccOpen,
+            'accordion:opened': self.onAccOpened,
+            'accordion:close': self.onAccClose,
+            'accordion:closed': self.onAccClosed,
           }
         },
         liChildren
@@ -1184,26 +1217,38 @@ var ListItem = {
       onClick: function (event) {
         this.$emit('click', event);
       },
-      onDeleted: function (event) {
-        this.$emit('deleted', event);
+      onSwipeoutDeleted: function (event) {
+        this.$emit('swipeout:deleted', event);
       },
-      onDelete: function (event) {
-        this.$emit('delete', event);
+      onSwipeoutDelete: function (event) {
+        this.$emit('swipeout:delete', event);
       },
-      onClose: function (event) {
-        this.$emit('close', event);
+      onSwipeoutClose: function (event) {
+        this.$emit('swipeout:close', event);
       },
-      onClosed: function (event) {
-        this.$emit('closed', event);
+      onSwipeoutClosed: function (event) {
+        this.$emit('swipeout:closed', event);
       },
-      onOpen: function (event) {
-        this.$emit('open', event);
+      onSwipeoutOpen: function (event) {
+        this.$emit('swipeout:open', event);
       },
-      onOpened: function (event) {
-        this.$emit('opened', event);
+      onSwipeoutOpened: function (event) {
+        this.$emit('swipeout:opened', event);
       },
       onSwipeout: function (event) {
         this.$emit('swipeout', event);
+      },
+      onAccClose: function (event) {
+        this.$emit('accordion:close', event);
+      },
+      onAccClosed: function (event) {
+        this.$emit('accordion:closed', event);
+      },
+      onAccOpen: function (event) {
+        this.$emit('accordion:open', event);
+      },
+      onAccOpened: function (event) {
+        this.$emit('accordion:opened', event);
       },
       onChange: function (event) {
         this.$emit('change', event);
@@ -1482,20 +1527,20 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var AccordionItem = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item",on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item",on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],true)},
 staticRenderFns: [],
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('accordion:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('accordion:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('accordion:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('accordion:closed', event);
       }
     }
   };
@@ -2372,10 +2417,10 @@ var Searchbar = {
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
         on: {
-          search: self.onSearch,
-          enableSearch: self.onEnable,
-          disableSearch: self.onDisable,
-          clearSearch: self.onClear
+          'searchbar:search': self.onSearch,
+          'searchbar:enable': self.onEnable,
+          'searchbar:disable': self.onDisable,
+          'searchbar:clear': self.onClear
         }
       }, [self.$slots['before-input'], inputWrapEl, self.$slots['after-input'], cancelEl, self.$slots.default]);
     },
@@ -2448,16 +2493,16 @@ var Searchbar = {
       },
       onSearch: function (event) {
         if(!event.detail) { return; }
-        this.$emit('search', event.detail.query, event.detail.foundItems);
+        this.$emit('searchbar:search', event.detail.query, event.detail.foundItems);
       },
       onClear: function (event) {
-        this.$emit('clear', event);
+        this.$emit('searchbar:clear', event);
       },
       onEnable: function (event) {
-        this.$emit('enable', event);
+        this.$emit('searchbar:enable', event);
       },
       onDisable: function (event) {
-        this.$emit('disable', event);
+        this.$emit('searchbar:disable', event);
       },
       onClearClick: function (event) {
         this.$emit('click:clear', event);
@@ -2507,34 +2552,42 @@ var Tabs = {
   };
 
 var Tab = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],true)},
 staticRenderFns: [],
     props: {
       'active': Boolean
+    },
+    methods: {
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
+      }
     }
   };
 
 var Popover = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popover",on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_c('div',{staticClass:"popover-angle"}),_vm._v(" "),_c('div',{staticClass:"popover-content"},[_vm._t("default")],true)])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popover",on:{"popover:open":_vm.onOpen,"popover:opened":_vm.onOpened,"popover:close":_vm.onClose,"popover:closed":_vm.onClosed}},[_c('div',{staticClass:"popover-angle"}),_vm._v(" "),_c('div',{staticClass:"popover-content"},[_vm._t("default")],true)])},
 staticRenderFns: [],
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('popover:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('popover:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('popover:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('popover:closed', event);
       },
     }
   };
 
 var Popup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,style:(_vm.opened ? 'display: block' : false),on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],true)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2570,16 +2623,16 @@ staticRenderFns: [],
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('popup:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('popup:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('popup:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('popup:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;
@@ -2630,10 +2683,10 @@ var PickerModal = {
           'display': self.opened ? 'block': false
         },
         on: {
-          open: self.onOpen,
-          opened: self.onOpened,
-          close: self.onClose,
-          closed: self.onClosed
+          'picker:open': self.onOpen,
+          'picker:opened': self.onOpened,
+          'picker:close': self.onClose,
+          'picker:closed': self.onClosed
         }
       }, [fixedList, innerEl]);
     },
@@ -2667,16 +2720,16 @@ var PickerModal = {
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('picker:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('picker:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('picker:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('picker:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;
@@ -2689,7 +2742,7 @@ var PickerModal = {
   };
 
 var LoginScreen = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,style:(_vm.opened ? 'display: block' : false),on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"loginscreen:open":_vm.onOpen,"loginscreen:opened":_vm.onOpened,"loginscreen:close":_vm.onClose,"loginscreen:closed":_vm.onClosed}},[_vm._t("default")],true)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2723,16 +2776,16 @@ staticRenderFns: [],
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('loginscreen:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('loginscreen:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('loginscreen:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('loginscreen:closed', event);
       },
     }
   };
@@ -2742,7 +2795,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Actions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},style:({'display': _vm.opened ? 'block' : ''}),on:{"open":_vm.onOpen,"opened":_vm.onOpened,"close":_vm.onClose,"closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},style:({'display': _vm.opened ? 'block' : ''}),on:{"actions:open":_vm.onOpen,"actions:opened":_vm.onOpened,"actions:close":_vm.onClose,"actions:closed":_vm.onClosed}},[_vm._t("default")],true)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2761,16 +2814,16 @@ staticRenderFns: [],
     },
     methods: {
       onOpen: function (event) {
-        this.$emit('open', event);
+        this.$emit('actions:open', event);
       },
       onOpened: function (event) {
-        this.$emit('opened', event);
+        this.$emit('actions:opened', event);
       },
       onClose: function (event) {
-        this.$emit('close', event);
+        this.$emit('actions:close', event);
       },
       onClosed: function (event) {
-        this.$emit('closed', event);
+        this.$emit('actions:closed', event);
       },
       onF7Init: function () {
         var $$ = this.$$;
@@ -2957,6 +3010,161 @@ var PhotoBrowser = {
           }
         });
       }
+    }
+  };
+
+var Timeline = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline",class:_vm.classesObject},[_vm._t("default")],true)},
+staticRenderFns: [],
+    props: {
+      'sides': Boolean,
+      'tablet-sides': Boolean,
+      'col': [Number, String],
+      'tablet-col': [Number, String],
+      'horizontal': Boolean
+    },
+    computed: {
+      classesObject: function () {
+        var co = {};
+        var self = this;
+        if (self.sides) { co['timeline-sides'] = true; }
+        if (self.tabletSides) { co['tablet-sides'] = true; }
+        if (self.horizontal) { co['timeline-horizontal'] = true; }
+        if (self.col) { co['col-' + self.col] = true; }
+        if (self.tabletCol) { co['tablet-' + self.tabletCol] = true; }
+        return co;
+      }
+    }
+  };
+
+var TimelineItem = {
+    render: function (c) {
+      var self = this;
+      var timeEl, titleEl, subtitleEl, textEl, dateEl, dividerEl, contentEl, innerEl;
+      if (self.day || self.month) {
+        dateEl = c('div', {staticClass:'timeline-item-date', domProps: {innerHTML: [self.day, '<small>' + self.month + '</small>'].join(' ')}});
+      }
+      else {
+        dateEl = c('div', {staticClass:'timeline-item-date', domProps: {innerHTML: self.date}});
+      }
+
+      dividerEl = c('div', {staticClass:'timeline-item-divider'});
+
+      if (self.time) {
+        timeEl = c('div', {staticClass:'timeline-item-time', domProps: {innerHTML: self.time}});
+      }
+      if (self.title) {
+        titleEl = c('div', {staticClass:'timeline-item-title', domProps: {innerHTML: self.title}});
+      }
+      if (self.subtitle) {
+        subtitleEl = c('div', {staticClass:'timeline-item-subtitle', domProps: {innerHTML: self.subtitle}});
+      }
+      if (self.text) {
+        textEl = c('div', {staticClass:'timeline-item-text', domProps: {innerHTML: self.text}});
+      }
+
+      if (self.inner) {
+        if (self.content) {
+          innerEl = c('div', {staticClass:'timeline-item-inner', domProps:{innerHTML: self.content}});
+        }
+        else {
+          innerEl = c('div', {staticClass:'timeline-item-inner'}, [timeEl, titleEl, subtitleEl, textEl, self.$slots.default]);
+        }
+      }
+      else {
+        innerEl = [timeEl, titleEl, subtitleEl, textEl, self.$slots.default];
+      }
+      if (self.content && !self.inner) {
+        contentEl = c('div', {staticClass:'timeline-item-content', domProps: {innerHTML: self.content}});
+      }
+      else {
+        contentEl = c('div', {staticClass:'timeline-item-content'}, [innerEl]);
+      }
+      return c('div', {
+        staticClass: 'timeline-item',
+        class: {
+          'timeline-item-left': self.side === 'left',
+          'timeline-item-right': self.side === 'right'
+        }
+      }, [dateEl, dividerEl, contentEl])
+    },
+    props: {
+      date: [String, Number, Date],
+      day: [String, Number],
+      month: [String, Number],
+      inner: Boolean,
+      content: String,
+      side: String,
+      time: String,
+      title: String,
+      subtitle: String,
+      text: String
+    }
+  };
+
+var TimelineItemChild = {
+    render: function (c) {
+      var self = this;
+      var timeEl, titleEl, subtitleEl, textEl;
+
+      if (self.time) {
+        timeEl = c('div', {staticClass:'timeline-item-time', domProps: {innerHTML: self.time}});
+      }
+      if (self.title) {
+        titleEl = c('div', {staticClass:'timeline-item-title', domProps: {innerHTML: self.title}});
+      }
+      if (self.subtitle) {
+        subtitleEl = c('div', {staticClass:'timeline-item-subtitle', domProps: {innerHTML: self.subtitle}});
+      }
+      if (self.text) {
+        textEl = c('div', {staticClass:'timeline-item-text', domProps: {innerHTML: self.text}});
+      }
+
+      if (self.content) {
+        return c('div', {
+          class: {
+            'timeline-item-inner': self.inner,
+            'timeline-item-child': !self.inner
+          },
+          domProps: {
+            innerHTML: self.content
+          }
+        })
+      }
+      else {
+        return c('div', {
+          class: {
+            'timeline-item-inner': self.inner,
+            'timeline-item-child': !self.inner
+          }
+        }, [timeEl, titleEl, subtitleEl, textEl, self.$slots.default])
+      }
+    },
+    props: {
+      inner: Boolean,
+      content: String,
+      time: String,
+      title: String,
+      subtitle: String,
+      text: String
+    }
+  };
+
+var TimelineYear = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-year"},[(_vm.year || _vm.title)?_c('div',{staticClass:"timeline-year-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.year || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],true)},
+staticRenderFns: [],
+    props: {
+      year: [Number, String],
+      title: [Number, String]
+    }
+  };
+
+var TimelineMonth = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-month"},[(_vm.month || _vm.title)?_c('div',{staticClass:"timeline-month-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.month || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],true)},
+staticRenderFns: [],
+    props: {
+      month: [Number, String],
+      title: [Number, String]
     }
   };
 
@@ -3246,6 +3454,11 @@ var framework7Vue = {
         'f7-actions-label': ActionsLabel,
         'f7-actions-button': ActionsButton,
         'f7-photo-browser': PhotoBrowser,
+        'f7-timeline': Timeline,
+        'f7-timeline-item': TimelineItem,
+        'f7-timeline-item-child': TimelineItemChild,
+        'f7-timeline-year': TimelineYear,
+        'f7-timeline-month': TimelineMonth,
         't7-template': Template7Template,
       }
     });
