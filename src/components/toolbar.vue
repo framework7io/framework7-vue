@@ -23,7 +23,7 @@
           'toolbar-bottom': this.bottom,
           'tabbar': this.tabbar,
           'tabbar-labels': this.labels,
-          'tabbar-scrollabel': this.scrollable,
+          'tabbar-scrollable': this.scrollable,
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
