@@ -14,8 +14,9 @@
         @focus="onFocus"
         @blur="onBlur"
       >{{value}}</textarea>
-      <f7-link v-if="sendLink" @click="onClick">{{sendLink}}</f7-link>
       <slot name="after-textarea"></slot>
+      <f7-link v-if="sendLink" @click="onClick">{{sendLink}}</f7-link>
+      <slot></slot>
     </div>
     <slot name="after-inner"></slot>
   </div>
