@@ -28,6 +28,7 @@ import ListItemSwipeoutActions from './components/list-item-swipeout-actions.vue
 import ListItemSwipeoutButton from './components/list-item-swipeout-button.vue';
 import ListButton from './components/list-button.vue';
 import ListLabel from './components/list-label.vue';
+import Accordion from './components/accordion.vue';
 import AccordionItem from './components/accordion-item.vue';
 import AccordionToggle from './components/accordion-toggle.vue';
 import AccordionContent from './components/accordion-content.vue';
@@ -312,6 +313,7 @@ export default {
         'f7-list-label': ListLabel,
         'f7-swipeout-actions': ListItemSwipeoutActions,
         'f7-swipeout-button': ListItemSwipeoutButton,
+        'f7-accordion': Accordion,
         'f7-accordion-item': AccordionItem,
         'f7-accordion-toggle': AccordionToggle,
         'f7-accordion-content': AccordionContent,
