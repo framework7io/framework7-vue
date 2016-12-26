@@ -111,7 +111,7 @@
         this.$emit('change', event);
       },
       onInput: function (event) {
-        this.$emit('click', event.target.value);
+        this.$emit('input', event.target.value);
       },
       onFocus: function (event) {
         this.$emit('focus', event);
