@@ -1,5 +1,11 @@
 <template>
-  <div class="navbar" :class="classesObject">
+  <div class="navbar"
+  :class="classesObject"
+  @navbar:beforeinit="onBeforeInit"
+  @navbar:init="onInit"
+  @navbar:reinit="onReinit"
+  @navbar:beforeremove="onBeforeRemove"
+  >
     <slot name="before-inner"></slot>
     <div class="navbar-inner">
       <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding"></f7-nav-left>
@@ -30,6 +36,20 @@
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
         return co;
+      }
+    },
+    methods: {
+      onBeforeInit: function (e) {
+        this.$emit('navbar:beforeinit', e);
+      },
+      onInit: function (e) {
+        this.$emit('navbar:init', e);
+      },
+      onReinit: function (e) {
+        this.$emit('navbar:reinit', e);
+      },
+      onBeforeRemove: function (e) {
+        this.$emit('navbar:beforeremove', e);
       }
     }
   }
