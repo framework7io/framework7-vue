@@ -1,5 +1,5 @@
 <template>
-  <div class="messages" :class="{}"><slot></slot></div>
+  <div class="messages"><slot></slot></div>
 </template>
 <script>
   export default {
