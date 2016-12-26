@@ -49,7 +49,9 @@
           on: {
             'sortable:open': self.onSortableOpen,
             'sortable:close': self.onSortableClose,
-            'sortable:sort': self.onSortableSort
+            'sortable:sort': self.onSortableSort,
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide
           }
         },
         [
@@ -110,6 +112,12 @@
       },
       onSortableSort: function (event) {
         this.$emit('sortable:sort', event, event.detail)
+      },
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
       },
       onF7Init: function (f7) {
         var self = this;

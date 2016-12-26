@@ -1,5 +1,5 @@
 <template>
-  <div class="content-block" :class="classesObject">
+  <div class="content-block" :class="classesObject" @tab:show="onTabShow" @tab:hide="onTabHide">
     <div class="content-block-inner" v-if="inner">
       <slot>
     </div>
@@ -28,6 +28,14 @@
           'no-hairlines': self.noHairlines,
           'no-hairlines-between': self.noHairlinesBetween,
         }
+      }
+    },
+    methods: {
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
       }
     }
   }
