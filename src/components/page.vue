@@ -70,7 +70,7 @@
 
       if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
       pageEl = c('div', {
-          staticClass: 'page',
+        staticClass: 'page',
         class: self.classesObjectPage,
         attrs: {
           'data-page': self.name
