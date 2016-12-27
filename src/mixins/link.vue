@@ -17,6 +17,7 @@
       iconF7: String,
       iconIfMaterial: String,
       iconIfIos: String,
+      iconSize: [String, Number],
       rippleColor: String,
       href: {
         type: String,
@@ -46,26 +47,26 @@
 
       // Popup
       openPopup: [String, Boolean],
-      closePopup: Boolean,
+      closePopup: [String, Boolean],
 
       // Popover
       openPopover: [String, Boolean],
-      closePopover: Boolean,
+      closePopover: [String, Boolean],
 
       // Login Screen
       openLoginScreen: [String, Boolean],
-      closeLoginScreen: Boolean,
+      closeLoginScreen: [String, Boolean],
 
       // Picker
       openPicker: [String, Boolean],
-      closePicker: Boolean,
+      closePicker: [String, Boolean],
 
       // Tab
       tabLink: [Boolean, String],
 
       // Sortable
       openSortable: [String, Boolean],
-      closeSortable: Boolean,
+      closeSortable: [String, Boolean],
       toggleSortable: [String, Boolean],
 
       // Active
@@ -101,6 +102,13 @@
         if (typeof self.openLoginScreen === 'string') ao['data-login-screen'] = self.openLoginScreen;
         if (typeof self.openSortable === 'string') ao['data-sortable'] = self.openSortable;
         if (typeof self.toggleSortable === 'string') ao['data-sortable'] = self.toggleSortable;
+
+        if (typeof self.closePopup === 'string') ao['data-popup'] = self.closePopup;
+        if (typeof self.closePopover === 'string') ao['data-popover'] = self.closePopover;
+        if (typeof self.closePicker === 'string') ao['data-picker'] = self.closePicker;
+        if (typeof self.closeLoginScreen === 'string') ao['data-login-screen'] = self.closeLoginScreen;
+        if (typeof self.closeSortable === 'string') ao['data-sortable'] = self.closeSortable;
+
         if (typeof self.tabLink === 'string') ao['data-tab'] = self.tabLink;
         return ao;
       },
