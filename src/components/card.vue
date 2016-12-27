@@ -17,7 +17,7 @@
 
       return c('div', {staticClass: 'card'}, [headerEl, contentEl, footerEl, self.$slots.default]);
     },
-    props: [
+    props: {
       'title': [String, Number],
       'content': [String, Number],
       'footer': [String, Number],
@@ -25,6 +25,6 @@
         type: Boolean,
         default: true
       }
-    ]
+    }
   }
 </script>
