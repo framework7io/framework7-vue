@@ -18,7 +18,8 @@
           f7: self.iconF7,
           icon: self.icon,
           ifMaterial: self.iconIfMaterial,
-          ifIos: self.iconIfIos
+          ifIos: self.iconIfIos,
+          size: self.iconSize
         }}, [iconBadgeEl])
       }
       if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {

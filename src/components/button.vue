@@ -14,7 +14,8 @@
           f7: self.iconF7,
           icon: self.icon,
           ifMaterial: self.iconIfMaterial,
-          ifIos: self.iconIfIos
+          ifIos: self.iconIfIos,
+          size: self.iconSize
         }})
       }
       self.classesObject['button'] = true;
