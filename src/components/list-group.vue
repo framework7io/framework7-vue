@@ -9,9 +9,7 @@
   export default {
     props: {
       'media-list': Boolean,
-      'media-list-computed': Boolean,
       'sortable': Boolean,
-      'sortable-computed': Boolean
     },
     computed: {
       sortableComputed: function () {
