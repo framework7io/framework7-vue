@@ -2,7 +2,7 @@
   <li>
     <a v-if="title"
       class="item-link list-button"
-      :href="(typeof link !== 'string' ? '#' : link)"
+      :href="((typeof link === 'boolean' && typeof href === 'boolean') ? '#' : (link || href))"
       :class="classesObject"
       :data-panel="typeof openPanel === 'string' ? openPanel : false"
       :data-popup="typeof openPopup === 'string' ? openPopup : false"
@@ -16,7 +16,7 @@
       ></a>
     <a v-else
       class="item-link list-button"
-      :href="(typeof link !== 'string' ? '#' : link)"
+      :href="((typeof link === 'boolean' && typeof href === 'boolean') ? '#' : (link || href))"
       :class="classesObject"
       :data-panel="typeof openPanel === 'string' ? openPanel : false"
       :data-popup="typeof openPopup === 'string' ? openPopup : false"
@@ -34,12 +34,15 @@
     props: {
       'title': [String, Number],
       'link': [String, Boolean],
+      'href': [String, Boolean],
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
       'link-back': Boolean,
       'no-fastclick': Boolean,
       'link-no-fastlick': Boolean,
+
+      color: String,
 
       // View
       view: String,
@@ -108,6 +111,9 @@
 
         // Tab
         if (self.tabLink) co['tab-link'] = true;
+
+        // Color
+        if (self.color) co['color-' + self.color] = true;
 
         return co;
       }
