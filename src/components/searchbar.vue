@@ -12,7 +12,7 @@
           input: self.onInput,
           change: self.onChange,
           focus: self.onFocus,
-          blue: self.onBlur
+          blur: self.onBlur
         }
       });
       if (self.clear) {
