@@ -171,13 +171,10 @@
       'media-item': Boolean,
       'media-list-item': Boolean,
       'media-list': Boolean,
-      'media-list-computed': Boolean,
       'divider': Boolean,
       'group-title': Boolean,
-      'divider-or-group-title': Boolean,
       'swipeout': Boolean,
       'sortable': Boolean,
-      'sortable-computed': Boolean,
       'accordion-item': Boolean,
 
       // Smart Select
