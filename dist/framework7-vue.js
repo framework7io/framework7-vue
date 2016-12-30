@@ -1,7 +1,7 @@
 /**
- * Framework7 Vue 0.7.0
+ * Framework7 Vue 0.7.2
  * Build full featured iOS & Android apps using Framework7 & Vue
- * http://www.framework7.io/
+ * http://www.framework7.io/vue/
  * 
  * Copyright 2016, Vladimir Kharlampidi
  * The iDangero.us
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: December 20, 2016
+ * Released on: December 30, 2016
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -96,7 +96,7 @@ staticRenderFns: [],
   };
 
 var Views = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"views",class:_vm.classObject},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"views",class:_vm.classObject},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'navbar-fixed': Boolean,
@@ -424,7 +424,7 @@ var Page = {
 
       if (withSubnavbar) { self.classesObjectPage['with-subnavbar'] = true; }
       pageEl = c('div', {
-          staticClass: 'page',
+        staticClass: 'page',
         class: self.classesObjectPage,
         attrs: {
           'data-page': self.name
@@ -574,7 +574,7 @@ var Page = {
   };
 
 var PageContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"page-content",class:_vm.classesObject,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"page-content",class:_vm.classesObject,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'tab': Boolean,
@@ -600,7 +600,7 @@ staticRenderFns: [],
   };
 
 var Navbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],true),_vm._v(" "),_vm._t("after-inner")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     updated: function () {
       var self = this;
@@ -622,11 +622,25 @@ staticRenderFns: [],
         if (this.layout) { co['layout-' + this.layout] = true; }
         return co;
       }
+    },
+    methods: {
+      onBeforeInit: function (e) {
+        this.$emit('navbar:beforeinit', e);
+      },
+      onInit: function (e) {
+        this.$emit('navbar:init', e);
+      },
+      onReinit: function (e) {
+        this.$emit('navbar:reinit', e);
+      },
+      onBeforeRemove: function (e) {
+        this.$emit('navbar:beforeremove', e);
+      }
     }
   };
 
 var NavCenter = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"center",class:{sliding:_vm.sliding}},[_vm._t("default",[_vm._v(_vm._s(_vm.title))])],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"center",class:{sliding:_vm.sliding}},[_vm._t("default",[_vm._v(_vm._s(_vm.title))])],2)},
 staticRenderFns: [],
     props: {
         sliding: Boolean,
@@ -635,7 +649,7 @@ staticRenderFns: [],
   };
 
 var NavLeft = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":"#","back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":"#","back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       backLink: [Boolean, String],
@@ -644,7 +658,7 @@ staticRenderFns: [],
   };
 
 var NavRight = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"right",class:{sliding:_vm.sliding}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"right",class:{sliding:_vm.sliding}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
         sliding: Boolean
@@ -652,7 +666,7 @@ staticRenderFns: [],
   };
 
 var Subnavbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"subnavbar",class:_vm.sliding ? 'sliding' : false},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"subnavbar",class:_vm.sliding ? 'sliding' : false},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
         sliding: Boolean
@@ -660,7 +674,7 @@ staticRenderFns: [],
   };
 
 var Toolbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar",class:_vm.classesObject},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],true),_vm._v(" "),_vm._t("after-inner")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar",class:_vm.classesObject},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     props: {
         bottom: Boolean,
@@ -676,7 +690,7 @@ staticRenderFns: [],
           'toolbar-bottom': this.bottom,
           'tabbar': this.tabbar,
           'tabbar-labels': this.labels,
-          'tabbar-scrollabel': this.scrollable,
+          'tabbar-scrollable': this.scrollable,
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
@@ -695,7 +709,7 @@ var Card = {
       }
       if (self.content) {
         contentChildEl = c('div', {domProps: {innerHTML: self.content}});
-        contentEl = c('f7-card-content', {}, [contentChildEl]);
+        contentEl = c('f7-card-content', {props: {inner: self.inner}}, [contentChildEl]);
       }
       if (self.footer) {
         footerEl = c('f7-card-footer', {domProps: {innerHTML: self.footer}});
@@ -703,23 +717,38 @@ var Card = {
 
       return c('div', {staticClass: 'card'}, [headerEl, contentEl, footerEl, self.$slots.default]);
     },
-    props: ['title', 'content', 'footer']
+    props: {
+      'title': [String, Number],
+      'content': [String, Number],
+      'footer': [String, Number],
+      'inner': {
+        type: Boolean,
+        default: true
+      }
+    }
   };
 
 var CardHeader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-header"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-header"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var CardFooter = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-footer"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-footer"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var CardContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-content"},[_c('div',{staticClass:"card-content-inner"},[_vm._t("default")],true)])},
-staticRenderFns: [],};
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"card-content"},[(_vm.inner)?_c('div',{staticClass:"card-content-inner"},[_vm._t("default")],2):_vm._t("default")],2)},
+staticRenderFns: [],
+    props: {
+      inner: {
+        type: Boolean,
+        default: true
+      }
+    }
+  };
 
 var ContentBlock = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"content-block",class:_vm.classesObject},[(_vm.inner)?_c('div',{staticClass:"content-block-inner"},[_vm._t("default")],true):_vm._t("default"),_vm._v(" ")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"content-block",class:_vm.classesObject,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[(_vm.inner)?_c('div',{staticClass:"content-block-inner"},[_vm._t("default")],2):_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'inset': Boolean,
@@ -742,15 +771,23 @@ staticRenderFns: [],
           'no-hairlines-between': self.noHairlinesBetween,
         }
       }
+    },
+    methods: {
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
+      }
     }
   };
 
 var ContentBlockTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"content-block-title"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"content-block-title"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var Badge = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"badge",class:_vm.color ? 'color-' + _vm.color : ''},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"badge",class:_vm.color ? 'color-' + _vm.color : ''},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'color': String
@@ -758,7 +795,7 @@ staticRenderFns: [],
   };
 
 var Icon = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('i',{staticClass:"icon",class:_vm.classesObject,style:({'font-size':_vm.sizeComputed})},[_vm._v(_vm._s(_vm.iconTextComputed)),_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('i',{staticClass:"icon",class:_vm.classesObject,style:({'font-size':_vm.sizeComputed})},[_vm._v(_vm._s(_vm.iconTextComputed)),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'color': String,
@@ -876,7 +913,9 @@ var List = {
           on: {
             'sortable:open': self.onSortableOpen,
             'sortable:close': self.onSortableClose,
-            'sortable:sort': self.onSortableSort
+            'sortable:sort': self.onSortableSort,
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide
           }
         },
         [
@@ -938,6 +977,12 @@ var List = {
       onSortableSort: function (event) {
         this.$emit('sortable:sort', event, event.detail);
       },
+      onTabShow: function (e) {
+        this.$emit('tab:show', e);
+      },
+      onTabHide: function (e) {
+        this.$emit('tab:hide', e);
+      },
       onF7Init: function (f7) {
         var self = this;
         // Init Virtual List
@@ -976,13 +1021,11 @@ var List = {
   };
 
 var ListGroup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"list-block-group"},[_c('ul',[_vm._t("default")],true)])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"list-block-group"},[_c('ul',[_vm._t("default")],2)])},
 staticRenderFns: [],
     props: {
       'media-list': Boolean,
-      'media-list-computed': Boolean,
       'sortable': Boolean,
-      'sortable-computed': Boolean
     },
     computed: {
       sortableComputed: function () {
@@ -1155,13 +1198,13 @@ var ListItem = {
       'link-open-panel': [String, Boolean],
       'link-close-panel': Boolean,
       'link-open-popup': [String, Boolean],
-      'link-close-popup': Boolean,
+      'link-close-popup': [String, Boolean],
       'link-open-popover': [String, Boolean],
-      'link-close-popover': Boolean,
+      'link-close-popover': [String, Boolean],
       'link-open-login-screen': [String, Boolean],
-      'link-close-login-screen': Boolean,
+      'link-close-login-screen': [String, Boolean],
       'link-open-picker': [String, Boolean],
-      'link-close-picker': Boolean,
+      'link-close-picker': [String, Boolean],
 
       'after': [String, Number],
       'badge': [String, Number],
@@ -1169,13 +1212,10 @@ var ListItem = {
       'media-item': Boolean,
       'media-list-item': Boolean,
       'media-list': Boolean,
-      'media-list-computed': Boolean,
       'divider': Boolean,
       'group-title': Boolean,
-      'divider-or-group-title': Boolean,
       'swipeout': Boolean,
       'sortable': Boolean,
-      'sortable-computed': Boolean,
       'accordion-item': Boolean,
 
       // Smart Select
@@ -1376,7 +1416,7 @@ var ListItemContent = {
   };
 
 var ListItemSwipeoutActions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:'swipeout-actions-' + _vm.sideComputed},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:'swipeout-actions-' + _vm.sideComputed},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
         'left': Boolean,
@@ -1400,7 +1440,7 @@ staticRenderFns: [],
   };
 
 var ListItemSwipeoutButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.classObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.classObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'overswipe': Boolean,
@@ -1432,17 +1472,20 @@ staticRenderFns: [],
   };
 
 var ListButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('li',[(_vm.title)?_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":(typeof _vm.link !== 'string' ? '#' : _vm.link),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},domProps:{"innerHTML":_vm._s(_vm.title)},on:{"click":_vm.onClick}}):_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":(typeof _vm.link !== 'string' ? '#' : _vm.link),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},on:{"click":_vm.onClick}},[_vm._t("default")],true),_vm._v(" ")])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('li',[(_vm.title)?_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},domProps:{"innerHTML":_vm._s(_vm.title)},on:{"click":_vm.onClick}}):_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},on:{"click":_vm.onClick}},[_vm._t("default")],2)])},
 staticRenderFns: [],
     props: {
       'title': [String, Number],
       'link': [String, Boolean],
+      'href': [String, Boolean],
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
       'link-back': Boolean,
       'no-fastclick': Boolean,
       'link-no-fastlick': Boolean,
+
+      color: String,
 
       // View
       view: String,
@@ -1512,6 +1555,9 @@ staticRenderFns: [],
         // Tab
         if (self.tabLink) { co['tab-link'] = true; }
 
+        // Color
+        if (self.color) { co['color-' + self.color] = true; }
+
         return co;
       }
     },
@@ -1523,11 +1569,15 @@ staticRenderFns: [],
   };
 
 var ListLabel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"list-block-label"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"list-block-label"},[_vm._t("default")],2)},
+staticRenderFns: [],};
+
+var Accordion = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-list"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var AccordionItem = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item",on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item",on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     methods: {
       onOpen: function (event) {
@@ -1546,15 +1596,15 @@ staticRenderFns: [],
   };
 
 var AccordionToggle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item-toggle"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item-toggle"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var AccordionContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item-content"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"accordion-item-content"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var ButtonsSegmented = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"buttons-row",class:(_vm.colorComputed ? 'theme-' + _vm.colorComputed : '')},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"buttons-row",class:(_vm.colorComputed ? 'theme-' + _vm.colorComputed : '')},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'color': String,
@@ -1586,6 +1636,7 @@ var LinkMixin = {
       iconF7: String,
       iconIfMaterial: String,
       iconIfIos: String,
+      iconSize: [String, Number],
       rippleColor: String,
       href: {
         type: String,
@@ -1615,26 +1666,26 @@ var LinkMixin = {
 
       // Popup
       openPopup: [String, Boolean],
-      closePopup: Boolean,
+      closePopup: [String, Boolean],
 
       // Popover
       openPopover: [String, Boolean],
-      closePopover: Boolean,
+      closePopover: [String, Boolean],
 
       // Login Screen
       openLoginScreen: [String, Boolean],
-      closeLoginScreen: Boolean,
+      closeLoginScreen: [String, Boolean],
 
       // Picker
       openPicker: [String, Boolean],
-      closePicker: Boolean,
+      closePicker: [String, Boolean],
 
       // Tab
       tabLink: [Boolean, String],
 
       // Sortable
       openSortable: [String, Boolean],
-      closeSortable: Boolean,
+      closeSortable: [String, Boolean],
       toggleSortable: [String, Boolean],
 
       // Active
@@ -1670,6 +1721,13 @@ var LinkMixin = {
         if (typeof self.openLoginScreen === 'string') { ao['data-login-screen'] = self.openLoginScreen; }
         if (typeof self.openSortable === 'string') { ao['data-sortable'] = self.openSortable; }
         if (typeof self.toggleSortable === 'string') { ao['data-sortable'] = self.toggleSortable; }
+
+        if (typeof self.closePopup === 'string') { ao['data-popup'] = self.closePopup; }
+        if (typeof self.closePopover === 'string') { ao['data-popover'] = self.closePopover; }
+        if (typeof self.closePicker === 'string') { ao['data-picker'] = self.closePicker; }
+        if (typeof self.closeLoginScreen === 'string') { ao['data-login-screen'] = self.closeLoginScreen; }
+        if (typeof self.closeSortable === 'string') { ao['data-sortable'] = self.closeSortable; }
+
         if (typeof self.tabLink === 'string') { ao['data-tab'] = self.tabLink; }
         return ao;
       },
@@ -1750,7 +1808,8 @@ var Link = {
           f7: self.iconF7,
           icon: self.icon,
           ifMaterial: self.iconIfMaterial,
-          ifIos: self.iconIfIos
+          ifIos: self.iconIfIos,
+          size: self.iconSize
         }}, [iconBadgeEl]);
       }
       if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
@@ -1787,7 +1846,8 @@ var Button = {
           f7: self.iconF7,
           icon: self.icon,
           ifMaterial: self.iconIfMaterial,
-          ifIos: self.iconIfIos
+          ifIos: self.iconIfIos,
+          size: self.iconSize
         }});
       }
       self.classesObject['button'] = true;
@@ -1810,7 +1870,7 @@ var Button = {
   };
 
 var GridRow = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"row",class:{'no-gutter': _vm.noGutter}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"row",class:{'no-gutter': _vm.noGutter}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'no-gutter': Boolean
@@ -1821,7 +1881,7 @@ staticRenderFns: [],
   };
 
 var GridCol = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:('col-' + _vm.width) + (_vm.tabletWidth ? ' tablet-' + _vm.tabletWidth : '')},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:('col-' + _vm.width) + (_vm.tabletWidth ? ' tablet-' + _vm.tabletWidth : '')},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'width': {
@@ -1867,7 +1927,7 @@ staticRenderFns: [],
   };
 
 var FormLabel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"item-title",class:{'label': !_vm.floating, 'floating-label' : _vm.floating}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"item-title",class:{'label': !_vm.floating, 'floating-label' : _vm.floating}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
         floating: Boolean
@@ -2086,7 +2146,7 @@ staticRenderFns: [],
   };
 
 var Fab = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{staticClass:"floating-button",class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{staticClass:"floating-button",class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       color: String
@@ -2099,7 +2159,7 @@ staticRenderFns: [],
   };
 
 var FabSpeedDial = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"speed-dial",class:_vm.theme ? 'theme-' + _vm.theme : false},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"speed-dial",class:_vm.theme ? 'theme-' + _vm.theme : false},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       theme: String
@@ -2107,7 +2167,7 @@ staticRenderFns: [],
   };
 
 var FabActions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"speed-dial-buttons",class:_vm.theme ? 'theme-' + _vm.theme : false},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"speed-dial-buttons",class:_vm.theme ? 'theme-' + _vm.theme : false},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       theme: String
@@ -2115,7 +2175,7 @@ staticRenderFns: [],
   };
 
 var FabAction = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       color: String
@@ -2128,7 +2188,7 @@ staticRenderFns: [],
   };
 
 var Swiper = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"swiper-container"},[_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],true),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.nextButtonComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.prevButtonComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e()])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"swiper-container"},[_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],2),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.nextButtonComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.prevButtonComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e()])},
 staticRenderFns: [],
     beforeDestroy: function () {
       var self = this;
@@ -2188,7 +2248,7 @@ staticRenderFns: [],
   };
 
 var SwiperSlide = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"swiper-slide"},[(_vm.zoom)?_c('div',{staticClass:"swiper-zoom-container"},[_vm._t("default")],true):_vm._t("default"),_vm._v(" ")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"swiper-slide"},[(_vm.zoom)?_c('div',{staticClass:"swiper-zoom-container"},[_vm._t("default")],2):_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'zoom': Boolean
@@ -2196,7 +2256,7 @@ staticRenderFns: [],
   };
 
 var Messages = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"messages",class:{}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"messages"},[_vm._t("default")],2)},
 staticRenderFns: [],
     beforeDestroy: function () {
       if (this.f7Messages && this.f7Messages.destroy) { this.f7Messages.destroy(); }
@@ -2257,7 +2317,7 @@ staticRenderFns: [],
   };
 
 var Message = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._v("\n  "+_vm._s(_vm.day)+" "),(_vm.time)?_c('span',[_vm._v(_vm._s(_vm.time))]):_vm._e(),_vm._v(" "),(_vm.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._v(_vm._s(_vm.name))]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))]),_vm._v(" "),(_vm.date)?_c('div',{staticClass:"message-date"},[_vm._v(_vm._s(_vm.date))]):_vm._e()],true),_vm._v(" "),(_vm.avatar)?_c('div',{staticClass:"message-avatar",style:('background-image:url(' + _vm.avatar + ')'),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('div',{staticClass:"message-label"},[_vm._v(_vm._s(_vm.label))]):_vm._e(),_vm._v(" "),_vm._t("after")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._v("\n  "+_vm._s(_vm.day)+" "),(_vm.time)?_c('span',[_vm._v(_vm._s(_vm.time))]):_vm._e(),_vm._v(" "),(_vm.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._v(_vm._s(_vm.name))]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))]),_vm._v(" "),(_vm.date)?_c('div',{staticClass:"message-date"},[_vm._v(_vm._s(_vm.date))]):_vm._e()],2),_vm._v(" "),(_vm.avatar)?_c('div',{staticClass:"message-avatar",style:('background-image:url(' + _vm.avatar + ')'),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('div',{staticClass:"message-label"},[_vm._v(_vm._s(_vm.label))]):_vm._e(),_vm._v(" "),_vm._t("after")],2)},
 staticRenderFns: [],
     props: {
       text: String,
@@ -2321,7 +2381,7 @@ staticRenderFns: [],
   };
 
 var Messagebar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),(_vm.sendLink)?_c('f7-link',{on:{"click":_vm.onClick}},[_vm._v(_vm._s(_vm.sendLink))]):_vm._e(),_vm._v(" "),_vm._t("after-textarea")],true),_vm._v(" "),_vm._t("after-inner")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_vm._t("after-textarea"),_vm._v(" "),(_vm.sendLink)?_c('f7-link',{on:{"click":_vm.onClick}},[_vm._v(_vm._s(_vm.sendLink))]):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     beforeDestroy: function () {
       if (this.f7Messagebar && this.f7Messagebar.destroy) { this.f7Messagebar.destroy(); }
@@ -2384,7 +2444,7 @@ var Searchbar = {
           input: self.onInput,
           change: self.onChange,
           focus: self.onFocus,
-          blue: self.onBlur
+          blur: self.onBlur
         }
       });
       if (self.clear) {
@@ -2483,7 +2543,7 @@ var Searchbar = {
         this.$emit('change', event);
       },
       onInput: function (event) {
-        this.$emit('click', event.target.value);
+        this.$emit('input', event.target.value);
       },
       onFocus: function (event) {
         this.$emit('focus', event);
@@ -2552,7 +2612,7 @@ var Tabs = {
   };
 
 var Tab = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'active': Boolean
@@ -2568,7 +2628,7 @@ staticRenderFns: [],
   };
 
 var Popover = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popover",on:{"popover:open":_vm.onOpen,"popover:opened":_vm.onOpened,"popover:close":_vm.onClose,"popover:closed":_vm.onClosed}},[_c('div',{staticClass:"popover-angle"}),_vm._v(" "),_c('div',{staticClass:"popover-content"},[_vm._t("default")],true)])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popover",on:{"popover:open":_vm.onOpen,"popover:opened":_vm.onOpened,"popover:close":_vm.onClose,"popover:closed":_vm.onClosed}},[_c('div',{staticClass:"popover-angle"}),_vm._v(" "),_c('div',{staticClass:"popover-content"},[_vm._t("default")],2)])},
 staticRenderFns: [],
     methods: {
       onOpen: function (event) {
@@ -2587,7 +2647,7 @@ staticRenderFns: [],
   };
 
 var Popup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2742,7 +2802,7 @@ var PickerModal = {
   };
 
 var LoginScreen = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"loginscreen:open":_vm.onOpen,"loginscreen:opened":_vm.onOpened,"loginscreen:close":_vm.onClose,"loginscreen:closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"loginscreen:open":_vm.onOpen,"loginscreen:opened":_vm.onOpened,"loginscreen:close":_vm.onClose,"loginscreen:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2791,11 +2851,11 @@ staticRenderFns: [],
   };
 
 var LoginScreenTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen-title"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen-title"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var Actions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},style:({'display': _vm.opened ? 'block' : ''}),on:{"actions:open":_vm.onOpen,"actions:opened":_vm.onOpened,"actions:close":_vm.onClose,"actions:closed":_vm.onClosed}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},style:({'display': _vm.opened ? 'block' : ''}),on:{"actions:open":_vm.onOpen,"actions:opened":_vm.onOpened,"actions:close":_vm.onClose,"actions:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     watch: {
       opened: function (opened) {
@@ -2836,11 +2896,11 @@ staticRenderFns: [],
   };
 
 var ActionsGroup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-group"},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-group"},[_vm._t("default")],2)},
 staticRenderFns: [],};
 
 var ActionsButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-button",class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-button",class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'color': String,
@@ -2871,7 +2931,7 @@ staticRenderFns: [],
   };
 
 var ActionsLabel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-label",class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal-label",class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       color: String,
@@ -2919,6 +2979,7 @@ var PhotoBrowser = {
       navbar: Boolean,
       toolbar: Boolean,
       theme: String,
+      captionsTheme: String,
       swipeToClose: Boolean,
       backLinkText: String,
       ofText: String,
@@ -2965,6 +3026,7 @@ var PhotoBrowser = {
           navbar: params.navbar,
           toolbar: params.toolbar,
           theme: params.theme,
+          captionsTheme: params.captionsTheme,
           swipeToClose: params.swipeToClose,
           backLinkText: params.backLinkText,
           ofText: params.ofText,
@@ -3014,7 +3076,7 @@ var PhotoBrowser = {
   };
 
 var Timeline = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline",class:_vm.classesObject},[_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline",class:_vm.classesObject},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'sides': Boolean,
@@ -3151,7 +3213,7 @@ var TimelineItemChild = {
   };
 
 var TimelineYear = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-year"},[(_vm.year || _vm.title)?_c('div',{staticClass:"timeline-year-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.year || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-year"},[(_vm.year || _vm.title)?_c('div',{staticClass:"timeline-year-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.year || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       year: [Number, String],
@@ -3160,7 +3222,7 @@ staticRenderFns: [],
   };
 
 var TimelineMonth = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-month"},[(_vm.month || _vm.title)?_c('div',{staticClass:"timeline-month-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.month || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],true)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"timeline-month"},[(_vm.month || _vm.title)?_c('div',{staticClass:"timeline-month-title"},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.month || _vm.title)}})]):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       month: [Number, String],
@@ -3414,6 +3476,7 @@ var framework7Vue = {
         'f7-list-label': ListLabel,
         'f7-swipeout-actions': ListItemSwipeoutActions,
         'f7-swipeout-button': ListItemSwipeoutButton,
+        'f7-accordion': Accordion,
         'f7-accordion-item': AccordionItem,
         'f7-accordion-toggle': AccordionToggle,
         'f7-accordion-content': AccordionContent,
