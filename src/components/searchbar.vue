@@ -45,6 +45,7 @@
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
         on: {
+          'submit': self.onSubmit,
           'searchbar:search': self.onSearch,
           'searchbar:enable': self.onEnable,
           'searchbar:disable': self.onDisable,
@@ -118,6 +119,9 @@
       },
       onBlur: function (event) {
         this.$emit('blur', event);
+      },
+      onSubmit: function (event) {
+        this.$emit('submit', event);
       },
       onSearch: function (event) {
         if(!event.detail) return;
