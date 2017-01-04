@@ -18,8 +18,7 @@
   export default {
     props: {
       'color': String,
-      'size': [Number, String],
-      'sizeComputed': Number
+      'size': [Number, String]
     },
     computed: {
       sizeComputed: function () {
