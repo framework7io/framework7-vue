@@ -34,6 +34,7 @@
         linkEl = c('a', {
           attrs: {
             href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+            'target': self.linkTarget,
             'data-searchbar': self.smartSelectSearchbar,
             'data-searchbar-paceholder': self.smartSelectSearchbarPlaceholder,
             'data-searchbar-cancel': self.smartSelectSearchbarCancel,
@@ -152,6 +153,7 @@
       'link-ignore-cache': Boolean,
       'link-page-name': String,
       'link-template': String,
+      'link-target': String,
 
       'link-view': String,
       'link-open-panel': [String, Boolean],
