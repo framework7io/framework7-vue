@@ -60,6 +60,16 @@
       onClosed: function (event) {
         this.$emit('loginscreen:closed', event);
       },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        self.$f7.loginScreen(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        self.$f7.closeModal(self.$el);
+      }
     }
   }
 </script>
