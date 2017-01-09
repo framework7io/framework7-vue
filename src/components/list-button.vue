@@ -11,6 +11,7 @@
       :data-login-screen="typeof openLoginScreen === 'string' ? openLoginScreen : false"
       :data-sortable="typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false)"
       :data-tab="typeof tabLink === 'string' ? tabLink : false"
+      :data-view="typeof view === 'string' ? view : false"
       v-html="title"
       @click="onClick"
       ></a>
@@ -25,6 +26,7 @@
       :data-login-screen="typeof openLoginScreen === 'string' ? openLoginScreen : false"
       :data-sortable="typeof openSortable === 'string' ? openSortable : (typeof toggleSortable === 'string' ? toggleSortable : false)"
       :data-tab="typeof tabLink === 'string' ? tabLink : false"
+      :data-view="typeof view === 'string' ? view : false"
       @click="onClick"
       ><slot></slot></a>
   </li>
