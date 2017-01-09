@@ -20,6 +20,13 @@
       'color': String,
       'progress': Number,
       'infinite': Boolean
+    },
+    methods: {
+      set: function (progress, speed) {
+        var self = this;
+        if (!self.$f7) return;
+        self.$f7.setProgressbar(self.$el, progress, speed);
+      }
     }
   }
 </script>
