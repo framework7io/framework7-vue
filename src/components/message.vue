@@ -6,7 +6,7 @@
       <slot>{{text}}</slot>
       <div class="message-date" v-if="date">{{date}}</div>
     </div>
-    <div class="message-avatar" v-if="avatar" :style="'background-image:url(' + avatar + ')'" @click="onAvatarClick"></div>
+    <div class="message-avatar" v-if="avatar" :style="{'background-image': 'url(' + avatar + ')'}" @click="onAvatarClick"></div>
     <div class="message-label" v-if="label">{{label}}</div>
     <slot name="after"></slot>
   </div>
