@@ -1,6 +1,7 @@
 <template>
   <div :class="classesObject" @click="onClick">
     {{day}} <span v-if="time">{{time}}</span>
+    <slot name="start"></slot>
     <div class="message-name" v-if="name" @click="onNameClick">{{name}}</div>
     <div class="message-text" @click="onTextClick">
       <slot>{{text}}</slot>
@@ -8,7 +9,7 @@
     </div>
     <div class="message-avatar" v-if="avatar" :style="{'background-image': 'url(' + avatar + ')'}" @click="onAvatarClick"></div>
     <div class="message-label" v-if="label">{{label}}</div>
-    <slot name="after"></slot>
+    <slot name="end"></slot>
   </div>
 </template>
 <script>
