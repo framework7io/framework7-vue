@@ -34,9 +34,6 @@
       return c('div', {
         class: self.classesObject,
         staticClass: 'picker-modal',
-        style: {
-          'display': self.opened ? 'block': false
-        },
         on: {
           'picker:open': self.onOpen,
           'picker:opened': self.onOpened,
@@ -44,6 +41,12 @@
           'picker:closed': self.onClosed
         }
       }, [fixedList, innerEl]);
+    },
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
     },
     watch: {
       opened: function (opened) {

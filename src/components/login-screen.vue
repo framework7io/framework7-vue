@@ -5,13 +5,18 @@
     @loginscreen:opened="onOpened"
     @loginscreen:close="onClose"
     @loginscreen:closed="onClosed"
-    :style="{'display': opened ? 'block' : ''}"
   >
     <slot></slot>
   </div>
 </template>
 <script>
   export default {
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;

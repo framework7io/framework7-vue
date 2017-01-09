@@ -2,7 +2,6 @@
   <div
     class="panel"
     :class="classesObject"
-    :style="{'display': opened ? 'block' : ''}"
     @panel:open="onOpen"
     @panel:opened="onOpened"
     @panel:close="onClose"
@@ -53,6 +52,9 @@
     },
     mounted: function () {
       var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
       var $$ = self.$$
       if (!$$) return;
       var side = self.side || (self.left ? 'left' : 'right');
