@@ -1,15 +1,15 @@
 /**
- * Framework7 Vue 0.7.2
+ * Framework7 Vue 0.7.5
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
- * Copyright 2016, Vladimir Kharlampidi
+ * Copyright 2017, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  * 
  * Licensed under MIT
  * 
- * Released on: December 30, 2016
+ * Released on: January 9, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -64,6 +64,9 @@ staticRenderFns: [],
     },
     mounted: function () {
       var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
       var $$ = self.$$;
       if (!$$) { return; }
       var side = self.side || (self.left ? 'left' : 'right');
@@ -91,6 +94,18 @@ staticRenderFns: [],
         if ($$('.panel-overlay').length === 0) {
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el);
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        var side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.openPanel(side);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        var side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.closePanel(side);
       }
     }
   };
@@ -364,7 +379,7 @@ var Page = {
           c('div', {class: {'pull-to-refresh-arrow': true}})
         ]);
       }
-      if (self.infiniteScroll && self.infiniteScrollPreloader) {
+      if ((self.infiniteScroll || self.infiniteScroll === '') && self.infiniteScrollPreloader) {
         infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
           c('div', {class: {'preloader': true}})
         ]);
@@ -515,7 +530,7 @@ var Page = {
       classesObjectPageContent: function () {
         return {
           'pull-to-refresh-content': this.pullToRefresh,
-          'infinite-scroll': this.infiniteScroll,
+          'infinite-scroll': this.infiniteScroll || this.infiniteScroll === '',
           'infinite-scroll-top': this.infiniteScroll === 'top',
           'hide-bars-on-scroll': this.hideBarsOnScroll,
           'hide-navbar-on-scroll': this.hideNavbarOnScroll,
@@ -613,17 +628,32 @@ staticRenderFns: [],
       sliding: Boolean,
       title: String,
       theme: String,
-      layout: String
+      layout: String,
+      hidden: Boolean
     },
     computed: {
       classesObject: function () {
-        var co = {};
+        var co = {
+          'navbar-hidden': this.hidden
+        };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
         return co;
       }
     },
     methods: {
+      hide: function () {
+        if (!this.$f7) { return; }
+        return this.$f7.hideNavbar(this.$el);
+      },
+      show: function () {
+        if (!this.$f7) { return; }
+        return this.$f7.showNavbar(this.$el);
+      },
+      size: function () {
+        if (!this.$f7 || this.$theme.material) { return; }
+        return this.$f7.sizeNavbars();
+      },
       onBeforeInit: function (e) {
         this.$emit('navbar:beforeinit', e);
       },
@@ -682,7 +712,8 @@ staticRenderFns: [],
         labels: Boolean,
         scrollable: Boolean,
         theme: String,
-        layout: String
+        layout: String,
+        hidden: Boolean
     },
     computed: {
       classesObject: function () {
@@ -691,10 +722,21 @@ staticRenderFns: [],
           'tabbar': this.tabbar,
           'tabbar-labels': this.labels,
           'tabbar-scrollable': this.scrollable,
+          'toolbar-hidden': this.hidden
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
         return co;
+      }
+    },
+    methods: {
+      hide: function () {
+        if (!this.$f7) { return; }
+        return this.$f7.hideToolbar(this.$el);
+      },
+      show: function () {
+        if (!this.$f7) { return; }
+        return this.$f7.showToolbar(this.$el);
       }
     }
   };
@@ -1075,8 +1117,9 @@ var ListItem = {
         linkEl = c('a', {
           attrs: {
             href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+            'target': self.linkTarget,
             'data-searchbar': self.smartSelectSearchbar,
-            'data-searchbar-paceholder': self.smartSelectSearchbarPlaceholder,
+            'data-searchbar-placeholder': self.smartSelectSearchbarPlaceholder,
             'data-searchbar-cancel': self.smartSelectSearchbarCancel,
             'data-page-title': self.smartSelectPageTitle,
             'data-back-text': self.smartSelectBackText,
@@ -1193,6 +1236,7 @@ var ListItem = {
       'link-ignore-cache': Boolean,
       'link-page-name': String,
       'link-template': String,
+      'link-target': String,
 
       'link-view': String,
       'link-open-panel': [String, Boolean],
@@ -1221,7 +1265,7 @@ var ListItem = {
       // Smart Select
       'smart-select': Boolean,
       'smart-select-searchbar': Boolean,
-      'smart-select-searchbar-paceholder': String,
+      'smart-select-searchbar-placeholder': String,
       'smart-select-searchbar-cancel': String,
       'smart-select-page-title': String,
       'smart-select-back-text': String,
@@ -1472,7 +1516,7 @@ staticRenderFns: [],
   };
 
 var ListButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('li',[(_vm.title)?_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},domProps:{"innerHTML":_vm._s(_vm.title)},on:{"click":_vm.onClick}}):_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false},on:{"click":_vm.onClick}},[_vm._t("default")],2)])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('li',[(_vm.title)?_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false,"data-view":typeof _vm.view === 'string' ? _vm.view : false},domProps:{"innerHTML":_vm._s(_vm.title)},on:{"click":_vm.onClick}}):_c('a',{staticClass:"item-link list-button",class:_vm.classesObject,attrs:{"href":((typeof _vm.link === 'boolean' && typeof _vm.href === 'boolean') ? '#' : (_vm.link || _vm.href)),"data-panel":typeof _vm.openPanel === 'string' ? _vm.openPanel : false,"data-popup":typeof _vm.openPopup === 'string' ? _vm.openPopup : false,"data-popover":typeof _vm.openPopover === 'string' ? _vm.openPopover : false,"data-picker":typeof _vm.openPicker === 'string' ? _vm.openPicker : false,"data-login-screen":typeof _vm.openLoginScreen === 'string' ? _vm.openLoginScreen : false,"data-sortable":typeof _vm.openSortable === 'string' ? _vm.openSortable : (typeof _vm.toggleSortable === 'string' ? _vm.toggleSortable : false),"data-tab":typeof _vm.tabLink === 'string' ? _vm.tabLink : false,"data-view":typeof _vm.view === 'string' ? _vm.view : false},on:{"click":_vm.onClick}},[_vm._t("default")],2)])},
 staticRenderFns: [],
     props: {
       'title': [String, Number],
@@ -1898,12 +1942,11 @@ staticRenderFns: [],
   };
 
 var Preloader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:((_vm.sizeComputed ? 'width:' + (_vm.sizeComputed) + 'px; height:' + (_vm.sizeComputed) + 'px' : ''))},[(_vm.$theme.material)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._v(" "),_vm._m(1)]):_vm._e()])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:({'width': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : ''), 'height': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : '')})},[(_vm.$theme.material)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._v(" "),_vm._m(1)]):_vm._e()])},
 staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"preloader-inner-left"},[_c('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"preloader-inner-right"},[_c('span',{staticClass:"preloader-inner-half-circle"})])}],
     props: {
       'color': String,
-      'size': [Number, String],
-      'sizeComputed': Number
+      'size': [Number, String]
     },
     computed: {
       sizeComputed: function () {
@@ -1917,12 +1960,38 @@ staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._
   };
 
 var Progressbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('span',{staticClass:"progressbar",class:[(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''), (_vm.infinite ? 'progressbar-infinite' : '')].join(' '),attrs:{"data-progress":_vm.progress}},[_c('span',{style:((_vm.progress ? 'translate3d(' + (-100 + _vm.progress) + '%,0,0)' : ''))})])},
-staticRenderFns: [],
+    render: function (c) {
+      var self = this;
+      var color = self.color;
+      var progress = self.progress;
+      var infinite = self.infinite;
+      return c('span', {
+        staticClass: 'progressbar',
+        class: [(color ? ('color-' + color + ' progressbar-' + color) : ''), (infinite ? 'progressbar-infinite' : '')].join(' ')
+      }, [
+        c('span', {
+          style: {
+            'transform': progress ? 'translate3d(' + (-100 + progress) + '%,0,0)' : ''
+          }
+        })
+      ]);
+    },
     props: {
       'color': String,
       'progress': Number,
       'infinite': Boolean
+    },
+    methods: {
+      set: function (progress, speed) {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.setProgressbar(self.$el, progress, speed);
+      },
+      show: function (container, progress, color) {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.showProgressbar(container, progress, color);
+      }
     }
   };
 
@@ -1947,6 +2016,9 @@ var FormInput = {
         size: self.size,
         accept: self.accept,
         autocomplete: self.autocomplete,
+        autocorrect: self.autocorrect,
+        autocapitalize: self.autocapitalize,
+        spellcheck: self.spellcheck,
         autofocus: self.autofocus,
         autosave: self.autosave,
         checked: self.checked,
@@ -2011,6 +2083,9 @@ var FormInput = {
       size: [String, Number],
       accept: [String, Number],
       autocomplete: [String],
+      autocorrect: [String],
+      autocapitalize: [String],
+      spellcheck: [String],
       autofocus: Boolean,
       autosave: String,
       checked: Boolean,
@@ -2302,6 +2377,42 @@ staticRenderFns: [],
       }
     },
     methods: {
+      addMessage: function (messageParameters, method, animate) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.addMessage(messageParameters, method, animate)
+      },
+      appendMessage: function (messageParameters, animate) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.appendMessage(messageParameters, animate)
+      },
+      prependMessage: function (messageParameters, animate) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.prependMessage(messageParameters, animate)
+      },
+      addMessages: function (messages, method, animate) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.addMessages(messages, method, animate)
+      },
+      removeMessage: function (message) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.removeMessage(message)
+      },
+      removeMessages: function (messages) {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.removeMessages(messages)
+      },
+      scrollMessages: function () {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.scrollMessages()
+      },
+      layout: function () {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.layout()
+      },
+      clean: function () {
+        if (!this.f7Messages) { return; }
+        return this.f7Messages.clean()
+      },
       onF7Init: function (f7) {
         var self = this;
         if (!self.init) { return; }
@@ -2317,7 +2428,7 @@ staticRenderFns: [],
   };
 
 var Message = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._v("\n  "+_vm._s(_vm.day)+" "),(_vm.time)?_c('span',[_vm._v(_vm._s(_vm.time))]):_vm._e(),_vm._v(" "),(_vm.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._v(_vm._s(_vm.name))]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))]),_vm._v(" "),(_vm.date)?_c('div',{staticClass:"message-date"},[_vm._v(_vm._s(_vm.date))]):_vm._e()],2),_vm._v(" "),(_vm.avatar)?_c('div',{staticClass:"message-avatar",style:('background-image:url(' + _vm.avatar + ')'),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('div',{staticClass:"message-label"},[_vm._v(_vm._s(_vm.label))]):_vm._e(),_vm._v(" "),_vm._t("after")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{class:_vm.classesObject,on:{"click":_vm.onClick}},[_vm._v("\n  "+_vm._s(_vm.day)+" "),(_vm.time)?_c('span',[_vm._v(_vm._s(_vm.time))]):_vm._e(),_vm._v(" "),_vm._t("start"),_vm._v(" "),(_vm.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._v(_vm._s(_vm.name))]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))]),_vm._v(" "),(_vm.date)?_c('div',{staticClass:"message-date"},[_vm._v(_vm._s(_vm.date))]):_vm._e()],2),_vm._v(" "),(_vm.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('div',{staticClass:"message-label"},[_vm._v(_vm._s(_vm.label))]):_vm._e(),_vm._v(" "),_vm._t("end")],2)},
 staticRenderFns: [],
     props: {
       text: String,
@@ -2403,6 +2514,14 @@ staticRenderFns: [],
       name: String
     },
     methods: {
+      value: function (newValue) {
+        if (!this.f7Messagebar) { return; }
+        return this.f7Messagebar.value(newValue);
+      },
+      clear: function () {
+        if (!this.f7Messagebar) { return; }
+        return this.f7Messagebar.clear();
+      },
       onChange: function (event) {
         this.$emit('change', event);
       },
@@ -2477,6 +2596,7 @@ var Searchbar = {
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
         on: {
+          'submit': self.onSubmit,
           'searchbar:search': self.onSearch,
           'searchbar:enable': self.onEnable,
           'searchbar:disable': self.onDisable,
@@ -2539,6 +2659,22 @@ var Searchbar = {
       }
     },
     methods: {
+      search: function (query) {
+        if (!this.f7Searchbar) { return; }
+        return this.f7Searchbar.search(query)
+      },
+      enable: function () {
+        if (!this.f7Searchbar) { return; }
+        return this.f7Searchbar.enable()
+      },
+      disable: function () {
+        if (!this.f7Searchbar) { return; }
+        return this.f7Searchbar.disable()
+      },
+      clear: function () {
+        if (!this.f7Searchbar) { return; }
+        return this.f7Searchbar.clear()
+      },
       onChange: function (event) {
         this.$emit('change', event);
       },
@@ -2550,6 +2686,9 @@ var Searchbar = {
       },
       onBlur: function (event) {
         this.$emit('blur', event);
+      },
+      onSubmit: function (event) {
+        this.$emit('submit', event);
       },
       onSearch: function (event) {
         if(!event.detail) { return; }
@@ -2618,6 +2757,10 @@ staticRenderFns: [],
       'active': Boolean
     },
     methods: {
+      show: function () {
+        if (!this.$f7) { return; }
+        this.$f7.showTab(this.$el);
+      },
       onTabShow: function (e) {
         this.$emit('tab:show', e);
       },
@@ -2643,12 +2786,28 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('popover:closed', event);
       },
+      open: function (target) {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.popover(self.$el, target);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.closeModal(self.$el);
+      }
     }
   };
 
 var Popup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"popup",class:_vm.classesObject,on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;
@@ -2700,6 +2859,16 @@ staticRenderFns: [],
         if ($$('.popup-overlay').length === 0) {
           $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.popup(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.closeModal(self.$el);
       }
     }
   };
@@ -2739,9 +2908,6 @@ var PickerModal = {
       return c('div', {
         class: self.classesObject,
         staticClass: 'picker-modal',
-        style: {
-          'display': self.opened ? 'block': false
-        },
         on: {
           'picker:open': self.onOpen,
           'picker:opened': self.onOpened,
@@ -2749,6 +2915,12 @@ var PickerModal = {
           'picker:closed': self.onClosed
         }
       }, [fixedList, innerEl]);
+    },
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
     },
     watch: {
       opened: function (opened) {
@@ -2797,13 +2969,29 @@ var PickerModal = {
         if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.pickerModal(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.closeModal(self.$el);
       }
     }
   };
 
 var LoginScreen = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,style:({'display': _vm.opened ? 'block' : ''}),on:{"loginscreen:open":_vm.onOpen,"loginscreen:opened":_vm.onOpened,"loginscreen:close":_vm.onClose,"loginscreen:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"login-screen",class:_vm.classesObject,on:{"loginscreen:open":_vm.onOpen,"loginscreen:opened":_vm.onOpened,"loginscreen:close":_vm.onClose,"loginscreen:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;
@@ -2847,6 +3035,16 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('loginscreen:closed', event);
       },
+      open: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.loginScreen(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.closeModal(self.$el);
+      }
     }
   };
 
@@ -2855,8 +3053,14 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Actions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},style:({'display': _vm.opened ? 'block' : ''}),on:{"actions:open":_vm.onOpen,"actions:opened":_vm.onOpened,"actions:close":_vm.onClose,"actions:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"actions-modal keep-on-close",class:{'modal-in': _vm.opened},on:{"actions:open":_vm.onOpen,"actions:opened":_vm.onOpened,"actions:close":_vm.onClose,"actions:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;
@@ -2891,6 +3095,16 @@ staticRenderFns: [],
         if ($$('.modal-overlay').length === 0) {
           $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.openModal(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) { return; }
+        return self.$f7.closeModal(self.$el);
       }
     }
   };
