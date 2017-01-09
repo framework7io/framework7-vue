@@ -82,6 +82,18 @@
         if ($$('.panel-overlay').length === 0) {
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        var side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.openPanel(side);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        var side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.closePanel(side);
       }
     }
   }
