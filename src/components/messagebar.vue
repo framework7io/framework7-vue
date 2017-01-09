@@ -43,6 +43,14 @@
       name: String
     },
     methods: {
+      value: function (newValue) {
+        if (!this.f7Messagebar) return;
+        return this.f7Messagebar.value(newValue);
+      },
+      clear: function () {
+        if (!this.f7Messagebar) return;
+        return this.f7Messagebar.clear();
+      }
       onChange: function (event) {
         this.$emit('change', event);
       },
