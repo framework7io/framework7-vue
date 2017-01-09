@@ -15,7 +15,8 @@
         labels: Boolean,
         scrollable: Boolean,
         theme: String,
-        layout: String
+        layout: String,
+        hidden: Boolean
     },
     computed: {
       classesObject: function () {
@@ -24,10 +25,21 @@
           'tabbar': this.tabbar,
           'tabbar-labels': this.labels,
           'tabbar-scrollable': this.scrollable,
+          'toolbar-hidden': this.hidden
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
         return co;
+      }
+    },
+    methods: {
+      hide: function () {
+        if (!this.$f7) return;
+        this.$f7.hideToolbar(this.$el);
+      },
+      show: function () {
+        if (!this.$f7) return;
+        this.$f7.showToolbar(this.$el);
       }
     }
   }
