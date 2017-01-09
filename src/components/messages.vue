@@ -47,6 +47,42 @@
       }
     },
     methods: {
+      addMessage: function (messageParameters, method, animate) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.addMessage(messageParameters, method, animate)
+      },
+      appendMessage: function (messageParameters, animate) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.appendMessage(messageParameters, animate)
+      },
+      prependMessage: function (messageParameters, animate) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.prependMessage(messageParameters, animate)
+      },
+      addMessages: function (messages, method, animate) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.addMessages(messages, method, animate)
+      },
+      removeMessage: function (message) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.removeMessage(message)
+      },
+      removeMessages: function (messages) {
+        if (!this.f7Messages) return;
+        return this.f7Messages.removeMessages(messages)
+      },
+      scrollMessages: function () {
+        if (!this.f7Messages) return;
+        return this.f7Messages.scrollMessages()
+      },
+      layout: function () {
+        if (!this.f7Messages) return;
+        return this.f7Messages.layout()
+      },
+      clean: function () {
+        if (!this.f7Messages) return;
+        return this.f7Messages.clean()
+      },
       onF7Init: function (f7) {
         var self = this;
         if (!self.init) return;
