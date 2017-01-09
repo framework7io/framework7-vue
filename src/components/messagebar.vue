@@ -50,7 +50,7 @@
       clear: function () {
         if (!this.f7Messagebar) return;
         return this.f7Messagebar.clear();
-      }
+      },
       onChange: function (event) {
         this.$emit('change', event);
       },
