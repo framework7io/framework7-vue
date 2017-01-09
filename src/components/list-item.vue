@@ -36,7 +36,7 @@
             href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
             'target': self.linkTarget,
             'data-searchbar': self.smartSelectSearchbar,
-            'data-searchbar-paceholder': self.smartSelectSearchbarPlaceholder,
+            'data-searchbar-placeholder': self.smartSelectSearchbarPlaceholder,
             'data-searchbar-cancel': self.smartSelectSearchbarCancel,
             'data-page-title': self.smartSelectPageTitle,
             'data-back-text': self.smartSelectBackText,
