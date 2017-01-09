@@ -182,7 +182,7 @@
       // Smart Select
       'smart-select': Boolean,
       'smart-select-searchbar': Boolean,
-      'smart-select-searchbar-paceholder': String,
+      'smart-select-searchbar-placeholder': String,
       'smart-select-searchbar-cancel': String,
       'smart-select-page-title': String,
       'smart-select-back-text': String,
