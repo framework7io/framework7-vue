@@ -108,6 +108,22 @@
       }
     },
     methods: {
+      search: function (query) {
+        if (!this.f7Searchbar) return;
+        return this.f7Searchbar.search(query)
+      },
+      enable: function () {
+        if (!this.f7Searchbar) return;
+        return this.f7Searchbar.enable()
+      },
+      disable: function () {
+        if (!this.f7Searchbar) return;
+        return this.f7Searchbar.disable()
+      },
+      clear: function () {
+        if (!this.f7Searchbar) return;
+        return this.f7Searchbar.clear()
+      },
       onChange: function (event) {
         this.$emit('change', event);
       },
