@@ -63,12 +63,12 @@
       open: function () {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.loginScreen(self.$el);
+        return self.$f7.loginScreen(self.$el);
       },
       close: function () {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el);
       }
     }
   }

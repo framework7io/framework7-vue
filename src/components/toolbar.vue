@@ -35,11 +35,11 @@
     methods: {
       hide: function () {
         if (!this.$f7) return;
-        this.$f7.hideToolbar(this.$el);
+        return this.$f7.hideToolbar(this.$el);
       },
       show: function () {
         if (!this.$f7) return;
-        this.$f7.showToolbar(this.$el);
+        return this.$f7.showToolbar(this.$el);
       }
     }
   }

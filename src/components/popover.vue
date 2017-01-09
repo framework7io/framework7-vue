@@ -29,12 +29,12 @@
       open: function (target) {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.popover(self.$el, target);
+        return self.$f7.popover(self.$el, target);
       },
       close: function () {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el);
       }
     }
   }

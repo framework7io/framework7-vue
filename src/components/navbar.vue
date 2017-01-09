@@ -44,15 +44,15 @@
     methods: {
       hide: function () {
         if (!this.$f7) return;
-        this.$f7.hideNavbar(this.$el);
+        return this.$f7.hideNavbar(this.$el);
       },
       show: function () {
         if (!this.$f7) return;
-        this.$f7.showNavbar(this.$el);
+        return this.$f7.showNavbar(this.$el);
       },
       size: function () {
         if (!this.$f7 || this.$theme.material) return;
-        this.$f7.sizeNavbars();
+        return this.$f7.sizeNavbars();
       },
       onBeforeInit: function (e) {
         this.$emit('navbar:beforeinit', e);

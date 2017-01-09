@@ -72,12 +72,12 @@
       open: function () {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.popup(self.$el);
+        return self.$f7.popup(self.$el);
       },
       close: function () {
         var self = this;
         if (!self.$f7) return;
-        self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el);
       }
     }
   }
