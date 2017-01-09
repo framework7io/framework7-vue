@@ -51,6 +51,16 @@
         if ($$('.modal-overlay').length === 0) {
           $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        self.$f7.openModal(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        self.$f7.closeModal(self.$el);
       }
     }
   }
