@@ -1,6 +1,7 @@
 # Change Log
 
 ## Framework7 Vue v0.7.6 - Updated on January 10, 2017
+  * Fixed issue when page could loaded twice on fast link tap
   * Renamed components methods & props to prevent conflicts with same name props:
     * Search Bar:
       * .clear() -> .empty()
