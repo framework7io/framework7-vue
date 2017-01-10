@@ -1,5 +1,16 @@
 # Change Log
 
+## Framework7 Vue v0.7.6 - Updated on January 10, 2017
+  * Renamed components methods & props to prevent conflicts with same name props:
+    * Search Bar:
+      * .clear() -> .empty()
+      * `clear` property renamed to `clear-button`. `clear` is still supported
+    * Messagebar:
+      * .value(newValue) -> .getValue() and .setValue(newValue)
+    * Messages:
+      * .scrollMessages() -> .scroll()
+    
+
 ## Framework7 Vue v0.7.5 - Updated on January 9, 2017
   * Added methods for many components:
     * Popup, Login Screen, Picker Modal, Panel, Action Sheet, Popover:
@@ -15,23 +26,23 @@
     * Tab
       * .show() - show tab
     * Search Bar:
-      * search(query) - Force searchbar to search passed query
-      * enable() - Enable/activate searchbar
-      * disable() - Disable/deactivate searchbar
-      * clear() - Clear search query and update results
+      * .search(query) - Force searchbar to search passed query
+      * .enable() - Enable/activate searchbar
+      * .disable() - Disable/deactivate searchbar
+      * .clear() - Clear search query and update results
     * Message Bar:
-      * value(newValue) - Set messagebar textarea value/text. Or return messagebar textarea value if newValue is not specified
-      * clear() - Clear textarea and update/reset its size
+      * .value(newValue) - Set messagebar textarea value/text. Or return messagebar textarea value if newValue is not specified
+      * .clear() - Clear textarea and update/reset its size
     * Messages:
-      * addMessage(messageParameters, method, animate) - Add new message to the end or to the beginning depending on method parameter
-      * appendMessage(messageParameters, animate) - Add new message to the end (to the bottom)
-      * prependMessage(messageParameters, animate) - Add new message to the beginning (to the top)
-      * addMessages(messages, method, animate) - Add multiple messages per once
-      * removeMessage(message) - Remove message
-      * removeMessages(messages) - Remove multiple messages
-      * scrollMessages() - Scroll messages to top/bottom depending on newMessagesFirst parameter
-      * layout() - Apply messages auto layout
-      * clean() - Clean/remove all the messages
+      * .addMessage(messageParameters, method, animate) - Add new message to the end or to the beginning depending on method parameter
+      * .appendMessage(messageParameters, animate) - Add new message to the end (to the bottom)
+      * .prependMessage(messageParameters, animate) - Add new message to the beginning (to the top)
+      * .addMessages(messages, method, animate) - Add multiple messages per once
+      * .removeMessage(message) - Remove message
+      * .removeMessages(messages) - Remove multiple messages
+      * .scrollMessages() - Scroll messages to top/bottom depending on newMessagesFirst parameter
+      * .layout() - Apply messages auto layout
+      * .clean() - Clean/remove all the messages
   * Added `start` and `end` slots for Message (f7-message) component
   * New boolean `hidden` prop for Navbar and Toolbar
   * Fixed issues with infinite scroll not being working when specified as boolean attribute, e.g. just `infinite-scroll`

@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.7.5
+ * Framework7 Vue 0.7.6
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 9, 2017
+ * Released on: January 10, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2401,7 +2401,7 @@ staticRenderFns: [],
         if (!this.f7Messages) { return; }
         return this.f7Messages.removeMessages(messages)
       },
-      scrollMessages: function () {
+      scroll: function () {
         if (!this.f7Messages) { return; }
         return this.f7Messages.scrollMessages()
       },
@@ -2514,7 +2514,11 @@ staticRenderFns: [],
       name: String
     },
     methods: {
-      value: function (newValue) {
+      getValue: function () {
+        if (!this.f7Messagebar) { return; }
+        return this.f7Messagebar.value();
+      },
+      setValue: function (newValue) {
         if (!this.f7Messagebar) { return; }
         return this.f7Messagebar.value(newValue);
       },
@@ -2566,7 +2570,7 @@ var Searchbar = {
           blur: self.onBlur
         }
       });
-      if (self.clear) {
+      if (self.clearButtonComputed) {
         clearEl = c('a', {
           staticClass: 'searchbar-clear',
           attrs: {
@@ -2617,7 +2621,8 @@ var Searchbar = {
         default: 'Search'
       },
       cancelLink: String,
-      clear: {
+      clear: Boolean,
+      clearButton: {
         type: Boolean,
         default: true
       },
@@ -2658,6 +2663,16 @@ var Searchbar = {
         default: true
       }
     },
+    computed: {
+      clearButtonComputed: function () {
+        var self = this;
+        var cb = self.clearButton;
+        if (self.$options.propsData.clear === false) {
+          cb = false;
+        }
+        return cb;
+      }
+    },
     methods: {
       search: function (query) {
         if (!this.f7Searchbar) { return; }
@@ -2671,7 +2686,7 @@ var Searchbar = {
         if (!this.f7Searchbar) { return; }
         return this.f7Searchbar.disable()
       },
-      clear: function () {
+      empty: function () {
         if (!this.f7Searchbar) { return; }
         return this.f7Searchbar.clear()
       },
