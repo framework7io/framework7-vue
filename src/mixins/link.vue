@@ -42,32 +42,32 @@
       view: String,
 
       // Panel
-      openPanel: [String, Boolean],
-      closePanel: Boolean,
+      openPanel: [Boolean, String],
+      closePanel: [Boolean, String],
 
       // Popup
-      openPopup: [String, Boolean],
-      closePopup: [String, Boolean],
+      openPopup: [Boolean, String],
+      closePopup: [Boolean, String],
 
       // Popover
-      openPopover: [String, Boolean],
-      closePopover: [String, Boolean],
+      openPopover: [Boolean, String],
+      closePopover: [Boolean, String],
 
       // Login Screen
-      openLoginScreen: [String, Boolean],
-      closeLoginScreen: [String, Boolean],
+      openLoginScreen: [Boolean, String],
+      closeLoginScreen: [Boolean, String],
 
       // Picker
-      openPicker: [String, Boolean],
-      closePicker: [String, Boolean],
+      openPicker: [Boolean, String],
+      closePicker: [Boolean, String],
 
       // Tab
       tabLink: [Boolean, String],
 
       // Sortable
-      openSortable: [String, Boolean],
-      closeSortable: [String, Boolean],
-      toggleSortable: [String, Boolean],
+      openSortable: [Boolean, String],
+      closeSortable: [Boolean, String],
+      toggleSortable: [Boolean, String],
 
       // Active
       active: Boolean,
@@ -95,21 +95,26 @@
         if (self.template) ao['data-template'] = self.template;
         if (self.view) ao['data-view'] = self.view;
 
-        if (typeof self.openPanel === 'string') ao['data-panel'] = self.openPanel;
-        if (typeof self.openPopup === 'string') ao['data-popup'] = self.openPopup;
-        if (typeof self.openPopover === 'string') ao['data-popover'] = self.openPopover;
-        if (typeof self.openPicker === 'string') ao['data-picker'] = self.openPicker;
-        if (typeof self.openLoginScreen === 'string') ao['data-login-screen'] = self.openLoginScreen;
-        if (typeof self.openSortable === 'string') ao['data-sortable'] = self.openSortable;
-        if (typeof self.toggleSortable === 'string') ao['data-sortable'] = self.toggleSortable;
+        function trustyString(s) {
+          if (typeof s === 'string' && s !== '') return true;
+          return false;
+        }
 
-        if (typeof self.closePopup === 'string') ao['data-popup'] = self.closePopup;
-        if (typeof self.closePopover === 'string') ao['data-popover'] = self.closePopover;
-        if (typeof self.closePicker === 'string') ao['data-picker'] = self.closePicker;
-        if (typeof self.closeLoginScreen === 'string') ao['data-login-screen'] = self.closeLoginScreen;
-        if (typeof self.closeSortable === 'string') ao['data-sortable'] = self.closeSortable;
+        if (trustyString(self.openPanel)) ao['data-panel'] = self.openPanel;
+        if (trustyString(self.openPopup)) ao['data-popup'] = self.openPopup;
+        if (trustyString(self.openPopover)) ao['data-popover'] = self.openPopover;
+        if (trustyString(self.openPicker)) ao['data-picker'] = self.openPicker;
+        if (trustyString(self.openLoginScreen)) ao['data-login-screen'] = self.openLoginScreen;
+        if (trustyString(self.openSortable)) ao['data-sortable'] = self.openSortable;
+        if (trustyString(self.toggleSortable)) ao['data-sortable'] = self.toggleSortable;
 
-        if (typeof self.tabLink === 'string') ao['data-tab'] = self.tabLink;
+        if (trustyString(self.closePopup)) ao['data-popup'] = self.closePopup;
+        if (trustyString(self.closePopover)) ao['data-popover'] = self.closePopover;
+        if (trustyString(self.closePicker)) ao['data-picker'] = self.closePicker;
+        if (trustyString(self.closeLoginScreen)) ao['data-login-screen'] = self.closeLoginScreen;
+        if (trustyString(self.closeSortable)) ao['data-sortable'] = self.closeSortable;
+
+        if (trustyString(self.tabLink)) ao['data-tab'] = self.tabLink;
         return ao;
       },
       classesObject: function () {
@@ -132,34 +137,38 @@
 
         // Active
         co['active'] = self.active;
-
+        
+        function trustyBoolean(b) {
+          if (b || b === '') return true;
+          return false;
+        }
         // Panel
-        if (self.closePanel) co['close-panel'] = true;
-        if (self.openPanel) co['open-panel'] = true;
+        if (trustyBoolean(self.closePanel)) co['close-panel'] = true;
+        if (self.openPanel || self.openPanel === '') co['open-panel'] = true;
 
         // Popup
-        if (self.closePopup) co['close-popup'] = true;
-        if (self.openPopup) co['open-popup'] = true;
+        if (trustyBoolean(self.closePopup)) co['close-popup'] = true;
+        if (self.openPopup || self.openPopup === '') co['open-popup'] = true;
 
         // Popover
-        if (self.closePopover) co['close-popover'] = true;
-        if (self.openPopover) co['open-popover'] = true;
+        if (trustyBoolean(self.closePopover)) co['close-popover'] = true;
+        if (self.openPopover || self.openPopover === '') co['open-popover'] = true;
 
         // Picker
-        if (self.closePicker) co['close-picker'] = true;
-        if (self.openPicker) co['open-picker'] = true;
+        if (trustyBoolean(self.closePicker)) co['close-picker'] = true;
+        if (self.openPicker || self.openPicker === '') co['open-picker'] = true;
 
         // Login Screen
-        if (self.closeLoginScreen) co['close-login-screen'] = true;
-        if (self.openLoginScreen) co['open-login-screen'] = true;
+        if (trustyBoolean(self.closeLoginScreen)) co['close-login-screen'] = true;
+        if (self.openLoginScreen || self.openLoginScreen === '') co['open-login-screen'] = true;
 
         // Sortable
-        if (self.closeSortable) co['close-sortable'] = true;
-        if (self.openSortable) co['open-sortable'] = true;
-        if (self.toggleSortable) co['toggle-sortable'] = true;
+        if (trustyBoolean(self.closeSortable)) co['close-sortable'] = true;
+        if (self.openSortable || self.openSortable === '') co['open-sortable'] = true;
+        if (self.toggleSortable || self.toggleSortable === '') co['toggle-sortable'] = true;
 
         // Tab
-        if (self.tabLink) co['tab-link'] = true;
+        if (self.tabLink || self.tabLink === '') co['tab-link'] = true;
 
         return co;
       }

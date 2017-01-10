@@ -3,6 +3,14 @@
     render: function (c) {
       var liChildren, linkEl, itemContentEl;
       var self = this;
+      function trustyBoolean(b) {
+        if (b || b === '') return true;
+        return false;
+      }
+      function trustyString(s) {
+        if (typeof s === 'string' && s !== '') return true;
+        return false;
+      }
 
       // Item Content
       itemContentEl = c('f7-list-item-content', {
@@ -47,13 +55,13 @@
             'data-navbar-theme': self.smartSelectNavbarTheme,
             'data-form-theme': self.smartSelectFormTheme,
 
-            'data-view': typeof self.linkView === 'string' ? self.linkView : false,
-            'data-panel': typeof self.linkOpenPanel === 'string' ? self.linkOpenPanel : false,
-            'data-popup': typeof self.linkOpenPopup === 'string' ? self.linkOpenPopup : false,
-            'data-popover': typeof self.linkOpenPopover === 'string' ? self.linkOpenPopover : false,
-            'data-picker': typeof self.linkOpenPicker === 'string' ? self.linkOpenPicker : false,
-            'data-login-screen': typeof self.linkOpenLoginScreen === 'string' ? self.linkOpenLoginScreen : false,
-            'data-sortable': typeof self.linkOpenSortable === 'string' ? self.linkOpenSortable : (typeof self.linkToggleSortable === 'string' ? self.linkToggleSortable : false),
+            'data-view': trustyString(self.linkView) ? self.linkView : false,
+            'data-panel': trustyString(self.linkOpenPanel) ? self.linkOpenPanel : false,
+            'data-popup': trustyString(self.linkOpenPopup) ? self.linkOpenPopup : false,
+            'data-popover': trustyString(self.linkOpenPopover) ? self.linkOpenPopover : false,
+            'data-picker': trustyString(self.linkOpenPicker) ? self.linkOpenPicker : false,
+            'data-login-screen': trustyString(self.linkOpenLoginScreen) ? self.linkOpenLoginScreen : false,
+            'data-sortable': trustyString(self.linkOpenSortable) ? self.linkOpenSortable : (trustyString(self.linkToggleSortable) ? self.linkToggleSortable : false),
 
             'data-force': self.linkForce,
             'data-reload': self.linkReload,
@@ -68,19 +76,19 @@
             'back': self.linkBack,
             'no-fastclick': self.linkNoFastclick,
             'smart-select': self.smartSelect,
-            'close-panel': self.linkClosePanel,
-            'open-panel': self.linkOpenPanel,
-            'close-popup': self.linkClosePopup,
-            'open-popup': self.linkOpenPopup,
-            'close-popover': self.linkClosePopover,
-            'open-popover': self.linkOpenPopover,
-            'close-picker': self.linkClosePicker,
-            'open-picker': self.linkOpenPicker,
-            'close-login-screen': self.linkCloseLoginScreen,
-            'open-login-screen': self.linkOpenLoginScreen,
-            'close-sortable': self.linkCloseSortable,
-            'open-sortable': self.linkOpenSortable,
-            'toggle-sortable': self.linkToggleSortable,
+            'close-panel': trustyBoolean(self.linkClosePanel),
+            'open-panel': self.linkOpenPanel || self.linkOpenPanel === '',
+            'close-popup': trustyBoolean(self.linkClosePopup),
+            'open-popup': self.linkOpenPopup || self.linkOpenPopup === '',
+            'close-popover': trustyBoolean(self.linkClosePopover),
+            'open-popover': self.linkOpenPopover || self.linkOpenPopover === '',
+            'close-picker': trustyBoolean(self.linkClosePicker),
+            'open-picker': self.linkOpenPicker || self.linkOpenPicker === '',
+            'close-login-screen': trustyBoolean(self.linkCloseLoginScreen),
+            'open-login-screen': self.linkOpenLoginScreen || self.linkOpenLoginScreen === '',
+            'close-sortable': trustyBoolean(self.linkCloseSortable),
+            'open-sortable': self.linkOpenSortable || self.linkOpenSortable === '',
+            'toggle-sortable': self.linkToggleSortable || self.linkToggleSortable === '',
           },
           on: {
             click: self.onClick
@@ -142,7 +150,7 @@
       'subtitle': [String, Number],
 
       // Link Props
-      'link': [String, Boolean],
+      'link': [Boolean, String],
       'link-external': Boolean,
       'link-back': Boolean,
       'link-no-fastclick': Boolean,
@@ -156,16 +164,16 @@
       'link-target': String,
 
       'link-view': String,
-      'link-open-panel': [String, Boolean],
-      'link-close-panel': Boolean,
-      'link-open-popup': [String, Boolean],
-      'link-close-popup': [String, Boolean],
-      'link-open-popover': [String, Boolean],
-      'link-close-popover': [String, Boolean],
-      'link-open-login-screen': [String, Boolean],
-      'link-close-login-screen': [String, Boolean],
-      'link-open-picker': [String, Boolean],
-      'link-close-picker': [String, Boolean],
+      'link-open-panel': [Boolean, String],
+      'link-close-panel': [Boolean, String],
+      'link-open-popup': [Boolean, String],
+      'link-close-popup': [Boolean, String],
+      'link-open-popover': [Boolean, String],
+      'link-close-popover': [Boolean, String],
+      'link-open-login-screen': [Boolean, String],
+      'link-close-login-screen': [Boolean, String],
+      'link-open-picker': [Boolean, String],
+      'link-close-picker': [Boolean, String],
 
       'after': [String, Number],
       'badge': [String, Number],
