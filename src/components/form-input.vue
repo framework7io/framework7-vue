@@ -103,18 +103,22 @@
         default: true
       }
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
-        }
-      };
-      'Focus Blur Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event)
-        }
-      });
-      return eventMethods
-    })()
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event.target.value);
+      },
+      onFocus: function (event) {
+        this.$emit('focus', event);
+      },
+      onBlur: function (event) {
+        this.$emit('blur', event);
+      },
+      onChange: function (event) {
+        this.$emit('change', event);
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      }
+    }
   }
 </script>
