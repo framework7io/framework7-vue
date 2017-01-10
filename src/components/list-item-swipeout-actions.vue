@@ -8,8 +8,7 @@
     props: {
         'left': Boolean,
         'right': Boolean,
-        'side': String,
-        'sideComputed': String
+        'side': String
     },
     computed: {
         sideComputed: function () {
