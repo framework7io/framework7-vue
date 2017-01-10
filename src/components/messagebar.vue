@@ -43,7 +43,11 @@
       name: String
     },
     methods: {
-      value: function (newValue) {
+      getValue: function () {
+        if (!this.f7Messagebar) return;
+        return this.f7Messagebar.value();
+      },
+      setValue: function (newValue) {
         if (!this.f7Messagebar) return;
         return this.f7Messagebar.value(newValue);
       },

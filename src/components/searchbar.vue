@@ -15,7 +15,7 @@
           blur: self.onBlur
         }
       });
-      if (self.clear) {
+      if (self.clearButtonComputed) {
         clearEl = c('a', {
           staticClass: 'searchbar-clear',
           attrs: {
@@ -66,7 +66,8 @@
         default: 'Search'
       },
       cancelLink: String,
-      clear: {
+      clear: Boolean,
+      clearButton: {
         type: Boolean,
         default: true
       },
@@ -107,6 +108,16 @@
         default: true
       }
     },
+    computed: {
+      clearButtonComputed: function () {
+        var self = this;
+        var cb = self.clearButton;
+        if (self.$options.propsData.clear === false) {
+          cb = false;
+        }
+        return cb;
+      }
+    },
     methods: {
       search: function (query) {
         if (!this.f7Searchbar) return;
@@ -120,7 +131,7 @@
         if (!this.f7Searchbar) return;
         return this.f7Searchbar.disable()
       },
-      clear: function () {
+      empty: function () {
         if (!this.f7Searchbar) return;
         return this.f7Searchbar.clear()
       },

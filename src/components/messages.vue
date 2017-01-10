@@ -71,7 +71,7 @@
         if (!this.f7Messages) return;
         return this.f7Messages.removeMessages(messages)
       },
-      scrollMessages: function () {
+      scroll: function () {
         if (!this.f7Messages) return;
         return this.f7Messages.scrollMessages()
       },
