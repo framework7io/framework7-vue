@@ -28,14 +28,18 @@
         readonly: self.readonly,
         required: self.required,
         style: self.style,
-        color: self.color
+        color: self.color,
+	      pattern: self.pattern
       }
       var on = {
         focus: self.onFocus,
         blur: self.onBlur,
         input: self.onInput,
         change: self.onChange,
-        click: self.onClick
+        click: self.onClick,
+	      keypress: self.onKeyPress,
+	      keyup: self.onKeyUp,
+	      keydown: self.onKeyDown
       }
       if (self.type === 'select' || self.type === 'textarea') {
         if (self.type === 'select') {
@@ -95,6 +99,7 @@
       readonly: Boolean,
       required: Boolean,
       style: String,
+	    pattern: String,
 
       // Components
       color: String,
@@ -118,7 +123,16 @@
       },
       onClick: function (event) {
         this.$emit('click', event);
-      }
+      },
+	    onKeyPress: function(event) {
+      	this.$emit('keypress', event)
+	    },
+	    onKeyUp: function(event) {
+		    this.$emit('keyup', event)
+	    },
+	    onKeyDown: function(event) {
+		    this.$emit('keydown', event)
+	    }
     }
   }
 </script>
