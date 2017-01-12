@@ -34,9 +34,6 @@
       return c('div', {
         class: self.classesObject,
         staticClass: 'picker-modal',
-        style: {
-          'display': self.opened ? 'block': false
-        },
         on: {
           'picker:open': self.onOpen,
           'picker:opened': self.onOpened,
@@ -44,6 +41,12 @@
           'picker:closed': self.onClosed
         }
       }, [fixedList, innerEl]);
+    },
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
     },
     watch: {
       opened: function (opened) {
@@ -92,6 +95,16 @@
         if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.pickerModal(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.closeModal(self.$el);
       }
     }
   }

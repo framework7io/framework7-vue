@@ -28,17 +28,32 @@
       sliding: Boolean,
       title: String,
       theme: String,
-      layout: String
+      layout: String,
+      hidden: Boolean
     },
     computed: {
       classesObject: function () {
-        var co = {}
+        var co = {
+          'navbar-hidden': this.hidden
+        }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
         return co;
       }
     },
     methods: {
+      hide: function () {
+        if (!this.$f7) return;
+        return this.$f7.hideNavbar(this.$el);
+      },
+      show: function () {
+        if (!this.$f7) return;
+        return this.$f7.showNavbar(this.$el);
+      },
+      size: function () {
+        if (!this.$f7 || this.$theme.material) return;
+        return this.$f7.sizeNavbars();
+      },
       onBeforeInit: function (e) {
         this.$emit('navbar:beforeinit', e);
       },

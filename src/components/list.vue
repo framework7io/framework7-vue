@@ -140,16 +140,16 @@
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
           onItemBeforeInsert: function (list, item) {
-            self.$emit('virtualItemBeforeInsert', list, item);
+            self.$emit('virtual:itembeforeinsert', list, item);
           },
           onBeforeClear: function (list, fragment) {
-            self.$emit('virtualBeforeClear', list, fragment);
+            self.$emit('virtual:beforeclear', list, fragment);
           },
           onItemsBeforeInsert: function (list, fragment) {
-            self.$emit('virtualItemsBeforeInsert', list, fragment);
+            self.$emit('virtual:itemsbeforeinsert', list, fragment);
           },
           onItemsAfterInsert: function (list, fragment) {
-            self.$emit('virtualItemsAfterInsert', list, fragment);
+            self.$emit('virtual:itemsafterinsert', list, fragment);
           },
         })
       }

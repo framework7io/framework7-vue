@@ -172,6 +172,8 @@ export default {
 
     // Preroute
     function preroute(view, params, routes) {
+      if (!view.allowPageChange) return false;
+      
       var url = params.url;
       var pageElement = params.pageElement;
 
@@ -185,7 +187,7 @@ export default {
       if (!matchingRoute) return true;
       var pagesVue = view.pagesContainer.__vue__;
       if (!pagesVue) return true;
-
+      
       var id = new Date().getTime();
       Vue.set(pagesVue.pages, id, {component: matchingRoute.route.component});
       view.container.__vue__.$route = {
@@ -197,10 +199,12 @@ export default {
         path: matchingRoute.path
       };
       view.container.__vue__.$router = view.router;
+      view.allowPageChange = false;
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
           pagesVue.pages[id].pageElement = newPage;
           params.pageElement = newPage;
+          view.allowPageChange = true;
           if (params.isBack) {
             view.router.back(params);
           }

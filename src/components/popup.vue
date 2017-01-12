@@ -5,13 +5,18 @@
     @popup:opened="onOpened"
     @popup:close="onClose"
     @popup:closed="onClosed"
-    :style="{'display': opened ? 'block' : ''}"
   >
     <slot></slot>
   </div>
 </template>
 <script>
   export default {
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;
@@ -63,6 +68,16 @@
         if ($$('.popup-overlay').length === 0) {
           $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.popup(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.closeModal(self.$el);
       }
     }
   }

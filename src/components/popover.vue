@@ -26,6 +26,16 @@
       onClosed: function (event) {
         this.$emit('popover:closed', event);
       },
+      open: function (target) {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.popover(self.$el, target);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.closeModal(self.$el);
+      }
     }
   }
 </script>

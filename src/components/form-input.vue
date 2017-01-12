@@ -12,6 +12,9 @@
         size: self.size,
         accept: self.accept,
         autocomplete: self.autocomplete,
+        autocorrect: self.autocorrect,
+        autocapitalize: self.autocapitalize,
+        spellcheck: self.spellcheck,
         autofocus: self.autofocus,
         autosave: self.autosave,
         checked: self.checked,
@@ -25,14 +28,18 @@
         readonly: self.readonly,
         required: self.required,
         style: self.style,
-        color: self.color
+        color: self.color,
+	      pattern: self.pattern
       }
       var on = {
         focus: self.onFocus,
         blur: self.onBlur,
         input: self.onInput,
         change: self.onChange,
-        click: self.onClick
+        click: self.onClick,
+	      keypress: self.onKeyPress,
+	      keyup: self.onKeyUp,
+	      keydown: self.onKeyDown
       }
       if (self.type === 'select' || self.type === 'textarea') {
         if (self.type === 'select') {
@@ -76,6 +83,9 @@
       size: [String, Number],
       accept: [String, Number],
       autocomplete: [String],
+      autocorrect: [String],
+      autocapitalize: [String],
+      spellcheck: [String],
       autofocus: Boolean,
       autosave: String,
       checked: Boolean,
@@ -89,6 +99,7 @@
       readonly: Boolean,
       required: Boolean,
       style: String,
+	    pattern: String,
 
       // Components
       color: String,
@@ -97,18 +108,31 @@
         default: true
       }
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
-        }
-      };
-      'Focus Blur Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event)
-        }
-      });
-      return eventMethods
-    })()
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event.target.value);
+      },
+      onFocus: function (event) {
+        this.$emit('focus', event);
+      },
+      onBlur: function (event) {
+        this.$emit('blur', event);
+      },
+      onChange: function (event) {
+        this.$emit('change', event);
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      },
+	    onKeyPress: function(event) {
+      	this.$emit('keypress', event)
+	    },
+	    onKeyUp: function(event) {
+		    this.$emit('keyup', event)
+	    },
+	    onKeyDown: function(event) {
+		    this.$emit('keydown', event)
+	    }
+    }
   }
 </script>

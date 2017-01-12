@@ -1,7 +1,7 @@
 <template>
   <span class="preloader"
     :class="(color ? ('color-' + color + ' preloader-' + color) : '')"
-    :style="(sizeComputed ? 'width:' + (sizeComputed) + 'px; height:' + (sizeComputed) + 'px' : '')"
+    :style="{'width': (sizeComputed ? sizeComputed + 'px' : ''), 'height': (sizeComputed ? sizeComputed + 'px' : '')}"
   >
     <span class="preloader-inner" v-if="$theme.material">
       <span class="preloader-inner-gap"></span>

@@ -1,7 +1,6 @@
 <template>
   <div class="actions-modal keep-on-close"
     :class="{'modal-in': opened}"
-    :style="{'display': opened ? 'block' : ''}"
     @actions:open="onOpen"
     @actions:opened="onOpened"
     @actions:close="onClose"
@@ -12,6 +11,12 @@
 </template>
 <script>
   export default {
+    mounted: function () {
+      var self = this;
+      if (self.opened) {
+        self.$el.style.display = 'block';
+      }
+    },
     watch: {
       opened: function (opened) {
         var self = this;
@@ -46,6 +51,16 @@
         if ($$('.modal-overlay').length === 0) {
           $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
+      },
+      open: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.openModal(self.$el);
+      },
+      close: function () {
+        var self = this;
+        if (!self.$f7) return;
+        return self.$f7.closeModal(self.$el);
       }
     }
   }

@@ -10,7 +10,7 @@
           c('div', {class: {'pull-to-refresh-arrow': true}})
         ]);
       }
-      if (self.infiniteScroll && self.infiniteScrollPreloader) {
+      if ((self.infiniteScroll || self.infiniteScroll === '') && self.infiniteScrollPreloader) {
         infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
           c('div', {class: {'preloader': true}})
         ]);
@@ -161,7 +161,7 @@
       classesObjectPageContent: function () {
         return {
           'pull-to-refresh-content': this.pullToRefresh,
-          'infinite-scroll': this.infiniteScroll,
+          'infinite-scroll': this.infiniteScroll || this.infiniteScroll === '',
           'infinite-scroll-top': this.infiniteScroll === 'top',
           'hide-bars-on-scroll': this.hideBarsOnScroll,
           'hide-navbar-on-scroll': this.hideNavbarOnScroll,
