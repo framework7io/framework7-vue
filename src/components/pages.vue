@@ -78,8 +78,6 @@
         var view = event.view;
         var options = event.prerouteOptions;
 
-        var matchingRoute = currentRoute;
-
         var id = new Date().getTime();
 
         self.$set(self.pages, id, {component: currentRoute.route.component});
