@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.7.6
+ * Framework7 Vue 0.7.7
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 12, 2017
+ * Released on: January 13, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2135,7 +2135,23 @@ var FormInput = {
         click: self.onClick,
 	      keypress: self.onKeyPress,
 	      keyup: self.onKeyUp,
-	      keydown: self.onKeyDown
+	      keydown: self.onKeyDown,
+	      beforeinput: self.onBeforeInput,
+	      compositionstart: self.onCompositionStart,
+	      compositionupdate: self.onCompositionUpdate,
+	      compositionend: self.onCompositionEnd,
+	      focusin: self.onFocusIn,
+	      focusout: self.onFocusOut,
+	      dblclick: self.onDblClick,
+	      mousedown: self.onMouseDown,
+	      mouseenter: self.onMouseEnter,
+	      mouseleave: self.onMouseLeave,
+	      mousemove: self.onMouseMove,
+	      mouseout: self.onMouseOut,
+	      mouseover: self.onMouseOver,
+	      mouseup: self.onMouseUp,
+	      wheel: self.onWheel,
+	      select: self.onSelect
       };
       if (self.type === 'select' || self.type === 'textarea') {
         if (self.type === 'select') {
@@ -2200,8 +2216,8 @@ var FormInput = {
       // Components
       color: String,
       wrap: {
-        type: Boolean,
-        default: true
+        "type": Boolean,
+        "default": true
       }
     },
     methods: {
@@ -2228,6 +2244,54 @@ var FormInput = {
 	    },
 	    onKeyDown: function(event) {
 		    this.$emit('keydown', event);
+	    },
+	    onBeforeInput: function(event) {
+      	this.$emit('beforeinput', event);
+	    },
+	    onCompositionStart: function(event) {
+      	this.$emit('compositionstart', event);
+	    },
+	    onCompositionUpdate: function(event) {
+      	this.$emit('compositionupdate', event);
+	    },
+	    onCompositionEnd: function(event) {
+		    this.$emit('compositionend', event);
+	    },
+	    onFocusIn: function(event) {
+		    this.$emit('focusin', event);
+	    },
+	    onFocusOut: function(event) {
+		    this.$emit('focusout', event);
+	    },
+	    onDblClick: function(event) {
+		    this.$emit('dblclick', event);
+	    },
+	    onMouseDown: function(event) {
+		    this.$emit('mousedown', event);
+	    },
+	    onMouseEnter: function(event) {
+		    this.$emit('mouseenter', event);
+	    },
+	    onMouseLeave: function(event) {
+		    this.$emit('mouseleave', event);
+	    },
+	    onMouseMove: function(event) {
+		    this.$emit('mousemove', event);
+	    },
+	    onMouseOut: function(event) {
+		    this.$emit('mouseout', event);
+	    },
+	    onMouseOver: function(event) {
+		    this.$emit('mouseover', event);
+	    },
+	    onMouseUp: function(event) {
+		    this.$emit('mouseup', event);
+	    },
+	    onWheel: function(event) {
+		    this.$emit('wheel', event);
+	    },
+	    onSelect: function(event) {
+		    this.$emit('select', event);
 	    }
     }
   };
