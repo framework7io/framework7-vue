@@ -71,6 +71,33 @@
           }
         }
         if (idToRemove) this.$set(this.pages, idToRemove, {});
+      },
+      onRouteChange: function (event) {
+        var self = this;
+        var currentRoute = event.route;
+        var view = event.view;
+        var options = event.prerouteOptions;
+
+        var matchingRoute = currentRoute;
+
+        var id = new Date().getTime();
+
+        self.$set(self.pages, id, {component: currentRoute.route.component});
+
+        view.allowPageChange = false;
+
+        self.$nextTick(function () {
+          var newPage = view.pagesContainer.querySelector('.page:last-child');
+          self.pages[id].pageElement = newPage;
+          options.pageElement = newPage;
+          view.allowPageChange = true;
+          if (options.isBack) {
+            view.router.back(options);
+          }
+          else {
+            view.router.load(options);
+          }
+        }); 
       }
     }
   }

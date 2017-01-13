@@ -74,6 +74,8 @@ import TimelineMonth from './components/timeline-month.vue';
 
 import Template7Template from './components/template7-template.vue';
 
+import Framework7Router from './utils/router';
+
 /* Plugin */
 export default {
   install: function (Vue, parameters) {
@@ -116,106 +118,6 @@ export default {
       theme.material = false;
     }
 
-    // Parse Route
-    function parseRoute(str) {
-      var parts = [];
-      str.split('/').forEach(function (part) {
-        if (part !== '') {
-          if (part.indexOf(':') === 0) {
-            parts.push({name: part.replace(':', '')});
-          }
-          else parts.push(part);
-        }
-      });
-      return parts;
-    }
-    // Routes Matching
-    function findMatchingRoute(url, routes) {
-      var matchingRoute;
-      if (!url) return matchingRoute;
-
-      var query = $$.parseUrlQuery(url);
-      var hash = url.split('#')[1];
-      var params = {};
-      var path = url.split('#')[0].split('?')[0];
-      var urlParts = path.split('/').filter(function (part) {
-        if (part !== '') return part;
-      });
-
-      var i, j, k;
-      for (i = 0; i < routes.length; i++) {
-        if (matchingRoute) continue;
-        var route = routes[i];
-        var parsedRoute = parseRoute(route.path);
-        if (parsedRoute.length !== urlParts.length) continue;
-        var matchedParts = 0;
-        for (j = 0; j < parsedRoute.length; j++) {
-            if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) matchedParts ++;
-            if (typeof parsedRoute[j] === 'object') {
-              params[parsedRoute[j].name] = urlParts[j];
-              matchedParts ++;
-            }
-        }
-        if (matchedParts === urlParts.length) {
-          matchingRoute = {
-            query: query,
-            hash: hash,
-            params: params,
-            url: url,
-            path: path,
-            route: route
-          };
-        }
-      }
-      return matchingRoute;
-    }
-
-    // Preroute
-    function preroute(view, params, routes) {
-      if (!view.allowPageChange) return false;
-      
-      var url = params.url;
-      var pageElement = params.pageElement;
-
-      if (url && pageElement || !url || url === '#') {
-        return true;
-      }
-      var matchingRoute = findMatchingRoute(url, routes);
-      var inHistory = view.history.indexOf(url) >= 0;
-      var inDomCache = view.pagesCache[url];
-      if (inHistory && inDomCache) return true;
-      if (!matchingRoute) return true;
-      var pagesVue = view.pagesContainer.__vue__;
-      if (!pagesVue) return true;
-      
-      var id = new Date().getTime();
-      Vue.set(pagesVue.pages, id, {component: matchingRoute.route.component});
-      view.container.__vue__.$route = {
-        route: matchingRoute.route.path,
-        query: matchingRoute.query,
-        hash: matchingRoute.hash,
-        params: matchingRoute.params,
-        url: matchingRoute.url,
-        path: matchingRoute.path
-      };
-      view.container.__vue__.$router = view.router;
-      view.allowPageChange = false;
-      Vue.nextTick(function () {
-          var newPage = view.pagesContainer.querySelector('.page:last-child');
-          pagesVue.pages[id].pageElement = newPage;
-          params.pageElement = newPage;
-          view.allowPageChange = true;
-          if (params.isBack) {
-            view.router.back(params);
-          }
-          else {
-            view.router.load(params);
-          }
-      });
-
-      return false;
-    }
-
     // Init Framework7
     var f7Ready = false,
         f7Instance;
@@ -228,24 +130,26 @@ export default {
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
       }
-      // Modify Parameters
-      f7Params.routerRemoveTimeout = true;
 
-      // Correct Prerouting
-      f7Params.routes = f7Params.routes || [];
+      var router = new Framework7Router($$, f7Params.routes, f7Params.preroute);
 
-      var initialPreroute = f7Params.preroute;
-      f7Params.preroute = function (view, params) {
-        var passToVueRouter = true;
-        if (initialPreroute) {
-          passToVueRouter = initialPreroute(view, params);
-        }
-        if (passToVueRouter) return preroute(view, params, f7Params.routes);
-        else return false;
-      };
+      router.setRouteChangeHandler((currentRoute, view, prerouteOptions) => {
+        var pagesVue = view.pagesContainer.__vue__;
+        if (!pagesVue) return true;
+
+        eventHub.$emit('route-change', {
+          route: currentRoute,
+          view: view,
+          prerouteOptions: prerouteOptions
+        });      
+
+        return false;       
+      });
 
       // Init
-      f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
+      f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(        
+        Object.assign({}, f7Params, router.getFramework7RoutingParams())
+      );
 
       // Set Flag
       f7Ready = true;
@@ -281,6 +185,9 @@ export default {
         }
         eventHub.$on('f7init', function (f7Instance) {
           if (self.onF7Init) self.onF7Init(f7Instance);
+        });
+        eventHub.$on('route-change', function (event) {
+          if (self.onRouteChange) self.onRouteChange(event);
         });
         if (self === self.$root) {
           initFramework7(self.$options.framework7);
