@@ -171,15 +171,17 @@ export default {
     }
 
     // Preroute
-    function preroute(view, params, routes) {
+    function preroute(view, options, routes) {
       if (!view.allowPageChange) return false;
       
-      var url = params.url;
-      var pageElement = params.pageElement;
+      var url = options.url;
+      var pageElement = options.pageElement;
 
       if (url && pageElement || !url || url === '#') {
         return true;
       }
+      if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) return false;
+
       var matchingRoute = findMatchingRoute(url, routes);
       var inHistory = view.history.indexOf(url) >= 0;
       var inDomCache = view.pagesCache[url];
@@ -203,13 +205,13 @@ export default {
       Vue.nextTick(function () {
           var newPage = view.pagesContainer.querySelector('.page:last-child');
           pagesVue.pages[id].pageElement = newPage;
-          params.pageElement = newPage;
+          options.pageElement = newPage;
           view.allowPageChange = true;
-          if (params.isBack) {
-            view.router.back(params);
+          if (options.isBack) {
+            view.router.back(options);
           }
           else {
-            view.router.load(params);
+            view.router.load(options);
           }
       });
 

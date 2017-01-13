@@ -1,5 +1,34 @@
 # Change Log
 
+## Framework7 Vue v0.7.7 - Updated on January 13, 2017
+  * Some events added to **f7-input** component
+    * `keypress`
+    * `keyup`
+    * `keydown`
+    * `beforeinput`
+    * `compositionstart`
+    * `compositionupdate`
+    * `compositionend`
+    * `focusin`
+    * `focusout`
+    * `dblclick`
+    * `mousedown`
+    * `mouseenter`
+    * `mouseleave`
+    * `mousemove`
+    * `mouseout`
+    * `mouseover`
+    * `mouseup`
+    * `wheel`
+    * `select`
+  * Added `pattern` attribute to **f7-input** component
+  * Added Virutal List events:
+    * `virtual:itemsbeforeinsert`
+    * `virtual:itemsafterinsert`
+    * `virtual:itembeforeinsert`
+    * `virtual:beforeclear`
+  * Minor fixes
+
 ## Framework7 Vue v0.7.6 - Updated on January 10, 2017
   * Fixed issue when page could loaded twice on fast link tap
   * Renamed components methods & props to prevent conflicts with same name props:
