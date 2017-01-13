@@ -22,6 +22,12 @@
     * `wheel`
     * `select`
   * Added `pattern` attribute to **f7-input** component
+  * Added Virutal List events:
+    * `virtual:itemsbeforeinsert`
+    * `virtual:itemsafterinsert`
+    * `virtual:itembeforeinsert`
+    * `virtual:beforeclear`
+  * Minor fixes
 
 ## Framework7 Vue v0.7.6 - Updated on January 10, 2017
   * Fixed issue when page could loaded twice on fast link tap
