@@ -78,24 +78,26 @@
         var view = event.view;
         var options = event.prerouteOptions;
 
-        var id = new Date().getTime();
+        if (view === self.$parent.f7View) {
+          var id = new Date().getTime();
 
-        self.$set(self.pages, id, {component: currentRoute.route.component});
+          self.$set(self.pages, id, {component: currentRoute.route.component});
 
-        view.allowPageChange = false;
+          view.allowPageChange = false;
 
-        self.$nextTick(function () {
-          var newPage = view.pagesContainer.querySelector('.page:last-child');
-          self.pages[id].pageElement = newPage;
-          options.pageElement = newPage;
-          view.allowPageChange = true;
-          if (options.isBack) {
-            view.router.back(options);
-          }
-          else {
-            view.router.load(options);
-          }
-        }); 
+          self.$nextTick(function () {
+            var newPage = view.pagesContainer.querySelector('.page:last-child');
+            self.pages[id].pageElement = newPage;
+            options.pageElement = newPage;
+            view.allowPageChange = true;
+            if (options.isBack) {
+              view.router.back(options);
+            }
+            else {
+              view.router.load(options);
+            }
+          }); 
+        }
       }
     }
   }
