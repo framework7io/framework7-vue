@@ -17,7 +17,12 @@
       if (self.swiper && self.swiper.destroy) self.swiper.destroy();
     },
     props: {
-      'params': Object,
+      'params': {
+        type: Object,
+        default: function () {
+          return {};
+        }
+      },
       'pagination': [Boolean, String, Object],
       'scrollbar': [Boolean, String, Object],
       'next-button': [Boolean, String, Object],
@@ -33,28 +38,28 @@
       },
       paginationComputed: function () {
         if (this.pagination) {
-          this.paramsComputed.pagination = '.swiper-pagination';
+          this.params.pagination = '.swiper-pagination';
           return true;
         }
         return false;
       },
       scrollbarComputed: function () {
         if (this.scrollbar) {
-          this.paramsComputed.scrollbar = '.swiper-scrollbar';
+          this.params.scrollbar = '.swiper-scrollbar';
           return true;
         }
         return false;
       },
       nextButtonComputed: function () {
         if (this.nextButton) {
-          this.paramsComputed.nextButton = '.swiper-button-next';
+          this.params.nextButton = '.swiper-button-next';
           return true;
         }
         return false;
       },
       prevButtonComputed: function () {
         if (this.prevButton) {
-          this.paramsComputed.prevButton = '.swiper-button-prev';
+          this.params.prevButton = '.swiper-button-prev';
           return true;
         }
         return false;
