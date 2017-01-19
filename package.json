@@ -59,9 +59,9 @@
     "rollup-stream": "^1.16.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "vue": "^2.1.8",
+    "vue": "^2.1.10",
     "vue-loader": "^10.0.2",
-    "vue-template-compiler": "^2.1.8",
+    "vue-template-compiler": "^2.1.10",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   }
