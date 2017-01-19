@@ -82,7 +82,7 @@
           else if (self.type === 'range') {
             inputEl = c('f7-range', {props: attrs, on: on});
           }
-          else inputEl = c('input', {attrs: attrs, on: on});
+          else inputEl = c('input', {attrs: attrs, on: on, domProps: {value: self.value}});
         }
       }
 
