@@ -40,6 +40,7 @@ import DataBindingEdit from './pages/data-binding-edit.vue';
 
 import NestedRoutes from './pages/nested-routes.vue';
 import NestedRoutesTabs from'./pages/nested-routes-tabs.vue';
+import NestedRoutesSwipableTabs from'./pages/nested-routes-tabs-swipable.vue';
 import NestedRoutesTabbar from'./pages/nested-routes-tabbar.vue';
 import Tab1 from './pages/nested-routes/tabs/tab1.vue'
 import Tab2 from './pages/nested-routes/tabs/tab2.vue'
