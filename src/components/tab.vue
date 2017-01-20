@@ -47,11 +47,9 @@
           const thisTabId = this.routeTabId;          
 
           if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
-            this.$emit('tab:hide');
-            console.log('tab hide - ' + thisTabId);
+            this.$emit('tab:hide');            
           } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
-            this.$emit('tab:show');
-            console.log('tab show - ' + thisTabId);
+            this.$emit('tab:show');            
           }
 
           this.$set(this.routeInfo, 'activeTab', e.activeTab);
