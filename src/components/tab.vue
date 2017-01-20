@@ -1,13 +1,34 @@
-<template>
-  <div class="tab" :class="active ? 'active' : false" @tab:show="onTabShow" @tab:hide="onTabHide">
-    <slot></slot>
-  </div>
-</template>
 <script>
   export default {
     props: {
-      'active': Boolean
+      'active': Boolean,
+      'routeTabId': String
     },
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.activeTab
+        }
+      };
+    },
+    render: function (c) {
+      var self = this; 
+
+      const activeTab = self.routeInfo.activeTab;     
+
+      return c('div', {
+        staticClass: 'tab',
+        class: {
+          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
+        },        
+        on: {
+          'tab:show': self.onTabShow,
+          'tab:hide': self.onTabHide
+        }
+      },
+        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component'}) : self.$slots.default]
+      );
+    },    
     methods: {
       show: function () {
         if (!this.$f7) return;
@@ -18,6 +39,11 @@
       },
       onTabHide: function (e) {
         this.$emit('tab:hide', e);
+      },
+      onRouteChange: function (e) {        
+        if (e.activeTab) {
+          this.$set(this.routeInfo, 'activeTab', e.activeTab)
+        }
       }
     }
   }

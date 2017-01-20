@@ -74,23 +74,31 @@
       },
       onRouteChange: function (event) {
         var self = this;
-        var currentRoute = event.route;
-        var view = event.view;
-        var options = event.prerouteOptions;
+        var pageComponent = event.pageComponent;
+        var isBack = event.action === 'POP';
+        var view = event.view; 
+        
+        const alreadyOnPage = view.url === event.path;       
 
-        if (view === self.$parent.f7View) {
+        if (view === self.$parent.f7View && !alreadyOnPage) {
           var id = new Date().getTime();
 
-          self.$set(self.pages, id, {component: currentRoute.route.component});
+          self.$set(self.pages, id, {component: pageComponent});
 
           view.allowPageChange = false;
 
           self.$nextTick(function () {
             var newPage = view.pagesContainer.querySelector('.page:last-child');
-            self.pages[id].pageElement = newPage;
-            options.pageElement = newPage;
+            
+            self.pages[id].pageElement = newPage;            
             view.allowPageChange = true;
-            if (options.isBack) {
+
+            const options = {
+              url: event.path,
+              pageElement: newPage
+            };
+
+            if (isBack) {
               view.router.back(options);
             }
             else {

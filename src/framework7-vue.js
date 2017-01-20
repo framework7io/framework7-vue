@@ -120,7 +120,9 @@ export default {
 
     // Init Framework7
     var f7Ready = false,
-        f7Instance;
+        f7Instance,
+        currentRoute,
+        f7Router;
 
     function initFramework7(f7Params) {
       if (!window.Framework7) return;
@@ -129,27 +131,18 @@ export default {
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
-      }
-
-      var router = new Framework7Router($$, f7Params.routes, f7Params.preroute);
-
-      router.setRouteChangeHandler((currentRoute, view, prerouteOptions) => {
-        var pagesVue = view.pagesContainer.__vue__;
-        if (!pagesVue) return true;
-
-        eventHub.$emit('route-change', {
-          route: currentRoute,
-          view: view,
-          prerouteOptions: prerouteOptions
-        });      
-
-        return false;       
-      });
+      }      
 
       // Init
-      f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(        
-        Object.assign({}, f7Params, router.getFramework7RoutingParams())
-      );
+      f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
+
+      var router = new Framework7Router(f7Params.routes, f7Instance);      
+
+      router.setRouteChangeHandler(route => {
+        currentRoute = route;
+        f7Router = route.view.router;
+        eventHub.$emit('route-change', route);             
+      });
 
       // Set Flag
       f7Ready = true;
@@ -162,11 +155,11 @@ export default {
     Vue.mixin({
       beforeCreate: function () {
         var self = this;
+
         // Route
-        if (self.$parent && self.$parent.$refs.pages) {
-          self.$route = self.$parent.$parent.$route;
-          self.$router = self.$parent.$parent.$router;
-        }
+        self.$route = currentRoute;
+        self.$router = f7Router;        
+
         // Theme
         if (theme.ios === false && theme.material === false) {
           if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
@@ -176,6 +169,10 @@ export default {
             theme.ios = true;
           }
         }
+
+        eventHub.$on('route-change', function (event) {
+          if (self.onRouteChange) self.onRouteChange(event);
+        });        
       },
       mounted: function () {
         var self = this;
@@ -185,9 +182,6 @@ export default {
         }
         eventHub.$on('f7init', function (f7Instance) {
           if (self.onF7Init) self.onF7Init(f7Instance);
-        });
-        eventHub.$on('route-change', function (event) {
-          if (self.onRouteChange) self.onRouteChange(event);
         });
         if (self === self.$root) {
           initFramework7(self.$options.framework7);

@@ -125,25 +125,6 @@
           self.f7View.router.load({url: self.url, reload: true});
         }
       },
-      onRouteChange: function (event) {
-        var currentRoute = event.route;
-        var view = event.view;
-        var options = event.prerouteOptions;
-        var self = this;        
-
-        if (self.f7View && self.f7View === view) {
-          self.$route = {
-            route: currentRoute.route.path,
-            query: currentRoute.query,
-            hash: currentRoute.hash,
-            params: currentRoute.params,
-            url: currentRoute.url,
-            path: currentRoute.path
-          };
-
-          self.$router = view.router;
-        }
-      },
       onSwipeBackMove: function (event) {
         this.$emit('swipeback:move', event, event.detail);
       },
