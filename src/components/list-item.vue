@@ -26,10 +26,10 @@
           'accordion-item': self.accordionItem,
 
           'checkbox': self.checkbox,
-          'checked': self.checked,
+          'checked': self.checkedComputed,
           'radio': self.radio,
           'name': self.name,
-          'value': self.value,
+          'value': self.valueComputed,
           'readonly': self.readonly,
           'required': self.required,
           'disabled': self.disabled
@@ -206,7 +206,8 @@
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
@@ -220,6 +221,33 @@
       },
       mediaListComputed: function () {
         return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
+      },
+      hasCheckboxModel: function () {
+        var self = this;
+        return self.checkbox && (typeof self.value === 'boolean' || Array.isArray(self.value));
+      },
+      hasRadioModel: function () {
+        var self = this;
+        return self.radio && typeof self.inputValue !== 'undefined';
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) return self.inputValue;
+        else if (self.hasCheckboxModel) return undefined;
+        else return self.value;
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
+        }
+        else if (self.hasRadioModel) {
+          return self.value === self.inputValue;
+        }
+        else return self.checked;
       }
     },
     methods: {
@@ -260,7 +288,23 @@
         this.$emit('accordion:opened', event)
       },
       onChange: function (event) {
-        this.$emit('change', event)
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) self.value.push(event.target.value);
+            else self.value.splice(self.value.indexOf(event.target.value), 1);
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else if (self.hasRadioModel) {
+          self.$emit('input', event.target.value);
+        }
+        else {
+          self.$emit('change', event);
+        }
       }
     }
   }
