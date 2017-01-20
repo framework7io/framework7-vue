@@ -35,14 +35,26 @@
         this.$f7.showTab(this.$el);
       },
       onTabShow: function (e) {
-        this.$emit('tab:show', e);
+        this.$emit('tab:show', e);        
       },
       onTabHide: function (e) {
-        this.$emit('tab:hide', e);
+        this.$emit('tab:hide', e);        
       },
       onRouteChange: function (e) {        
         if (e.activeTab) {
-          this.$set(this.routeInfo, 'activeTab', e.activeTab)
+          const currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
+          const nextActiveTabId = e.activeTab.tabId;
+          const thisTabId = this.routeTabId;          
+
+          if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
+            this.$emit('tab:hide');
+            console.log('tab hide - ' + thisTabId);
+          } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
+            this.$emit('tab:show');
+            console.log('tab show - ' + thisTabId);
+          }
+
+          this.$set(this.routeInfo, 'activeTab', e.activeTab);
         }
       }
     }
