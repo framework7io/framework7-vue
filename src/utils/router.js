@@ -1,4 +1,5 @@
 import {resolve} from 'universal-router';
+import {parse} from 'query-string';
 
 const getTabChildRoutes = (originalRoute) => {
   const tabs = originalRoute.tabs;
@@ -8,15 +9,16 @@ const getTabChildRoutes = (originalRoute) => {
       return tab.routes.map(route => {
         return {
           path: route.path,
-          action: () => {
+          action: (context) => {
             return {
-              path: originalRoute.path,
+              pagePath: originalRoute.path,
               pageComponent: originalRoute.component,
               activeTab: {
                 path: tab.path,
                 tabId: tab.tabId,
                 component: route.component
-              }
+              },
+              params: context.params
             };
           }
         };
@@ -25,11 +27,12 @@ const getTabChildRoutes = (originalRoute) => {
 
     return {
       path: tab.path,
-      action: (children) ? null : () => {
+      action: (children) ? null : (context) => {
         return {
-          path: originalRoute.path,
+          pagePath: originalRoute.path,
           pageComponent: originalRoute.component,
-          activeTab: tab
+          activeTab: tab,
+          params: context.params
         }        
       },
       children
@@ -51,10 +54,11 @@ const convertRoutesToUniversalRouter = (originalRoutes) => {
 
     const children = getRouteChildren(originalRoute);
     
-    const action = (children) ? null : () => {
+    const action = (children) ? null : (context) => {
       return {
-        path: originalRoute.path,
-        pageComponent: originalRoute.component
+        pagePath: originalRoute.path,
+        pageComponent: originalRoute.component,
+        params: context.params
       };
     };    
 
@@ -136,10 +140,16 @@ export default class Framework7Router {
     const location = new URL(url, 'http://framework7/');
 
     findMatchingRoute(this.routes, location).then(matchingRoute => {
+      console.log(matchingRoute);
+
       this.routeChangeHandler(
         Object.assign({}, matchingRoute, {
           view: getMainView(),
-          action: action
+          query: parse(location.search),
+          hash: location.hash,
+          url: url,
+          route: matchingRoute.pagePath,
+          path: location.pathname                  
         })
       )
     });

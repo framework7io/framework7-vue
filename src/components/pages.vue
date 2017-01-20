@@ -78,7 +78,7 @@
         var isBack = event.action === 'POP';
         var view = event.view; 
         
-        const alreadyOnPage = view.url === event.path;       
+        const alreadyOnPage = view.url === event.pagePath;       
 
         if (view === self.$parent.f7View && !alreadyOnPage) {
           var id = new Date().getTime();
@@ -94,7 +94,7 @@
             view.allowPageChange = true;
 
             const options = {
-              url: event.path,
+              url: event.pagePath,
               pageElement: newPage
             };
 
