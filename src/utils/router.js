@@ -140,8 +140,6 @@ export default class Framework7Router {
     const location = new URL(url, 'http://framework7/');
 
     findMatchingRoute(this.routes, location).then(matchingRoute => {
-      console.log(matchingRoute);
-
       this.routeChangeHandler(
         Object.assign({}, matchingRoute, {
           view: getMainView(),
