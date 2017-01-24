@@ -38,6 +38,9 @@
           },
           on: {
             change: self.onChange
+          },
+          domProps: {
+            checked: self.checked
           }
         });
       }
@@ -100,20 +103,18 @@
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
-    },
-    data: function () {
-      return {};
     },
     methods: {
       onClick: function (event) {
         this.$emit('click', event)
       },
       onChange: function (event) {
-        this.$emit('change', event)
+        this.$emit('change', event);
       }
     }
   }

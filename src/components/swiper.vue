@@ -17,12 +17,7 @@
       if (self.swiper && self.swiper.destroy) self.swiper.destroy();
     },
     props: {
-      'params': {
-        type: Object,
-        default: function () {
-          return {};
-        }
-      },
+      'params': Object,
       'pagination': [Boolean, String, Object],
       'scrollbar': [Boolean, String, Object],
       'next-button': [Boolean, String, Object],
@@ -37,29 +32,49 @@
         return this.params || {};
       },
       paginationComputed: function () {
-        if (this.pagination) {
-          this.params.pagination = '.swiper-pagination';
+        var self = this;
+        if (self.pagination === true || self.pagination === '') {
+          self.paramsComputed.pagination = '.swiper-pagination';
+          return true;
+        }
+        else if (typeof self.pagination === 'object' || typeof self.pagination === 'string') {
+          self.paramsComputed.pagination = self.pagination;
           return true;
         }
         return false;
       },
       scrollbarComputed: function () {
-        if (this.scrollbar) {
-          this.params.scrollbar = '.swiper-scrollbar';
+        var self = this;
+        if (self.scrollbar || self.scrollbar === '') {
+          self.paramsComputed.scrollbar = '.swiper-scrollbar';
+          return true;
+        }
+        else if (typeof self.scrollbar === 'object' || typeof self.scrollbar === 'string') {
+          self.paramsComputed.scrollbar = self.scrollbar;
           return true;
         }
         return false;
       },
       nextButtonComputed: function () {
-        if (this.nextButton) {
-          this.params.nextButton = '.swiper-button-next';
+        var self = this;
+        if (self.nextButton || self.nextButton === '') {
+          self.paramsComputed.nextButton = '.swiper-button-next';
+          return true;
+        }
+        else if (typeof self.nextButton === 'object' || typeof self.nextButton === 'string') {
+          self.paramsComputed.nextButton = self.nextButton;
           return true;
         }
         return false;
       },
       prevButtonComputed: function () {
-        if (this.prevButton) {
-          this.params.prevButton = '.swiper-button-prev';
+        var self = this;
+        if (self.prevButton || self.prevButton === '') {
+          self.paramsComputed.prevButton = '.swiper-button-prev';
+          return true;
+        }
+        else if (typeof self.prevButton === 'object' || typeof self.prevButton === 'string') {
+          self.paramsComputed.prevButton = self.prevButton;
           return true;
         }
         return false;

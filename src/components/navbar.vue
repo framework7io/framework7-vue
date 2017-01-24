@@ -8,7 +8,7 @@
   >
     <slot name="before-inner"></slot>
     <div class="navbar-inner">
-      <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding"></f7-nav-left>
+      <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding" :back-link-href="backLinkUrl || backLinkHref"></f7-nav-left>
       <f7-nav-center v-if="title" :title="title" :sliding="sliding"></f7-nav-center>
       <slot></slot>
     </div>
@@ -25,6 +25,8 @@
     },
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean,
       title: String,
       theme: String,

@@ -19,8 +19,10 @@
       var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
 
       var tag, child, withSubnavbar, withMessages, withSearchbar;
+
+      var i, j;
       if (self.$slots.default) {
-        for (var i = 0; i < self.$slots.default.length; i++) {
+        for (i = 0; i < self.$slots.default.length; i++) {
           child = self.$slots.default[i];
           tag = child.tag;
           if (!tag) {
@@ -31,7 +33,7 @@
           if (tag.indexOf('messages') >= 0) withMessages = true;
           if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
           if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
-          for (var j = 0; j < fixedTags.length; j++) {
+          for (j = 0; j < fixedTags.length; j++) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
             }
@@ -64,10 +66,20 @@
         }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
       }
       else {
-        pageContentEl = [self.$slots.default];
+        pageContentEl = [];
+        if (self.$slots.default && fixedList.length > 0) {
+          for (i = 0; i < self.$slots.default.length; i++) {
+            if (fixedList.indexOf(self.$slots.default[i]) < 0) {
+              pageContentEl.push(self.$slots.default[i]);
+            }
+          }
+        }
+        else {
+          pageContentEl = [self.$slots.default]
+        }
       }
       fixedList.push(self.$slots.fixed);
-
+      
       if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
       pageEl = c('div', {
         staticClass: 'page',
@@ -146,7 +158,7 @@
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough,
+          'tabbar-labels-through': this.tabbarLabelsThrough,
           'with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
