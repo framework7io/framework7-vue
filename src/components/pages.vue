@@ -90,7 +90,7 @@
           self.$nextTick(function () {
             var newPage = view.pagesContainer.querySelector('.page:last-child');
             
-            self.$set(self.pages[id], 'pageElement', newPage);
+            self.pages[id].pageElement = newPage;
 
             view.allowPageChange = true;
 
