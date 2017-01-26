@@ -90,9 +90,9 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   if (inHistory && inDomCache) return true;  
 
   if (options.isBack) {
-    changeRouteCallback(url, 'POP')
+    changeRouteCallback(url, 'POP', view)
   } else {
-    changeRouteCallback(url, 'PUSH');
+    changeRouteCallback(url, 'PUSH', view);
   }
 
   return false;
@@ -128,7 +128,7 @@ export default class Framework7Router {
     this.routeChangeHandler = routeChangeHandler;
   }
 
-  changeRoute(url, action) {
+  changeRoute(url, action, view = null) {
     const getMainView = () => this.framework7.views && this.framework7.views.reduce((mainView, nextView) => {
         if (nextView.main) {
             return nextView;
@@ -142,7 +142,7 @@ export default class Framework7Router {
     findMatchingRoute(this.routes, location).then(matchingRoute => {
       this.routeChangeHandler(
         Object.assign({}, matchingRoute, {
-          view: getMainView(),
+          view: view || getMainView(),
           query: parse(location.search),
           hash: location.hash,
           url: url,
