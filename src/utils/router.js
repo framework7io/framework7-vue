@@ -90,9 +90,9 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   if (inHistory && inDomCache) return true;  
 
   if (options.isBack) {
-    changeRouteCallback(url, 'POP', view)
+    changeRouteCallback(url, view)
   } else {
-    changeRouteCallback(url, 'PUSH', view);
+    changeRouteCallback(url, view);
   }
 
   return false;
@@ -128,7 +128,7 @@ export default class Framework7Router {
     this.routeChangeHandler = routeChangeHandler;
   }
 
-  changeRoute(url, action, view = null) {
+  changeRoute(url, view = null) {
     const getMainView = () => this.framework7.views && this.framework7.views.reduce((mainView, nextView) => {
         if (nextView.main) {
             return nextView;
