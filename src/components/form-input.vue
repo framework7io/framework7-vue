@@ -156,7 +156,12 @@
     },
     methods: {
       onInput: function (event) {
-        this.$emit('input', event.target.value);
+        if (event && event.type && event.type === 'input') {
+          this.$emit('input', event.target.value);
+        }
+        else {
+          this.$emit('input', event);
+        }
       },
       onFocus: function (event) {
         this.$emit('focus', event);
