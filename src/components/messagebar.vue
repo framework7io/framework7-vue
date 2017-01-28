@@ -15,7 +15,8 @@
         @blur="onBlur"
       >{{value}}</textarea>
       <slot name="after-textarea"></slot>
-      <f7-link v-if="sendLink" @click="onClick" v-html="sendLink"></f7-link>
+      <f7-link v-if="sendLink && sendLink.indexOf('<') >= 0" @click="onClick" v-html="sendLink"></f7-link>
+      <f7-link v-else="sendLink || $slots['send-link']" @click="onClick"><slot name="send-link">{{sendLink}}</slot></f7-link>
       <slot></slot>
     </div>
     <slot name="after-inner"></slot>
