@@ -75,7 +75,6 @@
       onRouteChange: function (event) {
         var self = this;
         var pageComponent = event.pageComponent;
-        var isBack = event.action === 'POP';
         var view = event.view; 
         
         const alreadyOnPage = view.url === event.pagePath;       
@@ -94,12 +93,12 @@
 
             view.allowPageChange = true;
 
-            const options = {
+            const options = Object.assign(event.options, {
               url: event.pagePath,
               pageElement: newPage
-            };
+            });
 
-            if (isBack) {
+            if (options.isBack) {
               view.router.back(options);
             }
             else {

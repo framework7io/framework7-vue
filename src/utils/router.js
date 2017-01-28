@@ -89,11 +89,7 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
 
   if (inHistory && inDomCache) return true;  
 
-  if (options.isBack) {
-    changeRouteCallback(url, view)
-  } else {
-    changeRouteCallback(url, view);
-  }
+  changeRouteCallback(url, view, options);
 
   return false;
 }
@@ -128,7 +124,7 @@ export default class Framework7Router {
     this.routeChangeHandler = routeChangeHandler;
   }
 
-  changeRoute(url, view = null) {
+  changeRoute(url, view = null, options) {
     const getMainView = () => this.framework7.views && this.framework7.views.reduce((mainView, nextView) => {
         if (nextView.main) {
             return nextView;
@@ -147,7 +143,8 @@ export default class Framework7Router {
           hash: location.hash,
           url: url,
           route: matchingRoute.pagePath,
-          path: location.pathname                  
+          path: location.pathname,
+          options: options
         })
       )
     });
