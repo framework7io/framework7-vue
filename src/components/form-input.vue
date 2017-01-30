@@ -59,7 +59,14 @@
       }
       if (self.type === 'select' || self.type === 'textarea') {
         if (self.type === 'select') {
-          inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          if (self.hasSelectModel) {
+            delete attrs.value;
+            inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          }
+          else {
+            inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          }
+          
         }
         else {
           var textareaChildren = self.$slots.default;
@@ -88,6 +95,26 @@
 
       var itemInput = self.wrap ? c('div', {staticClass: 'item-input'}, [inputEl]) : inputEl;
       return itemInput;
+    },
+    watch: {
+      value: function () {
+        var self = this;
+        if (!self.hasSelectModel) return;
+        var $$ = self.$$;
+        $$(self.$el).find('option').each(function (index, option) {
+          if (self.value.indexOf(option.value) >= 0) option.selected = true;
+          else option.selected = false;
+        });
+      }
+    },
+    mounted: function () {
+      var self = this;
+      if (!self.hasSelectModel) return;
+      var $$ = self.$$;
+      $$(self.$el).find('option').each(function (index, option) {
+        if (self.value.indexOf(option.value) >= 0) option.selected = true;
+        else option.selected = false;
+      });
     },
     props: {
       // Inputs
@@ -134,6 +161,10 @@
         var self = this;
         return self.type === 'radio' && typeof self.inputValue !== 'undefined';
       },
+      hasSelectModel: function () {
+        var self = this;
+        return self.type === 'select' && Array.isArray(self.value);
+      },
       valueComputed: function () {
         var self = this;
         if (self.inputValue) return self.inputValue;
@@ -157,6 +188,7 @@
     },
     methods: {
       onInput: function (event) {
+        if (this.hasSelectModel) return;
         if (event && event.type && event.type === 'input') {
           this.$emit('input', event.target.value);
         }
@@ -184,6 +216,15 @@
         }
         else if (self.hasRadioModel) {
           self.$emit('input', event.target.value);
+        }
+        else if (self.hasSelectModel) {
+          var values = Array.prototype.filter.call(event.target.options, function(option) {
+            return option.selected;
+          }).map(function(option) {
+            var val = "_value" in option ? option._value : option.value;
+            return val
+          })
+          self.$emit('input', values);
         }
         else {
           self.$emit('change', event);
