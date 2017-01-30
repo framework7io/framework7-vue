@@ -138,7 +138,8 @@
         var self = this;
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
-        else return self.value;
+        else if (self.$options.propsData && self.$options.propsData.value) return self.value;
+        return undefined;
       },
       checkedComputed: function () {
         var self = this;
