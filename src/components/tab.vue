@@ -7,7 +7,7 @@
     data: function () {
       return {
         routeInfo: {
-          activeTab: this.$route && this.$route.activeTab
+          activeTab: this.$route && this.$route.route.tab
         }
       };
     },
@@ -41,9 +41,9 @@
         this.$emit('tab:hide', e);        
       },
       onRouteChange: function (e) {        
-        if (e.activeTab) {
+        if (e.route.tab) {
           const currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
-          const nextActiveTabId = e.activeTab.tabId;
+          const nextActiveTabId = e.route.tab.tabId;
           const thisTabId = this.routeTabId;          
 
           if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
@@ -52,7 +52,7 @@
             this.$emit('tab:show');            
           }
 
-          this.$set(this.routeInfo, 'activeTab', e.activeTab);
+          this.$set(this.routeInfo, 'activeTab', e.route.tab);
         }
       }
     }

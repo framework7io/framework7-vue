@@ -136,12 +136,17 @@ export default {
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      var router = new Framework7Router(f7Params.routes, f7Instance);      
+      var router = new Framework7Router(f7Params.routes, f7Instance, $$);      
 
       router.setRouteChangeHandler(route => {
         currentRoute = route;
         f7Router = route.view.router;
-        eventHub.$emit('route-change', route);             
+        eventHub.$emit('route-change', route);
+
+        var pagesVue = route.view.pagesContainer.__vue__;
+        if (!pagesVue) return true;
+
+        return false;
       });
 
       // Set Flag

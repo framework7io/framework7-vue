@@ -3,7 +3,7 @@
     data: function () {
       return {
         routeInfo: {
-          activeTab: this.$route && this.$route.activeTab
+          activeTab: this.$route && this.$route.route.tab
         }
       };
     },
@@ -192,8 +192,8 @@
         this.$emit('click', event);
       },
       onRouteChange: function (e) {        
-        if (e.activeTab) {
-          this.$set(this.routeInfo, 'activeTab', e.activeTab)
+        if (e.route.tab) {
+          this.$set(this.routeInfo, 'activeTab', e.route.tab)
         }
       }      
     }
