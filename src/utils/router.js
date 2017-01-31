@@ -83,14 +83,14 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
     return true;
   }
 
+  if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) return false;
+
   var inHistory = view.history.indexOf(url) >= 0;
   var inDomCache = view.pagesCache[url];
 
   if (inHistory && inDomCache) return true;  
 
-  changeRouteCallback(url, view, options);
-
-  return false;
+  return changeRouteCallback(url, view, options);
 }
 
 export default class Framework7Router {
@@ -143,13 +143,12 @@ export default class Framework7Router {
       location.hash = url.indexOf('#') >= 0 ? '#' + url.split('#')[1] : '';
       location.pathname =  url.split('#')[0].split('?')[0];
     }
-    
     findMatchingRoute(this.routes, location).then(matchingRoute => {
       this.routeChangeHandler(
         Object.assign({}, matchingRoute, {
           view: view || getMainView(),
           query: Dom7.parseUrlQuery(location.search),
-          hash: location.hash,
+          hash: location.hash.replace('#', ''),
           url: url,
           route: matchingRoute.pagePath,
           path: location.pathname,
@@ -157,5 +156,7 @@ export default class Framework7Router {
         })
       )
     });
+
+    return false;
   }
 }
