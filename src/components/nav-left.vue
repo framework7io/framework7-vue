@@ -2,7 +2,7 @@
   <div class="left" :class="{sliding:sliding}">
     <f7-link
       v-if="backLink"
-      href="#"
+      :href="backLinkUrl || backLinkHref || '#'"
       back
       icon="icon-back"
       :class="{'icon-only': (backLink === true || backLink && $theme.material)}"
@@ -16,6 +16,8 @@
   export default {
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean
     },
     methods: {

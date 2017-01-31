@@ -27,7 +27,7 @@
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough
+          'tabbar-labels-through': this.tabbarLabelsThrough
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;

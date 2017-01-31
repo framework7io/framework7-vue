@@ -63,6 +63,7 @@
       'swipe-back-page-threshold': Boolean,
       'animate-pages': Boolean,
       'preload-previous-page': Boolean,
+      'name': String,
 
       'params': Object,
 
@@ -103,6 +104,7 @@
         if (!self.init) return;
         var propsData = self.$options.propsData;
         var params = self.params || {
+          name: self.name,
           url: self.url,
           dynamicNavbar: propsData.dynamicNavbar,
           domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,

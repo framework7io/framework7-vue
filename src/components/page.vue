@@ -158,7 +158,7 @@
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough,
+          'tabbar-labels-through': this.tabbarLabelsThrough,
           'with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,

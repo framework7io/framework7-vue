@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.7.7
+ * Framework7 Vue 0.7.8
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 13, 2017
+ * Released on: January 31, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -137,7 +137,7 @@ staticRenderFns: [],
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough
+          'tabbar-labels-through': this.tabbarLabelsThrough
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
@@ -210,6 +210,7 @@ var View = {
       'swipe-back-page-threshold': Boolean,
       'animate-pages': Boolean,
       'preload-previous-page': Boolean,
+      'name': String,
 
       'params': Object,
 
@@ -250,6 +251,7 @@ var View = {
         if (!self.init) { return; }
         var propsData = self.$options.propsData;
         var params = self.params || {
+          name: self.name,
           url: self.url,
           dynamicNavbar: propsData.dynamicNavbar,
           domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
@@ -388,8 +390,10 @@ var Page = {
       var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
 
       var tag, child, withSubnavbar, withMessages, withSearchbar;
+
+      var i, j;
       if (self.$slots.default) {
-        for (var i = 0; i < self.$slots.default.length; i++) {
+        for (i = 0; i < self.$slots.default.length; i++) {
           child = self.$slots.default[i];
           tag = child.tag;
           if (!tag) {
@@ -400,7 +404,7 @@ var Page = {
           if (tag.indexOf('messages') >= 0) { withMessages = true; }
           if (tag.indexOf('subnavbar') >= 0) { withSubnavbar = true; }
           if (tag.indexOf('searchbar') >= 0) { withSearchbar = true; }
-          for (var j = 0; j < fixedTags.length; j++) {
+          for (j = 0; j < fixedTags.length; j++) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
             }
@@ -433,10 +437,20 @@ var Page = {
         }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
       }
       else {
-        pageContentEl = [self.$slots.default];
+        pageContentEl = [];
+        if (self.$slots.default && fixedList.length > 0) {
+          for (i = 0; i < self.$slots.default.length; i++) {
+            if (fixedList.indexOf(self.$slots.default[i]) < 0) {
+              pageContentEl.push(self.$slots.default[i]);
+            }
+          }
+        }
+        else {
+          pageContentEl = [self.$slots.default];
+        }
       }
       fixedList.push(self.$slots.fixed);
-
+      
       if (withSubnavbar) { self.classesObjectPage['with-subnavbar'] = true; }
       pageEl = c('div', {
         staticClass: 'page',
@@ -515,7 +529,7 @@ var Page = {
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough,
+          'tabbar-labels-through': this.tabbarLabelsThrough,
           'with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
@@ -615,7 +629,7 @@ staticRenderFns: [],
   };
 
 var Navbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding,"back-link-href":_vm.backLinkUrl || _vm.backLinkHref}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     updated: function () {
       var self = this;
@@ -625,6 +639,8 @@ staticRenderFns: [],
     },
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean,
       title: String,
       theme: String,
@@ -679,10 +695,12 @@ staticRenderFns: [],
   };
 
 var NavLeft = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":"#","back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":_vm.backLinkUrl || _vm.backLinkHref || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean
     }
   };
@@ -950,7 +968,8 @@ var List = {
             'tab': self.tab,
             'active': self.active,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween
+            'no-hairlines-between': self.noHairlinesBetween,
+            'store-data': self.storeData
           },
           on: {
             'sortable:open': self.onSortableOpen,
@@ -971,7 +990,6 @@ var List = {
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
-      'form': Boolean,
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
@@ -982,6 +1000,10 @@ var List = {
       // Tab
       'tab': Boolean,
       'active': Boolean,
+
+      // Form
+      'form': Boolean,
+      'store-data': Boolean,
 
       // Virtual List
       'virtual': Boolean,
@@ -1109,10 +1131,10 @@ var ListItem = {
           'accordion-item': self.accordionItem,
 
           'checkbox': self.checkbox,
-          'checked': self.checked,
+          'checked': self.checkedComputed,
           'radio': self.radio,
           'name': self.name,
-          'value': self.value,
+          'value': self.valueComputed,
           'readonly': self.readonly,
           'required': self.required,
           'disabled': self.disabled
@@ -1289,7 +1311,8 @@ var ListItem = {
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
@@ -1303,6 +1326,33 @@ var ListItem = {
       },
       mediaListComputed: function () {
         return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
+      },
+      hasCheckboxModel: function () {
+        var self = this;
+        return self.checkbox && (typeof self.value === 'boolean' || Array.isArray(self.value));
+      },
+      hasRadioModel: function () {
+        var self = this;
+        return self.radio && typeof self.inputValue !== 'undefined';
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else { return self.value; }
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
+        }
+        else if (self.hasRadioModel) {
+          return self.value === self.inputValue;
+        }
+        else { return self.checked; }
       }
     },
     methods: {
@@ -1343,7 +1393,23 @@ var ListItem = {
         this.$emit('accordion:opened', event);
       },
       onChange: function (event) {
-        this.$emit('change', event);
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else if (self.hasRadioModel) {
+          self.$emit('input', event.target.value);
+        }
+        else {
+          self.$emit('change', event);
+        }
       }
     }
   };
@@ -1387,6 +1453,9 @@ var ListItemContent = {
           },
           on: {
             change: self.onChange
+          },
+          domProps: {
+            checked: self.checked
           }
         });
       }
@@ -1449,13 +1518,11 @@ var ListItemContent = {
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
-    },
-    data: function () {
-      return {};
     },
     methods: {
       onClick: function (event) {
@@ -1930,7 +1997,7 @@ var Link = {
     mixins: [LinkMixin],
     render: function (c) {
       var iconEl, textEl, isTabbarLabel, badgeEl, iconBadgeEl, self = this;
-      isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar && self.$parent.labels;
+      isTabbarLabel = (self.tabLink || self.tabLink === '') && self.$parent && self.$parent.tabbar && self.$parent.labels;
       if (self.text) {
         if (self.badge) { badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge); }
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
@@ -1951,7 +2018,7 @@ var Link = {
       if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
         self.classesObject['icon-only'] = true;
       }
-      self.classesObject['link'] = self.noLinkClass || isTabbarLabel ? false : true;
+      self.classesObject.link = self.noLinkClass || isTabbarLabel ? false : true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
@@ -2104,7 +2171,7 @@ var FormInput = {
         type: self.type,
         placeholder: self.placeholder,
         id: self.id,
-        value: self.value,
+        value: self.valueComputed,
         size: self.size,
         accept: self.accept,
         autocomplete: self.autocomplete,
@@ -2113,7 +2180,7 @@ var FormInput = {
         spellcheck: self.spellcheck,
         autofocus: self.autofocus,
         autosave: self.autosave,
-        checked: self.checked,
+        checked: self.checkedComputed,
         disabled: self.disabled,
         max: self.max,
         maxlength: self.maxlength,
@@ -2155,7 +2222,14 @@ var FormInput = {
       };
       if (self.type === 'select' || self.type === 'textarea') {
         if (self.type === 'select') {
-          inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          if (self.hasSelectModel) {
+            delete attrs.value;
+            inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          }
+          else {
+            inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          }
+          
         }
         else {
           var textareaChildren = self.$slots.default;
@@ -2178,12 +2252,32 @@ var FormInput = {
           else if (self.type === 'range') {
             inputEl = c('f7-range', {props: attrs, on: on});
           }
-          else { inputEl = c('input', {attrs: attrs, on: on}); }
+          else { inputEl = c('input', {attrs: attrs, on: on, domProps: {value: self.valueComputed, checked: self.checkedComputed}}); }
         }
       }
 
       var itemInput = self.wrap ? c('div', {staticClass: 'item-input'}, [inputEl]) : inputEl;
       return itemInput;
+    },
+    watch: {
+      value: function () {
+        var self = this;
+        if (!self.hasSelectModel) { return; }
+        var $$ = self.$$;
+        $$(self.$el).find('option').each(function (index, option) {
+          if (self.value.indexOf(option.value) >= 0) { option.selected = true; }
+          else { option.selected = false; }
+        });
+      }
+    },
+    mounted: function () {
+      var self = this;
+      if (!self.hasSelectModel) { return; }
+      var $$ = self.$$;
+      $$(self.$el).find('option').each(function (index, option) {
+        if (self.value.indexOf(option.value) >= 0) { option.selected = true; }
+        else { option.selected = false; }
+      });
     },
     props: {
       // Inputs
@@ -2191,7 +2285,8 @@ var FormInput = {
       name: String,
       placeholder: String,
       id: String,
-      value: [String, Number],
+      value: [String, Number, Boolean, Array, Object],
+      inputValue: [String, Number],
       size: [String, Number],
       accept: [String, Number],
       autocomplete: [String],
@@ -2220,9 +2315,49 @@ var FormInput = {
         "default": true
       }
     },
+    computed: {
+      hasCheckboxModel: function () {
+        var self = this;
+        return (self.type === 'checkbox' || self.type === 'switch') && (typeof self.value === 'boolean' || Array.isArray(self.value));
+      },
+      hasRadioModel: function () {
+        var self = this;
+        return self.type === 'radio' && typeof self.inputValue !== 'undefined';
+      },
+      hasSelectModel: function () {
+        var self = this;
+        return self.type === 'select' && Array.isArray(self.value);
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else if (self.$options.propsData && self.$options.propsData.value) { return self.value; }
+        return undefined;
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
+        }
+        else if (self.hasRadioModel) {
+          return self.value === self.inputValue;
+        }
+        else { return self.checked; }
+      }
+    },
     methods: {
       onInput: function (event) {
-        this.$emit('input', event.target.value);
+        if (this.hasSelectModel) { return; }
+        if (event && event.type && event.type === 'input') {
+          this.$emit('input', event.target.value);
+        }
+        else {
+          this.$emit('input', event);
+        }
       },
       onFocus: function (event) {
         this.$emit('focus', event);
@@ -2231,7 +2366,32 @@ var FormInput = {
         this.$emit('blur', event);
       },
       onChange: function (event) {
-        this.$emit('change', event);
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else if (self.hasRadioModel) {
+          self.$emit('input', event.target.value);
+        }
+        else if (self.hasSelectModel) {
+          var values = Array.prototype.filter.call(event.target.options, function(option) {
+            return option.selected;
+          }).map(function(option) {
+            var val = "_value" in option ? option._value : option.value;
+            return val
+          });
+          self.$emit('input', values);
+        }
+        else {
+          self.$emit('change', event);
+        }
       },
       onClick: function (event) {
         this.$emit('click', event);
@@ -2297,12 +2457,13 @@ var FormInput = {
   };
 
 var FormSwitch = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.style),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.value,"checked":_vm.checked},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.style),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.valueComputed,"checked":_vm.checkedComputed},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
 staticRenderFns: [],
     props: {
       name: String,
       id: String,
-      value: [String, Number],
+      value: [String, Number, Boolean, Array],
+      inputValue: [String, Number],
       checked: Boolean,
       disabled: Boolean,
       readonly: Boolean,
@@ -2311,19 +2472,52 @@ staticRenderFns: [],
 
       color: String
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
+    computed: {
+      hasCheckboxModel: function () {
+        return typeof this.value === 'boolean' || Array.isArray(this.value);
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else if (self.$options.propsData && self.$options.propsData.value) { return self.value; }
+        return undefined;
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
         }
-      };
-      'Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event);
-        };
-      });
-      return eventMethods
-    })()
+        else { return self.checked; }
+      }
+    },
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event);
+      },
+      onChange: function (event) {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else {
+          self.$emit('change', event);
+        }
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      }
+    }
   };
 
 var FormRange = {
@@ -2343,19 +2537,17 @@ staticRenderFns: [],
 
       color: String
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
-        }
-      };
-      'Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event);
-        };
-      });
-      return eventMethods
-    })()
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event.target.value);
+      },
+      onChange: function (event) {
+        this.$emit('change', event);
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      }
+    }
   };
 
 var Chip = {
@@ -2424,10 +2616,19 @@ staticRenderFns: [],
   };
 
 var FabAction = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.classesObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
-      color: String
+      'color': String,
+      'closeSpeedDial': Boolean
+    },
+    computed: {
+      classesObject: function() {
+        var co = {};
+        if (this.color) { co['color-' + this.color] = true; }
+        if (this.closeSpeedDial) { co['close-speed-dial'] = true; }
+        return co;
+      }
     },
     methods: {
       onClick: function (event) {
@@ -2460,29 +2661,49 @@ staticRenderFns: [],
         return this.params || {};
       },
       paginationComputed: function () {
-        if (this.pagination) {
-          this.paramsComputed.pagination = '.swiper-pagination';
+        var self = this;
+        if (self.pagination === true || self.pagination === '') {
+          self.paramsComputed.pagination = '.swiper-pagination';
+          return true;
+        }
+        else if (typeof self.pagination === 'object' || typeof self.pagination === 'string') {
+          self.paramsComputed.pagination = self.pagination;
           return true;
         }
         return false;
       },
       scrollbarComputed: function () {
-        if (this.scrollbar) {
-          this.paramsComputed.scrollbar = '.swiper-scrollbar';
+        var self = this;
+        if (self.scrollbar || self.scrollbar === '') {
+          self.paramsComputed.scrollbar = '.swiper-scrollbar';
+          return true;
+        }
+        else if (typeof self.scrollbar === 'object' || typeof self.scrollbar === 'string') {
+          self.paramsComputed.scrollbar = self.scrollbar;
           return true;
         }
         return false;
       },
       nextButtonComputed: function () {
-        if (this.nextButton) {
-          this.paramsComputed.nextButton = '.swiper-button-next';
+        var self = this;
+        if (self.nextButton || self.nextButton === '') {
+          self.paramsComputed.nextButton = '.swiper-button-next';
+          return true;
+        }
+        else if (typeof self.nextButton === 'object' || typeof self.nextButton === 'string') {
+          self.paramsComputed.nextButton = self.nextButton;
           return true;
         }
         return false;
       },
       prevButtonComputed: function () {
-        if (this.prevButton) {
-          this.paramsComputed.prevButton = '.swiper-button-prev';
+        var self = this;
+        if (self.prevButton || self.prevButton === '') {
+          self.paramsComputed.prevButton = '.swiper-button-prev';
+          return true;
+        }
+        else if (typeof self.prevButton === 'object' || typeof self.prevButton === 'string') {
+          self.paramsComputed.prevButton = self.prevButton;
           return true;
         }
         return false;
@@ -2666,7 +2887,7 @@ staticRenderFns: [],
   };
 
 var Messagebar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_vm._t("after-textarea"),_vm._v(" "),(_vm.sendLink)?_c('f7-link',{on:{"click":_vm.onClick}},[_vm._v(_vm._s(_vm.sendLink))]):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_vm._t("after-textarea"),_vm._v(" "),(_vm.sendLink && _vm.sendLink.indexOf('<') >= 0)?_c('f7-link',{domProps:{"innerHTML":_vm._s(_vm.sendLink)},on:{"click":_vm.onClick}}):_c('f7-link',{on:{"click":_vm.onClick}},[_vm._t("send-link",[_vm._v(_vm._s(_vm.sendLink))])],2),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     beforeDestroy: function () {
       if (this.f7Messagebar && this.f7Messagebar.destroy) { this.f7Messagebar.destroy(); }
@@ -3127,6 +3348,7 @@ var PickerModal = {
       'opened': Boolean,
       'theme': String,
       'layout': String,
+      'overlay': Boolean
     },
     computed: {
       classesObject: function () {
@@ -3141,12 +3363,18 @@ var PickerModal = {
     },
     methods: {
       onOpen: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').addClass('modal-overlay-visible');
+        }
         this.$emit('picker:open', event);
       },
       onOpened: function (event) {
         this.$emit('picker:opened', event);
       },
       onClose: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').removeClass('modal-overlay-visible');
+        }
         this.$emit('picker:close', event);
       },
       onClosed: function (event) {
@@ -3155,7 +3383,7 @@ var PickerModal = {
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) { return; }
-        if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
+        if ($$('.picker-modal-overlay').length === 0 && (this.$theme && this.$theme.material || this.overlay)) {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
