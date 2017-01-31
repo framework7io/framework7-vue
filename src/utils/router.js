@@ -1,5 +1,4 @@
 import {resolve} from 'universal-router';
-import {parse} from 'query-string';
 
 const getTabChildRoutes = (originalRoute) => {
   const tabs = originalRoute.tabs;
@@ -133,13 +132,23 @@ export default class Framework7Router {
         }
     }, null); 
 
-    const location = new URL(url, 'http://framework7/');
-
+    var location;
+    if (window.URL) {
+      location = new URL(url, 'http://framework7/');
+    }
+    else {
+      location = {};
+      location.href = url;
+      location.search = url.indexOf('?') >= 0 ? '?' + url.split('?')[1] : '';
+      location.hash = url.indexOf('#') >= 0 ? '#' + url.split('#')[1] : '';
+      location.pathname =  url.split('#')[0].split('?')[0];
+    }
+    
     findMatchingRoute(this.routes, location).then(matchingRoute => {
       this.routeChangeHandler(
         Object.assign({}, matchingRoute, {
           view: view || getMainView(),
-          query: parse(location.search),
+          query: Dom7.parseUrlQuery(location.search),
           hash: location.hash,
           url: url,
           route: matchingRoute.pagePath,
