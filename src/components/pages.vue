@@ -71,6 +71,41 @@
           }
         }
         if (idToRemove) this.$set(this.pages, idToRemove, {});
+      },
+      onRouteChange: function (event) {
+        var self = this;
+        var pageComponent = event.pageComponent;
+        var view = event.view; 
+        
+        const alreadyOnPage = view.url === event.pagePath;       
+
+        if (view === self.$parent.f7View && !alreadyOnPage) {
+          var id = new Date().getTime();
+
+          self.$set(self.pages, id, {component: pageComponent});
+
+          view.allowPageChange = false;
+
+          self.$nextTick(function () {
+            var newPage = view.pagesContainer.querySelector('.page:last-child');
+            
+            self.pages[id].pageElement = newPage;
+
+            view.allowPageChange = true;
+
+            const options = Object.assign(event.options, {
+              url: event.pagePath,
+              pageElement: newPage
+            });
+
+            if (options.isBack) {
+              view.router.back(options);
+            }
+            else {
+              view.router.load(options);
+            }
+          }); 
+        }
       }
     }
   }
