@@ -69,11 +69,12 @@
       onRouteChange: function (event) {
         var self = this;
         var pageComponent = event.pageComponent;
-        var view = event.view; 
+        var view = event.view;
+        var currentView = self.$parent.f7View || self.$parent.$el.f7View;
         
-        const alreadyOnPage = view.url === event.pagePath;       
+        const alreadyOnPage = view.url === event.pagePath;
 
-        if (view === self.$parent.f7View && !alreadyOnPage) {
+        if (view === currentView && !alreadyOnPage) {
           var id = new Date().getTime();
 
           self.$set(self.pages, id, {component: pageComponent});
