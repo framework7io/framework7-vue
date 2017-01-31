@@ -44,7 +44,8 @@
             'tab': self.tab,
             'active': self.active,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween
+            'no-hairlines-between': self.noHairlinesBetween,
+            'store-data': self.storeData
           },
           on: {
             'sortable:open': self.onSortableOpen,
@@ -65,7 +66,6 @@
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
-      'form': Boolean,
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
@@ -76,6 +76,10 @@
       // Tab
       'tab': Boolean,
       'active': Boolean,
+
+      // Form
+      'form': Boolean,
+      'store-data': Boolean,
 
       // Virtual List
       'virtual': Boolean,
