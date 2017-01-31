@@ -1,5 +1,17 @@
 # Change Log
 
+## Framework7 Vue v0.7.8 - Updated on January 31, 2017
+  * Support v-model for custom f7-inputs
+  * Added `back-link-url` prop for **f7-navbar** and **f7-nav** components
+  * Messagebar
+    * `send-link` prop now supports string to pass custom inner HTML
+    * New `send-link` slot name to put custom HTML to send link
+  * Added `name` prop for **f7-view** component
+  * Added `close-speed-dial` prop for **f7-fab-action** to close speed dial on click
+  * Added `overlay` prop for **f7-picker-modal** to render additional picker modal overlay when required
+  * Added `store-data` prop for **f7-list** when used as a form to enable form data storage
+  * Minor fixes
+
 ## Framework7 Vue v0.7.7 - Updated on January 13, 2017
   * Some events added to **f7-input** component
     * `keypress`
