@@ -68,11 +68,11 @@
       },
       onRouteChange: function (event) {
         var self = this;
-        var pageComponent = event.pageComponent;
+        var pageComponent = event.route.component;
         var view = event.view;
         var currentView = self.$parent.f7View || self.$parent.$el.f7View;
         
-        const alreadyOnPage = view.url === event.pagePath;
+        const alreadyOnPage = view.url === event.route.pagePath;
 
         if (view === currentView && !alreadyOnPage) {
           var id = new Date().getTime();
@@ -88,8 +88,7 @@
 
             view.allowPageChange = true;
 
-            const options = Object.assign(event.options, {
-              url: event.pagePath,
+            const options = Object.assign(event.options, {              
               pageElement: newPage
             });
 
