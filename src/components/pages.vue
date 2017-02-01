@@ -71,10 +71,15 @@
         var pageComponent = event.route.component;
         var view = event.view;
         var currentView = self.$parent.f7View || self.$parent.$el.f7View;
-        
-        const alreadyOnPage = view.url === event.route.pagePath;
 
-        if (view === currentView && !alreadyOnPage) {
+        if (view !== currentView) return;
+
+        const previousRoute = self.$router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        const pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
+        const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
+        const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls))        
+
+        if (shouldUpdatePages) {
           var id = new Date().getTime();
 
           self.$set(self.pages, id, {component: pageComponent});

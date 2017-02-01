@@ -73,47 +73,6 @@ const parseRoute = str => {
   return parts;
 }
 
-// Routes Matching
-const findMatchingRoute = (url, routes, dom7) => {
-  var matchingRoute;
-  if (!url) return matchingRoute;
-
-  var query = dom7.parseUrlQuery(url);
-  var hash = url.split('#')[1];
-  var params = {};
-  var path = url.split('#')[0].split('?')[0];
-  var urlParts = path.split('/').filter(function (part) {
-    if (part !== '') return part;
-  });
-
-  var i, j, k;
-  for (i = 0; i < routes.length; i++) {
-    if (matchingRoute) continue;
-    var route = routes[i];
-    var parsedRoute = parseRoute(route.path);
-    if (parsedRoute.length !== urlParts.length) continue;
-    var matchedParts = 0;
-    for (j = 0; j < parsedRoute.length; j++) {
-        if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) matchedParts ++;
-        if (typeof parsedRoute[j] === 'object') {
-          params[parsedRoute[j].name] = urlParts[j];
-          matchedParts ++;
-        }
-    }
-    if (matchedParts === urlParts.length) {
-      matchingRoute = {
-        query: query,
-        hash: hash,
-        params: params,
-        url: url,
-        path: path,
-        route: route        
-      };
-    }
-  }
-  return matchingRoute;
-}
-
 function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   if (!view.allowPageChange) return false;
 
@@ -123,8 +82,6 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   if (url && pageElement || !url || url === '#') {
     return true;
   }
-
-  //if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) return false;
 
   var inHistory = view.history.indexOf(url) >= 0;
   var inDomCache = view.pagesCache[url];
@@ -174,17 +131,56 @@ export default class Framework7Router {
         }
     }, null); 
 
-    const matchingRoute = findMatchingRoute(url, this.routes, this.dom7);
+    const matchingRoute = this.findMatchingRoute(url);
 
     if (!matchingRoute) return true;
     
     return this.routeChangeHandler(
       Object.assign({}, matchingRoute, {
         view: view || getMainView(),        
-        options: Object.assign({}, options, {
-          url: matchingRoute.route.pagePath
-        })
+        options
       })
     );    
   }
+
+  findMatchingRoute(url) {
+    var matchingRoute;
+    if (!url) return matchingRoute;
+
+    var routes = this.routes;
+    var query = this.dom7.parseUrlQuery(url);
+    var hash = url.split('#')[1];
+    var params = {};
+    var path = url.split('#')[0].split('?')[0];
+    var urlParts = path.split('/').filter(function (part) {
+      if (part !== '') return part;
+    });
+
+    var i, j, k;
+    for (i = 0; i < routes.length; i++) {
+      if (matchingRoute) continue;
+      var route = routes[i];
+      var parsedRoute = parseRoute(route.path);
+      if (parsedRoute.length !== urlParts.length) continue;
+      var matchedParts = 0;
+      for (j = 0; j < parsedRoute.length; j++) {
+          if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) matchedParts ++;
+          if (typeof parsedRoute[j] === 'object') {
+            params[parsedRoute[j].name] = urlParts[j];
+            matchedParts ++;
+          }
+      }
+      if (matchedParts === urlParts.length) {
+        matchingRoute = {
+          query: query,
+          hash: hash,
+          params: params,
+          url: url,
+          path: path,
+          route: route        
+        };
+      }
+    }
+    return matchingRoute;
+  }  
 }
