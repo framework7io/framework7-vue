@@ -58,17 +58,24 @@
 	      select: self.onSelect
       }
       if (self.type === 'select' || self.type === 'textarea') {
-        delete attrs.value;
         if (self.type === 'select') {
           if (self.hasSelectModel) {
+            delete attrs.value;
             inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
           }
           else {
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
+          
         }
         else {
-          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          var textareaChildren = self.$slots.default;
+          if (self.value) {
+            delete attrs.value;
+            textareaChildren = self.value;
+          }
+
+          inputEl = c('textarea', {attrs: attrs, on: on}, textareaChildren);
         }
       }
       else {
@@ -162,7 +169,7 @@
         var self = this;
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
-        else if (self.$options.propsData && self.$options.propsData.value !== 'undefined') return self.value;
+        else if (self.$options.propsData && self.$options.propsData.value) return self.value;
         return undefined;
       },
       checkedComputed: function () {
