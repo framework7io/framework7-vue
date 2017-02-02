@@ -67,7 +67,7 @@
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
         }
-        else if {
+        else {
           inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
