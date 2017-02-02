@@ -77,7 +77,7 @@
         const previousRoute = self.$router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
         const pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
         const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
-        const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls))        
+        const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
 
         if (shouldUpdatePages) {
           var id = new Date().getTime();
@@ -88,12 +88,12 @@
 
           self.$nextTick(function () {
             var newPage = view.pagesContainer.querySelector('.page:last-child');
-            
+
             self.pages[id].pageElement = newPage;
 
             view.allowPageChange = true;
 
-            const options = Object.assign(event.options, {              
+            const options = Object.assign(event.options, {
               pageElement: newPage
             });
 
@@ -103,7 +103,7 @@
             else {
               view.router.load(options);
             }
-          }); 
+          });
         }
       }
     }
