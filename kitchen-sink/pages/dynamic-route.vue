@@ -16,7 +16,7 @@
           <li v-for="(value, key) in $route.query"><b>{{key}}:</b> {{value}}</li>
         </ul>
       </li>
-      <li><b>Route:</b> {{$route.route}}</li>
+      <li><b>Route:</b> {{$route.route.path}}</li>
     </ul>
   </f7-page>
 </template>
