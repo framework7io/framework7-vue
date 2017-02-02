@@ -1,59 +1,23 @@
+<template>
+  <div class="tab" :class="active ? 'active' : false" @tab:show="onTabShow" @tab:hide="onTabHide">
+    <slot></slot>
+  </div>
+</template>
 <script>
   export default {
     props: {
-      'active': Boolean,
-      'routeTabId': String
+      'active': Boolean
     },
-    data: function () {
-      return {
-        routeInfo: {
-          activeTab: this.$route && this.$route.activeTab
-        }
-      };
-    },
-    render: function (c) {
-      var self = this; 
-
-      const activeTab = self.routeInfo.activeTab;     
-
-      return c('div', {
-        staticClass: 'tab',
-        class: {
-          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
-        },        
-        on: {
-          'tab:show': self.onTabShow,
-          'tab:hide': self.onTabHide
-        }
-      },
-        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component'}) : self.$slots.default]
-      );
-    },    
     methods: {
       show: function () {
         if (!this.$f7) return;
         this.$f7.showTab(this.$el);
       },
       onTabShow: function (e) {
-        this.$emit('tab:show', e);        
+        this.$emit('tab:show', e);
       },
       onTabHide: function (e) {
-        this.$emit('tab:hide', e);        
-      },
-      onRouteChange: function (e) {        
-        if (e.activeTab) {
-          const currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
-          const nextActiveTabId = e.activeTab.tabId;
-          const thisTabId = this.routeTabId;          
-
-          if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
-            this.$emit('tab:hide');            
-          } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
-            this.$emit('tab:show');            
-          }
-
-          this.$set(this.routeInfo, 'activeTab', e.activeTab);
-        }
+        this.$emit('tab:hide', e);
       }
     }
   }
