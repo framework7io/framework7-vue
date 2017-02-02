@@ -67,13 +67,13 @@
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
         }
-        else (self.type === 'textarea') {
+        else {
           inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else if (self.type === 'file') {      
         delete attrs.value;
-        inputEl = c('input', {attrs: attrs}, self.$slots.default)
+        inputEl = c('input', {attrs: attrs}, self.$slots.default);
       }
       else {
         if(self.$slots.default && self.$slots.default.length > 0 || !self.type) {
