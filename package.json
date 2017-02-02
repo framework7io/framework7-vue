@@ -64,5 +64,8 @@
     "vue-template-compiler": "^2.1.10",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "universal-router": "^2.0.0"
   }
 }

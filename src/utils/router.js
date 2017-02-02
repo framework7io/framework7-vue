@@ -1,5 +1,5 @@
 const combinePaths = (...paths) => {
-  return paths.join('/').replace(/\/+/g, '/');
+  return paths.join('/').replace(/\/+/g, '/');  
 }
 
 const flattenTabNestedRoutes = (pageRoute, tabRoute, tabNestedRoutes) => {
@@ -17,9 +17,9 @@ const flattenTabNestedRoutes = (pageRoute, tabRoute, tabNestedRoutes) => {
 };
 
 const flattenTabRoutes = (pageRoute, tabRoutes) => {
-	return tabRoutes.reduce((accumulatedFlattenedRoutes, nextTabRoute) => {
+	return tabRoutes.reduce((accumulatedFlattenedRoutes, nextTabRoute) => {	
 		let flattenedTabRoutes;
-
+	
 		if (nextTabRoute.routes) {
 			flattenedTabRoutes = flattenTabNestedRoutes(pageRoute, nextTabRoute, nextTabRoute.routes);
 		} else {
@@ -33,7 +33,7 @@ const flattenTabRoutes = (pageRoute, tabRoutes) => {
 				}
 			}];
 		}
-
+		
 		return  [
 			...accumulatedFlattenedRoutes,
 			...flattenedTabRoutes
@@ -44,7 +44,7 @@ const flattenTabRoutes = (pageRoute, tabRoutes) => {
 const flattenRoutes = (routes) => {
 	return routes.reduce((accumulatedFlattenedRoutes, nextRoute) => {
 		let flattenedNextRoute;
-
+	
 		if (nextRoute.tabs) {
 			flattenedNextRoute = flattenTabRoutes(nextRoute, nextRoute.tabs);
 		} else {
@@ -52,7 +52,7 @@ const flattenRoutes = (routes) => {
         pagePath: nextRoute.path
       })];
 		}
-
+		
 		return [
 			...accumulatedFlattenedRoutes,
 			...flattenedNextRoute
@@ -86,14 +86,14 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   var inHistory = view.history.indexOf(url) >= 0;
   var inDomCache = view.pagesCache[url];
 
-  if (inHistory && inDomCache) return true;
+  if (inHistory && inDomCache) return true;  
 
   return changeRouteCallback(url, view, options);
 }
 
 export default class Framework7Router {
   constructor(originalRoutes, framework7, dom7) {
-    this.routeChangeHandler = null;
+    this.routeChangeHandler = null;    
     this.routes = flattenRoutes(originalRoutes);
     this.framework7 = framework7;
     this.dom7 = dom7;
@@ -118,7 +118,7 @@ export default class Framework7Router {
     };
   }
 
-  setRouteChangeHandler(routeChangeHandler) {
+  setRouteChangeHandler(routeChangeHandler) {        
     this.routeChangeHandler = routeChangeHandler;
   }
 
@@ -129,18 +129,18 @@ export default class Framework7Router {
         } else {
             return mainView;
         }
-    }, null);
+    }, null); 
 
     const matchingRoute = this.findMatchingRoute(url);
 
     if (!matchingRoute) return true;
-
+    
     return this.routeChangeHandler(
       Object.assign({}, matchingRoute, {
-        view: view || getMainView(),
+        view: view || getMainView(),        
         options
       })
-    );
+    );    
   }
 
   findMatchingRoute(url) {
@@ -177,10 +177,10 @@ export default class Framework7Router {
           params: params,
           url: url,
           path: path,
-          route: route
+          route: route        
         };
       }
     }
     return matchingRoute;
-  }
+  }  
 }
