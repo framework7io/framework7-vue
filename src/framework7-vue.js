@@ -122,8 +122,7 @@ export default {
     var f7Ready = false,
         f7Instance,
         currentRoute,
-        f7Router,
-        router;
+        f7Router;
 
     function initFramework7(f7Params) {
       if (!window.Framework7) return;
@@ -137,17 +136,12 @@ export default {
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+      var router = new Framework7Router(f7Params.routes, f7Instance);      
 
       router.setRouteChangeHandler(route => {
         currentRoute = route;
         f7Router = route.view.router;
-        eventHub.$emit('route-change', route);
-
-        var pagesVue = route.view.pagesContainer.__vue__;
-        if (!pagesVue) return true;
-
-        return false;
+        eventHub.$emit('route-change', route);             
       });
 
       // Set Flag
@@ -163,17 +157,8 @@ export default {
         var self = this;
 
         // Route
-        Object.defineProperty(self, '$route', {
-          get: () => currentRoute,
-          enumerable: true,
-          configurable: true
-        });
-
-        Object.defineProperty(self, '$router', {
-          get: () => router,
-          enumerable: true,
-          configurable: true
-        });
+        self.$route = currentRoute;
+        self.$router = f7Router;        
 
         // Theme
         if (theme.ios === false && theme.material === false) {

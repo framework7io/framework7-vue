@@ -1,77 +1,77 @@
-const combinePaths = (...paths) => {
-  return paths.join('/').replace(/\/+/g, '/');  
-}
+import {resolve} from 'universal-router';
 
-const flattenTabNestedRoutes = (pageRoute, tabRoute, tabNestedRoutes) => {
-	return tabNestedRoutes.map(tabNestedRoute => {
+const getTabChildRoutes = (originalRoute) => {
+  const tabs = originalRoute.tabs;
+
+  return tabs.map(tab => {      
+    const children = !tab.routes ? null : (() => {
+      return tab.routes.map(route => {
+        return {
+          path: route.path,
+          action: (context) => {
+            return {
+              pagePath: originalRoute.path,
+              pageComponent: originalRoute.component,
+              activeTab: {
+                path: tab.path,
+                tabId: tab.tabId,
+                component: route.component
+              },
+              params: context.params
+            };
+          }
+        };
+      });
+    })();
+
     return {
-      path: combinePaths(pageRoute.path, tabRoute.path, tabNestedRoute.path),
-      pagePath: pageRoute.path,
-      component: pageRoute.component,
-      tab: {
-        tabId: tabRoute.tabId,
-        component: tabNestedRoute.component
-      }
-    }
-	});
-};
-
-const flattenTabRoutes = (pageRoute, tabRoutes) => {
-	return tabRoutes.reduce((accumulatedFlattenedRoutes, nextTabRoute) => {	
-		let flattenedTabRoutes;
-	
-		if (nextTabRoute.routes) {
-			flattenedTabRoutes = flattenTabNestedRoutes(pageRoute, nextTabRoute, nextTabRoute.routes);
-		} else {
-			flattenedTabRoutes = [{
-        path: combinePaths(pageRoute.path, nextTabRoute.path),
-        pagePath: pageRoute.path,
-				component: pageRoute.component,
-				tab: {
-					tabId: nextTabRoute.tabId,
-					component: nextTabRoute.component
-				}
-			}];
-		}
-		
-		return  [
-			...accumulatedFlattenedRoutes,
-			...flattenedTabRoutes
-		];
-	}, []);
-};
-
-const flattenRoutes = (routes) => {
-	return routes.reduce((accumulatedFlattenedRoutes, nextRoute) => {
-		let flattenedNextRoute;
-	
-		if (nextRoute.tabs) {
-			flattenedNextRoute = flattenTabRoutes(nextRoute, nextRoute.tabs);
-		} else {
-			flattenedNextRoute = [Object.assign({}, nextRoute, {
-        pagePath: nextRoute.path
-      })];
-		}
-		
-		return [
-			...accumulatedFlattenedRoutes,
-			...flattenedNextRoute
-		];
-	}, []);
-};
-
-const parseRoute = str => {
-  var parts = [];
-  str.split('/').forEach(function (part) {
-    if (part !== '') {
-      if (part.indexOf(':') === 0) {
-        parts.push({name: part.replace(':', '')});
-      }
-      else parts.push(part);
-    }
+      path: tab.path,
+      action: (children) ? null : (context) => {
+        return {
+          pagePath: originalRoute.path,
+          pageComponent: originalRoute.component,
+          activeTab: tab,
+          params: context.params
+        }        
+      },
+      children
+    };
   });
-  return parts;
-}
+};
+
+const getRouteChildren = (originalRoute) => {
+  if (originalRoute.tabs) {
+    return getTabChildRoutes(originalRoute);
+  } else {
+    return null;
+  }  
+};
+
+const convertRoutesToUniversalRouter = (originalRoutes) => {
+  return originalRoutes.map(originalRoute => {
+    const path = originalRoute.path;
+
+    const children = getRouteChildren(originalRoute);
+    
+    const action = (children) ? null : (context) => {
+      return {
+        pagePath: originalRoute.path,
+        pageComponent: originalRoute.component,
+        params: context.params
+      };
+    };    
+
+    return { path, action, children };    
+  });
+};
+
+const findMatchingRoute = (routes, location) => {  
+  return resolve(routes, {
+    path: location.pathname,
+    hash: location.hash,
+    query: location.search
+  });
+};
 
 function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
   if (!view.allowPageChange) return false;
@@ -83,6 +83,8 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
     return true;
   }
 
+  if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) return false;
+
   var inHistory = view.history.indexOf(url) >= 0;
   var inDomCache = view.pagesCache[url];
 
@@ -92,11 +94,10 @@ function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
 }
 
 export default class Framework7Router {
-  constructor(originalRoutes, framework7, dom7) {
+  constructor(originalRoutes, framework7) {
     this.routeChangeHandler = null;    
-    this.routes = flattenRoutes(originalRoutes);
+    this.routes = convertRoutesToUniversalRouter(originalRoutes);
     this.framework7 = framework7;
-    this.dom7 = dom7;
 
     //Hook router into Framework7 routing events
     const initialPreroute = framework7.params.preroute;
@@ -131,56 +132,31 @@ export default class Framework7Router {
         }
     }, null); 
 
-    const matchingRoute = this.findMatchingRoute(url);
-
-    if (!matchingRoute) return true;
-    
-    return this.routeChangeHandler(
-      Object.assign({}, matchingRoute, {
-        view: view || getMainView(),        
-        options
-      })
-    );    
-  }
-
-  findMatchingRoute(url) {
-    var matchingRoute;
-    if (!url) return matchingRoute;
-
-    var routes = this.routes;
-    var query = this.dom7.parseUrlQuery(url);
-    var hash = url.split('#')[1];
-    var params = {};
-    var path = url.split('#')[0].split('?')[0];
-    var urlParts = path.split('/').filter(function (part) {
-      if (part !== '') return part;
+    var location;
+    if (window.URL) {
+      location = new URL(url, 'http://framework7/');
+    }
+    else {
+      location = {};
+      location.href = url;
+      location.search = url.indexOf('?') >= 0 ? '?' + url.split('?')[1] : '';
+      location.hash = url.indexOf('#') >= 0 ? '#' + url.split('#')[1] : '';
+      location.pathname =  url.split('#')[0].split('?')[0];
+    }
+    findMatchingRoute(this.routes, location).then(matchingRoute => {
+      this.routeChangeHandler(
+        Object.assign({}, matchingRoute, {
+          view: view || getMainView(),
+          query: Dom7.parseUrlQuery(location.search),
+          hash: location.hash.replace('#', ''),
+          url: url,
+          route: matchingRoute.pagePath,
+          path: location.pathname,
+          options: options
+        })
+      )
     });
 
-    var i, j, k;
-    for (i = 0; i < routes.length; i++) {
-      if (matchingRoute) continue;
-      var route = routes[i];
-      var parsedRoute = parseRoute(route.path);
-      if (parsedRoute.length !== urlParts.length) continue;
-      var matchedParts = 0;
-      for (j = 0; j < parsedRoute.length; j++) {
-          if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) matchedParts ++;
-          if (typeof parsedRoute[j] === 'object') {
-            params[parsedRoute[j].name] = urlParts[j];
-            matchedParts ++;
-          }
-      }
-      if (matchedParts === urlParts.length) {
-        matchingRoute = {
-          query: query,
-          hash: hash,
-          params: params,
-          url: url,
-          path: path,
-          route: route        
-        };
-      }
-    }
-    return matchingRoute;
-  }  
+    return false;
+  }
 }

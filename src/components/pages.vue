@@ -68,18 +68,13 @@
       },
       onRouteChange: function (event) {
         var self = this;
-        var pageComponent = event.route.component;
+        var pageComponent = event.pageComponent;
         var view = event.view;
         var currentView = self.$parent.f7View || self.$parent.$el.f7View;
+        
+        const alreadyOnPage = view.url === event.pagePath;
 
-        if (view !== currentView) return;
-
-        const previousRoute = self.$router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
-        const pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
-        const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
-        const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls))        
-
-        if (shouldUpdatePages) {
+        if (view === currentView && !alreadyOnPage) {
           var id = new Date().getTime();
 
           self.$set(self.pages, id, {component: pageComponent});
@@ -93,7 +88,8 @@
 
             view.allowPageChange = true;
 
-            const options = Object.assign(event.options, {              
+            const options = Object.assign(event.options, {
+              url: event.pagePath,
               pageElement: newPage
             });
 
