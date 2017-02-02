@@ -1,12 +1,5 @@
 <script>
   export default {
-    data: function () {
-      return {
-        routeInfo: {
-          activeTab: this.$route && this.$route.route.tab
-        }
-      };
-    },
     props: {
       noLinkClass: Boolean,
       noFastclick: Boolean,
@@ -70,7 +63,6 @@
 
       // Tab
       tabLink: [Boolean, String],
-      routeTabLink: [Boolean, String],
 
       // Sortable
       openSortable: [Boolean, String],
@@ -123,7 +115,6 @@
         if (trustyString(self.closeSortable)) ao['data-sortable'] = self.closeSortable;
 
         if (trustyString(self.tabLink)) ao['data-tab'] = self.tabLink;
-
         return ao;
       },
       classesObject: function () {
@@ -145,12 +136,7 @@
         });
 
         // Active
-        if (self.routeInfo.activeTab) {
-          const isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
-          co['active'] = isActiveTab;        
-        } else {
-          co['active'] = self.active;
-        }
+        co['active'] = self.active;
         
         function trustyBoolean(b) {
           if (b || b === '') return true;
@@ -190,12 +176,7 @@
     methods: {
       onClick: function (event) {
         this.$emit('click', event);
-      },
-      onRouteChange: function (e) {        
-        if (e.route.tab) {
-          this.$set(this.routeInfo, 'activeTab', e.route.tab)
-        }
-      }      
+      }
     }
   }
 </script>
