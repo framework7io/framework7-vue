@@ -122,7 +122,8 @@ export default {
     var f7Ready = false,
         f7Instance,
         currentRoute,
-        f7Router;
+        f7Router,
+        router;
 
     function initFramework7(f7Params) {
       if (!window.Framework7) return;
@@ -136,7 +137,7 @@ export default {
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      var router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
 
       router.setRouteChangeHandler(route => {
         currentRoute = route;
@@ -162,8 +163,17 @@ export default {
         var self = this;
 
         // Route
-        self.$route = currentRoute;
-        self.$router = f7Router;        
+        Object.defineProperty(self, '$route', {
+          get: () => currentRoute,
+          enumerable: true,
+          configurable: true
+        });
+
+        Object.defineProperty(self, '$router', {
+          get: () => router,
+          enumerable: true,
+          configurable: true
+        });
 
         // Theme
         if (theme.ios === false && theme.material === false) {
