@@ -123,7 +123,7 @@
         }
 
         self.f7View = f7.addView(self.$el, params);
-        if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
+        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
           self.f7View.router.load({url: self.url, reload: true});
         }
       },
