@@ -57,7 +57,7 @@
 	      wheel: self.onWheel,
 	      select: self.onSelect
       }
-      if (self.type === 'select' || self.type === 'textarea') {
+      if (self.type === 'select' || self.type === 'textarea' || self.type === 'file') {
         delete attrs.value;
         if (self.type === 'select') {
           if (self.hasSelectModel) {
@@ -66,6 +66,9 @@
           else {
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
+        }
+        else if (self.type === 'file') {
+          inputEl = c('input', {attrs: attrs}, self.$slots.default);
         }
         else {
           inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
