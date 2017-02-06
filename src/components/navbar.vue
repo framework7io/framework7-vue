@@ -8,7 +8,7 @@
   >
     <slot name="before-inner"></slot>
     <div class="navbar-inner">
-      <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding" :back-link-href="backLinkUrl || backLinkHref"></f7-nav-left>
+      <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding" @back-click="onBackClick" :back-link-href="backLinkUrl || backLinkHref"></f7-nav-left>
       <f7-nav-center v-if="title" :title="title" :sliding="sliding"></f7-nav-center>
       <slot></slot>
     </div>
@@ -67,6 +67,9 @@
       },
       onBeforeRemove: function (e) {
         this.$emit('navbar:beforeremove', e);
+      },
+      onBackClick: function (e) {        
+        this.$emit('back-click', e);
       }
     }
   }
