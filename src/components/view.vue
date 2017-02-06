@@ -10,7 +10,7 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar && !self.$theme.material && self.dynamicNavbar) {
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
         navbarEl = c('f7-navbar');
       }
 
