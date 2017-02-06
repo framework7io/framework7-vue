@@ -22,7 +22,8 @@
     },
     methods: {
       onBackClick: function (e) {
-        this.$emit('back-click');        
+        this.$emit('back-click', e);        
+        this.$emit('click:back', e);        
       }
     }
   }
