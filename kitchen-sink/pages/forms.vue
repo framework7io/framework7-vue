@@ -51,6 +51,10 @@
         <f7-label>Textarea</f7-label>
         <f7-input type="textarea" placeholder="Textarea"></f7-input>
       </f7-list-item>
+      <f7-list-item>
+        <f7-label>File</f7-label>
+        <f7-input type="file"></f7-input>
+      </f7-list-item>
     </f7-list>
 
     <f7-block-title>Form With Floating Labels</f7-block-title>
