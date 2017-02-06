@@ -68,7 +68,7 @@
           }
         }
         else if (self.type === 'file') {
-          inputEl = c('input', {attrs: attrs}, self.$slots.default);
+          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
           inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
@@ -165,7 +165,7 @@
         var self = this;
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
-        else if (self.$options.propsData && self.$options.propsData.value !== 'undefined') return self.value;
+        else if (self.$options.propsData && self.$options.propsData.value !== undefined) return self.value;
         return undefined;
       },
       checkedComputed: function () {
