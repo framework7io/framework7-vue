@@ -3,7 +3,7 @@
     <f7-navbar back-link="Back" title="Forms" sliding></f7-navbar>
 
     <f7-block-title>Form</f7-block-title>
-    <f7-list form id="form1" store-data>
+    <f7-list form>
       <f7-list-item>
         <f7-label>Name</f7-label>
         <f7-input name="name" type="text" placeholder="Name"></f7-input>
@@ -58,7 +58,7 @@
     </f7-list>
 
     <f7-block-title>Form With Floating Labels</f7-block-title>
-    <f7-list form id="form2" store-data>
+    <f7-list form>
       <f7-list-item>
         <f7-label floating>Name</f7-label>
         <f7-input name="name" type="text" placeholder="Name"></f7-input>
@@ -74,7 +74,7 @@
     </f7-list>
 
     <f7-block-title>Form Without Labels</f7-block-title>
-    <f7-list form id="form3" store-data>
+    <f7-list form>
       <f7-list-item>
         <f7-input name="name" type="text" placeholder="Name"></f7-input>
       </f7-list-item>
@@ -86,13 +86,56 @@
       </f7-list-item>
     </f7-list>
 
+    <f7-block-title>Form Storage</f7-block-title>
+    <f7-list form id="form" store-data>
+      <f7-list-item>
+        <f7-label>Name</f7-label>
+        <f7-input name="name" type="text" placeholder="Name"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Password</f7-label>
+        <f7-input name="password" type="password" placeholder="Password"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>E-mail</f7-label>
+        <f7-input name="email" type="email" placeholder="E-mail"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Birth date</f7-label>
+        <f7-input name="date" type="date" placeholder="Birth date" value="2014-04-30"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Date time</f7-label>
+        <f7-input name="datetime" type="datetime-local"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Gender</f7-label>
+        <f7-input name="gender" type="select">
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Switch</f7-label>
+        <f7-input name="switch" type="switch" @change="onChange"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Range</f7-label>
+        <f7-input type="range" min="0" max="100" step="1" value="90"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Textarea</f7-label>
+        <f7-input name="textarea" type="textarea" placeholder="Textarea"></f7-input>
+      </f7-list-item>
+    </f7-list>
+
     <f7-block-title>Checkboxes</f7-block-title>
-    <f7-list form id="form4" store-data>
+    <f7-list form>
       <f7-list-item v-for="n in 3" checkbox name="my-checkbox" :value="n" :title="'Checkbox ' + n"></f7-list-item>
     </f7-list>
 
     <f7-block-title>Radios</f7-block-title>
-    <f7-list form id="form5" store-data>
+    <f7-list form>
       <f7-list-item v-for="n in 3" radio name="my-radio" :checked="n === 1" :value="n" :title="'Radio ' + n"></f7-list-item>
     </f7-list>
 
