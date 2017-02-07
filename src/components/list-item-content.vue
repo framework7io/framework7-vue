@@ -111,7 +111,9 @@
     },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event)
+        if (event.target.tagName.toLowerCase() === 'input') {
+          this.$emit('click', event)
+        }        
       },
       onChange: function (event) {
         this.$emit('change', event);
