@@ -1,5 +1,13 @@
 # Change Log
 
+## Framework7 Vue v0.8.0 - Updated on February 7, 2017
+  * Totally reworked F7-Vue router to separate reusable module (huge thanks to [Ben Compton](https://github.com/bencompton))
+    * All components now has supports additional `onRouteChange` method that will be triggered on route change
+    * Added support for nested routes with Tabs where each tab may have own route and be rendered on demand
+  * Added `back-click` event for **f7-navbar** and **f7-nav-left** that will be fired when back link is clicked
+  * Added support for "file" input (`<f7-input type="file">`)
+  * Minor fixes
+
 ## Framework7 Vue v0.7.8 - Updated on January 31, 2017
   * Support v-model for custom f7-inputs
   * Added `back-link-url` prop for **f7-navbar** and **f7-nav** components

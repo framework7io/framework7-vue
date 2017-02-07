@@ -6,42 +6,42 @@
     <f7-list form>
       <f7-list-item>
         <f7-label>Name</f7-label>
-        <f7-input type="text" placeholder="Name"></f7-input>
+        <f7-input name="name" type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Password</f7-label>
-        <f7-input type="password" placeholder="Password"></f7-input>
+        <f7-input name="password" type="password" placeholder="Password"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>E-mail</f7-label>
-        <f7-input type="email" placeholder="E-mail"></f7-input>
+        <f7-input name="email" type="email" placeholder="E-mail"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>URL</f7-label>
-        <f7-input type="url" placeholder="URL"></f7-input>
+        <f7-input name="url" type="url" placeholder="URL"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Phone</f7-label>
-        <f7-input type="tel" placeholder="Phone"></f7-input>
+        <f7-input name="tel" type="tel" placeholder="Phone"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Birth date</f7-label>
-        <f7-input type="date" placeholder="Birth date" value="2014-04-30"></f7-input>
+        <f7-input name="date" type="date" placeholder="Birth date" value="2014-04-30"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Date time</f7-label>
-        <f7-input type="datetime-local"></f7-input>
+        <f7-input name="datetime" type="datetime-local"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Gender</f7-label>
-        <f7-input type="select">
+        <f7-input name="gender" type="select">
           <option value="1">Male</option>
-          <option value="1">Female</option>
+          <option value="2">Female</option>
         </f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Switch</f7-label>
-        <f7-input type="switch" @change="onChange"></f7-input>
+        <f7-input name="switch" type="switch" @change="onChange"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label>Range</f7-label>
@@ -49,7 +49,11 @@
       </f7-list-item>
       <f7-list-item>
         <f7-label>Textarea</f7-label>
-        <f7-input type="textarea" placeholder="Textarea"></f7-input>
+        <f7-input name="textarea" type="textarea" placeholder="Textarea"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>File</f7-label>
+        <f7-input type="file"></f7-input>
       </f7-list-item>
     </f7-list>
 
@@ -57,28 +61,71 @@
     <f7-list form>
       <f7-list-item>
         <f7-label floating>Name</f7-label>
-        <f7-input type="text" placeholder="Name"></f7-input>
+        <f7-input name="name" type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label floating>Password</f7-label>
-        <f7-input type="password" placeholder="Password"></f7-input>
+        <f7-input name="password" type="password" placeholder="Password"></f7-input>
       </f7-list-item>
       <f7-list-item>
         <f7-label floating>E-mail</f7-label>
-        <f7-input type="email" placeholder="E-mail"></f7-input>
+        <f7-input name="email" type="email" placeholder="E-mail"></f7-input>
       </f7-list-item>
     </f7-list>
 
     <f7-block-title>Form Without Labels</f7-block-title>
     <f7-list form>
       <f7-list-item>
-        <f7-input type="text" placeholder="Name"></f7-input>
+        <f7-input name="name" type="text" placeholder="Name"></f7-input>
       </f7-list-item>
       <f7-list-item>
-        <f7-input type="password" placeholder="Password"></f7-input>
+        <f7-input name="password" type="password" placeholder="Password"></f7-input>
       </f7-list-item>
       <f7-list-item>
-        <f7-input type="email" placeholder="E-mail"></f7-input>
+        <f7-input name="email" type="email" placeholder="E-mail"></f7-input>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title>Form Storage</f7-block-title>
+    <f7-list form id="form" store-data>
+      <f7-list-item>
+        <f7-label>Name</f7-label>
+        <f7-input name="name" type="text" placeholder="Name"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Password</f7-label>
+        <f7-input name="password" type="password" placeholder="Password"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>E-mail</f7-label>
+        <f7-input name="email" type="email" placeholder="E-mail"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Birth date</f7-label>
+        <f7-input name="date" type="date" placeholder="Birth date" value="2014-04-30"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Date time</f7-label>
+        <f7-input name="datetime" type="datetime-local"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Gender</f7-label>
+        <f7-input name="gender" type="select">
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Switch</f7-label>
+        <f7-input name="switch" type="switch" @change="onChange"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Range</f7-label>
+        <f7-input type="range" min="0" max="100" step="1" value="90"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Textarea</f7-label>
+        <f7-input name="textarea" type="textarea" placeholder="Textarea"></f7-input>
       </f7-list-item>
     </f7-list>
 

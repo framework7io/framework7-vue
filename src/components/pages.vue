@@ -9,8 +9,9 @@
       }
       return c('div',
         {
-          staticClass:"pages",
+          staticClass: 'pages',
           ref: 'pages',
+          class: self.classesObject,
           on: {
             'page:beforeremove': self.onPageBeforeRemove
           }

@@ -7,6 +7,7 @@
       icon="icon-back"
       :class="{'icon-only': (backLink === true || backLink && $theme.material)}"
       :text="backLink !== true && !$theme.material ? backLink : undefined"
+      @click="onBackClick"
       ></f7-link>
     <slot></slot>
   </div>
@@ -18,6 +19,12 @@
       backLinkUrl: String,
       backLinkHref: String,
       sliding: Boolean
+    },
+    methods: {
+      onBackClick: function (e) {
+        this.$emit('back-click', e);        
+        this.$emit('click:back', e);        
+      }
     }
   }
 </script>

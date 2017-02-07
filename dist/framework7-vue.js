@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.7.8
+ * Framework7 Vue 0.8.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 31, 2017
+ * Released on: February 7, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -157,7 +157,7 @@ var View = {
         }
       }
       if (!hasPages) { pagesEl = c('f7-pages'); }
-      if (!hasNavbar && !self.$theme.material && self.dynamicNavbar) {
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
         navbarEl = c('f7-navbar');
       }
 
@@ -270,7 +270,7 @@ var View = {
         };
 
         self.f7View = f7.addView(self.$el, params);
-        if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
+        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
           self.f7View.router.load({url: self.url, reload: true});
         }
       },
@@ -366,6 +366,46 @@ var Pages = {
           }
         }
         if (idToRemove) { this.$set(this.pages, idToRemove, {}); }
+      },
+      onRouteChange: function (event) {
+        var self = this;
+        var pageComponent = event.route.component;
+        var view = event.view;
+        var currentView = self.$parent.f7View || self.$parent.$el.f7View;
+
+        if (view !== currentView) { return; }
+
+        var previousRoute = self.$router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        var pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
+        var childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
+        var shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
+
+        if (shouldUpdatePages) {
+          var id = new Date().getTime();
+
+          self.$set(self.pages, id, {component: pageComponent});
+
+          view.allowPageChange = false;
+
+          self.$nextTick(function () {
+            var newPage = view.pagesContainer.querySelector('.page:last-child');
+
+            self.pages[id].pageElement = newPage;
+
+            view.allowPageChange = true;
+
+            var options = Object.assign(event.options, {
+              pageElement: newPage
+            });
+
+            if (options.isBack) {
+              view.router.back(options);
+            }
+            else {
+              view.router.load(options);
+            }
+          });
+        }
       }
     }
   };
@@ -629,7 +669,7 @@ staticRenderFns: [],
   };
 
 var Navbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding,"back-link-href":_vm.backLinkUrl || _vm.backLinkHref}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding,"back-link-href":_vm.backLinkUrl || _vm.backLinkHref},on:{"back-click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     updated: function () {
       var self = this;
@@ -681,6 +721,10 @@ staticRenderFns: [],
       },
       onBeforeRemove: function (e) {
         this.$emit('navbar:beforeremove', e);
+      },
+      onBackClick: function (e) {        
+        this.$emit('back-click', e);
+        this.$emit('click:back', e);
       }
     }
   };
@@ -695,13 +739,19 @@ staticRenderFns: [],
   };
 
 var NavLeft = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":_vm.backLinkUrl || _vm.backLinkHref || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":_vm.backLinkUrl || _vm.backLinkHref || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       backLink: [Boolean, String],
       backLinkUrl: String,
       backLinkHref: String,
       sliding: Boolean
+    },
+    methods: {
+      onBackClick: function (e) {
+        this.$emit('back-click', e);        
+        this.$emit('click:back', e);        
+      }
     }
   };
 
@@ -1813,6 +1863,13 @@ staticRenderFns: [],
   };
 
 var LinkMixin = {
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.route.tab
+        }
+      };
+    },
     props: {
       noLinkClass: Boolean,
       noFastclick: Boolean,
@@ -1876,6 +1933,7 @@ var LinkMixin = {
 
       // Tab
       tabLink: [Boolean, String],
+      routeTabLink: [Boolean, String],
 
       // Sortable
       openSortable: [Boolean, String],
@@ -1928,6 +1986,7 @@ var LinkMixin = {
         if (trustyString(self.closeSortable)) { ao['data-sortable'] = self.closeSortable; }
 
         if (trustyString(self.tabLink)) { ao['data-tab'] = self.tabLink; }
+
         return ao;
       },
       classesObject: function () {
@@ -1949,7 +2008,12 @@ var LinkMixin = {
         });
 
         // Active
-        co['active'] = self.active;
+        if (self.routeInfo.activeTab) {
+          var isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
+          co['active'] = isActiveTab;        
+        } else {
+          co['active'] = self.active;
+        }
         
         function trustyBoolean(b) {
           if (b || b === '') { return true; }
@@ -1989,7 +2053,12 @@ var LinkMixin = {
     methods: {
       onClick: function (event) {
         this.$emit('click', event);
-      }
+      },
+      onRouteChange: function (e) {        
+        if (e.route.tab) {
+          this.$set(this.routeInfo, 'activeTab', e.route.tab);
+        }
+      }      
     }
   };
 
@@ -2220,25 +2289,21 @@ var FormInput = {
 	      wheel: self.onWheel,
 	      select: self.onSelect
       };
-      if (self.type === 'select' || self.type === 'textarea') {
+      if (self.type === 'select' || self.type === 'textarea' || self.type === 'file') {
+        delete attrs.value;
         if (self.type === 'select') {
           if (self.hasSelectModel) {
-            delete attrs.value;
             inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
           }
           else {
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
-          
+        }
+        else if (self.type === 'file') {
+          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
-          var textareaChildren = self.$slots.default;
-          if (self.value) {
-            delete attrs.value;
-            textareaChildren = self.value;
-          }
-
-          inputEl = c('textarea', {attrs: attrs, on: on}, textareaChildren);
+          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -2332,7 +2397,7 @@ var FormInput = {
         var self = this;
         if (self.inputValue) { return self.inputValue; }
         else if (self.hasCheckboxModel) { return undefined; }
-        else if (self.$options.propsData && self.$options.propsData.value) { return self.value; }
+        else if (self.$options.propsData && self.$options.propsData.value !== undefined) { return self.value; }
         return undefined;
       },
       checkedComputed: function () {
@@ -3161,21 +3226,60 @@ var Tabs = {
   };
 
 var Tab = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
-staticRenderFns: [],
     props: {
-      'active': Boolean
+      'active': Boolean,
+      'routeTabId': String
     },
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.route.tab
+        }
+      };
+    },
+    render: function (c) {
+      var self = this; 
+
+      var activeTab = self.routeInfo.activeTab;     
+
+      return c('div', {
+        staticClass: 'tab',
+        class: {
+          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
+        },        
+        on: {
+          'tab:show': self.onTabShow,
+          'tab:hide': self.onTabHide
+        }
+      },
+        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component'}) : self.$slots.default]
+      );
+    },    
     methods: {
       show: function () {
         if (!this.$f7) { return; }
         this.$f7.showTab(this.$el);
       },
       onTabShow: function (e) {
-        this.$emit('tab:show', e);
+        this.$emit('tab:show', e);        
       },
       onTabHide: function (e) {
-        this.$emit('tab:hide', e);
+        this.$emit('tab:hide', e);        
+      },
+      onRouteChange: function (e) {        
+        if (e.route.tab) {
+          var currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
+          var nextActiveTabId = e.route.tab.tabId;
+          var thisTabId = this.routeTabId;          
+
+          if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
+            this.$$(this.$el).trigger('tab:hide');
+          } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
+            this.$$(this.$el).trigger('tab:show');
+          }
+
+          this.$set(this.routeInfo, 'activeTab', e.route.tab);
+        }
       }
     }
   };
@@ -3867,6 +3971,195 @@ var Template7Template = {
     }
   };
 
+var combinePaths = function () {
+  var paths = [], len = arguments.length;
+  while ( len-- ) paths[ len ] = arguments[ len ];
+
+  return paths.join('/').replace(/\/+/g, '/');
+};
+
+var flattenTabNestedRoutes = function (pageRoute, tabRoute, tabNestedRoutes) {
+	return tabNestedRoutes.map(function (tabNestedRoute) {
+    return {
+      path: combinePaths(pageRoute.path, tabRoute.path, tabNestedRoute.path),
+      pagePath: pageRoute.path,
+      component: pageRoute.component,
+      tab: {
+        tabId: tabRoute.tabId,
+        component: tabNestedRoute.component
+      }
+    }
+	});
+};
+
+var flattenTabRoutes = function (pageRoute, tabRoutes) {
+	return tabRoutes.reduce(function (accumulatedFlattenedRoutes, nextTabRoute) {
+		var flattenedTabRoutes;
+
+		if (nextTabRoute.routes) {
+			flattenedTabRoutes = flattenTabNestedRoutes(pageRoute, nextTabRoute, nextTabRoute.routes);
+		} else {
+			flattenedTabRoutes = [{
+        path: combinePaths(pageRoute.path, nextTabRoute.path),
+        pagePath: pageRoute.path,
+				component: pageRoute.component,
+				tab: {
+					tabId: nextTabRoute.tabId,
+					component: nextTabRoute.component
+				}
+			}];
+		}
+
+		return  accumulatedFlattenedRoutes.concat( flattenedTabRoutes
+		);
+	}, []);
+};
+
+var flattenRoutes = function (routes) {
+	return routes.reduce(function (accumulatedFlattenedRoutes, nextRoute) {
+		var flattenedNextRoute;
+
+		if (nextRoute.tabs) {
+			flattenedNextRoute = flattenTabRoutes(nextRoute, nextRoute.tabs);
+		} else {
+			flattenedNextRoute = [Object.assign({}, nextRoute, {
+        pagePath: nextRoute.path
+      })];
+		}
+
+		return accumulatedFlattenedRoutes.concat( flattenedNextRoute
+		);
+	}, []);
+};
+
+var parseRoute = function (str) {
+  var parts = [];
+  str.split('/').forEach(function (part) {
+    if (part !== '') {
+      if (part.indexOf(':') === 0) {
+        parts.push({name: part.replace(':', '')});
+      }
+      else { parts.push(part); }
+    }
+  });
+  return parts;
+};
+
+function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
+  if (!view.allowPageChange) { return false; }
+
+  var url = options.url;
+  var pageElement = options.pageElement;
+
+  if (url && pageElement || !url || url === '#') {
+    return true;
+  }
+
+  var inHistory = view.history.indexOf(url) >= 0;
+  var inDomCache = view.pagesCache[url];
+
+  if (inHistory && inDomCache) { return true; }
+
+  return changeRouteCallback(url, view, options);
+}
+
+var Framework7Router = function Framework7Router(originalRoutes, framework7, dom7) {
+  var this$1 = this;
+
+  this.routeChangeHandler = null;
+  this.routes = flattenRoutes(originalRoutes);
+  this.framework7 = framework7;
+  this.dom7 = dom7;
+
+  //Hook router into Framework7 routing events
+  var initialPreroute = framework7.params.preroute;
+
+  framework7.params.routes = originalRoutes;
+  framework7.params.routerRemoveTimeout = true;
+  framework7.params.preroute = function (view, options) {
+    var passToVueRouter = true;
+
+    if (initialPreroute) {
+      passToVueRouter = initialPreroute(view, options);
+    }
+
+    if (passToVueRouter) {
+      return handleRouteChangeFromFramework7(view, options, this$1.changeRoute.bind(this$1));
+    } else {
+      return false;
+    }
+  };
+};
+
+Framework7Router.prototype.setRouteChangeHandler = function setRouteChangeHandler (routeChangeHandler) {
+  this.routeChangeHandler = routeChangeHandler;
+};
+
+Framework7Router.prototype.changeRoute = function changeRoute (url, view, options) {
+    var this$1 = this;
+    if ( view === void 0 ) view = null;
+
+  var getMainView = function () { return this$1.framework7.views && this$1.framework7.views.reduce(function (mainView, nextView) {
+      if (nextView.main) {
+          return nextView;
+      } else {
+          return mainView;
+      }
+  }, null); };
+
+  var matchingRoute = this.findMatchingRoute(url);
+
+  if (!matchingRoute) { return true; }
+
+  return this.routeChangeHandler(
+    Object.assign({}, matchingRoute, {
+      view: view || getMainView(),
+      options: options
+    })
+  );
+};
+
+Framework7Router.prototype.findMatchingRoute = function findMatchingRoute (url) {
+  var matchingRoute;
+  if (!url) { return matchingRoute; }
+
+  var routes = this.routes;
+  var query = this.dom7.parseUrlQuery(url);
+  var hash = url.split('#')[1];
+  var params = {};
+  var path = url.split('#')[0].split('?')[0];
+  var urlParts = path.split('/').filter(function (part) {
+    if (part !== '') { return part; }
+  });
+
+  var i, j, k;
+  for (i = 0; i < routes.length; i++) {
+    if (matchingRoute) { continue; }
+    var route = routes[i];
+    var parsedRoute = parseRoute(route.path);
+    if (parsedRoute.length !== urlParts.length) { continue; }
+    var matchedParts = 0;
+    for (j = 0; j < parsedRoute.length; j++) {
+        if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) { matchedParts ++; }
+        if (typeof parsedRoute[j] === 'object') {
+          params[parsedRoute[j].name] = urlParts[j];
+          matchedParts ++;
+        }
+    }
+    if (matchedParts === urlParts.length) {
+      matchingRoute = {
+        query: query,
+        hash: hash,
+        params: params,
+        url: url,
+        path: path,
+        route: route
+      };
+    }
+  }
+  return matchingRoute;
+};
+
 /* Components */
 /* Plugin */
 var framework7Vue = {
@@ -3910,111 +4203,12 @@ var framework7Vue = {
       theme.material = false;
     }
 
-    // Parse Route
-    function parseRoute(str) {
-      var parts = [];
-      str.split('/').forEach(function (part) {
-        if (part !== '') {
-          if (part.indexOf(':') === 0) {
-            parts.push({name: part.replace(':', '')});
-          }
-          else { parts.push(part); }
-        }
-      });
-      return parts;
-    }
-    // Routes Matching
-    function findMatchingRoute(url, routes) {
-      var matchingRoute;
-      if (!url) { return matchingRoute; }
-
-      var query = $$.parseUrlQuery(url);
-      var hash = url.split('#')[1];
-      var params = {};
-      var path = url.split('#')[0].split('?')[0];
-      var urlParts = path.split('/').filter(function (part) {
-        if (part !== '') { return part; }
-      });
-
-      var i, j, k;
-      for (i = 0; i < routes.length; i++) {
-        if (matchingRoute) { continue; }
-        var route = routes[i];
-        var parsedRoute = parseRoute(route.path);
-        if (parsedRoute.length !== urlParts.length) { continue; }
-        var matchedParts = 0;
-        for (j = 0; j < parsedRoute.length; j++) {
-            if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) { matchedParts ++; }
-            if (typeof parsedRoute[j] === 'object') {
-              params[parsedRoute[j].name] = urlParts[j];
-              matchedParts ++;
-            }
-        }
-        if (matchedParts === urlParts.length) {
-          matchingRoute = {
-            query: query,
-            hash: hash,
-            params: params,
-            url: url,
-            path: path,
-            route: route
-          };
-        }
-      }
-      return matchingRoute;
-    }
-
-    // Preroute
-    function preroute(view, options, routes) {
-      if (!view.allowPageChange) { return false; }
-      
-      var url = options.url;
-      var pageElement = options.pageElement;
-
-      if (url && pageElement || !url || url === '#') {
-        return true;
-      }
-      if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) { return false; }
-
-      var matchingRoute = findMatchingRoute(url, routes);
-      var inHistory = view.history.indexOf(url) >= 0;
-      var inDomCache = view.pagesCache[url];
-      if (inHistory && inDomCache) { return true; }
-      if (!matchingRoute) { return true; }
-      var pagesVue = view.pagesContainer.__vue__;
-      if (!pagesVue) { return true; }
-      
-      var id = new Date().getTime();
-      Vue.set(pagesVue.pages, id, {component: matchingRoute.route.component});
-      view.container.__vue__.$route = {
-        route: matchingRoute.route.path,
-        query: matchingRoute.query,
-        hash: matchingRoute.hash,
-        params: matchingRoute.params,
-        url: matchingRoute.url,
-        path: matchingRoute.path
-      };
-      view.container.__vue__.$router = view.router;
-      view.allowPageChange = false;
-      Vue.nextTick(function () {
-          var newPage = view.pagesContainer.querySelector('.page:last-child');
-          pagesVue.pages[id].pageElement = newPage;
-          options.pageElement = newPage;
-          view.allowPageChange = true;
-          if (options.isBack) {
-            view.router.back(options);
-          }
-          else {
-            view.router.load(options);
-          }
-      });
-
-      return false;
-    }
-
     // Init Framework7
     var f7Ready = false,
-        f7Instance;
+        f7Instance,
+        currentRoute,
+        f7Router,
+        router;
 
     function initFramework7(f7Params) {
       if (!window.Framework7) { return; }
@@ -4023,25 +4217,23 @@ var framework7Vue = {
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
-      }
-      // Modify Parameters
-      f7Params.routerRemoveTimeout = true;
-
-      // Correct Prerouting
-      f7Params.routes = f7Params.routes || [];
-
-      var initialPreroute = f7Params.preroute;
-      f7Params.preroute = function (view, params) {
-        var passToVueRouter = true;
-        if (initialPreroute) {
-          passToVueRouter = initialPreroute(view, params);
-        }
-        if (passToVueRouter) { return preroute(view, params, f7Params.routes); }
-        else { return false; }
-      };
+      }      
 
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
+
+      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+
+      router.setRouteChangeHandler(function (route) {
+        currentRoute = route;
+        f7Router = route.view.router;
+        eventHub.$emit('route-change', route);
+
+        var pagesVue = route.view.pagesContainer.__vue__;
+        if (!pagesVue) { return true; }
+
+        return false;
+      });
 
       // Set Flag
       f7Ready = true;
@@ -4054,11 +4246,20 @@ var framework7Vue = {
     Vue.mixin({
       beforeCreate: function () {
         var self = this;
+
         // Route
-        if (self.$parent && self.$parent.$refs.pages) {
-          self.$route = self.$parent.$parent.$route;
-          self.$router = self.$parent.$parent.$router;
-        }
+        Object.defineProperty(self, '$route', {
+          get: function () { return currentRoute; },
+          enumerable: true,
+          configurable: true
+        });
+
+        Object.defineProperty(self, '$router', {
+          get: function () { return router; },
+          enumerable: true,
+          configurable: true
+        });
+
         // Theme
         if (theme.ios === false && theme.material === false) {
           if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
@@ -4068,6 +4269,10 @@ var framework7Vue = {
             theme.ios = true;
           }
         }
+
+        eventHub.$on('route-change', function (event) {
+          if (self.onRouteChange) { self.onRouteChange(event); }
+        });        
       },
       mounted: function () {
         var self = this;

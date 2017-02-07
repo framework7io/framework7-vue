@@ -57,7 +57,7 @@
 	      wheel: self.onWheel,
 	      select: self.onSelect
       }
-      if (self.type === 'select' || self.type === 'textarea') {
+      if (self.type === 'select' || self.type === 'textarea' || self.type === 'file') {
         delete attrs.value;
         if (self.type === 'select') {
           if (self.hasSelectModel) {
@@ -66,6 +66,9 @@
           else {
             inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
+        }
+        else if (self.type === 'file') {
+          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
           inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
@@ -162,7 +165,7 @@
         var self = this;
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
-        else if (self.$options.propsData && self.$options.propsData.value !== 'undefined') return self.value;
+        else if (self.$options.propsData && self.$options.propsData.value !== undefined) return self.value;
         return undefined;
       },
       checkedComputed: function () {
