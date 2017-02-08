@@ -36,6 +36,7 @@
           staticClass: 'list-block',
           'class': {
             'inset': self.inset,
+            'tablet-inset': self.tabletInset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
             'accordion-list': self.accordion,
@@ -63,6 +64,7 @@
     },
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
