@@ -10,6 +10,7 @@
   export default {
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'inner': Boolean,
       'tabs': Boolean,
       'tab': Boolean,
@@ -22,6 +23,7 @@
         var self = this;
         return {
           'inset': self.inset,
+          'tablet-inset': self.tabletInset,
           'tabs': self.tabs,
           'tab': self.tab,
           'active': self.active,
