@@ -251,8 +251,10 @@
       }
     },
     methods: {
-      onClick: function (event) {
-        this.$emit('click', event)
+      onClick: function (event) {        
+        if (event.currentTarget.tagName.toLowerCase() !== 'a' || event.target.tagName.toLowerCase() !== 'input') {
+          this.$emit('click', event)
+        }        
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event)
