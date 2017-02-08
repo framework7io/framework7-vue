@@ -111,7 +111,7 @@
     },
     methods: {
       onClick: function (event) {
-        if (event.target.tagName.toLowerCase() === 'input') {
+        if (event.currentTarget.tagName.toLowerCase() !== 'label' || event.target.tagName.toLowerCase() === 'input') {
           this.$emit('click', event)
         }        
       },
