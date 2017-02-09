@@ -6,6 +6,7 @@
     @panel:opened="onOpened"
     @panel:close="onClose"
     @panel:closed="onClosed"
+    @panel:overlay-click="onOverlayClick"
   >
     <slot></slot>
   </div>
@@ -76,12 +77,15 @@
       onClosed: function (event) {
         this.$emit('panel:closed', event);
       },
+      onOverlayClick(event) {
+        this.$emit('panel:overlay-click', event);
+      },      
       onF7Init: function () {
         var $$ = this.$$
         if (!$$) return;
         if ($$('.panel-overlay').length === 0) {
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
-        }
+        }        
       },
       open: function () {
         var self = this;
