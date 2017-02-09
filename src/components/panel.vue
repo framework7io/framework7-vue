@@ -85,7 +85,7 @@
         if (!$$) return;
         if ($$('.panel-overlay').length === 0) {
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
-        }        
+        }
       },
       open: function () {
         var self = this;
