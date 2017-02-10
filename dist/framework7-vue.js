@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.8.0
+ * Framework7 Vue 0.8.1
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2017
+ * Released on: February 10, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:overlay-click":_vm.onOverlayClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -88,6 +88,9 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('panel:closed', event);
       },
+      onOverlayClick: function onOverlayClick(event) {
+        this.$emit('panel:overlay-click', event);
+      },      
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) { return; }
@@ -308,8 +311,9 @@ var Pages = {
       }
       return c('div',
         {
-          staticClass:"pages",
+          staticClass: 'pages',
           ref: 'pages',
+          class: self.classesObject,
           on: {
             'page:beforeremove': self.onPageBeforeRemove
           }
@@ -862,6 +866,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'inner': Boolean,
       'tabs': Boolean,
       'tab': Boolean,
@@ -874,6 +879,7 @@ staticRenderFns: [],
         var self = this;
         return {
           'inset': self.inset,
+          'tablet-inset': self.tabletInset,
           'tabs': self.tabs,
           'tab': self.tab,
           'active': self.active,
@@ -1010,6 +1016,7 @@ var List = {
           staticClass: 'list-block',
           'class': {
             'inset': self.inset,
+            'tablet-inset': self.tabletInset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
             'accordion-list': self.accordion,
@@ -1037,6 +1044,7 @@ var List = {
     },
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
@@ -1406,8 +1414,10 @@ var ListItem = {
       }
     },
     methods: {
-      onClick: function (event) {
-        this.$emit('click', event);
+      onClick: function (event) {        
+        if (event.currentTarget.tagName.toLowerCase() !== 'a' || event.target.tagName.toLowerCase() !== 'input') {
+          this.$emit('click', event);
+        }        
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event);
@@ -1576,7 +1586,9 @@ var ListItemContent = {
     },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event);
+        if (event.currentTarget.tagName.toLowerCase() !== 'label' || event.target.tagName.toLowerCase() === 'input') {
+          this.$emit('click', event);
+        }        
       },
       onChange: function (event) {
         this.$emit('change', event);

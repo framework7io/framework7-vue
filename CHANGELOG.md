@@ -1,5 +1,11 @@
 # Change Log
 
+## Framework7 Vue v0.8.1 - Updated on February 10, 2017
+  * Added boolean `tablet-inset` prop to **f7-block** and **f7-list** components
+  * Added `panel:overlay-click` event support for **f7-panel** component
+  * Fixed multiple click issue on list item used as a checkbox or radio input
+  * Minor fixes
+
 ## Framework7 Vue v0.8.0 - Updated on February 7, 2017
   * Totally reworked F7-Vue router to separate reusable module (huge thanks to [Ben Compton](https://github.com/bencompton))
     * All components now has supports additional `onRouteChange` method that will be triggered on route change
