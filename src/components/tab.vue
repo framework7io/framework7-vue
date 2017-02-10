@@ -26,7 +26,7 @@
           'tab:hide': self.onTabHide
         }
       },
-        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component'}) : self.$slots.default]
+        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
       );
     },    
     methods: {

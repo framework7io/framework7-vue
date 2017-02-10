@@ -208,12 +208,17 @@ export default [
     component: NestedRoutesTabs,
     tabs: [
       {
-        path: '/',
+        path: '/tab-1/:id/:post_id',
         tabId: 'tab1',
         component: Tab1
       },
       {
         path: '/tab-2/',
+        tabId: 'tab2',
+        component: Tab2
+      },
+      {
+        path: '/tab-2/:id2/:post_id2',
         tabId: 'tab2',
         component: Tab2
       },
