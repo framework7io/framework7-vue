@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v0.8.2 - Updated on February 10, 2017
+  * $route params are passed as a component props for pages and tabs
+
 ## Framework7 Vue v0.8.1 - Updated on February 10, 2017
   * Added boolean `tablet-inset` prop to **f7-block** and **f7-list** components
   * Added `panel:overlay-click` event support for **f7-panel** component

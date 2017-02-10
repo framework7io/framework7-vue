@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.8.1
+ * Framework7 Vue 0.8.2
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -307,7 +307,7 @@ var Pages = {
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component'}));
+        pages.push(c(page.component, {tag: 'component', props: self.$route.params}));
       }
       return c('div',
         {
@@ -3264,7 +3264,7 @@ var Tab = {
           'tab:hide': self.onTabHide
         }
       },
-        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component'}) : self.$slots.default]
+        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
       );
     },    
     methods: {
