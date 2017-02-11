@@ -30,9 +30,9 @@
       );
     },    
     methods: {
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) return;
-        this.$f7.showTab(this.$el);
+        this.$f7.showTab(this.$el, animated);
       },
       onTabShow: function (e) {
         this.$emit('tab:show', e);        

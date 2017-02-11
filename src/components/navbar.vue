@@ -44,13 +44,13 @@
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) return;
-        return this.$f7.hideNavbar(this.$el);
+        return this.$f7.hideNavbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) return;
-        return this.$f7.showNavbar(this.$el);
+        return this.$f7.showNavbar(this.$el, animated);
       },
       size: function () {
         if (!this.$f7 || this.$theme.material) return;

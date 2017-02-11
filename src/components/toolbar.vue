@@ -33,13 +33,13 @@
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) return;
-        return this.$f7.hideToolbar(this.$el);
+        return this.$f7.hideToolbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) return;
-        return this.$f7.showToolbar(this.$el);
+        return this.$f7.showToolbar(this.$el, animated);
       }
     }
   }
