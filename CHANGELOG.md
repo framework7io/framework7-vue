@@ -1,5 +1,13 @@
 # Change Log
 
+## Framework7 Vue v0.8.3 - Updated on February 11, 2017
+  * Added `animated` parameter to `open(animated)`, `close(animated)` methods of Popup, Login Screen, Picker Modal, Panel, Action Sheet, Popover components
+  * Added `animated` parameter to Tab's component `show(animated)` method
+  * Added `animated` parameter to Tab's component `show(animated)`, `hide(animated)` Navbar/Toolbar methods
+  * Added `animated` parameter to Tab's component `show(animated)`, `hide(animated)` Navbar/Toolbar methods
+  * Added `virtual-empty-template` parameter to **f7-list** component to specify virtual list empty template
+  * Added `panel:swipe` event support for **f7-panel** component
+
 ## Framework7 Vue v0.8.2 - Updated on February 10, 2017
   * $route params are passed as a component props for pages and tabs
 
@@ -19,7 +27,7 @@
 
 ## Framework7 Vue v0.7.8 - Updated on January 31, 2017
   * Support v-model for custom f7-inputs
-  * Added `back-link-url` prop for **f7-navbar** and **f7-nav** components
+  * Added `back-link-url` prop for **f7-navbar** and **f7-nav-left** components
   * Messagebar
     * `send-link` prop now supports string to pass custom inner HTML
     * New `send-link` slot name to put custom HTML to send link

@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.8.2
+ * Framework7 Vue 0.8.3
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 10, 2017
+ * Released on: February 11, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:overlay-click":_vm.onOverlayClick}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:overlay-click":_vm.onOverlayClick,"panel:swipe":_vm.onPanelSwipe}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -90,6 +90,9 @@ staticRenderFns: [],
       },
       onOverlayClick: function onOverlayClick(event) {
         this.$emit('panel:overlay-click', event);
+      },
+      onPanelSwipe: function onPanelSwipe(event) {
+        this.$emit('panel:swipe', event);
       },      
       onF7Init: function () {
         var $$ = this.$$;
@@ -98,17 +101,16 @@ staticRenderFns: [],
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
         var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.openPanel(side);
+        self.$f7.openPanel(side, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.closePanel(side);
+        self.$f7.closePanel(animated);
       }
     }
   };
@@ -702,13 +704,13 @@ staticRenderFns: [],
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.hideNavbar(this.$el);
+        return this.$f7.hideNavbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.showNavbar(this.$el);
+        return this.$f7.showNavbar(this.$el, animated);
       },
       size: function () {
         if (!this.$f7 || this.$theme.material) { return; }
@@ -802,13 +804,13 @@ staticRenderFns: [],
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.hideToolbar(this.$el);
+        return this.$f7.hideToolbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.showToolbar(this.$el);
+        return this.$f7.showToolbar(this.$el, animated);
       }
     }
   };
@@ -1087,7 +1089,8 @@ var List = {
       },
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
-      'virtual-render-item': Function
+      'virtual-render-item': Function,
+      'virtual-empty-template': String
     },
     methods: {
       onSortableOpen: function (event) {
@@ -1125,6 +1128,7 @@ var List = {
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);
           },
@@ -3268,9 +3272,9 @@ var Tab = {
       );
     },    
     methods: {
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        this.$f7.showTab(this.$el);
+        this.$f7.showTab(this.$el, animated);
       },
       onTabShow: function (e) {
         this.$emit('tab:show', e);        
@@ -3312,15 +3316,15 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('popover:closed', event);
       },
-      open: function (target) {
+      open: function (target, animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.popover(self.$el, target);
+        return self.$f7.popover(self.$el, target, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3386,15 +3390,15 @@ staticRenderFns: [],
           $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.popup(self.$el);
+        return self.$f7.popup(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3503,15 +3507,15 @@ var PickerModal = {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.pickerModal(self.$el);
+        return self.$f7.pickerModal(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3568,15 +3572,15 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('loginscreen:closed', event);
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.loginScreen(self.$el);
+        return self.$f7.loginScreen(self.$el, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3629,15 +3633,15 @@ staticRenderFns: [],
           $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.openModal(self.$el);
+        return self.$f7.openModal(self.$el, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
