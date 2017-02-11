@@ -107,7 +107,8 @@
       },
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
-      'virtual-render-item': Function
+      'virtual-render-item': Function,
+      'virtual-empty-template': String
     },
     methods: {
       onSortableOpen: function (event) {
@@ -145,6 +146,7 @@
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);
           },
