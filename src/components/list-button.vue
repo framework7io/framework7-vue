@@ -89,7 +89,7 @@
         var pd = self.$options.propsData;
         if ('force' in pd) ao['data-force'] = self.force;
         if ('reload' in pd) ao['data-reload'] = 'true';
-        if ('animatePages' in pd) ao['data-animate-pages'] = 'true';
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') ao['data-animate-pages'] = pd.animatePages.toString();
         if ('ignoreCache' in pd) ao['data-ignore-cache'] = 'true';
         if (self.pageName) ao['data-page-name'] = self.pageName;
         if (self.template) ao['data-template'] = self.template;
