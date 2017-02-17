@@ -65,7 +65,7 @@
 
             'data-force': self.linkForce,
             'data-reload': self.linkReload,
-            'data-animate-pages': self.linkAnimatePages === false ? 'false' : self.linkAnimatePages,
+            'data-animate-pages': ('linkAnimatePages' in self.$options.propsData) ? self.linkAnimatePages.toString() : undefined,
             'data-ignore-cache': self.linkIgnoreCache,
             'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
             'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
