@@ -170,7 +170,7 @@ export default {
         });
 
         Object.defineProperty(self, '$router', {
-          get: () => router,
+          get: () => f7Router,
           enumerable: true,
           configurable: true
         });

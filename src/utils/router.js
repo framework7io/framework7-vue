@@ -138,7 +138,8 @@ export default class Framework7Router {
     return this.routeChangeHandler(
       Object.assign({}, matchingRoute, {
         view: view || getMainView(),
-        options
+        options,
+        router: this
       })
     );
   }
