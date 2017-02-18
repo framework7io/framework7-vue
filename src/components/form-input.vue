@@ -166,6 +166,7 @@
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
         else if (self.$options.propsData && self.$options.propsData.value !== undefined) return self.value;
+        else if (!self.hasCheckboxModel && !self.hasRadioModel && !self.hasSelectModel && 'value' in self.$options.propsData) return self.value;
         return undefined;
       },
       checkedComputed: function () {
