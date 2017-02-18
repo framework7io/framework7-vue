@@ -1,5 +1,9 @@
 # Change Log
 
+## Framework7 Vue v0.8.4 - Updated on February 18, 2017
+  * Fixed `link-animate-pages` property to accept and render correct value
+  * Fixed `$router` prop to point to the parent's `view.router` method
+  
 ## Framework7 Vue v0.8.3 - Updated on February 11, 2017
   * Added `animated` parameter to `open(animated)`, `close(animated)` methods of Popup, Login Screen, Picker Modal, Panel, Action Sheet, Popover components
   * Added `animated` parameter to Tab's component `show(animated)` method

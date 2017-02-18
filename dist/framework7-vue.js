@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.8.3
+ * Framework7 Vue 0.8.4
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 11, 2017
+ * Released on: February 18, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -309,7 +309,7 @@ var Pages = {
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component', props: self.$route.params}));
+        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}));
       }
       return c('div',
         {
@@ -371,7 +371,7 @@ var Pages = {
             break;
           }
         }
-        if (idToRemove) { this.$set(this.pages, idToRemove, {}); }
+        if (idToRemove) { this.$delete(this.pages, idToRemove); }
       },
       onRouteChange: function (event) {
         var self = this;
@@ -381,7 +381,7 @@ var Pages = {
 
         if (view !== currentView) { return; }
 
-        var previousRoute = self.$router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        var previousRoute = self.$route.router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
         var pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
         var childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
         var shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
@@ -1232,7 +1232,7 @@ var ListItem = {
 
             'data-force': self.linkForce,
             'data-reload': self.linkReload,
-            'data-animate-pages': self.linkAnimatePages,
+            'data-animate-pages': ('linkAnimatePages' in self.$options.propsData) ? self.linkAnimatePages.toString() : undefined,
             'data-ignore-cache': self.linkIgnoreCache,
             'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
             'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
@@ -1745,7 +1745,7 @@ var ListButton = {
         var pd = self.$options.propsData;
         if ('force' in pd) { ao['data-force'] = self.force; }
         if ('reload' in pd) { ao['data-reload'] = 'true'; }
-        if ('animatePages' in pd) { ao['data-animate-pages'] = 'true'; }
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') { ao['data-animate-pages'] = pd.animatePages.toString(); }
         if ('ignoreCache' in pd) { ao['data-ignore-cache'] = 'true'; }
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
@@ -1976,7 +1976,7 @@ var LinkMixin = {
         var pd = self.$options.propsData;
         if ('force' in pd) { ao['data-force'] = self.force; }
         if ('reload' in pd) { ao['data-reload'] = 'true'; }
-        if ('animatePages' in pd) { ao['data-animate-pages'] = 'true'; }
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') { ao['data-animate-pages'] = pd.animatePages.toString(); }
         if ('ignoreCache' in pd) { ao['data-ignore-cache'] = 'true'; }
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
@@ -4130,7 +4130,8 @@ Framework7Router.prototype.changeRoute = function changeRoute (url, view, option
   return this.routeChangeHandler(
     Object.assign({}, matchingRoute, {
       view: view || getMainView(),
-      options: options
+      options: options,
+      router: this
     })
   );
 };
@@ -4271,7 +4272,7 @@ var framework7Vue = {
         });
 
         Object.defineProperty(self, '$router', {
-          get: function () { return router; },
+          get: function () { return f7Router; },
           enumerable: true,
           configurable: true
         });
