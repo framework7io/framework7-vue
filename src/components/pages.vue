@@ -5,7 +5,7 @@
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component', props: self.$route.params}))
+        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}))
       }
       return c('div',
         {
@@ -65,7 +65,7 @@
             break;
           }
         }
-        if (idToRemove) this.$set(this.pages, idToRemove, {});
+        if (idToRemove) this.$delete(this.pages, idToRemove);
       },
       onRouteChange: function (event) {
         var self = this;
