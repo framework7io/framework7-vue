@@ -30,7 +30,7 @@
     </f7-panel>
     <f7-views navbar-through>
       <f7-view main url="/" :dynamic-navbar="true">
-        <f7-navbar>
+        <f7-navbar v-if="$theme.ios">
           <f7-nav-left>
             <f7-link icon="icon-bars" open-panel="left"></f7-link>
           </f7-nav-left>
@@ -41,6 +41,15 @@
         </f7-navbar>
         <f7-pages>
           <f7-page toolbar-fixed>
+            <f7-navbar v-if="$theme.material">
+              <f7-nav-left>
+                <f7-link icon="icon-bars" open-panel="left"></f7-link>
+              </f7-nav-left>
+              <f7-nav-center sliding>Hello World</f7-nav-center>
+              <f7-nav-right>
+                <f7-link icon="icon-bars" open-panel="right"></f7-link>
+              </f7-nav-right>
+            </f7-navbar>
             <f7-toolbar>
               <f7-link>Left</f7-link>
               <f7-link>Right</f7-link>
