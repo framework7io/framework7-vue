@@ -178,6 +178,9 @@
           return self.value;
         }
         else if (self.hasRadioModel) {
+          if (typeof self.value !== typeof self.inputValue) {
+            return self.value.toString() === self.inputValue.toString();
+          }
           return self.value === self.inputValue;
         }
         else return self.checked;

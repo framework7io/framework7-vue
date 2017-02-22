@@ -224,7 +224,7 @@
       },
       hasCheckboxModel: function () {
         var self = this;
-        return self.checkbox && (typeof self.value === 'boolean' || Array.isArray(self.value));
+        return self.checkbox && (typeof self.$options.propsData.value !== 'undefined' && typeof self.value === 'boolean' || Array.isArray(self.value));
       },
       hasRadioModel: function () {
         var self = this;
@@ -245,6 +245,9 @@
           return self.value;
         }
         else if (self.hasRadioModel) {
+          if (typeof self.value !== typeof self.inputValue) {
+            return self.value.toString() === self.inputValue.toString();
+          }
           return self.value === self.inputValue;
         }
         else return self.checked;
@@ -295,11 +298,11 @@
           if (Array.isArray(self.value)) {
             if (event.target.checked) self.value.push(event.target.value);
             else self.value.splice(self.value.indexOf(event.target.value), 1);
-            self.$emit('change', event);
           }
           else {
             self.$emit('input', event.target.checked);
           }
+          self.$emit('change', event);
         }
         else if (self.hasRadioModel) {
           self.$emit('input', event.target.value);
