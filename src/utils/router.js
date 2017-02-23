@@ -41,7 +41,7 @@ const flattenTabRoutes = (pageRoute, tabRoutes) => {
 	}, []);
 };
 
-const flattenRoutes = (routes) => {
+const flattenRoutes = (routes = []) => {
 	return routes.reduce((accumulatedFlattenedRoutes, nextRoute) => {
 		let flattenedNextRoute;
 
