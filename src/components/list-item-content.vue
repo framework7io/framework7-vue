@@ -110,10 +110,8 @@
       'disabled': Boolean
     },
     methods: {
-      onClick: function (event) {
-        if (event.currentTarget.tagName.toLowerCase() !== 'label' || event.target.tagName.toLowerCase() === 'input') {
-          this.$emit('click', event)
-        }        
+      onClick: function (event) {        
+          this.$emit('click', event);          
       },
       onChange: function (event) {
         this.$emit('change', event);
