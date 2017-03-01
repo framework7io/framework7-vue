@@ -26,15 +26,15 @@
       onClosed: function (event) {
         this.$emit('popover:closed', event);
       },
-      open: function (target) {
+      open: function (target, animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.popover(self.$el, target);
+        return self.$f7.popover(self.$el, target, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   }

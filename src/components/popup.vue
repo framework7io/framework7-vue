@@ -69,15 +69,15 @@
           $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.popup(self.$el);
+        return self.$f7.popup(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   }

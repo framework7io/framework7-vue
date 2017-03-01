@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.7.7
+ * Framework7 Vue 0.8.4
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 13, 2017
+ * Released on: February 18, 2017
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -22,7 +22,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],};
 
 var Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:overlay-click":_vm.onOverlayClick,"panel:swipe":_vm.onPanelSwipe}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       'side': String,
@@ -88,6 +88,12 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('panel:closed', event);
       },
+      onOverlayClick: function onOverlayClick(event) {
+        this.$emit('panel:overlay-click', event);
+      },
+      onPanelSwipe: function onPanelSwipe(event) {
+        this.$emit('panel:swipe', event);
+      },      
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) { return; }
@@ -95,17 +101,16 @@ staticRenderFns: [],
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
         var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.openPanel(side);
+        self.$f7.openPanel(side, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.closePanel(side);
+        self.$f7.closePanel(animated);
       }
     }
   };
@@ -137,7 +142,7 @@ staticRenderFns: [],
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough
+          'tabbar-labels-through': this.tabbarLabelsThrough
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
@@ -157,7 +162,7 @@ var View = {
         }
       }
       if (!hasPages) { pagesEl = c('f7-pages'); }
-      if (!hasNavbar && !self.$theme.material && self.dynamicNavbar) {
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
         navbarEl = c('f7-navbar');
       }
 
@@ -210,6 +215,7 @@ var View = {
       'swipe-back-page-threshold': Boolean,
       'animate-pages': Boolean,
       'preload-previous-page': Boolean,
+      'name': String,
 
       'params': Object,
 
@@ -250,6 +256,7 @@ var View = {
         if (!self.init) { return; }
         var propsData = self.$options.propsData;
         var params = self.params || {
+          name: self.name,
           url: self.url,
           dynamicNavbar: propsData.dynamicNavbar,
           domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
@@ -268,7 +275,7 @@ var View = {
         };
 
         self.f7View = f7.addView(self.$el, params);
-        if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
+        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
           self.f7View.router.load({url: self.url, reload: true});
         }
       },
@@ -302,12 +309,13 @@ var Pages = {
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component'}));
+        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}));
       }
       return c('div',
         {
-          staticClass:"pages",
+          staticClass: 'pages',
           ref: 'pages',
+          class: self.classesObject,
           on: {
             'page:beforeremove': self.onPageBeforeRemove
           }
@@ -363,7 +371,47 @@ var Pages = {
             break;
           }
         }
-        if (idToRemove) { this.$set(this.pages, idToRemove, {}); }
+        if (idToRemove) { this.$delete(this.pages, idToRemove); }
+      },
+      onRouteChange: function (event) {
+        var self = this;
+        var pageComponent = event.route.component;
+        var view = event.view;
+        var currentView = self.$parent.f7View || self.$parent.$el.f7View;
+
+        if (view !== currentView) { return; }
+
+        var previousRoute = self.$route.router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        var pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
+        var childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
+        var shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
+
+        if (shouldUpdatePages) {
+          var id = new Date().getTime();
+
+          self.$set(self.pages, id, {component: pageComponent});
+
+          view.allowPageChange = false;
+
+          self.$nextTick(function () {
+            var newPage = view.pagesContainer.querySelector('.page:last-child');
+
+            self.pages[id].pageElement = newPage;
+
+            view.allowPageChange = true;
+
+            var options = Object.assign(event.options, {
+              pageElement: newPage
+            });
+
+            if (options.isBack) {
+              view.router.back(options);
+            }
+            else {
+              view.router.load(options);
+            }
+          });
+        }
       }
     }
   };
@@ -388,8 +436,10 @@ var Page = {
       var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
 
       var tag, child, withSubnavbar, withMessages, withSearchbar;
+
+      var i, j;
       if (self.$slots.default) {
-        for (var i = 0; i < self.$slots.default.length; i++) {
+        for (i = 0; i < self.$slots.default.length; i++) {
           child = self.$slots.default[i];
           tag = child.tag;
           if (!tag) {
@@ -400,7 +450,7 @@ var Page = {
           if (tag.indexOf('messages') >= 0) { withMessages = true; }
           if (tag.indexOf('subnavbar') >= 0) { withSubnavbar = true; }
           if (tag.indexOf('searchbar') >= 0) { withSearchbar = true; }
-          for (var j = 0; j < fixedTags.length; j++) {
+          for (j = 0; j < fixedTags.length; j++) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
             }
@@ -433,10 +483,20 @@ var Page = {
         }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
       }
       else {
-        pageContentEl = [self.$slots.default];
+        pageContentEl = [];
+        if (self.$slots.default && fixedList.length > 0) {
+          for (i = 0; i < self.$slots.default.length; i++) {
+            if (fixedList.indexOf(self.$slots.default[i]) < 0) {
+              pageContentEl.push(self.$slots.default[i]);
+            }
+          }
+        }
+        else {
+          pageContentEl = [self.$slots.default];
+        }
       }
       fixedList.push(self.$slots.fixed);
-
+      
       if (withSubnavbar) { self.classesObjectPage['with-subnavbar'] = true; }
       pageEl = c('div', {
         staticClass: 'page',
@@ -515,7 +575,7 @@ var Page = {
           'tabbar-fixed': this.tabbarFixed,
           'tabbar-through': this.tabbarThrough,
           'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough,
+          'tabbar-labels-through': this.tabbarLabelsThrough,
           'with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
@@ -615,7 +675,7 @@ staticRenderFns: [],
   };
 
 var Navbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding,"back-link-href":_vm.backLinkUrl || _vm.backLinkHref},on:{"back-click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     updated: function () {
       var self = this;
@@ -625,6 +685,8 @@ staticRenderFns: [],
     },
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean,
       title: String,
       theme: String,
@@ -642,13 +704,13 @@ staticRenderFns: [],
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.hideNavbar(this.$el);
+        return this.$f7.hideNavbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.showNavbar(this.$el);
+        return this.$f7.showNavbar(this.$el, animated);
       },
       size: function () {
         if (!this.$f7 || this.$theme.material) { return; }
@@ -665,6 +727,10 @@ staticRenderFns: [],
       },
       onBeforeRemove: function (e) {
         this.$emit('navbar:beforeremove', e);
+      },
+      onBackClick: function (e) {        
+        this.$emit('back-click', e);
+        this.$emit('click:back', e);
       }
     }
   };
@@ -679,11 +745,19 @@ staticRenderFns: [],
   };
 
 var NavLeft = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":"#","back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"left",class:{sliding:_vm.sliding}},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.material)},attrs:{"href":_vm.backLinkUrl || _vm.backLinkHref || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.material ? _vm.backLink : undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
       backLink: [Boolean, String],
+      backLinkUrl: String,
+      backLinkHref: String,
       sliding: Boolean
+    },
+    methods: {
+      onBackClick: function (e) {
+        this.$emit('back-click', e);        
+        this.$emit('click:back', e);        
+      }
     }
   };
 
@@ -730,13 +804,13 @@ staticRenderFns: [],
       }
     },
     methods: {
-      hide: function () {
+      hide: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.hideToolbar(this.$el);
+        return this.$f7.hideToolbar(this.$el, animated);
       },
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        return this.$f7.showToolbar(this.$el);
+        return this.$f7.showToolbar(this.$el, animated);
       }
     }
   };
@@ -794,6 +868,7 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _
 staticRenderFns: [],
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'inner': Boolean,
       'tabs': Boolean,
       'tab': Boolean,
@@ -806,6 +881,7 @@ staticRenderFns: [],
         var self = this;
         return {
           'inset': self.inset,
+          'tablet-inset': self.tabletInset,
           'tabs': self.tabs,
           'tab': self.tab,
           'active': self.active,
@@ -942,6 +1018,7 @@ var List = {
           staticClass: 'list-block',
           'class': {
             'inset': self.inset,
+            'tablet-inset': self.tabletInset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
             'accordion-list': self.accordion,
@@ -950,7 +1027,8 @@ var List = {
             'tab': self.tab,
             'active': self.active,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween
+            'no-hairlines-between': self.noHairlinesBetween,
+            'store-data': self.storeData
           },
           on: {
             'sortable:open': self.onSortableOpen,
@@ -968,10 +1046,10 @@ var List = {
     },
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
-      'form': Boolean,
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
@@ -982,6 +1060,10 @@ var List = {
       // Tab
       'tab': Boolean,
       'active': Boolean,
+
+      // Form
+      'form': Boolean,
+      'store-data': Boolean,
 
       // Virtual List
       'virtual': Boolean,
@@ -1007,7 +1089,8 @@ var List = {
       },
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
-      'virtual-render-item': Function
+      'virtual-render-item': Function,
+      'virtual-empty-template': String
     },
     methods: {
       onSortableOpen: function (event) {
@@ -1045,6 +1128,7 @@ var List = {
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);
           },
@@ -1109,10 +1193,10 @@ var ListItem = {
           'accordion-item': self.accordionItem,
 
           'checkbox': self.checkbox,
-          'checked': self.checked,
+          'checked': self.checkedComputed,
           'radio': self.radio,
           'name': self.name,
-          'value': self.value,
+          'value': self.valueComputed,
           'readonly': self.readonly,
           'required': self.required,
           'disabled': self.disabled
@@ -1148,7 +1232,7 @@ var ListItem = {
 
             'data-force': self.linkForce,
             'data-reload': self.linkReload,
-            'data-animate-pages': self.linkAnimatePages,
+            'data-animate-pages': ('linkAnimatePages' in self.$options.propsData) ? self.linkAnimatePages.toString() : undefined,
             'data-ignore-cache': self.linkIgnoreCache,
             'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
             'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
@@ -1289,7 +1373,8 @@ var ListItem = {
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
@@ -1303,11 +1388,40 @@ var ListItem = {
       },
       mediaListComputed: function () {
         return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
+      },
+      hasCheckboxModel: function () {
+        var self = this;
+        return self.checkbox && (typeof self.value === 'boolean' || Array.isArray(self.value));
+      },
+      hasRadioModel: function () {
+        var self = this;
+        return self.radio && typeof self.inputValue !== 'undefined';
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else { return self.value; }
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
+        }
+        else if (self.hasRadioModel) {
+          return self.value === self.inputValue;
+        }
+        else { return self.checked; }
       }
     },
     methods: {
-      onClick: function (event) {
-        this.$emit('click', event);
+      onClick: function (event) {        
+        if (event.currentTarget.tagName.toLowerCase() !== 'a' || event.target.tagName.toLowerCase() !== 'input') {
+          this.$emit('click', event);
+        }        
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event);
@@ -1343,7 +1457,23 @@ var ListItem = {
         this.$emit('accordion:opened', event);
       },
       onChange: function (event) {
-        this.$emit('change', event);
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else if (self.hasRadioModel) {
+          self.$emit('input', event.target.value);
+        }
+        else {
+          self.$emit('change', event);
+        }
       }
     }
   };
@@ -1387,6 +1517,9 @@ var ListItemContent = {
           },
           on: {
             change: self.onChange
+          },
+          domProps: {
+            checked: self.checked
           }
         });
       }
@@ -1449,17 +1582,17 @@ var ListItemContent = {
       'checked': Boolean,
       'radio': Boolean,
       'name': String,
-      'value': [String, Number],
+      'value': [String, Number, Boolean, Array],
+      'input-value': [String, Number],
       'readonly': Boolean,
       'required': Boolean,
       'disabled': Boolean
     },
-    data: function () {
-      return {};
-    },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event);
+        if (event.currentTarget.tagName.toLowerCase() !== 'label' || event.target.tagName.toLowerCase() === 'input') {
+          this.$emit('click', event);
+        }        
       },
       onChange: function (event) {
         this.$emit('change', event);
@@ -1612,7 +1745,7 @@ var ListButton = {
         var pd = self.$options.propsData;
         if ('force' in pd) { ao['data-force'] = self.force; }
         if ('reload' in pd) { ao['data-reload'] = 'true'; }
-        if ('animatePages' in pd) { ao['data-animate-pages'] = 'true'; }
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') { ao['data-animate-pages'] = pd.animatePages.toString(); }
         if ('ignoreCache' in pd) { ao['data-ignore-cache'] = 'true'; }
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
@@ -1746,6 +1879,13 @@ staticRenderFns: [],
   };
 
 var LinkMixin = {
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.route.tab
+        }
+      };
+    },
     props: {
       noLinkClass: Boolean,
       noFastclick: Boolean,
@@ -1809,6 +1949,7 @@ var LinkMixin = {
 
       // Tab
       tabLink: [Boolean, String],
+      routeTabLink: [Boolean, String],
 
       // Sortable
       openSortable: [Boolean, String],
@@ -1835,7 +1976,7 @@ var LinkMixin = {
         var pd = self.$options.propsData;
         if ('force' in pd) { ao['data-force'] = self.force; }
         if ('reload' in pd) { ao['data-reload'] = 'true'; }
-        if ('animatePages' in pd) { ao['data-animate-pages'] = 'true'; }
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') { ao['data-animate-pages'] = pd.animatePages.toString(); }
         if ('ignoreCache' in pd) { ao['data-ignore-cache'] = 'true'; }
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
@@ -1861,6 +2002,7 @@ var LinkMixin = {
         if (trustyString(self.closeSortable)) { ao['data-sortable'] = self.closeSortable; }
 
         if (trustyString(self.tabLink)) { ao['data-tab'] = self.tabLink; }
+
         return ao;
       },
       classesObject: function () {
@@ -1882,7 +2024,12 @@ var LinkMixin = {
         });
 
         // Active
-        co['active'] = self.active;
+        if (self.routeInfo.activeTab) {
+          var isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
+          co['active'] = isActiveTab;        
+        } else {
+          co['active'] = self.active;
+        }
         
         function trustyBoolean(b) {
           if (b || b === '') { return true; }
@@ -1922,7 +2069,12 @@ var LinkMixin = {
     methods: {
       onClick: function (event) {
         this.$emit('click', event);
-      }
+      },
+      onRouteChange: function (e) {        
+        if (e.route.tab) {
+          this.$set(this.routeInfo, 'activeTab', e.route.tab);
+        }
+      }      
     }
   };
 
@@ -1930,7 +2082,7 @@ var Link = {
     mixins: [LinkMixin],
     render: function (c) {
       var iconEl, textEl, isTabbarLabel, badgeEl, iconBadgeEl, self = this;
-      isTabbarLabel = self.tabLink && self.$parent && self.$parent.tabbar && self.$parent.labels;
+      isTabbarLabel = (self.tabLink || self.tabLink === '') && self.$parent && self.$parent.tabbar && self.$parent.labels;
       if (self.text) {
         if (self.badge) { badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge); }
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
@@ -1951,7 +2103,7 @@ var Link = {
       if (!self.text && self.$slots.default && self.$slots.default.length === 0 || self.iconOnly || !self.text && !self.$slots.default) {
         self.classesObject['icon-only'] = true;
       }
-      self.classesObject['link'] = self.noLinkClass || isTabbarLabel ? false : true;
+      self.classesObject.link = self.noLinkClass || isTabbarLabel ? false : true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
@@ -2104,7 +2256,7 @@ var FormInput = {
         type: self.type,
         placeholder: self.placeholder,
         id: self.id,
-        value: self.value,
+        value: self.valueComputed,
         size: self.size,
         accept: self.accept,
         autocomplete: self.autocomplete,
@@ -2113,7 +2265,7 @@ var FormInput = {
         spellcheck: self.spellcheck,
         autofocus: self.autofocus,
         autosave: self.autosave,
-        checked: self.checked,
+        checked: self.checkedComputed,
         disabled: self.disabled,
         max: self.max,
         maxlength: self.maxlength,
@@ -2153,18 +2305,21 @@ var FormInput = {
 	      wheel: self.onWheel,
 	      select: self.onSelect
       };
-      if (self.type === 'select' || self.type === 'textarea') {
+      if (self.type === 'select' || self.type === 'textarea' || self.type === 'file') {
+        delete attrs.value;
         if (self.type === 'select') {
-          inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          if (self.hasSelectModel) {
+            inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          }
+          else {
+            inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          }
+        }
+        else if (self.type === 'file') {
+          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
-          var textareaChildren = self.$slots.default;
-          if (self.value) {
-            delete attrs.value;
-            textareaChildren = self.value;
-          }
-
-          inputEl = c('textarea', {attrs: attrs, on: on}, textareaChildren);
+          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -2178,12 +2333,32 @@ var FormInput = {
           else if (self.type === 'range') {
             inputEl = c('f7-range', {props: attrs, on: on});
           }
-          else { inputEl = c('input', {attrs: attrs, on: on}); }
+          else { inputEl = c('input', {attrs: attrs, on: on, domProps: {value: self.valueComputed, checked: self.checkedComputed}}); }
         }
       }
 
       var itemInput = self.wrap ? c('div', {staticClass: 'item-input'}, [inputEl]) : inputEl;
       return itemInput;
+    },
+    watch: {
+      value: function () {
+        var self = this;
+        if (!self.hasSelectModel) { return; }
+        var $$ = self.$$;
+        $$(self.$el).find('option').each(function (index, option) {
+          if (self.value.indexOf(option.value) >= 0) { option.selected = true; }
+          else { option.selected = false; }
+        });
+      }
+    },
+    mounted: function () {
+      var self = this;
+      if (!self.hasSelectModel) { return; }
+      var $$ = self.$$;
+      $$(self.$el).find('option').each(function (index, option) {
+        if (self.value.indexOf(option.value) >= 0) { option.selected = true; }
+        else { option.selected = false; }
+      });
     },
     props: {
       // Inputs
@@ -2191,7 +2366,8 @@ var FormInput = {
       name: String,
       placeholder: String,
       id: String,
-      value: [String, Number],
+      value: [String, Number, Boolean, Array, Object],
+      inputValue: [String, Number],
       size: [String, Number],
       accept: [String, Number],
       autocomplete: [String],
@@ -2220,9 +2396,50 @@ var FormInput = {
         "default": true
       }
     },
+    computed: {
+      hasCheckboxModel: function () {
+        var self = this;
+        return (self.type === 'checkbox' || self.type === 'switch') && (typeof self.value === 'boolean' || Array.isArray(self.value));
+      },
+      hasRadioModel: function () {
+        var self = this;
+        return self.type === 'radio' && typeof self.inputValue !== 'undefined';
+      },
+      hasSelectModel: function () {
+        var self = this;
+        return self.type === 'select' && Array.isArray(self.value);
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else if (self.$options.propsData && self.$options.propsData.value !== undefined) { return self.value; }
+        else if (!self.hasCheckboxModel && !self.hasRadioModel && !self.hasSelectModel && 'value' in self.$options.propsData) { return self.value; }
+        return undefined;
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
+        }
+        else if (self.hasRadioModel) {
+          return self.value === self.inputValue;
+        }
+        else { return self.checked; }
+      }
+    },
     methods: {
       onInput: function (event) {
-        this.$emit('input', event.target.value);
+        if (this.hasSelectModel) { return; }
+        if (event && event.type && event.type === 'input') {
+          this.$emit('input', event.target.value);
+        }
+        else {
+          this.$emit('input', event);
+        }
       },
       onFocus: function (event) {
         this.$emit('focus', event);
@@ -2231,7 +2448,32 @@ var FormInput = {
         this.$emit('blur', event);
       },
       onChange: function (event) {
-        this.$emit('change', event);
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else if (self.hasRadioModel) {
+          self.$emit('input', event.target.value);
+        }
+        else if (self.hasSelectModel) {
+          var values = Array.prototype.filter.call(event.target.options, function(option) {
+            return option.selected;
+          }).map(function(option) {
+            var val = "_value" in option ? option._value : option.value;
+            return val
+          });
+          self.$emit('input', values);
+        }
+        else {
+          self.$emit('change', event);
+        }
       },
       onClick: function (event) {
         this.$emit('click', event);
@@ -2297,12 +2539,13 @@ var FormInput = {
   };
 
 var FormSwitch = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.style),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.value,"checked":_vm.checked},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.style),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.valueComputed,"checked":_vm.checkedComputed},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
 staticRenderFns: [],
     props: {
       name: String,
       id: String,
-      value: [String, Number],
+      value: [String, Number, Boolean, Array],
+      inputValue: [String, Number],
       checked: Boolean,
       disabled: Boolean,
       readonly: Boolean,
@@ -2311,19 +2554,52 @@ staticRenderFns: [],
 
       color: String
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
+    computed: {
+      hasCheckboxModel: function () {
+        return typeof this.value === 'boolean' || Array.isArray(this.value);
+      },
+      valueComputed: function () {
+        var self = this;
+        if (self.inputValue) { return self.inputValue; }
+        else if (self.hasCheckboxModel) { return undefined; }
+        else if (self.$options.propsData && self.$options.propsData.value) { return self.value; }
+        return undefined;
+      },
+      checkedComputed: function () {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (self.inputValue && Array.isArray(self.value)) {
+            return self.value.indexOf(self.inputValue) >= 0;
+          }
+          return self.value;
         }
-      };
-      'Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event);
-        };
-      });
-      return eventMethods
-    })()
+        else { return self.checked; }
+      }
+    },
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event);
+      },
+      onChange: function (event) {
+        var self = this;
+        if (self.hasCheckboxModel) {
+          if (Array.isArray(self.value)) {
+            if (event.target.checked) { self.value.push(event.target.value); }
+            else { self.value.splice(self.value.indexOf(event.target.value), 1); }
+            self.$emit('change', event);
+          }
+          else {
+            self.$emit('input', event.target.checked);
+          }
+        }
+        else {
+          self.$emit('change', event);
+        }
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      }
+    }
   };
 
 var FormRange = {
@@ -2343,19 +2619,17 @@ staticRenderFns: [],
 
       color: String
     },
-    methods: (function () {
-      var eventMethods = {
-        onInput: function (event) {
-          this.$emit('input', event.target.value);
-        }
-      };
-      'Change Click'.split(' ').forEach(function (ev) {
-        eventMethods['on' + ev] = function (event) {
-          this.$emit(ev.toLowerCase(), event);
-        };
-      });
-      return eventMethods
-    })()
+    methods: {
+      onInput: function (event) {
+        this.$emit('input', event.target.value);
+      },
+      onChange: function (event) {
+        this.$emit('change', event);
+      },
+      onClick: function (event) {
+        this.$emit('click', event);
+      }
+    }
   };
 
 var Chip = {
@@ -2424,10 +2698,19 @@ staticRenderFns: [],
   };
 
 var FabAction = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.color ? 'color-' + _vm.color : false,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('a',{class:_vm.classesObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: {
-      color: String
+      'color': String,
+      'closeSpeedDial': Boolean
+    },
+    computed: {
+      classesObject: function() {
+        var co = {};
+        if (this.color) { co['color-' + this.color] = true; }
+        if (this.closeSpeedDial) { co['close-speed-dial'] = true; }
+        return co;
+      }
     },
     methods: {
       onClick: function (event) {
@@ -2460,29 +2743,49 @@ staticRenderFns: [],
         return this.params || {};
       },
       paginationComputed: function () {
-        if (this.pagination) {
-          this.paramsComputed.pagination = '.swiper-pagination';
+        var self = this;
+        if (self.pagination === true || self.pagination === '') {
+          self.paramsComputed.pagination = '.swiper-pagination';
+          return true;
+        }
+        else if (typeof self.pagination === 'object' || typeof self.pagination === 'string') {
+          self.paramsComputed.pagination = self.pagination;
           return true;
         }
         return false;
       },
       scrollbarComputed: function () {
-        if (this.scrollbar) {
-          this.paramsComputed.scrollbar = '.swiper-scrollbar';
+        var self = this;
+        if (self.scrollbar || self.scrollbar === '') {
+          self.paramsComputed.scrollbar = '.swiper-scrollbar';
+          return true;
+        }
+        else if (typeof self.scrollbar === 'object' || typeof self.scrollbar === 'string') {
+          self.paramsComputed.scrollbar = self.scrollbar;
           return true;
         }
         return false;
       },
       nextButtonComputed: function () {
-        if (this.nextButton) {
-          this.paramsComputed.nextButton = '.swiper-button-next';
+        var self = this;
+        if (self.nextButton || self.nextButton === '') {
+          self.paramsComputed.nextButton = '.swiper-button-next';
+          return true;
+        }
+        else if (typeof self.nextButton === 'object' || typeof self.nextButton === 'string') {
+          self.paramsComputed.nextButton = self.nextButton;
           return true;
         }
         return false;
       },
       prevButtonComputed: function () {
-        if (this.prevButton) {
-          this.paramsComputed.prevButton = '.swiper-button-prev';
+        var self = this;
+        if (self.prevButton || self.prevButton === '') {
+          self.paramsComputed.prevButton = '.swiper-button-prev';
+          return true;
+        }
+        else if (typeof self.prevButton === 'object' || typeof self.prevButton === 'string') {
+          self.paramsComputed.prevButton = self.prevButton;
           return true;
         }
         return false;
@@ -2666,7 +2969,7 @@ staticRenderFns: [],
   };
 
 var Messagebar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_vm._t("after-textarea"),_vm._v(" "),(_vm.sendLink)?_c('f7-link',{on:{"click":_vm.onClick}},[_vm._v(_vm._s(_vm.sendLink))]):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"toolbar messagebar"},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("before-textarea"),_vm._v(" "),_c('textarea',{ref:"area",attrs:{"placeholder":_vm.placeholder,"disabled":_vm.disabled,"name":_vm.name,"readonly":_vm.readonly},on:{"input":_vm.onInput,"change":_vm.onChange,"focus":_vm.onFocus,"blur":_vm.onBlur}},[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_vm._t("after-textarea"),_vm._v(" "),(_vm.sendLink && _vm.sendLink.indexOf('<') >= 0)?_c('f7-link',{domProps:{"innerHTML":_vm._s(_vm.sendLink)},on:{"click":_vm.onClick}}):_c('f7-link',{on:{"click":_vm.onClick}},[_vm._t("send-link",[_vm._v(_vm._s(_vm.sendLink))])],2),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     beforeDestroy: function () {
       if (this.f7Messagebar && this.f7Messagebar.destroy) { this.f7Messagebar.destroy(); }
@@ -2940,21 +3243,60 @@ var Tabs = {
   };
 
 var Tab = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;return _c('div',{staticClass:"tab",class:_vm.active ? 'active' : false,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
-staticRenderFns: [],
     props: {
-      'active': Boolean
+      'active': Boolean,
+      'routeTabId': String
     },
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.route.tab
+        }
+      };
+    },
+    render: function (c) {
+      var self = this; 
+
+      var activeTab = self.routeInfo.activeTab;     
+
+      return c('div', {
+        staticClass: 'tab',
+        class: {
+          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
+        },        
+        on: {
+          'tab:show': self.onTabShow,
+          'tab:hide': self.onTabHide
+        }
+      },
+        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
+      );
+    },    
     methods: {
-      show: function () {
+      show: function (animated) {
         if (!this.$f7) { return; }
-        this.$f7.showTab(this.$el);
+        this.$f7.showTab(this.$el, animated);
       },
       onTabShow: function (e) {
-        this.$emit('tab:show', e);
+        this.$emit('tab:show', e);        
       },
       onTabHide: function (e) {
-        this.$emit('tab:hide', e);
+        this.$emit('tab:hide', e);        
+      },
+      onRouteChange: function (e) {        
+        if (e.route.tab) {
+          var currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
+          var nextActiveTabId = e.route.tab.tabId;
+          var thisTabId = this.routeTabId;          
+
+          if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
+            this.$$(this.$el).trigger('tab:hide');
+          } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
+            this.$$(this.$el).trigger('tab:show');
+          }
+
+          this.$set(this.routeInfo, 'activeTab', e.route.tab);
+        }
       }
     }
   };
@@ -2975,15 +3317,15 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('popover:closed', event);
       },
-      open: function (target) {
+      open: function (target, animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.popover(self.$el, target);
+        return self.$f7.popover(self.$el, target, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3049,15 +3391,15 @@ staticRenderFns: [],
           $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.popup(self.$el);
+        return self.$f7.popup(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3127,6 +3469,7 @@ var PickerModal = {
       'opened': Boolean,
       'theme': String,
       'layout': String,
+      'overlay': Boolean
     },
     computed: {
       classesObject: function () {
@@ -3141,12 +3484,18 @@ var PickerModal = {
     },
     methods: {
       onOpen: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').addClass('modal-overlay-visible');
+        }
         this.$emit('picker:open', event);
       },
       onOpened: function (event) {
         this.$emit('picker:opened', event);
       },
       onClose: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').removeClass('modal-overlay-visible');
+        }
         this.$emit('picker:close', event);
       },
       onClosed: function (event) {
@@ -3155,19 +3504,19 @@ var PickerModal = {
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) { return; }
-        if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
+        if ($$('.picker-modal-overlay').length === 0 && (this.$theme && this.$theme.material || this.overlay)) {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.pickerModal(self.$el);
+        return self.$f7.pickerModal(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3224,15 +3573,15 @@ staticRenderFns: [],
       onClosed: function (event) {
         this.$emit('loginscreen:closed', event);
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.loginScreen(self.$el);
+        return self.$f7.loginScreen(self.$el, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3285,15 +3634,15 @@ staticRenderFns: [],
           $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.openModal(self.$el);
+        return self.$f7.openModal(self.$el, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) { return; }
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   };
@@ -3639,6 +3988,196 @@ var Template7Template = {
     }
   };
 
+var combinePaths = function () {
+  var paths = [], len = arguments.length;
+  while ( len-- ) paths[ len ] = arguments[ len ];
+
+  return paths.join('/').replace(/\/+/g, '/');
+};
+
+var flattenTabNestedRoutes = function (pageRoute, tabRoute, tabNestedRoutes) {
+	return tabNestedRoutes.map(function (tabNestedRoute) {
+    return {
+      path: combinePaths(pageRoute.path, tabRoute.path, tabNestedRoute.path),
+      pagePath: pageRoute.path,
+      component: pageRoute.component,
+      tab: {
+        tabId: tabRoute.tabId,
+        component: tabNestedRoute.component
+      }
+    }
+	});
+};
+
+var flattenTabRoutes = function (pageRoute, tabRoutes) {
+	return tabRoutes.reduce(function (accumulatedFlattenedRoutes, nextTabRoute) {
+		var flattenedTabRoutes;
+
+		if (nextTabRoute.routes) {
+			flattenedTabRoutes = flattenTabNestedRoutes(pageRoute, nextTabRoute, nextTabRoute.routes);
+		} else {
+			flattenedTabRoutes = [{
+        path: combinePaths(pageRoute.path, nextTabRoute.path),
+        pagePath: pageRoute.path,
+				component: pageRoute.component,
+				tab: {
+					tabId: nextTabRoute.tabId,
+					component: nextTabRoute.component
+				}
+			}];
+		}
+
+		return  accumulatedFlattenedRoutes.concat( flattenedTabRoutes
+		);
+	}, []);
+};
+
+var flattenRoutes = function (routes) {
+	return routes.reduce(function (accumulatedFlattenedRoutes, nextRoute) {
+		var flattenedNextRoute;
+
+		if (nextRoute.tabs) {
+			flattenedNextRoute = flattenTabRoutes(nextRoute, nextRoute.tabs);
+		} else {
+			flattenedNextRoute = [Object.assign({}, nextRoute, {
+        pagePath: nextRoute.path
+      })];
+		}
+
+		return accumulatedFlattenedRoutes.concat( flattenedNextRoute
+		);
+	}, []);
+};
+
+var parseRoute = function (str) {
+  var parts = [];
+  str.split('/').forEach(function (part) {
+    if (part !== '') {
+      if (part.indexOf(':') === 0) {
+        parts.push({name: part.replace(':', '')});
+      }
+      else { parts.push(part); }
+    }
+  });
+  return parts;
+};
+
+function handleRouteChangeFromFramework7(view, options, changeRouteCallback) {
+  if (!view.allowPageChange) { return false; }
+
+  var url = options.url;
+  var pageElement = options.pageElement;
+
+  if (url && pageElement || !url || url === '#') {
+    return true;
+  }
+
+  var inHistory = view.history.indexOf(url) >= 0;
+  var inDomCache = view.pagesCache[url];
+
+  if (inHistory && inDomCache) { return true; }
+
+  return changeRouteCallback(url, view, options);
+}
+
+var Framework7Router = function Framework7Router(originalRoutes, framework7, dom7) {
+  var this$1 = this;
+
+  this.routeChangeHandler = null;
+  this.routes = flattenRoutes(originalRoutes);
+  this.framework7 = framework7;
+  this.dom7 = dom7;
+
+  //Hook router into Framework7 routing events
+  var initialPreroute = framework7.params.preroute;
+
+  framework7.params.routes = originalRoutes;
+  framework7.params.routerRemoveTimeout = true;
+  framework7.params.preroute = function (view, options) {
+    var passToVueRouter = true;
+
+    if (initialPreroute) {
+      passToVueRouter = initialPreroute(view, options);
+    }
+
+    if (passToVueRouter) {
+      return handleRouteChangeFromFramework7(view, options, this$1.changeRoute.bind(this$1));
+    } else {
+      return false;
+    }
+  };
+};
+
+Framework7Router.prototype.setRouteChangeHandler = function setRouteChangeHandler (routeChangeHandler) {
+  this.routeChangeHandler = routeChangeHandler;
+};
+
+Framework7Router.prototype.changeRoute = function changeRoute (url, view, options) {
+    var this$1 = this;
+    if ( view === void 0 ) view = null;
+
+  var getMainView = function () { return this$1.framework7.views && this$1.framework7.views.reduce(function (mainView, nextView) {
+      if (nextView.main) {
+          return nextView;
+      } else {
+          return mainView;
+      }
+  }, null); };
+
+  var matchingRoute = this.findMatchingRoute(url);
+
+  if (!matchingRoute) { return true; }
+
+  return this.routeChangeHandler(
+    Object.assign({}, matchingRoute, {
+      view: view || getMainView(),
+      options: options,
+      router: this
+    })
+  );
+};
+
+Framework7Router.prototype.findMatchingRoute = function findMatchingRoute (url) {
+  var matchingRoute;
+  if (!url) { return matchingRoute; }
+
+  var routes = this.routes;
+  var query = this.dom7.parseUrlQuery(url);
+  var hash = url.split('#')[1];
+  var params = {};
+  var path = url.split('#')[0].split('?')[0];
+  var urlParts = path.split('/').filter(function (part) {
+    if (part !== '') { return part; }
+  });
+
+  var i, j, k;
+  for (i = 0; i < routes.length; i++) {
+    if (matchingRoute) { continue; }
+    var route = routes[i];
+    var parsedRoute = parseRoute(route.path);
+    if (parsedRoute.length !== urlParts.length) { continue; }
+    var matchedParts = 0;
+    for (j = 0; j < parsedRoute.length; j++) {
+        if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) { matchedParts ++; }
+        if (typeof parsedRoute[j] === 'object') {
+          params[parsedRoute[j].name] = urlParts[j];
+          matchedParts ++;
+        }
+    }
+    if (matchedParts === urlParts.length) {
+      matchingRoute = {
+        query: query,
+        hash: hash,
+        params: params,
+        url: url,
+        path: path,
+        route: route
+      };
+    }
+  }
+  return matchingRoute;
+};
+
 /* Components */
 /* Plugin */
 var framework7Vue = {
@@ -3682,111 +4221,12 @@ var framework7Vue = {
       theme.material = false;
     }
 
-    // Parse Route
-    function parseRoute(str) {
-      var parts = [];
-      str.split('/').forEach(function (part) {
-        if (part !== '') {
-          if (part.indexOf(':') === 0) {
-            parts.push({name: part.replace(':', '')});
-          }
-          else { parts.push(part); }
-        }
-      });
-      return parts;
-    }
-    // Routes Matching
-    function findMatchingRoute(url, routes) {
-      var matchingRoute;
-      if (!url) { return matchingRoute; }
-
-      var query = $$.parseUrlQuery(url);
-      var hash = url.split('#')[1];
-      var params = {};
-      var path = url.split('#')[0].split('?')[0];
-      var urlParts = path.split('/').filter(function (part) {
-        if (part !== '') { return part; }
-      });
-
-      var i, j, k;
-      for (i = 0; i < routes.length; i++) {
-        if (matchingRoute) { continue; }
-        var route = routes[i];
-        var parsedRoute = parseRoute(route.path);
-        if (parsedRoute.length !== urlParts.length) { continue; }
-        var matchedParts = 0;
-        for (j = 0; j < parsedRoute.length; j++) {
-            if (typeof parsedRoute[j] === 'string' && urlParts[j] === parsedRoute[j]) { matchedParts ++; }
-            if (typeof parsedRoute[j] === 'object') {
-              params[parsedRoute[j].name] = urlParts[j];
-              matchedParts ++;
-            }
-        }
-        if (matchedParts === urlParts.length) {
-          matchingRoute = {
-            query: query,
-            hash: hash,
-            params: params,
-            url: url,
-            path: path,
-            route: route
-          };
-        }
-      }
-      return matchingRoute;
-    }
-
-    // Preroute
-    function preroute(view, options, routes) {
-      if (!view.allowPageChange) { return false; }
-      
-      var url = options.url;
-      var pageElement = options.pageElement;
-
-      if (url && pageElement || !url || url === '#') {
-        return true;
-      }
-      if (url && view.url === url && !options.reload && !view.params.allowDuplicateUrls) { return false; }
-
-      var matchingRoute = findMatchingRoute(url, routes);
-      var inHistory = view.history.indexOf(url) >= 0;
-      var inDomCache = view.pagesCache[url];
-      if (inHistory && inDomCache) { return true; }
-      if (!matchingRoute) { return true; }
-      var pagesVue = view.pagesContainer.__vue__;
-      if (!pagesVue) { return true; }
-      
-      var id = new Date().getTime();
-      Vue.set(pagesVue.pages, id, {component: matchingRoute.route.component});
-      view.container.__vue__.$route = {
-        route: matchingRoute.route.path,
-        query: matchingRoute.query,
-        hash: matchingRoute.hash,
-        params: matchingRoute.params,
-        url: matchingRoute.url,
-        path: matchingRoute.path
-      };
-      view.container.__vue__.$router = view.router;
-      view.allowPageChange = false;
-      Vue.nextTick(function () {
-          var newPage = view.pagesContainer.querySelector('.page:last-child');
-          pagesVue.pages[id].pageElement = newPage;
-          options.pageElement = newPage;
-          view.allowPageChange = true;
-          if (options.isBack) {
-            view.router.back(options);
-          }
-          else {
-            view.router.load(options);
-          }
-      });
-
-      return false;
-    }
-
     // Init Framework7
     var f7Ready = false,
-        f7Instance;
+        f7Instance,
+        currentRoute,
+        f7Router,
+        router;
 
     function initFramework7(f7Params) {
       if (!window.Framework7) { return; }
@@ -3795,25 +4235,23 @@ var framework7Vue = {
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
-      }
-      // Modify Parameters
-      f7Params.routerRemoveTimeout = true;
-
-      // Correct Prerouting
-      f7Params.routes = f7Params.routes || [];
-
-      var initialPreroute = f7Params.preroute;
-      f7Params.preroute = function (view, params) {
-        var passToVueRouter = true;
-        if (initialPreroute) {
-          passToVueRouter = initialPreroute(view, params);
-        }
-        if (passToVueRouter) { return preroute(view, params, f7Params.routes); }
-        else { return false; }
-      };
+      }      
 
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
+
+      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+
+      router.setRouteChangeHandler(function (route) {
+        currentRoute = route;
+        f7Router = route.view.router;
+        eventHub.$emit('route-change', route);
+
+        var pagesVue = route.view.pagesContainer.__vue__;
+        if (!pagesVue) { return true; }
+
+        return false;
+      });
 
       // Set Flag
       f7Ready = true;
@@ -3826,11 +4264,20 @@ var framework7Vue = {
     Vue.mixin({
       beforeCreate: function () {
         var self = this;
+
         // Route
-        if (self.$parent && self.$parent.$refs.pages) {
-          self.$route = self.$parent.$parent.$route;
-          self.$router = self.$parent.$parent.$router;
-        }
+        Object.defineProperty(self, '$route', {
+          get: function () { return currentRoute; },
+          enumerable: true,
+          configurable: true
+        });
+
+        Object.defineProperty(self, '$router', {
+          get: function () { return f7Router; },
+          enumerable: true,
+          configurable: true
+        });
+
         // Theme
         if (theme.ios === false && theme.material === false) {
           if ((self.$root.$options.framework7 && self.$root.$options.framework7.material) || (self.$f7 && self.$f7.params.material) || parameters.theme === 'material') {
@@ -3840,6 +4287,10 @@ var framework7Vue = {
             theme.ios = true;
           }
         }
+
+        eventHub.$on('route-change', function (event) {
+          if (self.onRouteChange) { self.onRouteChange(event); }
+        });        
       },
       mounted: function () {
         var self = this;

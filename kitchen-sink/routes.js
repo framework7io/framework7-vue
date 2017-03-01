@@ -38,6 +38,17 @@ import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
 import DataBindingEdit from './pages/data-binding-edit.vue';
 
+import NestedRoutes from './pages/nested-routes.vue';
+import NestedRoutesTabs from'./pages/nested-routes-tabs.vue';
+import NestedRoutesTabbar from'./pages/nested-routes-tabbar.vue';
+import Tab1 from './pages/nested-routes/tabs/tab1.vue'
+import Tab2 from './pages/nested-routes/tabs/tab2.vue'
+import Tab3 from './pages/nested-routes/tabs/tab3.vue'
+import Tab3AlternateContent from './pages/nested-routes/tabs/tab3-alternate-content.vue'
+import TabbarTab1 from './pages/nested-routes/tabs/tabbar-tab1.vue'
+import TabbarTab2 from './pages/nested-routes/tabs/tabbar-tab2.vue'
+import TabbarTab3 from './pages/nested-routes/tabs/tabbar-tab3.vue'
+import TabbarTab3AlternateContent from './pages/nested-routes/tabs/tabbar-tab3-alternate-content.vue'
 
 export default [
   {
@@ -187,5 +198,74 @@ export default [
   {
     path: '/timeline-calendar/',
     component: TimelineCalendar
-  }
+  },
+  {
+    path: '/nested-routes/',
+    component: NestedRoutes
+  },
+  {
+    path: '/nested-routes/tabs/',
+    component: NestedRoutesTabs,
+    tabs: [
+      {
+        path: '/tab-1/:id/:post_id',
+        tabId: 'tab1',
+        component: Tab1
+      },
+      {
+        path: '/tab-2/',
+        tabId: 'tab2',
+        component: Tab2
+      },
+      {
+        path: '/tab-2/:id2/:post_id2',
+        tabId: 'tab2',
+        component: Tab2
+      },
+      {
+        path: '/tab-3/',
+        tabId: 'tab3',
+        routes: [
+          {
+            path: '/',
+            component: Tab3            
+          },
+          {
+            path: '/alternate-content/',
+            component: Tab3AlternateContent
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/nested-routes/tabbar/',
+    component: NestedRoutesTabbar,
+    tabs: [
+      {
+        path: '/',
+        tabId: 'tab1',
+        component: TabbarTab1
+      },
+      {
+        path: '/tab-2/',
+        tabId: 'tab2',
+        component: TabbarTab2
+      },
+      {
+        path: '/tab-3/',
+        tabId: 'tab3',
+        routes: [
+          {
+            path: '/',
+            component: TabbarTab3
+          },
+          {
+            path: '/alternate-content/',
+            component: TabbarTab3AlternateContent
+          }
+        ]
+      }
+    ]
+  }    
 ];

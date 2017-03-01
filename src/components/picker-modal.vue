@@ -64,6 +64,7 @@
       'opened': Boolean,
       'theme': String,
       'layout': String,
+      'overlay': Boolean
     },
     computed: {
       classesObject: function () {
@@ -78,12 +79,18 @@
     },
     methods: {
       onOpen: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').addClass('modal-overlay-visible');
+        }
         this.$emit('picker:open', event);
       },
       onOpened: function (event) {
         this.$emit('picker:opened', event);
       },
       onClose: function (event) {
+        if (this.overlay) {
+          this.$$('.picker-modal-overlay').removeClass('modal-overlay-visible');
+        }
         this.$emit('picker:close', event);
       },
       onClosed: function (event) {
@@ -92,19 +99,19 @@
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) return;
-        if ($$('.picker-modal-overlay').length === 0 && this.$theme && this.$theme.material) {
+        if ($$('.picker-modal-overlay').length === 0 && (this.$theme && this.$theme.material || this.overlay)) {
           $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.pickerModal(self.$el);
+        return self.$f7.pickerModal(self.$el, undefined, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el);
+        return self.$f7.closeModal(self.$el, animated);
       }
     }
   }

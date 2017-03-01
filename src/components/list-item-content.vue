@@ -110,8 +110,8 @@
       'disabled': Boolean
     },
     methods: {
-      onClick: function (event) {
-        this.$emit('click', event)
+      onClick: function (event) {        
+          this.$emit('click', event);          
       },
       onChange: function (event) {
         this.$emit('change', event);

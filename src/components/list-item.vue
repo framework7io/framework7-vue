@@ -65,7 +65,7 @@
 
             'data-force': self.linkForce,
             'data-reload': self.linkReload,
-            'data-animate-pages': self.linkAnimatePages,
+            'data-animate-pages': ('linkAnimatePages' in self.$options.propsData) ? self.linkAnimatePages.toString() : undefined,
             'data-ignore-cache': self.linkIgnoreCache,
             'data-page-name': typeof self.linkPageName === 'string' ? self.linkPageName : false,
             'data-template': typeof self.linkTemplate === 'string' ? self.linkTemplate : false,
@@ -224,7 +224,7 @@
       },
       hasCheckboxModel: function () {
         var self = this;
-        return self.checkbox && (typeof self.value === 'boolean' || Array.isArray(self.value));
+        return self.checkbox && (typeof self.$options.propsData.value !== 'undefined' && typeof self.value === 'boolean' || Array.isArray(self.value));
       },
       hasRadioModel: function () {
         var self = this;
@@ -245,6 +245,9 @@
           return self.value;
         }
         else if (self.hasRadioModel) {
+          if (typeof self.value !== typeof self.inputValue) {
+            return self.value.toString() === self.inputValue.toString();
+          }
           return self.value === self.inputValue;
         }
         else return self.checked;
@@ -252,7 +255,9 @@
     },
     methods: {
       onClick: function (event) {
-        this.$emit('click', event)
+        if (event.target.tagName.toLowerCase() !== 'input') {
+          this.$emit('click', event);            
+        }         
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event)
@@ -293,11 +298,11 @@
           if (Array.isArray(self.value)) {
             if (event.target.checked) self.value.push(event.target.value);
             else self.value.splice(self.value.indexOf(event.target.value), 1);
-            self.$emit('change', event);
           }
           else {
             self.$emit('input', event.target.checked);
           }
+          self.$emit('change', event);
         }
         else if (self.hasRadioModel) {
           self.$emit('input', event.target.value);

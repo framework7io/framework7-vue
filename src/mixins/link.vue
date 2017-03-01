@@ -1,5 +1,12 @@
 <script>
   export default {
+    data: function () {
+      return {
+        routeInfo: {
+          activeTab: this.$route && this.$route.route.tab
+        }
+      };
+    },
     props: {
       noLinkClass: Boolean,
       noFastclick: Boolean,
@@ -63,6 +70,7 @@
 
       // Tab
       tabLink: [Boolean, String],
+      routeTabLink: [Boolean, String],
 
       // Sortable
       openSortable: [Boolean, String],
@@ -89,7 +97,7 @@
         var pd = self.$options.propsData;
         if ('force' in pd) ao['data-force'] = self.force;
         if ('reload' in pd) ao['data-reload'] = 'true';
-        if ('animatePages' in pd) ao['data-animate-pages'] = 'true';
+        if ('animatePages' in pd && typeof pd.animatePages === 'boolean') ao['data-animate-pages'] = pd.animatePages.toString();
         if ('ignoreCache' in pd) ao['data-ignore-cache'] = 'true';
         if (self.pageName) ao['data-page-name'] = self.pageName;
         if (self.template) ao['data-template'] = self.template;
@@ -115,6 +123,7 @@
         if (trustyString(self.closeSortable)) ao['data-sortable'] = self.closeSortable;
 
         if (trustyString(self.tabLink)) ao['data-tab'] = self.tabLink;
+
         return ao;
       },
       classesObject: function () {
@@ -136,7 +145,12 @@
         });
 
         // Active
-        co['active'] = self.active;
+        if (self.routeInfo.activeTab) {
+          const isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
+          co['active'] = isActiveTab;        
+        } else {
+          co['active'] = self.active;
+        }
         
         function trustyBoolean(b) {
           if (b || b === '') return true;
@@ -176,7 +190,12 @@
     methods: {
       onClick: function (event) {
         this.$emit('click', event);
-      }
+      },
+      onRouteChange: function (e) {        
+        if (e.route.tab) {
+          this.$set(this.routeInfo, 'activeTab', e.route.tab)
+        }
+      }      
     }
   }
 </script>

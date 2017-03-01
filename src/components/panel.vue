@@ -6,6 +6,8 @@
     @panel:opened="onOpened"
     @panel:close="onClose"
     @panel:closed="onClosed"
+    @panel:overlay-click="onOverlayClick"
+    @panel:swipe="onPanelSwipe"
   >
     <slot></slot>
   </div>
@@ -76,6 +78,12 @@
       onClosed: function (event) {
         this.$emit('panel:closed', event);
       },
+      onOverlayClick(event) {
+        this.$emit('panel:overlay-click', event);
+      },
+      onPanelSwipe(event) {
+        this.$emit('panel:swipe', event);
+      },      
       onF7Init: function () {
         var $$ = this.$$
         if (!$$) return;
@@ -83,17 +91,16 @@
           $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
         }
       },
-      open: function () {
+      open: function (animated) {
         var self = this;
         if (!self.$f7) return;
         var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.openPanel(side);
+        self.$f7.openPanel(side, animated);
       },
-      close: function () {
+      close: function (animated) {
         var self = this;
         if (!self.$f7) return;
-        var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.closePanel(side);
+        self.$f7.closePanel(animated);
       }
     }
   }

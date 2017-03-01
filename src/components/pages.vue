@@ -1,9 +1,3 @@
-<!-- <template>
-  <div class="pages" ref="pages" :class="classesObject" @pageBeforeRemove="onPageBeforeRemove">
-    <slot></slot>
-    <component v-for="(page, key) in pages" :is="page.component"></component>
-  </div>
-</template> -->
 <script>
   export default {
     render: function (c) {
@@ -11,12 +5,13 @@
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component'}))
+        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}))
       }
       return c('div',
         {
-          staticClass:"pages",
+          staticClass: 'pages',
           ref: 'pages',
+          class: self.classesObject,
           on: {
             'page:beforeremove': self.onPageBeforeRemove
           }
@@ -70,7 +65,47 @@
             break;
           }
         }
-        if (idToRemove) this.$set(this.pages, idToRemove, {});
+        if (idToRemove) this.$delete(this.pages, idToRemove);
+      },
+      onRouteChange: function (event) {
+        var self = this;
+        var pageComponent = event.route.component;
+        var view = event.view;
+        var currentView = self.$parent.f7View || self.$parent.$el.f7View;
+
+        if (view !== currentView) return;
+
+        const previousRoute = self.$route.router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        const pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
+        const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
+        const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
+
+        if (shouldUpdatePages) {
+          var id = new Date().getTime();
+
+          self.$set(self.pages, id, {component: pageComponent});
+
+          view.allowPageChange = false;
+
+          self.$nextTick(function () {
+            var newPage = view.pagesContainer.querySelector('.page:last-child');
+
+            self.pages[id].pageElement = newPage;
+
+            view.allowPageChange = true;
+
+            const options = Object.assign(event.options, {
+              pageElement: newPage
+            });
+
+            if (options.isBack) {
+              view.router.back(options);
+            }
+            else {
+              view.router.load(options);
+            }
+          });
+        }
       }
     }
   }

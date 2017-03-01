@@ -57,18 +57,21 @@
 	      wheel: self.onWheel,
 	      select: self.onSelect
       }
-      if (self.type === 'select' || self.type === 'textarea') {
+      if (self.type === 'select' || self.type === 'textarea' || self.type === 'file') {
+        delete attrs.value;
         if (self.type === 'select') {
-          inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          if (self.hasSelectModel) {
+            inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+          }
+          else {
+            inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          }
+        }
+        else if (self.type === 'file') {
+          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
-          var textareaChildren = self.$slots.default;
-          if (self.value) {
-            delete attrs.value;
-            textareaChildren = self.value;
-          }
-
-          inputEl = c('textarea', {attrs: attrs, on: on}, textareaChildren);
+          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -88,6 +91,26 @@
 
       var itemInput = self.wrap ? c('div', {staticClass: 'item-input'}, [inputEl]) : inputEl;
       return itemInput;
+    },
+    watch: {
+      value: function () {
+        var self = this;
+        if (!self.hasSelectModel) return;
+        var $$ = self.$$;
+        $$(self.$el).find('option').each(function (index, option) {
+          if (self.value.indexOf(option.value) >= 0) option.selected = true;
+          else option.selected = false;
+        });
+      }
+    },
+    mounted: function () {
+      var self = this;
+      if (!self.hasSelectModel) return;
+      var $$ = self.$$;
+      $$(self.$el).find('option').each(function (index, option) {
+        if (self.value.indexOf(option.value) >= 0) option.selected = true;
+        else option.selected = false;
+      });
     },
     props: {
       // Inputs
@@ -128,17 +151,23 @@
     computed: {
       hasCheckboxModel: function () {
         var self = this;
-        return (self.type === 'checkbox' || self.type === 'switch') && (typeof self.value === 'boolean' || Array.isArray(self.value));
+        return (self.type === 'checkbox' || self.type === 'switch') && (typeof self.$options.propsData.value !== 'undefined' && typeof self.value === 'boolean' || Array.isArray(self.value));
       },
       hasRadioModel: function () {
         var self = this;
         return self.type === 'radio' && typeof self.inputValue !== 'undefined';
       },
+      hasSelectModel: function () {
+        var self = this;
+        return self.type === 'select' && Array.isArray(self.value);
+      },
       valueComputed: function () {
         var self = this;
         if (self.inputValue) return self.inputValue;
         else if (self.hasCheckboxModel) return undefined;
-        else return self.value;
+        else if (self.$options.propsData && self.$options.propsData.value !== undefined) return self.value;
+        else if (!self.hasCheckboxModel && !self.hasRadioModel && !self.hasSelectModel && 'value' in self.$options.propsData) return self.value;
+        return undefined;
       },
       checkedComputed: function () {
         var self = this;
@@ -149,6 +178,9 @@
           return self.value;
         }
         else if (self.hasRadioModel) {
+          if (typeof self.value !== typeof self.inputValue) {
+            return self.value.toString() === self.inputValue.toString();
+          }
           return self.value === self.inputValue;
         }
         else return self.checked;
@@ -156,7 +188,13 @@
     },
     methods: {
       onInput: function (event) {
-        this.$emit('input', event.target.value);
+        if (this.hasSelectModel) return;
+        if (event && event.type && event.type === 'input') {
+          this.$emit('input', event.target.value);
+        }
+        else {
+          this.$emit('input', event);
+        }
       },
       onFocus: function (event) {
         this.$emit('focus', event);
@@ -170,14 +208,23 @@
           if (Array.isArray(self.value)) {
             if (event.target.checked) self.value.push(event.target.value);
             else self.value.splice(self.value.indexOf(event.target.value), 1);
-            self.$emit('change', event);
           }
           else {
             self.$emit('input', event.target.checked);
           }
+          self.$emit('change', event);
         }
         else if (self.hasRadioModel) {
           self.$emit('input', event.target.value);
+        }
+        else if (self.hasSelectModel) {
+          var values = Array.prototype.filter.call(event.target.options, function(option) {
+            return option.selected;
+          }).map(function(option) {
+            var val = "_value" in option ? option._value : option.value;
+            return val
+          })
+          self.$emit('input', values);
         }
         else {
           self.$emit('change', event);

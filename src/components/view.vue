@@ -10,7 +10,7 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar && !self.$theme.material && self.dynamicNavbar) {
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
         navbarEl = c('f7-navbar');
       }
 
@@ -63,6 +63,7 @@
       'swipe-back-page-threshold': Boolean,
       'animate-pages': Boolean,
       'preload-previous-page': Boolean,
+      'name': String,
 
       'params': Object,
 
@@ -103,6 +104,7 @@
         if (!self.init) return;
         var propsData = self.$options.propsData;
         var params = self.params || {
+          name: self.name,
           url: self.url,
           dynamicNavbar: propsData.dynamicNavbar,
           domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
@@ -121,7 +123,7 @@
         }
 
         self.f7View = f7.addView(self.$el, params);
-        if(self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
+        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
           self.f7View.router.load({url: self.url, reload: true});
         }
       },

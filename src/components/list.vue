@@ -36,6 +36,7 @@
           staticClass: 'list-block',
           'class': {
             'inset': self.inset,
+            'tablet-inset': self.tabletInset,
             'media-list': self.mediaList,
             'sortable': self.sortable,
             'accordion-list': self.accordion,
@@ -44,7 +45,8 @@
             'tab': self.tab,
             'active': self.active,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween
+            'no-hairlines-between': self.noHairlinesBetween,
+            'store-data': self.storeData
           },
           on: {
             'sortable:open': self.onSortableOpen,
@@ -62,10 +64,10 @@
     },
     props: {
       'inset': Boolean,
+      'tablet-inset': Boolean,
       'media-list': Boolean,
       'grouped': Boolean,
       'sortable': Boolean,
-      'form': Boolean,
       'label': String,
       'accordion': Boolean,
       'contacts': Boolean,
@@ -76,6 +78,10 @@
       // Tab
       'tab': Boolean,
       'active': Boolean,
+
+      // Form
+      'form': Boolean,
+      'store-data': Boolean,
 
       // Virtual List
       'virtual': Boolean,
@@ -101,7 +107,8 @@
       },
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
-      'virtual-render-item': Function
+      'virtual-render-item': Function,
+      'virtual-empty-template': String
     },
     methods: {
       onSortableOpen: function (event) {
@@ -139,6 +146,7 @@
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);
           },
