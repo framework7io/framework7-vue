@@ -1,7 +1,7 @@
 <template>
   <div class="content-block" :class="classesObject" @tab:show="onTabShow" @tab:hide="onTabHide">
     <div class="content-block-inner" v-if="inner">
-      <slot>
+      <slot></slot>
     </div>
     <slot v-else></slot>
   </div>
