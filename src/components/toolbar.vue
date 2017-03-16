@@ -16,7 +16,8 @@
         scrollable: Boolean,
         theme: String,
         layout: String,
-        hidden: Boolean
+        hidden: Boolean,
+        noShadow: Boolean
     },
     computed: {
       classesObject: function () {
@@ -29,6 +30,7 @@
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
+        if (this.noShadow) co['no-shadow'] = true;
         return co;
       }
     },
