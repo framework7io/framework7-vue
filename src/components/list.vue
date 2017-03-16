@@ -132,6 +132,10 @@
         if (!(self.virtual && self.virtualInit)) return;
         var $$ = self.$$;
         var template = $$(self.$el).find('script').html();
+        if(!template){
+          template = $$(self.$el).find('script')[0].outerHTML;
+          template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
+        }
         if (!template && !self.virtualRenderItem) return;
         if (template) template = self.$t7.compile(template);
 
