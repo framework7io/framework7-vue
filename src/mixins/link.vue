@@ -128,16 +128,16 @@
       },
       classesObject: function () {
         var self = this;
-        var co = {};
+        var co = {
+          back: self.back,
+          external: self.external,
+          'no-fastclick': self.noFastclick
+        };
         var pd = self.$options.propsData;
         if (self.rippleColor) co['ripple-color-' + self.rippleColor] = true;
         if (self.color) co['color-' + self.color] = true;
         if (self.theme) co['theme-' + self.theme] = true;
         if (self.bg) co['bg-' + self.bg] = true;
-
-        co['back'] = self.back;
-        co['external'] = self.external;
-        co['no-fastclick'] = self.noFastclick;
 
         // Button
         ['round', 'fill', 'big', 'raised'].forEach(function (prop, index) {
@@ -146,12 +146,12 @@
 
         // Active
         if (self.routeInfo.activeTab) {
-          const isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
-          co['active'] = isActiveTab;        
+          const isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId;
+          co.active = isActiveTab;
         } else {
-          co['active'] = self.active;
+          co.active = self.active;
         }
-        
+
         function trustyBoolean(b) {
           if (b || b === '') return true;
           return false;
@@ -191,11 +191,11 @@
       onClick: function (event) {
         this.$emit('click', event);
       },
-      onRouteChange: function (e) {        
+      onRouteChange: function (e) {
         if (e.route.tab) {
           this.$set(this.routeInfo, 'activeTab', e.route.tab)
         }
-      }      
+      }
     }
   }
 </script>

@@ -132,12 +132,12 @@ export default {
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
-      }      
+      }
 
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+      router = new Framework7Router(f7Params.routes, f7Instance, $$);
 
       router.setRouteChangeHandler(route => {
         currentRoute = route;
@@ -187,7 +187,7 @@ export default {
 
         eventHub.$on('route-change', function (event) {
           if (self.onRouteChange) self.onRouteChange(event);
-        });        
+        });
       },
       mounted: function () {
         var self = this;

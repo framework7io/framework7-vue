@@ -18,7 +18,7 @@
           size: self.iconSize
         }})
       }
-      self.classesObject['button'] = true;
+      self.classesObject.button = true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
