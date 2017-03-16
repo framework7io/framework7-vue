@@ -131,9 +131,11 @@
         // Init Virtual List
         if (!(self.virtual && self.virtualInit)) return;
         var $$ = self.$$;
-        var template = $$(self.$el).find('script').html();
-        if(!template){
-          template = $$(self.$el).find('script')[0].outerHTML;
+        var $el = $$(self.$el);
+        var templateScript = $el.find('script');
+        var template = templateScript.html();
+        if(!template && templateScript.length > 0){
+          template = templateScript[0].outerHTML;
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
         if (!template && !self.virtualRenderItem) return;
