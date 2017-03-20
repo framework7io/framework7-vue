@@ -79,7 +79,7 @@
         }
       }
       fixedList.push(self.$slots.fixed);
-      
+
       if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
       pageEl = c('div', {
         staticClass: 'page',

@@ -1,5 +1,10 @@
 # Change Log
 
+## Framework7 Vue v0.8.5 - Updated on March 1, 2017
+  * Fixed some issue with `v-model` on form inputs
+  * Fixed issues with click events on checkboxes
+  * Minor fixes
+
 ## Framework7 Vue v0.8.4 - Updated on February 18, 2017
   * Fixed `link-animate-pages` property to accept and render correct value
   * Fixed `$router` prop to point to the parent's `view.router` method

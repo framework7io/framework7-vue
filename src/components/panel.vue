@@ -35,7 +35,7 @@
         co['panel-' + effect] = true;
         if (self.layout) co['layout-' + self.layout] = true;
         if (self.theme) co['theme-' + self.theme] = true;
-        co['active'] = self.opened;
+        co.active = self.opened;
         return co;
       }
     },
@@ -83,7 +83,7 @@
       },
       onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
-      },      
+      },
       onF7Init: function () {
         var $$ = this.$$
         if (!$$) return;

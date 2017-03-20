@@ -31,7 +31,8 @@
       title: String,
       theme: String,
       layout: String,
-      hidden: Boolean
+      hidden: Boolean,
+      noShadow: Boolean
     },
     computed: {
       classesObject: function () {
@@ -40,6 +41,7 @@
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
+        if (this.noShadow) co['no-shadow'] = true;
         return co;
       }
     },
@@ -68,7 +70,7 @@
       onBeforeRemove: function (e) {
         this.$emit('navbar:beforeremove', e);
       },
-      onBackClick: function (e) {        
+      onBackClick: function (e) {
         this.$emit('back-click', e);
         this.$emit('click:back', e);
       }
