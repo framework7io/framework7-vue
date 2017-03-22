@@ -71,7 +71,7 @@
           inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
-          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          inputEl = c('textarea', {attrs: attrs, on: on, class: {resizable: self.resizable}, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -140,6 +140,7 @@
       required: Boolean,
       style: String,
 	    pattern: String,
+      resizable: Boolean,
 
       // Components
       color: String,
