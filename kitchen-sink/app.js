@@ -19,6 +19,7 @@ var app = new Vue({
       root: '#app', //Should be same as app el
       animateNavBackIcon: true,
       routes: Routes,
+      pushState: true
     },
     // Custom App Data
     data: function () {
