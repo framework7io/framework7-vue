@@ -24,7 +24,6 @@
             url: 'http://lorempixel.com/400/400/nature/1/',
             caption: 'Amazing beach in Goa, India'
           },
-          'http://placekitten.com/600/600',
           'http://lorempixel.com/400/400/nature/2/',
           {
               url: 'http://lorempixel.com/400/400/nature/3/',
@@ -33,7 +32,8 @@
           {
               url: 'http://lorempixel.com/400/400/nature/4/',
               caption: 'Beautiful mountains in Zhangjiajie, China'
-          }
+          },
+          'http://lorempixel.com/400/400/nature/5/'
         ]
       }
     },
