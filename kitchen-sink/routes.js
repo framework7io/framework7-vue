@@ -50,13 +50,7 @@ import TabbarTab2 from './pages/nested-routes/tabs/tabbar-tab2.vue'
 import TabbarTab3 from './pages/nested-routes/tabs/tabbar-tab3.vue'
 import TabbarTab3AlternateContent from './pages/nested-routes/tabs/tabbar-tab3-alternate-content.vue'
 
-import Home from './pages/home.vue'
-
 export default [
-  {
-    path: '/home/',
-    component: Home
-  },
   {
     path: '/content-block/',
     component: ContentBlock
@@ -229,7 +223,7 @@ export default [
         routes: [
           {
             path: '/',
-            component: Tab3
+            component: Tab3            
           },
           {
             path: '/alternate-content/',
@@ -268,5 +262,5 @@ export default [
         ]
       }
     ]
-  }
+  }    
 ];
