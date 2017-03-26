@@ -1,5 +1,5 @@
 <template>
-  <f7-page>
+  <f7-page with-subnavbar>
     <f7-navbar back-link="Back" title="Sub Navbar" sliding>
       <f7-subnavbar sliding>
         <f7-buttons>
