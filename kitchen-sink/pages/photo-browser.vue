@@ -10,7 +10,7 @@
       @close="onClose"
       ></f7-photo-browser>
 
-    <f7-link v-for="(photo, index) in photos" @click="openPhotoBrowser(index)">
+    <f7-link v-for="(photo, index) in photos" :key="index" @click="openPhotoBrowser(index)">
       <img :src="photo.url || photo"  style="width: 20%; height: 20vw">
     </f7-link>
   </f7-page>

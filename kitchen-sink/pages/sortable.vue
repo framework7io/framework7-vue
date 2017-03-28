@@ -10,6 +10,7 @@
     <f7-list id="sortable" sortable @sortable:sort="onSort" @sortable:open="onOpen" @sortable:close="onClose">
       <f7-list-item
         v-for="items in items"
+        :key="item"
         :title="'Item ' + items"
       ></f7-list-item>
     </f7-list>

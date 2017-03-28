@@ -6,6 +6,7 @@
     <f7-list>
       <f7-list-item swipeout
         v-for="n in 3"
+        :key="n"
         :title="'Item ' + n"
         @swipeout:deleted="onSwipeoutDeleted"
       >
@@ -19,6 +20,7 @@
     <f7-list>
       <f7-list-item swipeout
         v-for="n in 3"
+        :key="n"
         :title="'Item ' + n"
         @swipeout:deleted="onSwipeoutDeleted"
       >
@@ -33,6 +35,7 @@
     <f7-list>
       <f7-list-item swipeout
         v-for="n in 3"
+        :key="n"
         :title="'Item ' + n"
         @swipeout:deleted="onSwipeoutDeleted"
       >
@@ -47,6 +50,7 @@
     <f7-list media-list>
       <f7-list-item swipeout
         v-for="n in 2"
+        :key="n"
         :title="'Item ' + n"
         :subtitle="'Subtitle ' + n"
         :media="'<img src=\'http://lorempixel.com/160/160/people/' + n + '\' width=\'80\'>'"

@@ -6,6 +6,7 @@
     </f7-subnavbar>
     <f7-messages>
       <f7-message v-for="message in messages"
+        :key="message.id"
         :text="message.text"
         :label="message.label"
         :date="message.date"
@@ -31,21 +32,24 @@
         messages: [
           {
             day: 'Wendesday',
-            time: '13:34'
+            time: '13:34',
+            id: '1'
           },
           {
             name: 'Vladimir',
             text: 'How are you?',
             label: 'Sent in good mood :)',
             avatar: 'http://lorempixel.com/100/100/people/3',
-            date: 'Yesterday 13:34'
+            date: 'Yesterday 13:34',
+            id: '2'
           },
           {
             name: 'Jane',
             text: 'I\'m good, thank you!',
             type: 'received',
             avatar: 'http://lorempixel.com/100/100/people/9',
-            date: 'Yesterday at 13:50'
+            date: 'Yesterday at 13:50',
+            id: '3'
           }
         ]
       }
@@ -66,6 +70,7 @@
       onSubmit: function (text, clear) {
         if (text.trim().length === 0) return;
         this.messages.push({
+          id: new Date().getTime(),
           name: this.name,
           avatar: 'http://lorempixel.com/100/100/people/3',
           text: text,

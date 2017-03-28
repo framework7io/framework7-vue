@@ -7,7 +7,7 @@
       <f7-list-item title="Nothing found"></f7-list-item>
     </f7-list>
     <f7-list class="searchbar-found" id="search-list">
-      <f7-list-item v-for="item in items" :title="'Item ' + item"></f7-list-item>
+      <f7-list-item v-for="item in items" :title="'Item ' + item" :key="item"></f7-list-item>
     </f7-list>
   </f7-page>
 </template>

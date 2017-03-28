@@ -6,6 +6,7 @@
     <f7-list accordion>
       <f7-list-item accordion-item
         v-for="n in 3"
+        :key="n"
         :title="'Item ' + n"
         @accordion:open="onOpen"
         @accordion:opened="onOpened"
@@ -23,7 +24,7 @@
 
     <f7-block-title>Custom Collapsible</f7-block-title>
     <f7-block inner>
-      <f7-accordion-item v-for="n in 3">
+      <f7-accordion-item v-for="n in 3" :key="n">
         <f7-accordion-toggle><b>Item {{n}}</b></f7-accordion-toggle>
         <f7-accordion-content>Content {{n}}</f7-accordion-content>
       </f7-accordion-item>

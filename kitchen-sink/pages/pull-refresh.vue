@@ -4,7 +4,7 @@
 
     <f7-block-title>Pull To Refresh</f7-block-title>
     <f7-list>
-      <f7-list-item v-for="item in items" :title="item"></f7-list-item>
+      <f7-list-item v-for="item in items" :key="item" :title="item"></f7-list-item>
       <f7-list-label>Pull list down to refresh items</f7-list-label>
     </f7-list>
   </f7-page>
