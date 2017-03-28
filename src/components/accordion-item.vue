@@ -1,5 +1,6 @@
 <template>
   <div class="accordion-item"
+    :class="{'accordion-item-expanded': expanded}"
     @accordion:open="onOpen"
     @accordion:opened="onOpened"
     @accordion:close="onClose"
@@ -10,6 +11,9 @@
 </template>
 <script>
   export default {
+    props: {
+      expanded: Boolean
+    },
     methods: {
       onOpen: function (event) {
         this.$emit('accordion:open', event);

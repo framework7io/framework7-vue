@@ -124,7 +124,8 @@
             'item-divider' : self.divider,
             'list-group-title': self.groupTitle,
             'swipeout': self.swipeout,
-            'accordion-item': self.accordionItem
+            'accordion-item': self.accordionItem,
+            'accordion-item-expanded': self.accordionExpanded
           },
           on: {
             'swipeout:open': self.onSwipeoutOpen,
@@ -186,6 +187,7 @@
       'swipeout': Boolean,
       'sortable': Boolean,
       'accordion-item': Boolean,
+      'accordion-expanded': Boolean,
 
       // Smart Select
       'smart-select': Boolean,
@@ -256,8 +258,8 @@
     methods: {
       onClick: function (event) {
         if (event.target.tagName.toLowerCase() !== 'input') {
-          this.$emit('click', event);            
-        }         
+          this.$emit('click', event);
+        }
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event)
