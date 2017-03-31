@@ -72,6 +72,7 @@ import TimelineItemChild from './components/timeline-item-child.vue';
 import TimelineYear from './components/timeline-year.vue';
 import TimelineMonth from './components/timeline-month.vue';
 import DatePicker from './components/datepicker.vue';
+import Calendar from './components/calendar.vue';
 
 import Template7Template from './components/template7-template.vue';
 
@@ -281,6 +282,7 @@ export default {
         'f7-timeline-year': TimelineYear,
         'f7-timeline-month': TimelineMonth,
         'f7-datepicker': DatePicker,
+        'f7-calendar': Calendar,
         't7-template': Template7Template,
       }
     });

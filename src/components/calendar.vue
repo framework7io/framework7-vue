@@ -1,22 +1,15 @@
 <template>
-  <div class="item-input">
-    <input type="text" :name="name" :value="value">
-  </div>
+  <div class="calendar-inline"></div>
 </template>
 <script>
   import CalendarMixin from '../mixins/calendar-datepicker.vue';
   export default {
     mixins: [CalendarMixin],
-    props: {
-      name: String,
-    },
     methods: {
       onF7Init(f7) {
         var self = this;
-        var $$ = self.$$;
-        var input = $$(self.$el).find('input')
         var params = Object.assign(self.$options.propsData, {
-          input,
+          container: self.$el,
           value: self.calendarValue,
           onChange(c, values, displayValues){
             self.$emit('change', c, values, displayValues);

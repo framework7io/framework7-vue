@@ -33,6 +33,7 @@ import Modals from './pages/modals.vue';
 import TimelineVertical from './pages/timeline-vertical.vue';
 import TimelineHorizontal from './pages/timeline-horizontal.vue';
 import TimelineCalendar from './pages/timeline-calendar.vue';
+import Calendar from './pages/calendar.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -200,6 +201,10 @@ export default [
     component: TimelineCalendar
   },
   {
+    path: '/calendar/',
+    component: Calendar
+  },
+  {
     path: '/nested-routes/',
     component: NestedRoutes
   },
@@ -223,7 +228,7 @@ export default [
         routes: [
           {
             path: '/',
-            component: Tab3            
+            component: Tab3
           },
           {
             path: '/alternate-content/',
@@ -262,5 +267,5 @@ export default [
         ]
       }
     ]
-  }    
+  }
 ];
