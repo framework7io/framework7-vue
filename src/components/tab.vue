@@ -2,7 +2,7 @@
   export default {
     props: {
       'active': Boolean,
-      'routeTabId': String
+      'id': String
     },
     data: function () {
       return {
@@ -18,15 +18,18 @@
 
       return c('div', {
         staticClass: 'tab',
+        attrs: {
+          id: self.id
+        },
         class: {
-          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
+          'active': (activeTab) ? activeTab.tabId === self.id : self.active
         },
         on: {
           'tab:show': self.onTabShow,
           'tab:hide': self.onTabHide
         }
       },
-        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
+        [activeTab && activeTab.tabId === self.id ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
       );
     },
     methods: {
@@ -44,7 +47,7 @@
         if (e.route.tab) {
           const currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
           const nextActiveTabId = e.route.tab.tabId;
-          const thisTabId = this.routeTabId;
+          const thisTabId = this.id;
 
           if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
             this.$$(this.$el).trigger('tab:hide');

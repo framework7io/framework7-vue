@@ -3,9 +3,9 @@
     <f7-navbar back-link="Back" title="Nested Routes with a Tab Bar" sliding></f7-navbar>
 
     <f7-block tabs>
-      <f7-tab route-tab-id="tab1" />
-      <f7-tab route-tab-id="tab2" />
-      <f7-tab route-tab-id="tab3" />
+      <f7-tab id="tab1" />
+      <f7-tab id="tab2" />
+      <f7-tab id="tab3" />
     </f7-block>
 
     <f7-toolbar tabbar labels>
