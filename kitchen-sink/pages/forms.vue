@@ -52,6 +52,18 @@
         <f7-input name="textarea" type="textarea" placeholder="Textarea"></f7-input>
       </f7-list-item>
       <f7-list-item>
+        <f7-label>Resizable</f7-label>
+        <f7-input name="textarea" type="textarea" resizable placeholder="Textarea"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Datepicker</f7-label>
+        <f7-datepicker date-format="DD, dd MM yyyy" :value="new Date().getTime()"/>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Range Datepicker</f7-label>
+        <f7-datepicker date-format="dd MM yyyy" :range-picker="true"/>
+      </f7-list-item>
+      <f7-list-item>
         <f7-label>File</f7-label>
         <f7-input type="file"></f7-input>
       </f7-list-item>
