@@ -21,6 +21,7 @@
       <f7-list-item title="Chips" link="/chips/"></f7-list-item>
       <f7-list-item title="Contacts" link="/contacts/"></f7-list-item>
       <f7-list-item title="Content Block" link="/content-block/"></f7-list-item>
+      <f7-list-item title="Data Table" link="/data-table/"></f7-list-item>
       <f7-list-item title="FAB" link="/fab/"></f7-list-item>
       <f7-list-item title="FAB Speed Dial" link="/fab-dial/"></f7-list-item>
       <f7-list-item title="Forms" link="/forms/"></f7-list-item>

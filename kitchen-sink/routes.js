@@ -35,6 +35,7 @@ import TimelineVertical from './pages/timeline-vertical.vue';
 import TimelineHorizontal from './pages/timeline-horizontal.vue';
 import TimelineCalendar from './pages/timeline-calendar.vue';
 import Calendar from './pages/calendar.vue';
+import DataTable from './pages/data-table.vue';
 
 import DynamicRoute from './pages/dynamic-route.vue';
 import DataBinding from './pages/data-binding.vue';
@@ -208,6 +209,10 @@ export default [
   {
     path: '/calendar/',
     component: Calendar
+  },
+  {
+    path: '/data-table/',
+    component: DataTable
   },
   {
     path: '/nested-routes/',

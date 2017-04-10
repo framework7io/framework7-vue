@@ -76,6 +76,10 @@ import TimelineYear from './components/timeline-year.vue';
 import TimelineMonth from './components/timeline-month.vue';
 import DatePicker from './components/datepicker.vue';
 import Calendar from './components/calendar.vue';
+import DataTable from './components/data-table.vue';
+import DataTableHeader from './components/data-table-header.vue';
+import DataTableCell from './components/data-table-cell.vue';
+import DataTableRow from './components/data-table-row.vue';
 
 import Template7Template from './components/template7-template.vue';
 
@@ -292,6 +296,10 @@ export default {
         'f7-timeline-month': TimelineMonth,
         'f7-datepicker': DatePicker,
         'f7-calendar': Calendar,
+        'f7-table': DataTable,
+        'f7-table-header': DataTableHeader,
+        'f7-table-cell': DataTableCell,
+        'f7-table-row': DataTableRow,
         't7-template': Template7Template,
       }
     });
