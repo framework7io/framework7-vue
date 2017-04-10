@@ -10,8 +10,8 @@
         }
       }
       if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
-        navbarEl = c('f7-navbar');
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough || (self.params && self.params.dynamicNavbar))) {
+        navbarEl = c('f7-navbar', {props: {inner: false}});
       }
 
       return c(
@@ -123,8 +123,46 @@
         }
 
         self.f7View = f7.addView(self.$el, params);
-        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
-          self.f7View.router.load({url: self.url, reload: true});
+
+        // Load page by route
+        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
+          var $$ = self.$$;
+          // Find Matching Route
+          const matchingRoute = self._framework7Router.findMatchingRoute(params.url);
+          if (!matchingRoute) return;
+          // Find Pages Vue Component
+          var pagesVue = self.f7View.pagesContainer.__vue__;
+          // Generate Page Id
+          const id = new Date().getTime();
+          // Push New Page component
+          self.$set(pagesVue.pages, id, {component: matchingRoute.route.component});
+          // Lock Pages Loading
+          self.f7View.allowPageChange = false;
+
+          self.$nextTick(function () {
+            // Page element
+            var newPage = self.f7View.pagesContainer.querySelector('.page:last-child');
+            pagesVue.pages[id].pageElement = newPage;
+
+            // Move Navbar
+            var newNavbar;
+            var dynamicNavbar = self.$theme.ios && params.dynamicNavbar;
+
+            if (dynamicNavbar) {
+              newNavbar = $$(newPage).find('.navbar-inner');
+              $$(self.$el).children('.navbar').append(newNavbar);
+              $$(newPage).find('.navbar').remove();
+            }
+
+            // Init Page and Navbar Callbacks
+            f7.initPageWithCallback(newPage);
+            if (dynamicNavbar && newNavbar) {
+              f7.initNavbarWithCallback(newNavbar);
+
+            }
+            // Unlock router
+            self.f7View.allowPageChange = true;
+          });
         }
       },
       onSwipeBackMove: function (event) {

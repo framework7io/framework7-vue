@@ -79,6 +79,7 @@ import Calendar from './components/calendar.vue';
 
 import Template7Template from './components/template7-template.vue';
 
+/* Router */
 import Framework7Router from './utils/router';
 
 /* Plugin */
@@ -176,6 +177,11 @@ export default {
 
         Object.defineProperty(self, '$router', {
           get: () => f7Router,
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(self, '_framework7Router', {
+          get: () => router,
           enumerable: true,
           configurable: true
         });
