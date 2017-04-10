@@ -1,3 +1,6 @@
+/* Object Assign Polyfill */
+import ObjectAssign from './utils/object-assign.js';
+
 /* Components */
 import StatusBar from './components/statusbar.vue';
 import Panel from './components/panel.vue';
