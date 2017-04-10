@@ -1,4 +1,5 @@
 // Pages
+import Home from './pages/home.vue';
 import ContentBlock from './pages/content-block.vue';
 import Cards from './pages/cards.vue';
 import Lists from './pages/lists.vue';
@@ -52,6 +53,10 @@ import TabbarTab3 from './pages/nested-routes/tabs/tabbar-tab3.vue'
 import TabbarTab3AlternateContent from './pages/nested-routes/tabs/tabbar-tab3-alternate-content.vue'
 
 export default [
+  {
+    path: '/home/',
+    component: Home
+  },
   {
     path: '/content-block/',
     component: ContentBlock
