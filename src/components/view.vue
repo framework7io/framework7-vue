@@ -122,26 +122,24 @@
           preloadPreviousPage: propsData.preloadPreviousPage,
         }
 
-        self.f7View = f7.addView(self.$el, params);
+        var $$ = self.$$;
+        var pagesContainer = $$(self.$el).find('.pages')[0];
 
-        // Load page by route
-        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
-          var $$ = self.$$;
+        // Include page by route
+        if (pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
           // Find Matching Route
           const matchingRoute = self._framework7Router.findMatchingRoute(params.url);
           if (!matchingRoute) return;
           // Find Pages Vue Component
-          var pagesVue = self.f7View.pagesContainer.__vue__;
+          var pagesVue = pagesContainer.__vue__;
           // Generate Page Id
           const id = new Date().getTime();
           // Push New Page component
           self.$set(pagesVue.pages, id, {component: matchingRoute.route.component});
-          // Lock Pages Loading
-          self.f7View.allowPageChange = false;
 
           self.$nextTick(function () {
             // Page element
-            var newPage = self.f7View.pagesContainer.querySelector('.page:last-child');
+            var newPage = pagesContainer.querySelector('.page:first-child');
             pagesVue.pages[id].pageElement = newPage;
 
             // Move Navbar
@@ -149,7 +147,7 @@
             var dynamicNavbar = self.$theme.ios && params.dynamicNavbar;
 
             if (dynamicNavbar) {
-              newNavbar = $$(newPage).find('.navbar-inner');
+              newNavbar = $$(newPage).find('.navbar-inner:first-child');
               $$(self.$el).children('.navbar').append(newNavbar);
               $$(newPage).find('.navbar').remove();
             }
@@ -160,10 +158,10 @@
               f7.initNavbarWithCallback(newNavbar);
 
             }
-            // Unlock router
-            self.f7View.allowPageChange = true;
           });
         }
+        // Init View
+        self.f7View = f7.addView(self.$el, params);
       },
       onSwipeBackMove: function (event) {
         this.$emit('swipeback:move', event, event.detail);
