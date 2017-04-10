@@ -9,9 +9,9 @@
     <f7-block-title>Sortable List</f7-block-title>
     <f7-list id="sortable" sortable @sortable:sort="onSort" @sortable:open="onOpen" @sortable:close="onClose">
       <f7-list-item
-        v-for="items in items"
+        v-for="item in items"
         :key="item"
-        :title="'Item ' + items"
+        :title="'Item ' + item"
       ></f7-list-item>
     </f7-list>
   </f7-page>
