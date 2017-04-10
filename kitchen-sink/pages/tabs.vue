@@ -1,7 +1,7 @@
 <template>
   <f7-page with-subnavbar>
     <f7-navbar back-link="Back" title="Tabs" sliding>
-      <f7-subnavbar sliding>
+      <f7-subnavbar sliding :slot="$theme.material ? 'after-inner' : 'default'">
         <f7-buttons>
           <f7-button tab-link="#tab1" active>Tab 1</f7-button>
           <f7-button tab-link="#tab2">Tab 2</f7-button>

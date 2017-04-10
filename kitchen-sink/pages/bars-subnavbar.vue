@@ -1,7 +1,7 @@
 <template>
   <f7-page with-subnavbar>
     <f7-navbar back-link="Back" title="Sub Navbar" sliding>
-      <f7-subnavbar sliding>
+      <f7-subnavbar sliding :slot="$theme.material ? 'after-inner' : 'default'">
         <f7-buttons>
           <f7-button>Button 1</f7-button>
           <f7-button>Button 2</f7-button>
@@ -9,7 +9,7 @@
       </f7-subnavbar>
     </f7-navbar>
 
-    <f7-toolbar>
+    <f7-toolbar v-if="$theme.ios">
       <f7-link>Link1</f7-link>
       <f7-link>Link2</f7-link>
     </f7-toolbar>
