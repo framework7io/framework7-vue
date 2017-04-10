@@ -1,22 +1,38 @@
-<template>
-  <div class="navbar"
-  :class="classesObject"
-  @navbar:beforeinit="onBeforeInit"
-  @navbar:init="onInit"
-  @navbar:reinit="onReinit"
-  @navbar:beforeremove="onBeforeRemove"
-  >
-    <slot name="before-inner"></slot>
-    <div class="navbar-inner">
-      <f7-nav-left v-if="backLink" :back-link="backLink" :sliding="sliding" @back-click="onBackClick" :back-link-href="backLinkUrl || backLinkHref"></f7-nav-left>
-      <f7-nav-center v-if="title" :title="title" :sliding="sliding"></f7-nav-center>
-      <slot></slot>
-    </div>
-    <slot name="after-inner"></slot>
-  </div>
-</template>
 <script>
   export default {
+    render: function (c) {
+      var self = this, innerEl, leftEl, centerEl;
+      if (self.inner) {
+        if (self.backLink) {
+          leftEl = c('f7-nav-left', {
+            props: {
+              backLink: self.backLink,
+              sliding: self.sliding,
+              backLinkHref: self.backLinkUrl || self.backLinkHref
+            }
+          })
+        }
+        if (self.title) {
+          centerEl = c('f7-nav-center', {
+            props: {
+              title: self.title,
+              sliding: self.sliding
+            }
+          })
+        }
+        innerEl = c('div', {staticClass: 'navbar-inner'}, [leftEl, centerEl, self.$slots.default]);
+      }
+      return c('div', {
+        staticClass: 'navbar',
+        class: self.classesObject,
+        on: {
+          'navbar:beforeinit': self.onBeforeInit,
+          'navbar:init': self.onInit,
+          'navbar:reinit': self.onReinit,
+          'navbar:beforeremove': self.onBeforeRemove,
+        },
+      }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
+    },
     updated: function () {
       var self = this;
       self.$nextTick(function () {
@@ -32,7 +48,11 @@
       theme: String,
       layout: String,
       hidden: Boolean,
-      noShadow: Boolean
+      noShadow: Boolean,
+      inner: {
+        type: Boolean,
+        default: true
+      }
     },
     computed: {
       classesObject: function () {
