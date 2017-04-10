@@ -8,6 +8,12 @@
     methods: {
       onF7Init(f7) {
         var self = this;
+        if (typeof self.$options.propsData.footer === 'undefined') {
+          self.$options.propsData.footer = false;
+        }
+        if (typeof self.$options.propsData.header === 'undefined') {
+          self.$options.propsData.header = false;
+        }
         var params = Object.assign(self.$options.propsData, {
           container: self.$el,
           value: self.calendarValue,
