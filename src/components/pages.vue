@@ -5,7 +5,7 @@
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}))
+        pages.push(c(page.component, {tag: 'component', props: self.$route && self.$route.params, key:pageId}))
       }
       return c('div',
         {
@@ -80,32 +80,32 @@
         const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
         const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
 
-        if (shouldUpdatePages) {
-          var id = new Date().getTime();
+        if (!shouldUpdatePages) return;
 
-          self.$set(self.pages, id, {component: pageComponent});
+        var id = new Date().getTime();
 
-          view.allowPageChange = false;
+        self.$set(self.pages, id, {component: pageComponent});
 
-          self.$nextTick(function () {
-            var newPage = view.pagesContainer.querySelector('.page:last-child');
+        view.allowPageChange = false;
 
-            self.pages[id].pageElement = newPage;
+        self.$nextTick(function () {
+          var newPage = view.pagesContainer.querySelector('.page:last-child');
 
-            view.allowPageChange = true;
+          self.pages[id].pageElement = newPage;
 
-            const options = Object.assign(event.options, {
-              pageElement: newPage
-            });
+          view.allowPageChange = true;
 
-            if (options.isBack) {
-              view.router.back(options);
-            }
-            else {
-              view.router.load(options);
-            }
+          const options = Object.assign(event.options, {
+            pageElement: newPage
           });
-        }
+
+          if (options.isBack) {
+            view.router.back(options);
+          }
+          else {
+            view.router.load(options);
+          }
+        });
       }
     }
   }
