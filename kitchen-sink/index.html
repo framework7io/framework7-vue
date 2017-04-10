@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <title>Document</title>
-
-  <link rel="stylesheet" href="framework7/framework7.ios.min.css">
-  <link rel="stylesheet" href="framework7/framework7.ios.colors.min.css">
+  <script>
+    (function () {
+      var theme = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ? 'ios' : 'material';
+      document.write(
+        '<link href="/framework7/framework7.' + theme + '.min.css" rel="stylesheet" />' +
+        '<link href="/framework7/framework7.' + theme + '.colors.min.css" rel="stylesheet" />'
+      );
+    })();
+  </script>
 </head>
 <body>
-
   <div id="app">
     <f7-statusbar></f7-statusbar>
     <f7-panel left reveal layout="dark" theme="pink">
