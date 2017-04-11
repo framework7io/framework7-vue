@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.8.5
+ * Framework7 Vue 0.9.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: March 2, 2017
+ * Released on: April 11, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -17,9 +17,47 @@
 	(global.Framework7Vue = factory());
 }(this, (function () {
 
+function assign(target, firstSource) {
+  var arguments$1 = arguments;
+
+  if (target === undefined || target === null) {
+    throw new TypeError('Cannot convert first argument to object');
+  }
+
+  var to = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var nextSource = arguments$1[i];
+    if (nextSource === undefined || nextSource === null) {
+      continue;
+    }
+
+    var keysArray = Object.keys(Object(nextSource));
+    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+      var nextKey = keysArray[nextIndex];
+      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+      if (desc !== undefined && desc.enumerable) {
+        to[nextKey] = nextSource[nextKey];
+      }
+    }
+  }
+  return to;
+}
+if (!Object.assign) {
+  Object.defineProperty(Object, 'assign', {
+    enumerable: false,
+    configurable: true,
+    writable: true,
+    value: assign
+  });
+}
+
 var StatusBar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar-overlay"})},
-staticRenderFns: [],};
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar-overlay",class:(_vm.theme ? 'theme-' + _vm.theme : undefined)})},
+staticRenderFns: [],
+    props: {
+      theme: String
+    }
+  };
 
 var Panel = {
 render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classesObject,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:overlay-click":_vm.onOverlayClick,"panel:swipe":_vm.onPanelSwipe}},[_vm._t("default")],2)},
@@ -45,7 +83,7 @@ staticRenderFns: [],
         co['panel-' + effect] = true;
         if (self.layout) { co['layout-' + self.layout] = true; }
         if (self.theme) { co['theme-' + self.theme] = true; }
-        co['active'] = self.opened;
+        co.active = self.opened;
         return co;
       }
     },
@@ -93,7 +131,7 @@ staticRenderFns: [],
       },
       onPanelSwipe: function onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
-      },      
+      },
       onF7Init: function () {
         var $$ = this.$$;
         if (!$$) { return; }
@@ -162,8 +200,8 @@ var View = {
         }
       }
       if (!hasPages) { pagesEl = c('f7-pages'); }
-      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough)) {
-        navbarEl = c('f7-navbar');
+      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough || (self.params && self.params.dynamicNavbar))) {
+        navbarEl = c('f7-navbar', {props: {inner: false}});
       }
 
       return c(
@@ -274,10 +312,46 @@ var View = {
           preloadPreviousPage: propsData.preloadPreviousPage,
         };
 
-        self.f7View = f7.addView(self.$el, params);
-        if (self.f7View && self.f7View.pagesContainer.querySelectorAll('.page').length === 0) {
-          self.f7View.router.load({url: self.url, reload: true});
+        var $$ = self.$$;
+        var pagesContainer = $$(self.$el).find('.pages')[0];
+
+        // Include page by route
+        if (pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
+          // Find Matching Route
+          var matchingRoute = self.$f7Router.findMatchingRoute(params.url);
+          if (!matchingRoute) { return; }
+          // Find Pages Vue Component
+          var pagesVue = pagesContainer.__vue__;
+          // Generate Page Id
+          var id = new Date().getTime();
+          // Push New Page component
+          self.$set(pagesVue.pages, id, {component: matchingRoute.route.component});
+
+          self.$nextTick(function () {
+            // Page element
+            var newPage = pagesContainer.querySelector('.page:first-child');
+            pagesVue.pages[id].pageElement = newPage;
+
+            // Move Navbar
+            var newNavbar;
+            var dynamicNavbar = self.$theme.ios && params.dynamicNavbar;
+
+            if (dynamicNavbar) {
+              newNavbar = $$(newPage).find('.navbar-inner:first-child');
+              $$(self.$el).children('.navbar').append(newNavbar);
+              $$(newPage).find('.navbar').remove();
+            }
+
+            // Init Page and Navbar Callbacks
+            f7.initPageWithCallback(newPage);
+            if (dynamicNavbar && newNavbar) {
+              f7.initNavbarWithCallback(newNavbar);
+
+            }
+          });
         }
+        // Init View
+        self.f7View = f7.addView(self.$el, params);
       },
       onSwipeBackMove: function (event) {
         this.$emit('swipeback:move', event, event.detail);
@@ -309,7 +383,7 @@ var Pages = {
       var pages = [];
       for (var pageId in self.pages) {
         var page = self.pages[pageId];
-        pages.push(c(page.component, {tag: 'component', props: self.$route.params, key:pageId}));
+        pages.push(c(page.component, {tag: 'component', props: self.$route && self.$route.params, key:pageId}));
       }
       return c('div',
         {
@@ -381,37 +455,37 @@ var Pages = {
 
         if (view !== currentView) { return; }
 
-        var previousRoute = self.$route.router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        var previousRoute = self.$f7Router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
         var pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
         var childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
         var shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));
 
-        if (shouldUpdatePages) {
-          var id = new Date().getTime();
+        if (!shouldUpdatePages) { return; }
 
-          self.$set(self.pages, id, {component: pageComponent});
+        var id = new Date().getTime();
 
-          view.allowPageChange = false;
+        self.$set(self.pages, id, {component: pageComponent});
 
-          self.$nextTick(function () {
-            var newPage = view.pagesContainer.querySelector('.page:last-child');
+        view.allowPageChange = false;
 
-            self.pages[id].pageElement = newPage;
+        self.$nextTick(function () {
+          var newPage = view.pagesContainer.querySelector('.page:last-child');
 
-            view.allowPageChange = true;
+          self.pages[id].pageElement = newPage;
 
-            var options = Object.assign(event.options, {
-              pageElement: newPage
-            });
+          view.allowPageChange = true;
 
-            if (options.isBack) {
-              view.router.back(options);
-            }
-            else {
-              view.router.load(options);
-            }
+          var options = Object.assign(event.options, {
+            pageElement: newPage
           });
-        }
+
+          if (options.isBack) {
+            view.router.back(options);
+          }
+          else {
+            view.router.load(options);
+          }
+        });
       }
     }
   };
@@ -496,7 +570,7 @@ var Page = {
         }
       }
       fixedList.push(self.$slots.fixed);
-      
+
       if (withSubnavbar) { self.classesObjectPage['with-subnavbar'] = true; }
       pageEl = c('div', {
         staticClass: 'page',
@@ -675,8 +749,39 @@ staticRenderFns: [],
   };
 
 var Navbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar",class:_vm.classesObject,on:{"navbar:beforeinit":_vm.onBeforeInit,"navbar:init":_vm.onInit,"navbar:reinit":_vm.onReinit,"navbar:beforeremove":_vm.onBeforeRemove}},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"navbar-inner"},[(_vm.backLink)?_c('f7-nav-left',{attrs:{"back-link":_vm.backLink,"sliding":_vm.sliding,"back-link-href":_vm.backLinkUrl || _vm.backLinkHref},on:{"back-click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),(_vm.title)?_c('f7-nav-center',{attrs:{"title":_vm.title,"sliding":_vm.sliding}}):_vm._e(),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
-staticRenderFns: [],
+    render: function (c) {
+      var self = this, innerEl, leftEl, centerEl;
+      if (self.inner) {
+        if (self.backLink) {
+          leftEl = c('f7-nav-left', {
+            props: {
+              backLink: self.backLink,
+              sliding: self.sliding,
+              backLinkHref: self.backLinkUrl || self.backLinkHref
+            }
+          });
+        }
+        if (self.title) {
+          centerEl = c('f7-nav-center', {
+            props: {
+              title: self.title,
+              sliding: self.sliding
+            }
+          });
+        }
+        innerEl = c('div', {staticClass: 'navbar-inner'}, [leftEl, centerEl, self.$slots.default]);
+      }
+      return c('div', {
+        staticClass: 'navbar',
+        class: self.classesObject,
+        on: {
+          'navbar:beforeinit': self.onBeforeInit,
+          'navbar:init': self.onInit,
+          'navbar:reinit': self.onReinit,
+          'navbar:beforeremove': self.onBeforeRemove,
+        },
+      }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
+    },
     updated: function () {
       var self = this;
       self.$nextTick(function () {
@@ -691,7 +796,12 @@ staticRenderFns: [],
       title: String,
       theme: String,
       layout: String,
-      hidden: Boolean
+      hidden: Boolean,
+      noShadow: Boolean,
+      inner: {
+        type: Boolean,
+        default: true
+      }
     },
     computed: {
       classesObject: function () {
@@ -700,6 +810,7 @@ staticRenderFns: [],
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
+        if (this.noShadow) { co['no-shadow'] = true; }
         return co;
       }
     },
@@ -728,7 +839,7 @@ staticRenderFns: [],
       onBeforeRemove: function (e) {
         this.$emit('navbar:beforeremove', e);
       },
-      onBackClick: function (e) {        
+      onBackClick: function (e) {
         this.$emit('back-click', e);
         this.$emit('click:back', e);
       }
@@ -787,7 +898,8 @@ staticRenderFns: [],
         scrollable: Boolean,
         theme: String,
         layout: String,
-        hidden: Boolean
+        hidden: Boolean,
+        noShadow: Boolean
     },
     computed: {
       classesObject: function () {
@@ -800,6 +912,7 @@ staticRenderFns: [],
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
+        if (this.noShadow) { co['no-shadow'] = true; }
         return co;
       }
     },
@@ -1113,7 +1226,13 @@ var List = {
         // Init Virtual List
         if (!(self.virtual && self.virtualInit)) { return; }
         var $$ = self.$$;
-        var template = $$(self.$el).find('script').html();
+        var $el = $$(self.$el);
+        var templateScript = $el.find('script');
+        var template = templateScript.html();
+        if(!template && templateScript.length > 0){
+          template = templateScript[0].outerHTML;
+          template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
+        }
         if (!template && !self.virtualRenderItem) { return; }
         if (template) { template = self.$t7.compile(template); }
 
@@ -1291,7 +1410,8 @@ var ListItem = {
             'item-divider' : self.divider,
             'list-group-title': self.groupTitle,
             'swipeout': self.swipeout,
-            'accordion-item': self.accordionItem
+            'accordion-item': self.accordionItem,
+            'accordion-item-expanded': self.accordionExpanded
           },
           on: {
             'swipeout:open': self.onSwipeoutOpen,
@@ -1353,6 +1473,7 @@ var ListItem = {
       'swipeout': Boolean,
       'sortable': Boolean,
       'accordion-item': Boolean,
+      'accordion-expanded': Boolean,
 
       // Smart Select
       'smart-select': Boolean,
@@ -1423,8 +1544,8 @@ var ListItem = {
     methods: {
       onClick: function (event) {
         if (event.target.tagName.toLowerCase() !== 'input') {
-          this.$emit('click', event);            
-        }         
+          this.$emit('click', event);
+        }
       },
       onSwipeoutDeleted: function (event) {
         this.$emit('swipeout:deleted', event);
@@ -1838,8 +1959,11 @@ render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_
 staticRenderFns: [],};
 
 var AccordionItem = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item",on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item",class:{'accordion-item-expanded': _vm.expanded},on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
+    props: {
+      expanded: Boolean
+    },
     methods: {
       onOpen: function (event) {
         this.$emit('accordion:open', event);
@@ -2008,16 +2132,16 @@ var LinkMixin = {
       },
       classesObject: function () {
         var self = this;
-        var co = {};
+        var co = {
+          back: self.back,
+          external: self.external,
+          'no-fastclick': self.noFastclick
+        };
         var pd = self.$options.propsData;
         if (self.rippleColor) { co['ripple-color-' + self.rippleColor] = true; }
         if (self.color) { co['color-' + self.color] = true; }
         if (self.theme) { co['theme-' + self.theme] = true; }
         if (self.bg) { co['bg-' + self.bg] = true; }
-
-        co['back'] = self.back;
-        co['external'] = self.external;
-        co['no-fastclick'] = self.noFastclick;
 
         // Button
         ['round', 'fill', 'big', 'raised'].forEach(function (prop, index) {
@@ -2026,12 +2150,12 @@ var LinkMixin = {
 
         // Active
         if (self.routeInfo.activeTab) {
-          var isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId; 
-          co['active'] = isActiveTab;        
+          var isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId;
+          co.active = isActiveTab;
         } else {
-          co['active'] = self.active;
+          co.active = self.active;
         }
-        
+
         function trustyBoolean(b) {
           if (b || b === '') { return true; }
           return false;
@@ -2071,11 +2195,11 @@ var LinkMixin = {
       onClick: function (event) {
         this.$emit('click', event);
       },
-      onRouteChange: function (e) {        
+      onRouteChange: function (e) {
         if (e.route.tab) {
           this.$set(this.routeInfo, 'activeTab', e.route.tab);
         }
-      }      
+      }
     }
   };
 
@@ -2088,7 +2212,7 @@ var Link = {
         if (self.badge) { badgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.badge); }
         textEl = c('span', {class: {'tabbar-label': isTabbarLabel}}, [self.text, badgeEl]);
       }
-      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || self.iconIfMaterial || self.iconIfIos) {
+      if (self.icon || self.iconMaterial || self.iconIon || self.iconFa || self.iconF7  || (self.iconIfMaterial && self.$theme.material) || (self.iconIfIos && self.$theme.ios)) {
         if (self.iconBadge) { iconBadgeEl = c('f7-badge', {props: {color: self.badgeColor}}, self.iconBadge); }
         iconEl = c('f7-icon', {props: {
           material: self.iconMaterial,
@@ -2139,7 +2263,7 @@ var Button = {
           size: self.iconSize
         }});
       }
-      self.classesObject['button'] = true;
+      self.classesObject.button = true;
       var linkEl = c('a', {
         class: self.classesObject,
         attrs: self.attrsObject,
@@ -2320,7 +2444,7 @@ var FormInput = {
           inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
         }
         else {
-          inputEl = c('textarea', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+          inputEl = c('textarea', {attrs: attrs, on: on, class: {resizable: self.resizable}, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -2389,6 +2513,7 @@ var FormInput = {
       required: Boolean,
       style: String,
 	    pattern: String,
+      resizable: Boolean,
 
       // Components
       color: String,
@@ -3080,6 +3205,9 @@ var Searchbar = {
 
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
+        class: {
+          'no-shadow': self.noShadow
+        },
         on: {
           'submit': self.onSubmit,
           'searchbar:search': self.onSearch,
@@ -3093,6 +3221,7 @@ var Searchbar = {
       if (this.f7Searchbar && this.f7Searchbar.destroy) { this.f7Searchbar.destroy(); }
     },
     props: {
+      noShadow: Boolean,
       form: {
         type: Boolean,
         default: true
@@ -3249,7 +3378,7 @@ var Tabs = {
 var Tab = {
     props: {
       'active': Boolean,
-      'routeTabId': String
+      'id': String
     },
     data: function () {
       return {
@@ -3259,39 +3388,42 @@ var Tab = {
       };
     },
     render: function (c) {
-      var self = this; 
+      var self = this;
 
-      var activeTab = self.routeInfo.activeTab;     
+      var activeTab = self.routeInfo.activeTab;
 
       return c('div', {
         staticClass: 'tab',
+        attrs: {
+          id: self.id
+        },
         class: {
-          'active': (activeTab) ? activeTab.tabId === self.routeTabId : self.active
-        },        
+          'active': (activeTab) ? activeTab.tabId === self.id : self.active
+        },
         on: {
           'tab:show': self.onTabShow,
           'tab:hide': self.onTabHide
         }
       },
-        [activeTab && activeTab.tabId === self.routeTabId ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
+        [activeTab && activeTab.tabId === self.id ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
       );
-    },    
+    },
     methods: {
       show: function (animated) {
         if (!this.$f7) { return; }
         this.$f7.showTab(this.$el, animated);
       },
       onTabShow: function (e) {
-        this.$emit('tab:show', e);        
+        this.$emit('tab:show', e);
       },
       onTabHide: function (e) {
-        this.$emit('tab:hide', e);        
+        this.$emit('tab:hide', e);
       },
-      onRouteChange: function (e) {        
+      onRouteChange: function (e) {
         if (e.route.tab) {
           var currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
           var nextActiveTabId = e.route.tab.tabId;
-          var thisTabId = this.routeTabId;          
+          var thisTabId = this.id;
 
           if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
             this.$$(this.$el).trigger('tab:hide');
@@ -3986,6 +4118,482 @@ staticRenderFns: [],
     }
   };
 
+var CalendarMixin = {
+    props: {
+      value: [String, Array, Number],
+      monthNames: Array,
+      monthNamesShort: Array,
+      dayNames: Array,
+      dayNamesShort: Array,
+      firstDay: Number, // First day of the week, Monday
+      weekendDays: Array, // Sunday and Saturday
+      multiple: Boolean,
+      rangePicker: Boolean,
+      dateFormat: String,
+      direction: String, // or 'vertical'
+      minDate: [Date, String, Number],
+      maxDate: [Date, String, Number],
+      disabled: [Array, Function, Object], // dates range of disabled days
+      events: [Array, Function, Object], // dates range of days with events
+      rangesClasses: [Array, Function, Object], //array with custom classes date ranges
+      touchMove: Boolean,
+      animate: Boolean,
+      closeOnSelect: Boolean,
+      monthPicker: Boolean,
+      yearPicker: Boolean,
+      weekHeader: Boolean,
+      // Common settings
+      closeByOutsideClick: Boolean,
+      scrollToInput: Boolean,
+      inputReadOnly: Boolean,
+      convertToPopover: Boolean,
+      onlyInPopover: Boolean,
+      toolbar: Boolean,
+      toolbarTemplate: String,
+      toolbarCloseText: String,
+      headerPlaceholder: String,
+      header: Boolean,
+      footer: Boolean,
+    },
+    computed: {
+      calendarValue: function calendarValue () {
+        var self = this;
+        if (self.value && !Array.isArray(self.value)) {
+          return [self.value];
+        }
+        return self.value;
+      }
+    },
+    watch: {
+      value: function value() {
+        var self = this;
+        if (self.f7Calendar) {
+          var newValue = self.value;
+          if (!Array.isArray(self.value)) { newValue = [self.value]; }
+          self.$nextTick(function () {
+            self.f7Calendar.setValue(newValue);
+          });
+        }
+      }
+    },
+    beforeDestroy: function beforeDestroy() {
+      var self = this;
+      if (self.f7Calendar && self.f7Calendar.destroy) {
+        self.f7Calendar.destroy();
+      }
+    },
+    methods: {
+      getValue: function getValue() {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.value;
+      },
+      setValue: function setValue(values) {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.setValue(values)
+
+      },
+      nextMonth: function nextMonth(duration) {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.nextMonth(duration);
+
+      },
+      prevMonth: function prevMonth(duration) {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.prevMonth(duration);
+
+      },
+      nextYear: function nextYear() {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.nextYear();
+
+      },
+      prevYear: function prevYear() {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.prevYear();
+
+      },
+      setYearMonth: function setYearMonth(year, month, duration) {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.setYearMonth(year, month, duration);
+      },
+      open: function open() {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.open();
+      },
+      close: function close() {
+        if (!this.f7Calendar) { return; }
+        return this.f7Calendar.close();
+
+      },
+    }
+  };
+
+var DatePicker = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"item-input"},[_c('input',{attrs:{"type":"text","name":_vm.name},domProps:{"value":_vm.value}})])},
+staticRenderFns: [],
+    mixins: [CalendarMixin],
+    props: {
+      name: String,
+    },
+    methods: {
+      onF7Init: function onF7Init(f7) {
+        var self = this;
+        var $$ = self.$$;
+        var input = $$(self.$el).find('input');
+        var params = Object.assign(self.$options.propsData, {
+          input: input,
+          value: self.calendarValue,
+          onChange: function onChange(c, values, displayValues){
+            self.$emit('change', c, values, displayValues);
+          },
+          onMonthAdd: function onMonthAdd(c, monthContainer){
+            self.$emit('monthAdd', c, monthContainer);
+          },
+          onDayClick: function onDayClick(c, dayContainer, year, month, day){
+            self.$emit('dayClick', c, dayContainer, year, month, day);
+          },
+          onMonthYearChangeStart: function onMonthYearChangeStart(c, year, month){
+            self.$emit('monthYearChangeStart', c, year, month);
+          },
+          onMonthYearChangeEnd: function onMonthYearChangeEnd(c, year, month){
+            self.$emit('monthYearChangeEnd', c, year, month);
+          },
+          onOpen: function onOpen(c){
+            self.$emit('open', c);
+          },
+          onClose: function onClose(c){
+            self.$emit('close', c);
+          },
+        });
+        self.f7Calendar = f7.calendar(params);
+      }
+    }
+  };
+
+var Calendar = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"calendar-inline"})},
+staticRenderFns: [],
+    mixins: [CalendarMixin],
+    methods: {
+      onF7Init: function onF7Init(f7) {
+        var self = this;
+        if (typeof self.$options.propsData.footer === 'undefined') {
+          self.$options.propsData.footer = false;
+        }
+        if (typeof self.$options.propsData.header === 'undefined') {
+          self.$options.propsData.header = false;
+        }
+        var params = Object.assign(self.$options.propsData, {
+          container: self.$el,
+          value: self.calendarValue,
+          onChange: function onChange(c, values, displayValues){
+            self.$emit('change', c, values, displayValues);
+          },
+          onMonthAdd: function onMonthAdd(c, monthContainer){
+            self.$emit('monthAdd', c, monthContainer);
+          },
+          onDayClick: function onDayClick(c, dayContainer, year, month, day){
+            self.$emit('dayClick', c, dayContainer, year, month, day);
+          },
+          onMonthYearChangeStart: function onMonthYearChangeStart(c, year, month){
+            self.$emit('monthYearChangeStart', c, year, month);
+          },
+          onMonthYearChangeEnd: function onMonthYearChangeEnd(c, year, month){
+            self.$emit('monthYearChangeEnd', c, year, month);
+          },
+          onOpen: function onOpen(c){
+            self.$emit('open', c);
+          },
+          onClose: function onClose(c){
+            self.$emit('close', c);
+          },
+        });
+        self.f7Calendar = f7.calendar(params);
+      }
+    }
+  };
+
+var DataTable = {
+    render: function (c) {
+      var self = this;
+
+      // Split Rows into thead and tbody
+      var theadEl = [];
+      var theadEls = [];
+      var tbodyEl = [];
+      var tbodyEls = [];
+      var beforeTableEls = [];
+      var afterTableEls = [];
+
+      var cells;
+      if (self.headings) {
+        cells = [];
+        self.headings.forEach(function (heading, index) {
+          var isNumeric = self.columns[index] && self.items[0][self.columns[index]] * 1 === parseFloat(self.items[0][self.columns[index]]);
+          cells.push(c('f7-table-cell', {
+            props: {
+              label: index === 0 && !isNumeric,
+              numeric: isNumeric
+            }
+          }, [heading]));
+        });
+        theadEls.push(c('f7-table-row', {
+          props: {
+            heading: true,
+            selectable: self.selectable
+          }
+        }, cells));
+      }
+      if (self.items) {
+        cells = [];
+        self.items.forEach(function (item) {
+          var cells = [];
+          self.columns.forEach(function (column, index) {
+            var isNumeric = item[column] * 1 === parseFloat(item[column]);
+            cells.push(c('f7-table-cell', {
+              props: {
+                label: index === 0 && !isNumeric,
+                numeric: isNumeric
+              }
+            }, [item[column]]));
+          });
+          tbodyEls.push(c('f7-table-row', {
+            props: {
+              selectable: self.selectable
+            }
+          }, cells));
+        });
+      }
+
+      if (self.title) {
+        beforeTableEls.push(c('f7-table-header', {props: {title: self.title}}));
+      }
+
+      var children = self.$slots.default || [];
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        var tag = child.componentOptions && child.componentOptions.tag;
+        var childProps = child.componentOptions && child.componentOptions.propsData;
+
+        if (tag === 'f7-table-row') {
+          if (childProps.heading === '' || childProps.heading === true) {
+            theadEls.push(child);
+          }
+          else {
+            tbodyEls.push(child);
+          }
+          if (self.selectable && !('selectable' in childProps)) { childProps.selectable = true; }
+        }
+        else {
+          beforeTableEls.push(child);
+        }
+
+        if (tag === 'f7-table-header') {
+          self.hasSelected = childProps.selected;
+        }
+      }
+      if (theadEls.length > 0) {
+        theadEl = c('thead', {}, theadEls);
+      }
+      tbodyEl = c('tbody', {}, tbodyEls);
+
+      // Before Table
+      beforeTableEls.push(self.$slots['before-table']);
+
+      // After Table
+      afterTableEls.push(self.$slots['after-table']);
+
+      // Table
+      var tableEl = c('table', {}, [theadEl, tbodyEl]);
+
+      return c('div', {
+        staticClass: 'data-table',
+        class: {
+          'data-table-collapsible': self.collapsible,
+          'data-table-has-checked': self.hasSelected,
+          'data-table-has-selected': self.hasSelected,
+          'card': self.card
+        }
+      },[beforeTableEls, tableEl, afterTableEls]);
+    },
+    props: {
+      card: Boolean,
+      collapsible: Boolean,
+      selectable: Boolean,
+      items: Array,
+      title: String,
+      headings: Array,
+      columns: Array
+    }
+  };
+
+var DataTableHeader = {
+    render: function (c) {
+      var self = this;
+      var headerEl, titleEl;
+      if (self.title) {
+        titleEl = c('div', {
+          class: {
+            'data-table-title': !self.selected,
+            'data-table-title-selected': self.selected,
+          }
+        }, [self.title]);
+      }
+
+      if (self.$slots.default) {
+        self.$slots.default.map(function (el){
+          var tag = el.componentOptions && el.componentOptions.tag;
+          if (tag === 'f7-table-title' && el.componentOptions.propsData) { el.componentOptions.propsData.selected = self.selected; }
+        });
+      }
+
+      headerEl = c('div',
+        {
+          class: {
+            'data-table-header': !self.selected,
+            'data-table-header-selected': self.selected,
+          }
+        },
+        [titleEl, self.$slots.default]
+      );
+
+      return c('div', {staticClass: 'card-header'}, [headerEl]);
+    },
+    props: {
+      title: String,
+      selected: Boolean
+    }
+  };
+
+var DataTableCell = {
+    render: function (c) {
+      var self = this;
+      var heading = self.$parent && self.$parent.heading;
+      return c(
+        heading ? 'th' : 'td',
+        {
+          attrs: {
+            'data-collapsible-title': self.collapsibleTitle
+          },
+          class: self.classesObject,
+          on: {
+            click: self.onClick
+          }
+        },
+        [self.$slots.default]
+      );
+
+    },
+    props: {
+      label: Boolean,
+      numeric: Boolean,
+      actions: Boolean,
+      sortable: Boolean,
+      checkbox: Boolean,
+      order: {
+        type: String,
+        default: 'asc'
+      },
+      'sortable-active': Boolean,
+      'collapsible-title': String,
+      'active-sorting': Boolean,
+      'tablet-only': Boolean,
+      'tablet-landscape-only': Boolean,
+    },
+    computed: {
+      classesObject: function classesObject () {
+        var self = this;
+        return {
+          'checkbox-cell': self.checkbox,
+          'label-cell': self.label,
+          'numeric-cell': self.numeric,
+          'actions-cell': self.actions,
+          'sortable-cell': self.sortable,
+          'sortable-asc': self.order === 'asc',
+          'sortable-desc': self.order === 'desc',
+          'sortable-active': self.sortableActive,
+          'tablet-only': self.tabletOnly,
+          'tablet-landscape-only': self.tabletLandscapeOnly,
+        }
+      }
+    },
+    methods: {
+      onClick: function onClick(event) {
+        this.$emit('click', event);
+      }
+    }
+  };
+
+var DataTableRow = {
+    render: function (c) {
+      var self = this;
+      var checkboxEl;
+      if(self.selectable) {
+        checkboxEl = c('f7-table-cell', {props: {checkbox: true}}, [
+          c('label', {staticClass: 'form-checkbox'}, [
+            c('input', {
+              attrs: {
+                type: 'checkbox'
+              },
+              domProps: {
+                checked: self.selected
+              },
+              on: {
+                change: self.onChange
+              }
+            }),
+            c('i')
+          ])
+        ]);
+      }
+      return c('tr', {
+        class: {
+          'data-table-row-selected': self.selected
+        }
+      }, [checkboxEl, self.$slots.default]);
+    },
+    props: {
+      heading: Boolean,
+      selectable: Boolean,
+      selected: Boolean
+    },
+    methods: {
+      onChange: function (event) {
+        var self = this;
+        self.$emit('change', event);
+      }
+    }
+  };
+
+var DataTableTitle = {
+    render: function (c) {
+      var self = this;
+      return c('div', {
+        class: {
+          'data-table-title': !self.selected,
+          'data-table-title-selected': self.selected,
+        }
+      }, self.$slots.default);
+    },
+    props: {
+      selected: Boolean
+    }
+  };
+
+var DataTableLinks = {
+    render: function (c) {
+      var self = this;
+      return c('div', {staticClass: 'data-table-links'}, self.$slots.default);
+    }
+  };
+
+var DataTableActions = {
+    render: function (c) {
+      var self = this;
+      return c('div', {staticClass: 'data-table-actions'}, self.$slots.default);
+    }
+  };
+
 var Template7Template = {
     render: function (c) {
         return c('script', {attrs: {type:'text/template7'}}, this.$slots.default)
@@ -4184,7 +4792,9 @@ Framework7Router.prototype.findMatchingRoute = function findMatchingRoute (url) 
   return matchingRoute;
 };
 
+/* Object Assign Polyfill */
 /* Components */
+/* Router */
 /* Plugin */
 var framework7Vue = {
   install: function (Vue, parameters) {
@@ -4230,8 +4840,8 @@ var framework7Vue = {
     // Init Framework7
     var f7Ready = false,
         f7Instance,
-        currentRoute,
         f7Router,
+        currentRoute,
         router;
 
     function initFramework7(f7Params) {
@@ -4241,16 +4851,16 @@ var framework7Vue = {
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
-      }      
+      }
 
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      router = new Framework7Router(f7Params.routes, f7Instance, $$);      
+      f7Router = new Framework7Router(f7Params.routes, f7Instance, $$);
 
-      router.setRouteChangeHandler(function (route) {
+      f7Router.setRouteChangeHandler(function (route) {
         currentRoute = route;
-        f7Router = route.view.router;
+        router = route.view.router;
         eventHub.$emit('route-change', route);
 
         var pagesVue = route.view.pagesContainer.__vue__;
@@ -4279,6 +4889,11 @@ var framework7Vue = {
         });
 
         Object.defineProperty(self, '$router', {
+          get: function () { return router; },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(self, '$f7Router', {
           get: function () { return f7Router; },
           enumerable: true,
           configurable: true
@@ -4296,7 +4911,7 @@ var framework7Vue = {
 
         eventHub.$on('route-change', function (event) {
           if (self.onRouteChange) { self.onRouteChange(event); }
-        });        
+        });
       },
       mounted: function () {
         var self = this;
@@ -4388,6 +5003,15 @@ var framework7Vue = {
         'f7-timeline-item-child': TimelineItemChild,
         'f7-timeline-year': TimelineYear,
         'f7-timeline-month': TimelineMonth,
+        'f7-datepicker': DatePicker,
+        'f7-calendar': Calendar,
+        'f7-table': DataTable,
+        'f7-table-header': DataTableHeader,
+        'f7-table-cell': DataTableCell,
+        'f7-table-row': DataTableRow,
+        'f7-table-title': DataTableTitle,
+        'f7-table-links': DataTableLinks,
+        'f7-table-actions': DataTableActions,
         't7-template': Template7Template,
       }
     });

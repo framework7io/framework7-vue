@@ -1,5 +1,20 @@
 # Change Log
 
+## Framework7 Vue v0.9.0 - Updated on April 11, 2017
+  * New Data Table component
+  * New Calendar component
+  * New Datepicker form component
+  * Added `no-shadow` prop for Navbar/Toolbar/Searchbar components to disable shadow in Material theme
+  * Added `theme` prop for Statusbar overlay component
+  * Added `resizable` prop for **f7-input type="textarea"** component to enable resizable textarea
+  * Added `expanded` prop for **f7-accordion-item** to set it expanded/opened by default
+  * Router
+    * `route-tab-id` Tab's prop renamed to just `id`
+    * Now it is possible to initial page/route by specifying View's url: `<f7-view url="/" :init="true"/>`
+  * Fixed FireFox support for Virtual List
+  * Fixed IE 11 support by adding Object.assign polyfill
+  * Improved F7 Vue Kitchen Sink to support both themes at a time
+  * Minor fixes
 ## Framework7 Vue v0.8.5 - Updated on March 1, 2017
   * Fixed some issue with `v-model` on form inputs
   * Fixed issues with click events on checkboxes
@@ -8,7 +23,7 @@
 ## Framework7 Vue v0.8.4 - Updated on February 18, 2017
   * Fixed `link-animate-pages` property to accept and render correct value
   * Fixed `$router` prop to point to the parent's `view.router` method
-  
+
 ## Framework7 Vue v0.8.3 - Updated on February 11, 2017
   * Added `animated` parameter to `open(animated)`, `close(animated)` methods of Popup, Login Screen, Picker Modal, Panel, Action Sheet, Popover components
   * Added `animated` parameter to Tab's component `show(animated)` method
@@ -85,7 +100,7 @@
       * .value(newValue) -> .getValue() and .setValue(newValue)
     * Messages:
       * .scrollMessages() -> .scroll()
-    
+
 
 ## Framework7 Vue v0.7.5 - Updated on January 9, 2017
   * Added methods for many components:
