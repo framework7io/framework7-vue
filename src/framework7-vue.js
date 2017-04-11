@@ -80,6 +80,9 @@ import DataTable from './components/data-table.vue';
 import DataTableHeader from './components/data-table-header.vue';
 import DataTableCell from './components/data-table-cell.vue';
 import DataTableRow from './components/data-table-row.vue';
+import DataTableTitle from './components/data-table-title.vue';
+import DataTableLinks from './components/data-table-links.vue';
+import DataTableActions from './components/data-table-actions.vue';
 
 import Template7Template from './components/template7-template.vue';
 
@@ -300,6 +303,9 @@ export default {
         'f7-table-header': DataTableHeader,
         'f7-table-cell': DataTableCell,
         'f7-table-row': DataTableRow,
+        'f7-table-title': DataTableTitle,
+        'f7-table-links': DataTableLinks,
+        'f7-table-actions': DataTableActions,
         't7-template': Template7Template,
       }
     });

@@ -6,7 +6,13 @@
       return c(
         heading ? 'th' : 'td',
         {
-          class: self.classesObject
+          attrs: {
+            'data-collapsible-title': self.collapsibleTitle
+          },
+          class: self.classesObject,
+          on: {
+            click: self.onClick
+          }
         },
         [self.$slots.default]
       );
@@ -18,10 +24,12 @@
       actions: Boolean,
       sortable: Boolean,
       checkbox: Boolean,
-      sorting: {
+      order: {
         type: String,
         default: 'asc'
       },
+      'sortable-active': Boolean,
+      'collapsible-title': String,
       'active-sorting': Boolean,
       'tablet-only': Boolean,
       'tablet-landscape-only': Boolean,
@@ -34,8 +42,19 @@
           'label-cell': self.label,
           'numeric-cell': self.numeric,
           'actions-cell': self.actions,
+          'sortable-cell': self.sortable,
+          'sortable-asc': self.order === 'asc',
+          'sortable-desc': self.order === 'desc',
+          'sortable-active': self.sortableActive,
+          'tablet-only': self.tabletOnly,
+          'tablet-landscape-only': self.tabletLandscapeOnly,
         }
       }
     },
+    methods: {
+      onClick(event) {
+        this.$emit('click', event);
+      }
+    }
   }
 </script>
