@@ -7,9 +7,11 @@
   <script>
     (function () {
       var theme = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ? 'ios' : 'material';
+      var icons = theme === 'ios' ? 'http://cdn.framework7.io/css/framework7-icons.css' : 'https://fonts.googleapis.com/icon?family=Material+Icons';
       document.write(
         '<link href="/framework7/framework7.' + theme + '.min.css" rel="stylesheet" />' +
-        '<link href="/framework7/framework7.' + theme + '.colors.min.css" rel="stylesheet" />'
+        '<link href="/framework7/framework7.' + theme + '.colors.min.css" rel="stylesheet" />' +
+        '<link href="' + icons + '" rel="stylesheet" />'
       );
     })();
   </script>
