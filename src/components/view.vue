@@ -128,7 +128,7 @@
         // Include page by route
         if (pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
           // Find Matching Route
-          const matchingRoute = self._framework7Router.findMatchingRoute(params.url);
+          const matchingRoute = self.$f7Router.findMatchingRoute(params.url);
           if (!matchingRoute) return;
           // Find Pages Vue Component
           var pagesVue = pagesContainer.__vue__;

@@ -75,7 +75,7 @@
 
         if (view !== currentView) return;
 
-        const previousRoute = self.$route.router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
+        const previousRoute = self.$f7Router.findMatchingRoute(view.url) || { route: { path: '/', pagePath: '/' } };
         const pageRouteChanged = previousRoute.route.pagePath !== event.route.pagePath;
         const childRouteChanged = !pageRouteChanged && previousRoute.route.path !== event.route.path;
         const shouldUpdatePages = pageRouteChanged || (!childRouteChanged && (event.options.reload || view.params.allowDuplicateUrls));

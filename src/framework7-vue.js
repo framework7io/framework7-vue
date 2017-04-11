@@ -131,8 +131,8 @@ export default {
     // Init Framework7
     var f7Ready = false,
         f7Instance,
-        currentRoute,
         f7Router,
+        currentRoute,
         router;
 
     function initFramework7(f7Params) {
@@ -147,11 +147,11 @@ export default {
       // Init
       f7Instance = Vue.prototype.$f7 = window.f7 = new window.Framework7(f7Params);
 
-      router = new Framework7Router(f7Params.routes, f7Instance, $$);
+      f7Router = new Framework7Router(f7Params.routes, f7Instance, $$);
 
-      router.setRouteChangeHandler(route => {
+      f7Router.setRouteChangeHandler(route => {
         currentRoute = route;
-        f7Router = route.view.router;
+        router = route.view.router;
         eventHub.$emit('route-change', route);
 
         var pagesVue = route.view.pagesContainer.__vue__;
@@ -180,12 +180,12 @@ export default {
         });
 
         Object.defineProperty(self, '$router', {
-          get: () => f7Router,
+          get: () => router,
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(self, '_framework7Router', {
-          get: () => router,
+        Object.defineProperty(self, '$f7Router', {
+          get: () => f7Router,
           enumerable: true,
           configurable: true
         });
