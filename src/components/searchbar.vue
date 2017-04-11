@@ -44,6 +44,9 @@
 
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
+        class: {
+          'no-shadow': self.noShadow
+        },
         on: {
           'submit': self.onSubmit,
           'searchbar:search': self.onSearch,
@@ -57,6 +60,7 @@
       if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
     },
     props: {
+      noShadow: Boolean,
       form: {
         type: Boolean,
         default: true
