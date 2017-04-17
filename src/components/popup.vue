@@ -66,7 +66,7 @@
         var $$ = this.$$;
         if (!$$) return;
         if ($$('.popup-overlay').length === 0) {
-          $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
+          $$(this.$root.$el).append('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {

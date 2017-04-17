@@ -16,15 +16,20 @@
       if (self.opened) {
         self.$el.style.display = 'block';
       }
+      else {
+        self.$el.style.display = 'none';
+      }
     },
     watch: {
       opened: function (opened) {
         var self = this;
         if (!self.$f7) return;
         if (opened) {
+          self.$el.style.display = 'block';
           self.$f7.openModal(self.$el);
         }
         else {
+          self.$el.style.display = 'none';
           self.$f7.closeModal(self.$el);
         }
       }
@@ -49,7 +54,7 @@
         var $$ = this.$$;
         if (!$$) return;
         if ($$('.modal-overlay').length === 0) {
-          $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
+          $$(this.$root.$el).append('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {

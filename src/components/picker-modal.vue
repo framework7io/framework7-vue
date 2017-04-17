@@ -100,7 +100,7 @@
         var $$ = this.$$;
         if (!$$) return;
         if ($$('.picker-modal-overlay').length === 0 && (this.$theme && this.$theme.material || this.overlay)) {
-          $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el)
+          $$(this.$root.$el).append('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {
