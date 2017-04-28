@@ -164,7 +164,7 @@
           'no-toolbar': this.noToolbar,
           'no-tabbar': this.noTabbar,
           'tabs': this.tabs,
-          'no-swipeback': this.noSwipeBack
+          'no-swipeback': this.noSwipeback
         }
         if (this.theme) co['theme-' + this.theme] = true;
         if (this.layout) co['layout-' + this.layout] = true;
