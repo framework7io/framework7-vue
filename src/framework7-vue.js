@@ -138,13 +138,18 @@ export default {
         currentRoute,
         router;
 
-    function initFramework7(f7Params) {
+    function initFramework7(f7Params, root) {
       if (!window.Framework7) return;
       f7Params = f7Params || {};
 
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
+      }
+
+      // Root
+      if (typeof f7Params.root === 'undefined' && root) {
+        f7Params.root = root.$el
       }
 
       // Init
@@ -217,7 +222,7 @@ export default {
           if (self.onF7Init) self.onF7Init(f7Instance);
         });
         if (self === self.$root) {
-          initFramework7(self.$options.framework7);
+          initFramework7(self.$options.framework7, self.$root);
         }
       },
       components: {
