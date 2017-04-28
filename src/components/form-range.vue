@@ -8,7 +8,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :required="required"
-      :style="style"
+      :style="inputStyle"
       :max="max"
       :min="min"
       :step="step"
@@ -28,7 +28,7 @@
       disabled: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
       max: [String, Number],
       min: [String, Number],
       step: [String, Number],

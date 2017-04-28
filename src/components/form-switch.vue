@@ -9,7 +9,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :required="required"
-      :style="style"
+      :style="inputStyle"
 
       @input="onInput"
       @change="onChange"
@@ -28,7 +28,7 @@
       disabled: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
 
       color: String
     },

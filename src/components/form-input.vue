@@ -27,7 +27,7 @@
         multiple: self.multiple,
         readonly: self.readonly,
         required: self.required,
-        style: self.style,
+        style: self.inputStyle,
         color: self.color,
 	      pattern: self.pattern
       }
@@ -138,7 +138,7 @@
       multiple: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
 	    pattern: String,
       resizable: Boolean,
 
