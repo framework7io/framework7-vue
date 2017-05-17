@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: April 11, 2017
+ * Released on: May 17, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -655,7 +655,7 @@ var Page = {
           'no-toolbar': this.noToolbar,
           'no-tabbar': this.noTabbar,
           'tabs': this.tabs,
-          'no-swipeback': this.noSwipeBack
+          'no-swipeback': this.noSwipeback
         };
         if (this.theme) { co['theme-' + this.theme] = true; }
         if (this.layout) { co['layout-' + this.layout] = true; }
@@ -2400,7 +2400,6 @@ var FormInput = {
         multiple: self.multiple,
         readonly: self.readonly,
         required: self.required,
-        style: self.style,
         color: self.color,
 	      pattern: self.pattern
       };
@@ -2434,17 +2433,17 @@ var FormInput = {
         delete attrs.value;
         if (self.type === 'select') {
           if (self.hasSelectModel) {
-            inputEl = c('select', {attrs: attrs, on: on}, self.$slots.default);
+            inputEl = c('select', {attrs: attrs, on: on, style: self.inputStyle}, self.$slots.default);
           }
           else {
-            inputEl = c('select', {attrs: attrs, on: on, domProps: {value: self.valueComputed}}, self.$slots.default);
+            inputEl = c('select', {attrs: attrs, on: on, style: self.inputStyle, domProps: {value: self.valueComputed}}, self.$slots.default);
           }
         }
         else if (self.type === 'file') {
-          inputEl = c('input', {attrs: attrs, on: on}, self.$slots.default);
+          inputEl = c('input', {attrs: attrs, style: self.inputStyle, on: on}, self.$slots.default);
         }
         else {
-          inputEl = c('textarea', {attrs: attrs, on: on, class: {resizable: self.resizable}, domProps: {value: self.valueComputed}}, self.$slots.default);
+          inputEl = c('textarea', {attrs: attrs, style: self.inputStyle, on: on, class: {resizable: self.resizable}, domProps: {value: self.valueComputed}}, self.$slots.default);
         }
       }
       else {
@@ -2458,7 +2457,7 @@ var FormInput = {
           else if (self.type === 'range') {
             inputEl = c('f7-range', {props: attrs, on: on});
           }
-          else { inputEl = c('input', {attrs: attrs, on: on, domProps: {value: self.valueComputed, checked: self.checkedComputed}}); }
+          else { inputEl = c('input', {attrs: attrs, style: self.inputStyle, on: on, domProps: {value: self.valueComputed, checked: self.checkedComputed}}); }
         }
       }
 
@@ -2511,7 +2510,7 @@ var FormInput = {
       multiple: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
 	    pattern: String,
       resizable: Boolean,
 
@@ -2668,7 +2667,7 @@ var FormInput = {
   };
 
 var FormSwitch = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.style),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.valueComputed,"checked":_vm.checkedComputed},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"label-switch",class:_vm.color ? 'color-' + _vm.color : '',on:{"click":_vm.onClick}},[_c('input',{style:(_vm.inputStyle),attrs:{"type":"checkbox","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required},domProps:{"value":_vm.valueComputed,"checked":_vm.checkedComputed},on:{"input":_vm.onInput,"change":_vm.onChange}}),_vm._v(" "),_c('div',{staticClass:"checkbox"})])},
 staticRenderFns: [],
     props: {
       name: String,
@@ -2679,7 +2678,7 @@ staticRenderFns: [],
       disabled: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
 
       color: String
     },
@@ -2732,7 +2731,7 @@ staticRenderFns: [],
   };
 
 var FormRange = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"range-slider",class:_vm.color ? 'color-' + _vm.color : ''},[_c('input',{style:(_vm.style),attrs:{"type":"range","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required,"max":_vm.max,"min":_vm.min,"step":_vm.step},domProps:{"value":_vm.value},on:{"input":_vm.onInput,"change":_vm.onChange,"click":_vm.onClick}})])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"range-slider",class:_vm.color ? 'color-' + _vm.color : ''},[_c('input',{style:(_vm.inputStyle),attrs:{"type":"range","name":_vm.name,"id":_vm.id,"disabled":_vm.disabled,"readonly":_vm.readonly,"required":_vm.required,"max":_vm.max,"min":_vm.min,"step":_vm.step},domProps:{"value":_vm.value},on:{"input":_vm.onInput,"change":_vm.onChange,"click":_vm.onClick}})])},
 staticRenderFns: [],
     props: {
       name: String,
@@ -2741,7 +2740,7 @@ staticRenderFns: [],
       disabled: Boolean,
       readonly: Boolean,
       required: Boolean,
-      style: String,
+      inputStyle: String,
       max: [String, Number],
       min: [String, Number],
       step: [String, Number],
@@ -3524,7 +3523,7 @@ staticRenderFns: [],
         var $$ = this.$$;
         if (!$$) { return; }
         if ($$('.popup-overlay').length === 0) {
-          $$('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
+          $$(this.$root.$el).append('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {
@@ -3641,7 +3640,7 @@ var PickerModal = {
         var $$ = this.$$;
         if (!$$) { return; }
         if ($$('.picker-modal-overlay').length === 0 && (this.$theme && this.$theme.material || this.overlay)) {
-          $$('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
+          $$(this.$root.$el).append('<div class="picker-modal-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {
@@ -3734,15 +3733,20 @@ staticRenderFns: [],
       if (self.opened) {
         self.$el.style.display = 'block';
       }
+      else {
+        self.$el.style.display = 'none';
+      }
     },
     watch: {
       opened: function (opened) {
         var self = this;
         if (!self.$f7) { return; }
         if (opened) {
+          self.$el.style.display = 'block';
           self.$f7.openModal(self.$el);
         }
         else {
+          self.$el.style.display = 'none';
           self.$f7.closeModal(self.$el);
         }
       }
@@ -3767,7 +3771,7 @@ staticRenderFns: [],
         var $$ = this.$$;
         if (!$$) { return; }
         if ($$('.modal-overlay').length === 0) {
-          $$('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>').insertBefore(this.$el);
+          $$(this.$root.$el).append('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
         }
       },
       open: function (animated) {
@@ -4844,13 +4848,18 @@ var framework7Vue = {
         currentRoute,
         router;
 
-    function initFramework7(f7Params) {
+    function initFramework7(f7Params, root) {
       if (!window.Framework7) { return; }
       f7Params = f7Params || {};
 
       // Material
       if (typeof f7Params.material === 'undefined' && Vue.prototype.$theme.material) {
         f7Params.material = true;
+      }
+
+      // Root
+      if (typeof f7Params.root === 'undefined' && root) {
+        f7Params.root = root.$el;
       }
 
       // Init
@@ -4923,7 +4932,7 @@ var framework7Vue = {
           if (self.onF7Init) { self.onF7Init(f7Instance); }
         });
         if (self === self.$root) {
-          initFramework7(self.$options.framework7);
+          initFramework7(self.$options.framework7, self.$root);
         }
       },
       components: {
