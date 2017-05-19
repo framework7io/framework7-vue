@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <span class="chip" :class="chipClassObject" @click="onClick">
     <span v-if="media" class="chip-media" :class="mediaClassObject" v-html="media"></span>
     <span class="chip-label" v-if="text" v-html="text"></span>
@@ -20,7 +20,7 @@
       mediaClassObject: function () {
         var c = {};
         if (this.mediaColor) c['color-' + this.mediaColor] = true;
-        if (this.mediaBg) c['color-' + this.mediaBg] = true;
+        if (this.mediaBg) c['bg-' + this.mediaBg] = true;
         return c;
       },
       chipClassObject: function () {
