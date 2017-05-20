@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: May 18, 2017
+ * Released on: May 20, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -297,7 +297,7 @@ var View = {
           name: self.name,
           url: self.url,
           dynamicNavbar: propsData.dynamicNavbar,
-          domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
+          domCache: false,
           linksView: propsData.linksView,
           reloadPages: propsData.reloadPages,
           uniqueHistory: propsData.uniqueHistory,
