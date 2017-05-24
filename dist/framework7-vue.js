@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: May 22, 2017
+ * Released on: May 24, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2776,7 +2776,7 @@ staticRenderFns: [],
       mediaClassObject: function () {
         var c = {};
         if (this.mediaColor) { c['color-' + this.mediaColor] = true; }
-        if (this.mediaBg) { c['color-' + this.mediaBg] = true; }
+        if (this.mediaBg) { c['bg-' + this.mediaBg] = true; }
         return c;
       },
       chipClassObject: function () {
