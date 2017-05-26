@@ -1,4 +1,4 @@
-<script>
+﻿<script>
   export default {
     render: function (c) {
       var hasNavbar, hasPages, pagesEl, navbarEl, self = this;
