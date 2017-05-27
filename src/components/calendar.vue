@@ -2,9 +2,9 @@
   <div class="calendar-inline"></div>
 </template>
 <script>
-  import CalendarMixin from '../mixins/calendar-datepicker.vue';
+  import CalendarDatePickerMixin from '../mixins/calendar-date-picker.vue';
   export default {
-    mixins: [CalendarMixin],
+    mixins: [CalendarDatePickerMixin],
     methods: {
       onF7Init(f7) {
         var self = this;
