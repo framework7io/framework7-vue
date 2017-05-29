@@ -4,9 +4,9 @@
   </div>
 </template>
 <script>
-  import CalendarMixin from '../mixins/calendar-datepicker.vue';
+  import CalendarDatePickerMixin from '../mixins/calendar-date-picker.vue';
   export default {
-    mixins: [CalendarMixin],
+    mixins: [CalendarDatePickerMixin],
     props: {
       name: String,
     },
