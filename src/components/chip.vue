@@ -20,7 +20,7 @@
       mediaClassObject: function () {
         var c = {};
         if (this.mediaColor) c['color-' + this.mediaColor] = true;
-        if (this.mediaBg) c['color-' + this.mediaBg] = true;
+        if (this.mediaBg) c['bg-' + this.mediaBg] = true;
         return c;
       },
       chipClassObject: function () {
