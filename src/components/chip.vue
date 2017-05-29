@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <span class="chip" :class="chipClassObject" @click="onClick">
     <span v-if="media" class="chip-media" :class="mediaClassObject" v-html="media"></span>
     <span class="chip-label" v-if="text" v-html="text"></span>
