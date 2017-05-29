@@ -29,6 +29,7 @@ import Fab from './pages/fab.vue';
 import FabDial from './pages/fab-dial.vue';
 import LoginScreen from './pages/login-screen.vue';
 import VirtualList from './pages/virtual-list.vue';
+import VirtualListVue from './pages/virtual-list-vue.vue';
 import PhotoBrowser from './pages/photo-browser.vue';
 import Modals from './pages/modals.vue';
 import TimelineVertical from './pages/timeline-vertical.vue';
@@ -173,6 +174,10 @@ export default [
   {
     path: '/virtual-list/',
     component: VirtualList
+  },
+  {
+    path: '/virtual-list-vue/',
+    component: VirtualListVue
   },
   {
     path: '/photo-browser/',
