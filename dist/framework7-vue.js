@@ -1203,7 +1203,8 @@ var List = {
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
       'virtual-render-item': Function,
-      'virtual-empty-template': String
+      'virtual-empty-template': String,
+      'virtual-render-external': Function,
     },
     methods: {
       onSortableOpen: function (event) {
@@ -1233,7 +1234,7 @@ var List = {
           template = templateScript[0].outerHTML;
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
-        if (!template && !self.virtualRenderItem) { return; }
+        if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) { return; }
         if (template) { template = self.$t7.compile(template); }
 
         self.f7VirtualList = f7.virtualList(self.$el, {
@@ -1247,6 +1248,7 @@ var List = {
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          renderExternal: self.virtualRenderExternal,
           emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);
@@ -4705,19 +4707,6 @@ var Framework7Router = function Framework7Router(originalRoutes, framework7, dom
   this.routes = flattenRoutes(originalRoutes);
   this.framework7 = framework7;
   this.dom7 = dom7;
-
-  // framwork7
-  framework7.componentLoader = function (app, view, options, resolve) {
-
-  };
-  framework7.routerPreOptions = function (app, view, options) {
-    var matchingRoute = this$1.findMatchingRoute(options.url);
-    if (!matchingRoute) { return options; }
-    else {
-      return Object.assign(options, {component: matchingRoute.route.component});
-    }
-    return options;
-  };
 
   //Hook router into Framework7 routing events
   var initialPreroute = framework7.params.preroute;
