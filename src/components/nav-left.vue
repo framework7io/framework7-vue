@@ -22,7 +22,7 @@
     },
     methods: {
       onBackClick: function (e) {
-        this.$emit('click:back', e);
+        this.$emit('back-click', e);
       }
     }
   }

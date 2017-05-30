@@ -30,7 +30,7 @@
           'navbar:init': self.onInit,
           'navbar:reinit': self.onReinit,
           'navbar:beforeremove': self.onBeforeRemove,
-          'click:back': self.onBackClick
+          'back-click': self.onBackClick
         },
       }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
     },
@@ -92,7 +92,7 @@
         this.$emit('navbar:beforeremove', e);
       },
       onBackClick: function (e) {
-        this.$emit('click:back', e);
+        this.$emit('back-click', e);
       }
     }
   }
