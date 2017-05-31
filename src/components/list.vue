@@ -139,9 +139,7 @@
           template = templateScript[0].outerHTML;
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
-        console.log(self.virtualRenderExternal)
         if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) return;
-        console.log(2)
         if (template) template = self.$t7.compile(template);
 
         self.f7VirtualList = f7.virtualList(self.$el, {
