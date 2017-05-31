@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v0.9.2 - Updated on May 31, 2017
+  * Fixed npm issue with wrong version got published
+
 ## Framework7 Vue v0.9.1 - Updated on May 29, 2017
   * Fixed `no-swipeback` Page property
   * `style` attribute changed to `input-style` to avoid Vue warnings about native attributes
