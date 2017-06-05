@@ -53,9 +53,11 @@
         var self = this;
         if (!self.$f7) return;
         if (opened) {
+          Dom7('.picker-modal-overlay').addClass('modal-overlay-visible');
           self.$f7.pickerModal(self.$el)
         }
         else {
+          Dom7('.picker-modal-overlay').removeClass('modal-overlay-visible');
           self.$f7.closeModal(self.$el)
         }
       }
