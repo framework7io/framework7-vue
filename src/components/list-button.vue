@@ -8,6 +8,7 @@
           staticClass: 'item-link list-button',
           attrs: self.attrsObject,
           class: self.classesObject,
+          tabindex: self.tabindex,
           domProps: {
             innerHTML: self.title
           },
@@ -21,6 +22,7 @@
           staticClass: 'item-link list-button',
           attrs: self.attrsObject,
           class: self.classesObject,
+          tabindex: self.tabindex,
           on: {
             click: self.onClick
           }
@@ -32,6 +34,7 @@
       'title': [String, Number],
       'link': [Boolean, String],
       'href': [Boolean, String],
+      'tabindex': [Number, String],
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
