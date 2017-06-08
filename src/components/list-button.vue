@@ -8,7 +8,6 @@
           staticClass: 'item-link list-button',
           attrs: self.attrsObject,
           class: self.classesObject,
-          tabindex: self.tabindex,
           domProps: {
             innerHTML: self.title
           },
@@ -21,7 +20,6 @@
         linkEl = c('a', {
           staticClass: 'item-link list-button',
           attrs: self.attrsObject,
-          class: self.classesObject,
           tabindex: self.tabindex,
           on: {
             click: self.onClick
@@ -97,6 +95,7 @@
         if (self.pageName) ao['data-page-name'] = self.pageName;
         if (self.template) ao['data-template'] = self.template;
         if (self.view) ao['data-view'] = self.view;
+        if (self.tabindex) ao['tabindex'] = self.tabindex;
 
         function trustyString(s) {
           if (typeof s === 'string' && s !== '') return true;
