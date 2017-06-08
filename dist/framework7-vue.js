@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: May 31, 2017
+ * Released on: June 8, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2403,7 +2403,8 @@ var FormInput = {
         readonly: self.readonly,
         required: self.required,
         color: self.color,
-	      pattern: self.pattern
+	      pattern: self.pattern,
+        tabindex: self.tabindex
       };
       var on = {
         focus: self.onFocus,
@@ -2514,6 +2515,7 @@ var FormInput = {
       required: Boolean,
       inputStyle: String,
 	    pattern: String,
+      tabindex: [String, Number],
       resizable: Boolean,
 
       // Components

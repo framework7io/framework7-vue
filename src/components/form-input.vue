@@ -28,7 +28,8 @@
         readonly: self.readonly,
         required: self.required,
         color: self.color,
-	      pattern: self.pattern
+	      pattern: self.pattern,
+        tabindex: self.tabindex
       }
       var on = {
         focus: self.onFocus,
@@ -139,6 +140,7 @@
       required: Boolean,
       inputStyle: String,
 	    pattern: String,
+      tabindex: [String, Number],
       resizable: Boolean,
 
       // Components
