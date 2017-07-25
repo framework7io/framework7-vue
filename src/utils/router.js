@@ -106,10 +106,9 @@ export default class Framework7Router {
     framework7.params.preroute = (view, options) => {
       var passToVueRouter = true;
 
-      if (initialPreroute) {
+      if (initialPreroute && !options.pageElement) {
         passToVueRouter = initialPreroute(view, options);
       }
-
       if (passToVueRouter) {
         return handleRouteChangeFromFramework7(view, options, this.changeRoute.bind(this));
       } else {

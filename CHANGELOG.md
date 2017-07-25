@@ -1,5 +1,21 @@
 # Change Log
 
+## Framework7 Vue v0.9.2 - Updated on May 31, 2017
+  * Fixed npm issue with wrong version got published
+
+## Framework7 Vue v0.9.1 - Updated on May 29, 2017
+  * Fixed `no-swipeback` Page property
+  * `style` attribute changed to `input-style` to avoid Vue warnings about native attributes
+  * `framework7`'s `root` parameter can be ommited and Vue app root element will be used in case
+  * Fixed `media-bg` Chip property
+  * New `virtual-render-external` prop for **f7-list** component to be able to pass external function to render and manipulate Virtual items
+  * Minor fixes
+
+## Framework7 Vue v0.8.5 - Updated on March 1, 2017
+  * Fixed some issue with `v-model` on form inputs
+  * Fixed issues with click events on checkboxes
+  * Minor fixes
+
 ## Framework7 Vue v0.9.0 - Updated on April 11, 2017
   * New Data Table component
   * New Calendar component
@@ -15,6 +31,7 @@
   * Fixed IE 11 support by adding Object.assign polyfill
   * Improved F7 Vue Kitchen Sink to support both themes at a time
   * Minor fixes
+
 ## Framework7 Vue v0.8.5 - Updated on March 1, 2017
   * Fixed some issue with `v-model` on form inputs
   * Fixed issues with click events on checkboxes

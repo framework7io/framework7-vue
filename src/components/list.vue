@@ -108,7 +108,8 @@
       'virtual-search-by-item': Function,
       'virtual-search-all': Function,
       'virtual-render-item': Function,
-      'virtual-empty-template': String
+      'virtual-empty-template': String,
+      'virtual-render-external': Function,
     },
     methods: {
       onSortableOpen: function (event) {
@@ -138,7 +139,7 @@
           template = templateScript[0].outerHTML;
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
-        if (!template && !self.virtualRenderItem) return;
+        if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) return;
         if (template) template = self.$t7.compile(template);
 
         self.f7VirtualList = f7.virtualList(self.$el, {
@@ -152,6 +153,7 @@
           searchByItem: self.virtualSearchByItem,
           searchAll: self.virtualSearchAll,
           renderItem: self.virtualRenderItem,
+          renderExternal: self.virtualRenderExternal,
           emptyTemplate: self.virtualEmptyTemplate,
           onItemBeforeInsert: function (list, item) {
             self.$emit('virtual:itembeforeinsert', list, item);

@@ -47,6 +47,7 @@
       <f7-list-item title="Timeline Horizontal" link="/timeline-horizontal/"></f7-list-item>
       <f7-list-item title="Timeline Calendar" link="/timeline-calendar/"></f7-list-item>
       <f7-list-item title="Virtual List" link="/virtual-list/"></f7-list-item>
+      <f7-list-item title="Virtual List with Vue" link="/virtual-list-vue/"></f7-list-item>
     </f7-list>
     <f7-list>
       <f7-list-item title="Dynamic Route" link="/user/45/posts/28/?sort=first#opened"></f7-list-item>
