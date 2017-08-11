@@ -146,6 +146,7 @@ export default class Framework7Router {
   findMatchingRoute(url) {
     var matchingRoute;
     if (!url) return matchingRoute;
+    url = ""+url; //Insures that the url is of type string so url.split does not crash app in weird situations.
 
     var routes = this.routes;
     var query = this.dom7.parseUrlQuery(url);
