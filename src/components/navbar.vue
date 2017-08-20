@@ -9,6 +9,9 @@
               backLink: self.backLink,
               sliding: self.sliding,
               backLinkHref: self.backLinkUrl || self.backLinkHref
+            },
+            on: {
+              'back-click': self.onBackClick
             }
           })
         }
