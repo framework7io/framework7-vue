@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: May 31, 2017
+ * Released on: June 8, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -1800,7 +1800,7 @@ var ListButton = {
         linkEl = c('a', {
           staticClass: 'item-link list-button',
           attrs: self.attrsObject,
-          class: self.classesObject,
+          tabindex: self.tabindex,
           on: {
             click: self.onClick
           }
@@ -1812,6 +1812,7 @@ var ListButton = {
       'title': [String, Number],
       'link': [Boolean, String],
       'href': [Boolean, String],
+      'tabindex': [Number, String],
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
@@ -1874,6 +1875,7 @@ var ListButton = {
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
         if (self.view) { ao['data-view'] = self.view; }
+        if (self.tabindex) { ao['tabindex'] = self.tabindex; }
 
         function trustyString(s) {
           if (typeof s === 'string' && s !== '') { return true; }
@@ -2403,7 +2405,8 @@ var FormInput = {
         readonly: self.readonly,
         required: self.required,
         color: self.color,
-	      pattern: self.pattern
+	      pattern: self.pattern,
+        tabindex: self.tabindex
       };
       var on = {
         focus: self.onFocus,
@@ -2514,6 +2517,7 @@ var FormInput = {
       required: Boolean,
       inputStyle: String,
 	    pattern: String,
+      tabindex: [String, Number],
       resizable: Boolean,
 
       // Components
