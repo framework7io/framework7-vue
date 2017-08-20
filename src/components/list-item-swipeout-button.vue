@@ -1,9 +1,10 @@
 <template>
-  <a href="#" @click="onClick" :class="classObject"><slot></slot></a>
+  <a href="#" @click="onClick" :class="classObject"><slot>{{text}}</slot></a>
 </template>
 <script>
   export default {
     props: {
+      'text': String,
       'overswipe': Boolean,
       'close': Boolean,
       'delete': Boolean,
