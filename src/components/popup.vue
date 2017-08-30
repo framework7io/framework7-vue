@@ -5,8 +5,8 @@
     @popup:opened="onOpened"
     @popup:close="onClose"
     @popup:closed="onClosed"
-  >
-    <slot></slot>
+  >    
+    <slot v-if="opened"></slot>
   </div>
 </template>
 <script>
