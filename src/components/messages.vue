@@ -25,7 +25,7 @@
       if (this.f7Messages && this.f7Messages.layout && this.autoLayout) {
         this.f7Messages.layout();
       }
-      if (this.f7Messages && this.f7Messages.layout && this.autoLayout) {
+      if (this.f7Messages && this.f7Messages.scrollMessages && this.scrollMessages) {
         this.f7Messages.scrollMessages();
       }
     },
