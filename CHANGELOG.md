@@ -1,5 +1,10 @@
 # Change Log
 
+## Framework7 Vue v0.9.3 - Updated on September 7, 2017
+  * Fixed backClick nav event
+  * Added `tabindex` property for **f7-input** and **f7-list-button** components
+  * A bit improved nested modals support
+
 ## Framework7 Vue v0.9.2 - Updated on May 31, 2017
   * Fixed npm issue with wrong version got published
 

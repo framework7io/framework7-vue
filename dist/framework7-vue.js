@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.9.2
+ * Framework7 Vue 0.9.3
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: May 31, 2017
+ * Released on: September 7, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -758,6 +758,9 @@ var Navbar = {
               backLink: self.backLink,
               sliding: self.sliding,
               backLinkHref: self.backLinkUrl || self.backLinkHref
+            },
+            on: {
+              'back-click': self.onBackClick
             }
           });
         }
@@ -1748,9 +1751,10 @@ staticRenderFns: [],
   };
 
 var ListItemSwipeoutButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classObject,attrs:{"href":"#"},on:{"click":_vm.onClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))])],2)},
 staticRenderFns: [],
     props: {
+      'text': String,
       'overswipe': Boolean,
       'close': Boolean,
       'delete': Boolean,
@@ -1812,6 +1816,7 @@ var ListButton = {
       'title': [String, Number],
       'link': [Boolean, String],
       'href': [Boolean, String],
+      'tabindex': [Number, String],
       'external': Boolean,
       'link-external': Boolean,
       'back': Boolean,
@@ -1874,6 +1879,7 @@ var ListButton = {
         if (self.pageName) { ao['data-page-name'] = self.pageName; }
         if (self.template) { ao['data-template'] = self.template; }
         if (self.view) { ao['data-view'] = self.view; }
+        if (self.tabindex) { ao['tabindex'] = self.tabindex; }
 
         function trustyString(s) {
           if (typeof s === 'string' && s !== '') { return true; }
@@ -2403,7 +2409,8 @@ var FormInput = {
         readonly: self.readonly,
         required: self.required,
         color: self.color,
-	      pattern: self.pattern
+	      pattern: self.pattern,
+        tabindex: self.tabindex,
       };
       var on = {
         focus: self.onFocus,
@@ -2513,7 +2520,8 @@ var FormInput = {
       readonly: Boolean,
       required: Boolean,
       inputStyle: String,
-	    pattern: String,
+      pattern: String,
+	    tabindex: [String, Number],
       resizable: Boolean,
 
       // Components
@@ -2962,7 +2970,7 @@ staticRenderFns: [],
       if (this.f7Messages && this.f7Messages.layout && this.autoLayout) {
         this.f7Messages.layout();
       }
-      if (this.f7Messages && this.f7Messages.layout && this.autoLayout) {
+      if (this.f7Messages && this.f7Messages.scrollMessages && this.scrollMessages) {
         this.f7Messages.scrollMessages();
       }
     },
@@ -3468,7 +3476,7 @@ staticRenderFns: [],
   };
 
 var Popup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"popup",class:_vm.classesObject,on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"popup",class:_vm.classesObject,on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[(_vm.opened)?_vm._t("default"):_vm._e()],2)},
 staticRenderFns: [],
     mounted: function () {
       var self = this;
@@ -4759,6 +4767,7 @@ Framework7Router.prototype.changeRoute = function changeRoute (url, view, option
 Framework7Router.prototype.findMatchingRoute = function findMatchingRoute (url) {
   var matchingRoute;
   if (!url) { return matchingRoute; }
+  url = ""+url; //Insures that the url is of type string so url.split does not crash app in weird situations.
 
   var routes = this.routes;
   var query = this.dom7.parseUrlQuery(url);
