@@ -1,44 +1,40 @@
-// Import Vue
+/* eslint import/no-extraneous-dependencies: "off" */
 import Vue from 'vue';
+import { Framework7Vue } from '../src/framework7-vue';
+import App from './app.vue';
 
-// Import Framework7 Vue Plugin
-import Framework7Vue from '../src/framework7-vue.js';
-
-// Import Routes
-import Routes from './routes.js';
+import AboutPage from './pages/about.vue';
+import AboutNews from './pages/about-news.vue';
+import AboutServices from './pages/about-services.vue';
+import AboutContacts from './pages/about-contacts.vue';
 
 // Install Plugin
 Vue.use(Framework7Vue);
 
 // Init Vue App
-var app = new Vue({
-    // Root Element
-    el: '#app',
-    // Framework7 Parameters
-    framework7: {
-      root: '#app', //Should be same as app el
-      animateNavBackIcon: true,
-      routes: Routes,
-      material: !Framework7.prototype.device.ios
+new Vue({
+  // Root Element
+  el: '#app',
+  render: c => c('app'),
+  components: {
+    App,
+  },
+  routes: [
+    {
+      path: '/about/',
+      component: AboutPage,
     },
-    // Custom App Data
-    data: function () {
-      return {
-        user: {
-          name: 'Vladimir',
-          lastName: 'Kharlampidi',
-          age: 30
-        },
-        popupOpened: false,
-        loginScreenOpened: false,
-        pickerOpened: false,
-        actionsOpened: false
-      };
+    {
+      path: '/about-news/',
+      component: AboutNews,
     },
-    // Custom App Methods
-    methods: {
-      onF7Init: function () {
-        console.log('f7-init');
-      }
-    }
+    {
+      path: '/about-services/:prop1/:prop2/',
+      component: AboutServices,
+    },
+    {
+      path: '/about-contacts/',
+      component: AboutContacts,
+    },
+  ],
 });
