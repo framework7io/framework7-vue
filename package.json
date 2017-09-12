@@ -30,7 +30,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base kitchen-sink/ --open --inline --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "dist": "gulp dist"
   },
@@ -45,8 +45,10 @@
     "cross-env": "^5.0.5",
     "eslint": "^4.6.1",
     "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-html": "^3.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-vue": "^2.1.0",
+    "framework7": "^2.0.0-beta.4",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-header": "^1.8.9",
@@ -57,13 +59,11 @@
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-vue": "^2.4.2",
     "rollup-plugin-vue2": "^0.8.0",
-    "rollup-stream": "^1.23.1",
+    "rollup-stream": "^1.24.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "vue": "^2.4.2"
   },
-  "dependencies": {
-    "framework7": "^2.0.0-beta"
-  }
 }
