@@ -28,12 +28,12 @@ gulp.task('connect', () => {
   connect.server({
     root: ['./'],
     livereload: true,
-    port: '3000',
+    port: '8000',
   });
 });
 
 gulp.task('open', () => {
-  gulp.src('./kitchen-sink/index.html').pipe(gopen({ uri: 'http://localhost:3000/kitchen-sink/' }));
+  gulp.src('./kitchen-sink/index.html').pipe(gopen({ uri: 'http://localhost:8000/kitchen-sink/' }));
 });
 
 gulp.task('server', ['watch', 'connect', 'open']);
