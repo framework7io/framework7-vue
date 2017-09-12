@@ -2,32 +2,39 @@
   export default {
     render(c) {
       const self = this;
-      const pages = self.pages.map((page) => {
-        return c(page.component, {
-          tag: 'component',
-          props: page.params ? page.params || {} : {},
-          key: page.id,
-        });
-      });
-      return c('div',
+      const pages = self.pages.map(page => c(page.component, {
+        tag: 'component',
+        props: page.params ? page.params || {} : {},
+        key: page.id,
+      }));
+      return c(
+        'div',
         {
           staticClass: 'view',
           ref: 'view',
-          class: self.classesObject,
+          class: self.classes,
+          on: {
+            'swipeback:move': self.onSwipeBackMove,
+            'swipeback:beforechange': self.onSwipeBackBeforeChange,
+            'swipeback:afterchange': self.onSwipeBackAfterChange,
+            'swipeback:beforereset': self.onSwipeBackBeforeReset,
+            'swipeback:afterreset': self.onSwipeBackAfterReset,
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide,
+          },
         },
         [
           self.$slots.default,
-          pages
+          pages,
         ]
       );
     },
-    beforeDestroy: function () {
-      var self = this;
+    beforeDestroy() {
+      const self = this;
       if (self.f7View && self.f7View.destroy) self.f7View.destroy();
     },
     props: {
-      'main': Boolean,
-      'tab': Boolean,
+      tab: Boolean,
       'tab-active': Boolean,
 
       url: String,
@@ -72,7 +79,7 @@
 
       init: {
         type: Boolean,
-        default: true
+        default: true,
       },
 
       'color-theme': String,
@@ -83,46 +90,46 @@
       };
     },
     computed: {
-      classesObject: function () {
-        var co = {
+      classes() {
+        const co = {
           'view-main': this.main,
           'tab-active': this.tabActive,
-          'tab': this.tab,
-        }
-        if (this.colorTheme) co['color-theme-' + this.colorTheme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
+          tab: this.tab,
+        };
+        if (this.colorTheme) co[`color-theme-${this.colorTheme}`] = true;
+        if (this.layout) co[`layout-${this.layout}`] = true;
         return co;
       },
     },
     methods: {
-      onF7Init: function (f7) {
-        var self = this;
+      onF7Init(f7) {
+        const self = this;
         if (!self.init) return;
 
         // Init View
         self.f7View = f7.views.create(self.$el, self.$options.propsData);
       },
-      onSwipeBackMove: function (event) {
+      onSwipeBackMove(event) {
         this.$emit('swipeback:move', event, event.detail);
       },
-      onSwipeBackBeforeChange: function (event) {
+      onSwipeBackBeforeChange(event) {
         this.$emit('swipeback:beforechange', event, event.detail);
       },
-      onSwipeBackAfterChange: function (event) {
+      onSwipeBackAfterChange(event) {
         this.$emit('swipeback:afterchange', event, event.detail);
       },
-      onSwipeBackBeforeReset: function (event) {
+      onSwipeBackBeforeReset(event) {
         this.$emit('swipeback:beforereset', event, event.detail);
       },
-      onSwipeBackAfterReset: function (event) {
+      onSwipeBackAfterReset(event) {
         this.$emit('swipeback:afterreset', event, event.detail);
       },
-      onTabShow: function (e) {
+      onTabShow(e) {
         this.$emit('tab:show', e);
       },
-      onTabHide: function (e) {
+      onTabHide(e) {
         this.$emit('tab:hide', e);
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
