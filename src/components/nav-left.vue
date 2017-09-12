@@ -5,8 +5,8 @@
       :href="backLinkUrl || '#'"
       back
       icon="icon-back"
-      :class="{'icon-only': (backLink === true || backLink && $theme.material)}"
-      :text="backLink !== true && !$theme.material ? backLink : undefined"
+      :class="{'icon-only': (backLink === true || backLink && $theme.md)}"
+      :text="backLink !== true && !$theme.md ? backLink : undefined"
       @click="onBackClick"
       ></f7-link>
     <slot></slot>
