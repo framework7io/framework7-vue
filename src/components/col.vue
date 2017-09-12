@@ -1,5 +1,5 @@
 <template>
-  <div :class="('col-' + width) + (tabletWidth ? ' tablet-' + tabletWidth : '') + (desktopWidth ? ' desktop-' + desktopWidth : '')"><slot></slot></div>
+  <div :class="('col-' + width) + (tabletWidth ? ` tablet-${tabletWidth}` : '') + (desktopWidth ? ` desktop-${desktopWidth}` : '')"><slot></slot></div>
 </template>
 <script>
   export default {
