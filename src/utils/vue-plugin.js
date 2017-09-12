@@ -1,10 +1,9 @@
 /* eslint no-param-reassign: "off" */
-import { Framework7 } from 'framework7/dist/js/framework7.modular';
 import Utils from './utils';
 import VueRouter from './vue-router';
 
 export default {
-  install(Vue) {
+  install(Vue, Framework7) {
     // Event Hub
     const eventHub = new Vue();
 
