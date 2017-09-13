@@ -44,8 +44,8 @@
     data() {
       return {
         colStyle: 'text-align: center; padding-top:5px; padding-bottom:5px;',
-        darkColStyle: 'background: #333; text-align: center; padding-top:5px; padding-bottom:5px;'
-      }
-    }
-  }
+        darkColStyle: 'background: #333; text-align: center; padding-top:5px; padding-bottom:5px;',
+      };
+    },
+  };
 </script>

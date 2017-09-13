@@ -14,7 +14,7 @@
       <f7-list-item>
         <f7-label>Age</f7-label>
         <f7-input type="select" v-model.number="user.age">
-          <option v-for="n in 40" :value="n" :selected="user.age === n">{{n}}</option>
+          <option v-for="n in 40" :value="n" :selected="user.age === n" :key="n">{{n}}</option>
         </f7-input>
       </f7-list-item>
     </f7-list>
@@ -22,10 +22,10 @@
 </template>
 <script>
   export default {
-    data: function () {
+    data() {
       return {
-        user: this.$root.user
-      }
-    }
-  }
+        user: this.$root.user,
+      };
+    },
+  };
 </script>

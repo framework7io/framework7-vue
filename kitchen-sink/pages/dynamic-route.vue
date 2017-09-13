@@ -8,12 +8,12 @@
       <li><b>Hash:</b> {{$route.hash}}</li>
       <li><b>Params:</b>
         <ul>
-          <li v-for="(value, key) in $route.params"><b>{{key}}:</b> {{value}}</li>
+          <li v-for="(value, key) in $route.params" :key="key"><b>{{key}}:</b> {{value}}</li>
         </ul>
       </li>
       <li><b>Query:</b>
         <ul>
-          <li v-for="(value, key) in $route.query"><b>{{key}}:</b> {{value}}</li>
+          <li v-for="(value, key) in $route.query" :key="key"><b>{{key}}:</b> {{value}}</li>
         </ul>
       </li>
       <li><b>Route:</b> {{$route.route.path}}</li>
@@ -30,6 +30,6 @@
 </template>
 <script>
   export default {
-    props: ['id', 'post_id']
-  }
+    props: ['id', 'post_id'],
+  };
 </script>

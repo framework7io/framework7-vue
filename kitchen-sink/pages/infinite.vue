@@ -10,29 +10,30 @@
   </f7-page>
 </template>
 <script>
-  var timeout;
-  export default {
-    data: function () {
-      return {
-        counter: 26,
-        items: (function () {
-          var it = [];
-          for (var i = 0; i < 25; i++) it.push(i+1);
-            return it;
-        })()
-      }
+let timeout;
+export default {
+  data() {
+    return {
+      counter: 26,
+      items: (function () {
+        const it = [];
+        for (let i = 0; i < 25; i += 1) it.push(i + 1);
+        return it;
+      }()),
+    };
+  },
+  methods: {
+    onInfinite() {
+      const self = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        let i;
+        for (i = self.counter; i < self.counter + 25; i += 1) {
+          self.items.push(i);
+        }
+        self.counter = i;
+      }, 500);
     },
-    methods: {
-      onInfinite: function (event) {
-        var self = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-          for (var i = self.counter; i < self.counter + 25; i++) {
-            self.items.push(i);
-          }
-          self.counter = i;
-        }, 500);
-      }
-    }
-  }
+  },
+};
 </script>

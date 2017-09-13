@@ -12,29 +12,29 @@
   </f7-page>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        items: (function () {
-          var it = [];
-          for (var i = 0; i < 100; i++) it.push(i+1);
-          return it;
-        })()
-      }
+export default {
+  data() {
+    return {
+      items: (function () {
+        const it = [];
+        for (let i = 0; i < 100; i += 1) it.push(i + 1);
+        return it;
+      }()),
+    };
+  },
+  methods: {
+    onSearch(query, found) {
+      console.log('search', query, found);
     },
-    methods: {
-      onSearch: function (query, found) {
-        console.log('search', query);
-      },
-      onClear: function (event) {
-        console.log('clear');
-      },
-      onEnable: function (event) {
-        console.log('enable');
-      },
-      onDisable: function (event) {
-        console.log('disable');
-      },
-    }
-  }
+    onClear() {
+      console.log('clear');
+    },
+    onEnable() {
+      console.log('enable');
+    },
+    onDisable() {
+      console.log('disable');
+    },
+  },
+};
 </script>

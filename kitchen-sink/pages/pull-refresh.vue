@@ -10,22 +10,22 @@
   </f7-page>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        counter: 6,
-        items: [1,2,3,4,5]
-      }
+export default {
+  data() {
+    return {
+      counter: 6,
+      items: [1, 2, 3, 4, 5],
+    };
+  },
+  methods: {
+    onRefresh(event, done) {
+      const self = this;
+      setTimeout(() => {
+        self.items.push(self.counter);
+        self.counter += 1;
+        done();
+      }, 2000);
     },
-    methods: {
-      onRefresh: function (event, done) {
-        var self = this;
-        setTimeout(function () {
-          self.items.push(self.counter);
-          self.counter++;
-          done();
-        }, 2000);
-      }
-    }
-  }
+  },
+};
 </script>

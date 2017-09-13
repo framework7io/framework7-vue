@@ -64,7 +64,7 @@
   </f7-page>
 </template>
 <script>
-  import { f7Page, f7Navbar, f7NavRight, f7Block, f7BlockHeader, f7BlockFooter, f7BlockTitle, f7Card, f7Chip, f7Icon, f7Row, f7Col, f7Badge, f7Preloader, f7Subnavbar, f7Tabs, f7Tab } from 'framework7-vue';
+  import { f7Page, f7Navbar, f7NavRight, f7Block, f7BlockHeader, f7BlockFooter, f7BlockTitle, f7Card, f7Chip, f7Icon, f7Row, f7Col, f7Badge, f7Preloader, f7Subnavbar, f7Tabs, f7Tab } from '../../src/framework7-vue';
 
   export default {
     components: {
@@ -87,6 +87,6 @@
       f7Tab,
     },
     mounted() {
-    }
+    },
   };
 </script>

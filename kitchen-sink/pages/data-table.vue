@@ -12,7 +12,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell tablet-only>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition">
+      <f7-table-row v-for="item in nutrition" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -32,7 +32,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell tablet-only>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition">
+      <f7-table-row v-for="item in nutrition" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -52,7 +52,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell tablet-only>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked">
+      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -83,7 +83,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell tablet-only>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked">
+      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -113,7 +113,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell></f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked">
+      <f7-table-row v-for="item in nutrition" :selected="item.selected" @change="item.selected = $event.target.checked" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -137,7 +137,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition">
+      <f7-table-row v-for="item in nutrition" :key="item.title">
         <f7-table-cell collapsible-title="Desert" label>{{item.title}}</f7-table-cell>
         <f7-table-cell collapsible-title="Calories" numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell collapsible-title="Fat" numeric>{{item.fat}}</f7-table-cell>
@@ -157,7 +157,7 @@
         <f7-table-cell numeric>Protein (g)</f7-table-cell>
         <f7-table-cell tablet-only>Comment</f7-table-cell>
       </f7-table-row>
-      <f7-table-row v-for="item in nutrition">
+      <f7-table-row v-for="item in nutrition" :key="item.title">
         <f7-table-cell label>{{item.title}}</f7-table-cell>
         <f7-table-cell numeric>{{item.calories}}</f7-table-cell>
         <f7-table-cell numeric>{{item.fat}}</f7-table-cell>
@@ -181,20 +181,20 @@
   export default {
     computed: {
       selectedItems() {
-        return this.nutrition.filter((el) => el.selected);
+        return this.nutrition.filter(el => el.selected);
       },
       hasSelected() {
         return this.selectedItems.length > 0;
-      }
+      },
     },
     data() {
       return {
         sorting: 'title',
         order: {
-          //1: asc, -1: desc
-          'title': 1,
-          'calories': 1,
-          'fat': 1,
+          // 1: asc, -1: desc
+          title: 1,
+          calories: 1,
+          fat: 1,
         },
         nutrition: [
           {
@@ -204,7 +204,7 @@
             carbs: '67',
             protein: '4.3',
             comment: 'Don\'t like it',
-            selected: false
+            selected: false,
           },
           {
             title: 'Eclair',
@@ -213,7 +213,7 @@
             carbs: '24',
             protein: '6.0',
             comment: 'Super tasty',
-            selected: false
+            selected: false,
           },
           {
             title: 'Frozen yogurt',
@@ -222,7 +222,7 @@
             carbs: '24',
             protein: '4.0',
             comment: 'I like frozen yogurt',
-            selected: false
+            selected: false,
           },
           {
             title: 'Ice cream sandwich',
@@ -231,35 +231,36 @@
             carbs: '37',
             protein: '4.3',
             comment: 'But like ice cream more',
-            selected: false
+            selected: false,
           },
-        ]
-      }
+        ],
+      };
     },
     methods: {
-      sortBy (field) {
-        var self = this;
-        var order = self.order[field];
+      sortBy(field) {
+        const self = this;
+        let order = self.order[field];
         if (self.sorting === field) {
           // Flip order
-          order = self.order[field] = self.order[field] * -1;
-        }
-        else self.sorting = field;
-        self.nutrition.sort(function (a, b) {
+          order = self.order[field] * -1;
+          self.order[field] = order;
+        } else self.sorting = field;
+        self.nutrition.sort((a, b) => {
           if (a[field] * 1 === parseFloat(a[field])) {
             return order === 1 ? parseFloat(a[field]) > parseFloat(b[field]) : parseFloat(a[field]) < parseFloat(b[field]);
           }
-          return order === 1 ? a[field] > b[field] : a[field] < b[field]
-        })
-      },
-      toggleSelected () {
-        var self = this;
-        var allSelected = self.selectedItems.length === self.nutrition.length;
-        self.nutrition.map((el) => {
-          el.selected =  allSelected ? false : true;
+          return order === 1 ? a[field] > b[field] : a[field] < b[field];
         });
       },
-      onSort () {}
-    }
-  }
+      toggleSelected() {
+        const self = this;
+        const allSelected = self.selectedItems.length === self.nutrition.length;
+        self.nutrition.forEach((el) => {
+          /* eslint-disable no-param-reassign */
+          el.selected = !allSelected;
+        });
+      },
+      onSort() {},
+    },
+  };
 </script>

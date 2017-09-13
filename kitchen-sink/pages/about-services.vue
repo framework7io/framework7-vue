@@ -28,7 +28,8 @@
   </div>
 </template>
 <script>
-  import { f7Page } from '../../src/framework7-vue.js';
+  import { f7Page } from '../../src/framework7-vue';
+
   export default {
     components: {
       f7Page,
@@ -38,7 +39,7 @@
       console.log('page before create');
     },
     created() {
-      console.log('page created')
-    }
-  }
+      console.log('page created');
+    },
+  };
 </script>

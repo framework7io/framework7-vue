@@ -6,6 +6,7 @@
 </template>
 <script>
   import { f7View, f7Statusbar } from 'framework7-vue';
+
   export default {
     components: {
       f7View,
@@ -13,6 +14,6 @@
     },
     mounted() {
       console.log('app mounted');
-    }
-  }
+    },
+  };
 </script>
