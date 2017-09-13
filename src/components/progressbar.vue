@@ -25,18 +25,18 @@
     methods: {
       set(progress, speed) {
         const self = this;
-        if (self.$f7) return undefined;
-        return self.$f7.progressbar.set(self.$el, progress, speed);
+        if (self.$f7) return;
+        self.$f7.progressbar.set(self.$el, progress, speed);
       },
       show(progress, color) {
         const self = this;
-        if (!self.$f7) return undefined;
-        return self.$f7.progress.show(self.$el, progress, color);
+        if (!self.$f7) return;
+        self.$f7.progressbar.show(self.$el, progress, color);
       },
       hide() {
         const self = this;
-        if (!self.$f7) return undefined;
-        return self.$f7.progress.hide(self.$el);
+        if (!self.$f7) return;
+        self.$f7.progressbar.hide(self.$el);
       },
     },
   };
