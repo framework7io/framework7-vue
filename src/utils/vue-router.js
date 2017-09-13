@@ -15,12 +15,11 @@ export default {
         component,
         id,
         params: Utils.extend({}, options.route.params),
-        route: Utils.extend({}, options.route),
       };
       routerVue.$f7route = options.route;
       routerVue.pages.push(pageData);
       routerVue.$nextTick(() => {
-        const pageEl = el.childNodes[el.childNodes.length - 1];
+        const pageEl = el.children[el.children.length - 1];
         pageData.el = pageEl;
         resolve(pageEl);
       });
@@ -38,14 +37,38 @@ export default {
       } else {
         pageEl = $pageEl;
       }
-
-      if ($pageEl.length === 0) return;
+      if (!pageEl) return;
 
       routerVue.pages.forEach((page, index) => {
         if (page.el === pageEl) {
           routerVue.pages.splice(index, 1);
         }
       });
+    },
+    tabComponentLoader(tabEl, component, componentUrl, options, resolve, reject) {
+      if (!tabEl) reject();
+
+      const tabVue = tabEl.__vue__;
+      if (!tabVue) reject();
+
+      const id = Utils.now();
+      tabVue.$set(tabVue, 'tabContent', {
+        id,
+        component,
+        params: Utils.extend({}, options.route.params),
+      });
+      tabVue.$nextTick(() => {
+        const tabContentEl = tabEl.children[0];
+        resolve(tabContentEl);
+      });
+    },
+    removeTabContent(tabEl) {
+      if (!tabEl) return;
+
+      const tabVue = tabEl.__vue__;
+      if (!tabVue) return;
+
+      tabVue.tabContent = null;
     },
   },
 };
