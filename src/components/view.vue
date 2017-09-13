@@ -35,7 +35,7 @@
     },
     props: {
       tab: Boolean,
-      'tab-active': Boolean,
+      tabActive: Boolean,
 
       url: String,
       main: Boolean,
@@ -68,7 +68,6 @@
       pushStateOnLoad: Boolean,
       // Animate Pages
       animate: Boolean,
-      animateWithJS: Boolean,
       // iOS Dynamic Navbar
       iosDynamicNavbar: Boolean,
       iosSeparateDynamicNavbar: Boolean,
@@ -82,7 +81,7 @@
         default: true,
       },
 
-      'color-theme': String,
+      colorTheme: String,
     },
     data() {
       return {
@@ -97,7 +96,6 @@
           tab: this.tab,
         };
         if (this.colorTheme) co[`color-theme-${this.colorTheme}`] = true;
-        if (this.layout) co[`layout-${this.layout}`] = true;
         return co;
       },
     },
