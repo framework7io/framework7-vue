@@ -54,6 +54,7 @@
       },
       title: String,
       colorTheme: String,
+      color: String,
       hidden: Boolean,
       noShadow: Boolean,
       inner: {
@@ -63,27 +64,31 @@
     },
     computed: {
       classes() {
+        const self = this;
         const co = {
-          'navbar-hidden': this.hidden,
+          'navbar-hidden': self.hidden,
         };
-        if (this.colorTheme) co[`color-theme-${this.colorTheme}`] = true;
+        if (self.colorTheme) co[`color-theme-${self.colorTheme}`] = true;
         // if (this.layout) co[`layout-${this.layout}`] = true;
-        if (this.noShadow) co['no-shadow'] = true;
+        if (self.noShadow) co['no-shadow'] = true;
         return co;
       },
     },
     methods: {
       hide(animate) {
-        if (!this.$f7) return undefined;
-        return this.$f7.navbar.show(this.$el, animate);
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.navbar.hide(self.$el, animate);
       },
       show(animate) {
-        if (!this.$f7) return undefined;
-        return this.$f7.navbar.show(this.$el, animate);
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.navbar.show(self.$el, animate);
       },
       size() {
-        if (!this.$f7) return undefined;
-        return this.$f7.navbar.size(this.$el);
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.navbar.size(self.$el);
       },
       onBackClick(e) {
         this.$emit('back-click', e);
