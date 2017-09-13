@@ -106,7 +106,7 @@
     },
     props: {
       name: String,
-      cached: Boolean,
+      stacked: Boolean,
       'with-subnavbar': Boolean,
       subnavbar: Boolean,
       'no-navbar': Boolean,
@@ -133,22 +133,20 @@
       'no-page-content': Boolean,
       'login-screen': Boolean,
       colorTheme: String,
-      // layout: String,
       'no-swipeback': Boolean,
     },
     computed: {
       classesPage() {
         const co = {
-          cached: this.cached,
+          stacked: this.stacked,
+          tabs: this.tabs,
           'page-with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
           'no-tabbar': this.noTabbar,
-          tabs: this.tabs,
           'no-swipeback': this.noSwipeback,
         };
         if (this.theme) co[`color-theme-${this.colorTheme}`] = true;
-        // if (this.layout) co[`layout-${this.layout}`] = true;
         return co;
       },
       classesPageContent() {
