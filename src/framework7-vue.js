@@ -24,6 +24,13 @@ import f7Statusbar from './components/statusbar.vue';
 import f7Subnavbar from './components/subnavbar.vue';
 import f7Tabs from './components/tabs.vue';
 import f7Tab from './components/tab.vue';
+import f7PageContent from './components/page-content.vue';
+import f7Fab from './components/fab.vue';
+import f7FabButton from './components/fab-button.vue';
+import f7FabButtons from './components/fab-buttons.vue';
+import f7Toolbar from './components/toolbar.vue';
+import f7Progressbar from './components/progressbar.vue';
+import f7LoginScreenTitle from './components/login-screen-title.vue';
 
 export {
   VuePlugin as Framework7Vue,
@@ -52,5 +59,12 @@ export {
   f7Subnavbar,
   f7Tabs,
   f7Tab,
+  f7PageContent,
+  f7Fab,
+  f7FabButton,
+  f7FabButtons,
+  f7Toolbar,
+  f7Progressbar,
+  f7LoginScreenTitle,
 };
 

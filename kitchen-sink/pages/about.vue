@@ -4,6 +4,10 @@
       <f7-nav-right>Nice</f7-nav-right>
       <f7-subnavbar>Hello!</f7-subnavbar>
     </f7-navbar>
+    <f7-toolbar>
+      <a href="" class="link">Link 1</a>
+      <a href="" class="link">Link 2</a>
+    </f7-toolbar>
     <f7-block-title>Title</f7-block-title>
     <f7-block strong>
       <f7-block-header>Header</f7-block-header>
@@ -46,7 +50,7 @@
     </f7-block>
     <f7-block>
       <f7-preloader></f7-preloader>
-      <f7-preloader color="red"></f7-preloader>
+      <f7-preloader color="red" :size="44"></f7-preloader>
       <f7-preloader color="multi"></f7-preloader>
       <f7-preloader color="blue"></f7-preloader>
     </f7-block>
@@ -61,10 +65,26 @@
         <f7-tab id="tab-3" style="height:100px"></f7-tab>
       </f7-tabs>
     </f7-block>
+    <f7-block>
+      <p><f7-progressbar :progress="10"></f7-progressbar></p>
+      <p><f7-progressbar :progress="50" color="red"></f7-progressbar></p>
+      <p><f7-progressbar :progress="90" color="green"></f7-progressbar></p>
+      <p><f7-progressbar infinite color="multi"></f7-progressbar></p>
+    </f7-block>
+
+    <f7-fab>
+      <span>+</span>
+      <f7-fab-buttons>
+        <f7-fab-button fab-close>1</f7-fab-button>
+        <f7-fab-button fab-close>2</f7-fab-button>
+        <f7-fab-button fab-close>3</f7-fab-button>
+      </f7-fab-buttons>
+    </f7-fab>
+
   </f7-page>
 </template>
 <script>
-  import { f7Page, f7Navbar, f7NavRight, f7Block, f7BlockHeader, f7BlockFooter, f7BlockTitle, f7Card, f7Chip, f7Icon, f7Row, f7Col, f7Badge, f7Preloader, f7Subnavbar, f7Tabs, f7Tab } from '../../src/framework7-vue';
+  import { f7Page, f7Navbar, f7NavRight, f7Block, f7BlockHeader, f7BlockFooter, f7BlockTitle, f7Card, f7Chip, f7Icon, f7Row, f7Col, f7Badge, f7Preloader, f7Subnavbar, f7Tabs, f7Tab, f7Progressbar, f7Toolbar, f7Fab, f7FabButtons, f7FabButton } from 'framework7-vue';
 
   export default {
     components: {
@@ -85,6 +105,11 @@
       f7Subnavbar,
       f7Tabs,
       f7Tab,
+      f7Progressbar,
+      f7Toolbar,
+      f7Fab,
+      f7FabButtons,
+      f7FabButton,
     },
     mounted() {
     },
