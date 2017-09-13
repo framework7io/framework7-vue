@@ -17,7 +17,7 @@ export default {
         params: Utils.extend({}, options.route.params),
         route: Utils.extend({}, options.route),
       };
-      routerVue.$route = options.route;
+      routerVue.$f7route = options.route;
       routerVue.pages.push(pageData);
       routerVue.$nextTick(() => {
         const pageEl = el.childNodes[el.childNodes.length - 1];

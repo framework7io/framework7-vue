@@ -53,16 +53,16 @@ export default {
         let $router;
         let parent = self;
         while (parent && !$router && !$route) {
-          if (parent.$route) $route = parent.$route;
-          if (parent.$router) $router = parent.$router;
+          if (parent.$f7route) $route = parent.$f7route;
+          if (parent.$f7router) $router = parent.$f7router;
           else if (parent.f7View) {
             $router = parent.f7View.router;
           }
           parent = parent.$parent;
         }
 
-        self.$route = $route;
-        self.$router = $router;
+        self.$f7route = $route;
+        self.$f7router = $router;
       },
       mounted() {
         const self = this;
