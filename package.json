@@ -3,6 +3,8 @@
   "version": "2.0.0-beta.1",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
   "main": "dist/framework7-vue.js",
+  "jsnext:main": "dist/framework7-vue.module.js",
+  "module": "dist/framework7-vue.module.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Framework7-Vue.git"
@@ -30,8 +32,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "dev": "cross-env NODE_ENV=development gulp",
+    "build": "cross-env NODE_ENV=production gulp build",
     "dist": "gulp dist"
   },
   "bugs": {

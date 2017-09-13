@@ -21,7 +21,7 @@ function es(cb) {
 
   // Bundle
   rollup({
-    entry: './src/framework7-vue.js',
+    input: './src/framework7-vue.js',
     plugins: [
       vue(),
       replace({
@@ -30,9 +30,9 @@ function es(cb) {
       }),
     ],
     format: 'es',
-    moduleName: 'Framework7Vue',
-    useStrict: true,
-    sourceMap: false,
+    name: 'Framework7Vue',
+    strict: true,
+    sourcemap: false,
     banner,
   })
     .on('error', (err) => {
@@ -51,7 +51,7 @@ function umd(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
   rollup({
-    entry: './src/framework7-vue.js',
+    input: './src/framework7-vue.js',
     plugins: [
       vue(),
       replace({
@@ -62,9 +62,9 @@ function umd(cb) {
       buble(),
     ],
     format: 'umd',
-    moduleName: 'Framework7Vue',
-    useStrict: true,
-    sourceMap: env === 'development',
+    name: 'Framework7Vue',
+    strict: true,
+    sourcemap: env === 'development',
     banner,
   })
     .on('error', (err) => {
