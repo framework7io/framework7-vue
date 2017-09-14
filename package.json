@@ -7,7 +7,7 @@
   "module": "dist/framework7-vue.module.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolimits4web/Framework7-Vue.git"
+    "url": "https://github.com/framework7io/framework7-vue.git"
   },
   "keywords": [
     "vue",
