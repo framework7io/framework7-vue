@@ -100,7 +100,7 @@
       },
     },
     methods: {
-      onF7Init(f7) {
+      onF7Ready(f7) {
         const self = this;
         if (!self.init) return;
 

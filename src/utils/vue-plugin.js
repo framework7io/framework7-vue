@@ -12,12 +12,24 @@ export default {
     let f7Instance;
 
     // Define protos
-    const $theme = { ios: false, md: false };
-    Vue.prototype.$f7 = undefined;
+    Object.defineProperty(Vue.prototype, '$f7', {
+      get() {
+        return f7Instance;
+      },
+    });
+
+    const $theme = {};
+    Object.defineProperty(Vue.prototype, '$theme', {
+      get() {
+        return {
+          ios: f7Instance ? f7Instance.theme === 'ios' : $theme.ios,
+          md: f7Instance ? f7Instance.theme === 'md' : $theme.md,
+        };
+      },
+    });
     Vue.prototype.Dom7 = Framework7.$;
     Vue.prototype.$$ = Framework7.$;
     Vue.prototype.$device = (Framework7.Device || Framework7.device);
-    Vue.prototype.$theme = $theme;
 
     // Init F7
     function initFramework7(rootEl, params, routes) {
@@ -25,11 +37,8 @@ export default {
       if (routes && routes.length && !f7Params.routes) f7Params.routes = routes;
 
       f7Instance = new Framework7(f7Params);
-      Vue.prototype.$f7 = f7Instance;
-      $theme.ios = f7Instance.theme === 'ios';
-      $theme.md = f7Instance.theme === 'md';
       f7Ready = true;
-      eventHub.$emit('f7init', f7Instance);
+      eventHub.$emit('f7Ready', f7Instance);
     }
 
     // Extend Router
@@ -69,11 +78,11 @@ export default {
         if (self === self.$root) {
           initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
         }
-        if (!self.onF7Init) return;
-        if (f7Ready) self.onF7Init(f7Instance);
+        if (!self.onF7Ready) return;
+        if (f7Ready) self.onF7Ready(f7Instance);
         else {
-          eventHub.$on('f7init', (f7) => {
-            self.onF7Init(f7);
+          eventHub.$on('f7Ready', (f7) => {
+            self.onF7Ready(f7);
           });
         }
       },
