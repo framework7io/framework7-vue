@@ -1,0 +1,5 @@
+dist
+node_modules
+kitchen-sink/framework7
+kitchen-sink/js
+src_old

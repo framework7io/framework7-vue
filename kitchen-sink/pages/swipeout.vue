@@ -73,9 +73,9 @@
 <script>
   export default {
     methods: {
-      onSwipeoutDeleted: function (event){
-          console.log('swipeout deleted');
-      }
-    }
-  }
+      onSwipeoutDeleted() {
+        console.log('swipeout deleted');
+      },
+    },
+  };
 </script>

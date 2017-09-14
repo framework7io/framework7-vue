@@ -16,7 +16,7 @@
       maxDate: [Date, String, Number],
       disabled: [Array, Function, Object], // dates range of disabled days
       events: [Array, Function, Object], // dates range of days with events
-      rangesClasses: [Array, Function, Object], //array with custom classes date ranges
+      rangesClasses: [Array, Function, Object], // array with custom classes date ranges
       touchMove: Boolean,
       animate: Boolean,
       closeOnSelect: Boolean,
@@ -37,28 +37,28 @@
       footer: Boolean,
     },
     computed: {
-      calendarValue () {
-        var self = this;
+      calendarValue() {
+        const self = this;
         if (self.value && !Array.isArray(self.value)) {
           return [self.value];
         }
         return self.value;
-      }
+      },
     },
     watch: {
       value() {
-        var self = this;
+        const self = this;
         if (self.f7Calendar) {
-          var newValue = self.value;
-          if (!Array.isArray(self.value)) newValue = [self.value]
-          self.$nextTick(function () {
+          let newValue = self.value;
+          if (!Array.isArray(self.value)) newValue = [self.value];
+          self.$nextTick(() => {
             self.f7Calendar.setValue(newValue);
           });
         }
-      }
+      },
     },
     beforeDestroy() {
-      var self = this;
+      const self = this;
       if (self.f7Calendar && self.f7Calendar.destroy) {
         self.f7Calendar.destroy();
       }
@@ -70,28 +70,23 @@
       },
       setValue(values) {
         if (!this.f7Calendar) return;
-        return this.f7Calendar.setValue(values)
-
+        return this.f7Calendar.setValue(values);
       },
       nextMonth(duration) {
         if (!this.f7Calendar) return;
         return this.f7Calendar.nextMonth(duration);
-
       },
       prevMonth(duration) {
         if (!this.f7Calendar) return;
         return this.f7Calendar.prevMonth(duration);
-
       },
       nextYear() {
         if (!this.f7Calendar) return;
         return this.f7Calendar.nextYear();
-
       },
       prevYear() {
         if (!this.f7Calendar) return;
         return this.f7Calendar.prevYear();
-
       },
       setYearMonth(year, month, duration) {
         if (!this.f7Calendar) return;
@@ -104,8 +99,7 @@
       close() {
         if (!this.f7Calendar) return;
         return this.f7Calendar.close();
-
       },
-    }
-  }
+    },
+  };
 </script>

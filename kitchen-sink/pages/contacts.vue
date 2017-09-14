@@ -13,10 +13,10 @@
 </template>
 <script>
   export default {
-    data: function () {
+    data() {
       return {
         contacts: {
-          'A': [
+          A: [
             'Aaron',
             'Abbie',
             'Adam',
@@ -24,30 +24,30 @@
             'Agatha',
             'Agnes',
             'Albert',
-            'Alexander'
+            'Alexander',
           ],
-          'B': [
+          B: [
             'Bailey',
             'Barclay',
             'Bartolo',
             'Bellamy',
             'Belle',
-            'Benjamin'
+            'Benjamin',
           ],
-          'C': [
+          C: [
             'Caiden',
             'Calvin',
             'Candy',
             'Carl',
             'Cherilyn',
             'Chester',
-            'Chloe'
+            'Chloe',
           ],
-          'V': [
-            'Vladimir'
-          ]
-        }
-      }
-    }
-  }
+          V: [
+            'Vladimir',
+          ],
+        },
+      };
+    },
+};
 </script>

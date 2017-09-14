@@ -35,10 +35,10 @@
 </template>
 <script>
   export default {
-    data: function () {
+    data() {
       return {
-        columnStyle: 'border: 1px solid #e5e5e5; padding:5px; text-align: center'
-      }
-    }
-  }
+        columnStyle: 'border: 1px solid #e5e5e5; padding:5px; text-align: center',
+      };
+    },
+  };
 </script>

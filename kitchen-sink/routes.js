@@ -43,185 +43,185 @@ import DataBinding from './pages/data-binding.vue';
 import DataBindingEdit from './pages/data-binding-edit.vue';
 
 import NestedRoutes from './pages/nested-routes.vue';
-import NestedRoutesTabs from'./pages/nested-routes-tabs.vue';
-import NestedRoutesTabbar from'./pages/nested-routes-tabbar.vue';
-import Tab1 from './pages/nested-routes/tabs/tab1.vue'
-import Tab2 from './pages/nested-routes/tabs/tab2.vue'
-import Tab3 from './pages/nested-routes/tabs/tab3.vue'
-import Tab3AlternateContent from './pages/nested-routes/tabs/tab3-alternate-content.vue'
-import TabbarTab1 from './pages/nested-routes/tabs/tabbar-tab1.vue'
-import TabbarTab2 from './pages/nested-routes/tabs/tabbar-tab2.vue'
-import TabbarTab3 from './pages/nested-routes/tabs/tabbar-tab3.vue'
-import TabbarTab3AlternateContent from './pages/nested-routes/tabs/tabbar-tab3-alternate-content.vue'
+import NestedRoutesTabs from './pages/nested-routes-tabs.vue';
+import NestedRoutesTabbar from './pages/nested-routes-tabbar.vue';
+import Tab1 from './pages/nested-routes/tabs/tab1.vue';
+import Tab2 from './pages/nested-routes/tabs/tab2.vue';
+import Tab3 from './pages/nested-routes/tabs/tab3.vue';
+import Tab3AlternateContent from './pages/nested-routes/tabs/tab3-alternate-content.vue';
+import TabbarTab1 from './pages/nested-routes/tabs/tabbar-tab1.vue';
+import TabbarTab2 from './pages/nested-routes/tabs/tabbar-tab2.vue';
+import TabbarTab3 from './pages/nested-routes/tabs/tabbar-tab3.vue';
+import TabbarTab3AlternateContent from './pages/nested-routes/tabs/tabbar-tab3-alternate-content.vue';
 
 export default [
   {
     path: '/home/',
-    component: Home
+    component: Home,
   },
   {
     path: '/content-block/',
-    component: ContentBlock
+    component: ContentBlock,
   },
   {
     path: '/cards/',
-    component: Cards
+    component: Cards,
   },
   {
     path: '/lists/',
-    component: Lists
+    component: Lists,
   },
   {
     path: '/contacts/',
-    component: Contacts
+    component: Contacts,
   },
   {
     path: '/sortable/',
-    component: Sortable
+    component: Sortable,
   },
   {
     path: '/swipeout/',
-    component: Swipeout
+    component: Swipeout,
   },
   {
     path: '/accordion/',
-    component: Accordion
+    component: Accordion,
   },
   {
     path: '/grid/',
-    component: Grid
+    component: Grid,
   },
   {
     path: '/forms/',
-    component: Forms
+    component: Forms,
   },
   {
     path: '/smart-select/',
-    component: SmartSelect
+    component: SmartSelect,
   },
   {
     path: '/chips/',
-    component: Chips
+    component: Chips,
   },
   {
     path: '/progressbar/',
-    component: Progressbar
+    component: Progressbar,
   },
   {
     path: '/preloader/',
-    component: Preloader
+    component: Preloader,
   },
   {
     path: '/pull-to-refresh/',
-    component: PullToRefresh
+    component: PullToRefresh,
   },
   {
     path: '/infinite/',
-    component: InfiniteScroll
+    component: InfiniteScroll,
   },
   {
     path: '/swiper/',
-    component: Swiper
+    component: Swiper,
   },
   {
     path: '/messages/',
-    component: Messages
+    component: Messages,
   },
   {
     path: '/searchbar/',
-    component: Searchbar
+    component: Searchbar,
   },
   {
     path: '/tabs/',
-    component: Tabs
+    component: Tabs,
   },
   {
     path: '/tabs-swipeable/',
-    component: TabsSwipeable
+    component: TabsSwipeable,
   },
   {
     path: '/bars/',
-    component: Bars
+    component: Bars,
   },
   {
     path: '/bars-hide/',
-    component: BarsHide
+    component: BarsHide,
   },
   {
     path: '/bars-subnavbar/',
-    component: BarsSubnavbar
+    component: BarsSubnavbar,
   },
   {
     path: '/bars-tabbar/',
-    component: BarsTabbar
+    component: BarsTabbar,
   },
   {
     path: '/bars-tabbar-labels/',
-    component: BarsTabbarLabels
+    component: BarsTabbarLabels,
   },
   {
     path: '/fab/',
-    component: Fab
+    component: Fab,
   },
   {
     path: '/fab-dial/',
-    component: FabDial
+    component: FabDial,
   },
   {
     path: '/login-screen/',
-    component: LoginScreen
+    component: LoginScreen,
   },
   {
     path: '/virtual-list/',
-    component: VirtualList
+    component: VirtualList,
   },
   {
     path: '/virtual-list-vue/',
-    component: VirtualListVue
+    component: VirtualListVue,
   },
   {
     path: '/photo-browser/',
-    component: PhotoBrowser
+    component: PhotoBrowser,
   },
   {
     path: '/modals/',
-    component: Modals
+    component: Modals,
   },
   {
     path: '/user/:id/posts/:post_id/',
-    component: DynamicRoute
+    component: DynamicRoute,
   },
   {
     path: '/data-binding/',
-    component: DataBinding
+    component: DataBinding,
   },
   {
     path: '/data-binding-edit/',
-    component: DataBindingEdit
+    component: DataBindingEdit,
   },
   {
     path: '/timeline-vertical/',
-    component: TimelineVertical
+    component: TimelineVertical,
   },
   {
     path: '/timeline-horizontal/',
-    component: TimelineHorizontal
+    component: TimelineHorizontal,
   },
   {
     path: '/timeline-calendar/',
-    component: TimelineCalendar
+    component: TimelineCalendar,
   },
   {
     path: '/calendar/',
-    component: Calendar
+    component: Calendar,
   },
   {
     path: '/data-table/',
-    component: DataTable
+    component: DataTable,
   },
   {
     path: '/nested-routes/',
-    component: NestedRoutes
+    component: NestedRoutes,
   },
   {
     path: '/nested-routes/tabs/',
@@ -230,12 +230,12 @@ export default [
       {
         path: '/',
         tabId: 'tab1',
-        component: Tab1
+        component: Tab1,
       },
       {
         path: '/tab-2/',
         tabId: 'tab2',
-        component: Tab2
+        component: Tab2,
       },
       {
         path: '/tab-3/',
@@ -243,15 +243,15 @@ export default [
         routes: [
           {
             path: '/',
-            component: Tab3
+            component: Tab3,
           },
           {
             path: '/alternate-content/',
-            component: Tab3AlternateContent
-          }
-        ]
-      }
-    ]
+            component: Tab3AlternateContent,
+          },
+        ],
+      },
+    ],
   },
   {
     path: '/nested-routes/tabbar/',
@@ -260,12 +260,12 @@ export default [
       {
         path: '/',
         tabId: 'tab1',
-        component: TabbarTab1
+        component: TabbarTab1,
       },
       {
         path: '/tab-2/',
         tabId: 'tab2',
-        component: TabbarTab2
+        component: TabbarTab2,
       },
       {
         path: '/tab-3/',
@@ -273,14 +273,14 @@ export default [
         routes: [
           {
             path: '/',
-            component: TabbarTab3
+            component: TabbarTab3,
           },
           {
             path: '/alternate-content/',
-            component: TabbarTab3AlternateContent
-          }
-        ]
-      }
-    ]
-  }
+            component: TabbarTab3AlternateContent,
+          },
+        ],
+      },
+    ],
+  },
 ];

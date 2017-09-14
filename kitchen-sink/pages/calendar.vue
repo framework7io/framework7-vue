@@ -22,10 +22,10 @@
 </template>
 <script>
   export default {
-    data () {
+    data() {
       return {
-        style: this.$theme.ios ? 'background:#fff; margin:-10px -15px' : 'background:#fff; margin:-16px -16px'
-      }
-    }
-  }
+        style: this.$theme.ios ? 'background:#fff; margin:-10px -15px' : 'background:#fff; margin:-16px -16px',
+      };
+    },
+  };
 </script>

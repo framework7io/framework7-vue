@@ -8,32 +8,28 @@
 
     <f7-block-title>Sortable List</f7-block-title>
     <f7-list id="sortable" sortable @sortable:sort="onSort" @sortable:open="onOpen" @sortable:close="onClose">
-      <f7-list-item
-        v-for="item in items"
-        :key="item"
-        :title="'Item ' + item"
-      ></f7-list-item>
+      <f7-list-item v-for="item in items" :key="item" :title="'Item ' + item"></f7-list-item>
     </f7-list>
   </f7-page>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        sorting: false,
-        items: [1, 2, 3, 4, 5]
-      }
+export default {
+  data() {
+    return {
+      sorting: false,
+      items: [1, 2, 3, 4, 5],
+    };
+  },
+  methods: {
+    onOpen() {
+      this.sorting = !this.sorting;
     },
-    methods: {
-      onOpen: function () {
-        this.sorting = !this.sorting;
-      },
-      onClose: function () {
-        this.sorting = !this.sorting;
-      },
-      onSort: function (event, indexes) {
-          console.log('sort', indexes);
-      },
-    }
-  }
+    onClose() {
+      this.sorting = !this.sorting;
+    },
+    onSort(event, indexes) {
+      console.log('sort', indexes);
+    },
+  },
+};
 </script>

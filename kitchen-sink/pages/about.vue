@@ -112,6 +112,6 @@
       f7FabButton,
     },
     mounted() {
-    }
+    },
   };
 </script>

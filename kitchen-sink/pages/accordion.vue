@@ -34,18 +34,18 @@
 <script>
   export default {
     methods: {
-      onOpen: function (event){
+      onOpen() {
         console.log('open');
       },
-      onOpened: function (event){
+      onOpened() {
         console.log('opened');
       },
-      onClose: function (event){
+      onClose() {
         console.log('close');
       },
-      onClosed: function (event){
+      onClosed() {
         console.log('closed');
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

@@ -1,7 +1,7 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 import Vue from 'vue';
 import Framework7 from 'framework7';
-import { Framework7Vue } from 'framework7-vue';
+import { Framework7Vue } from 'framework7-vue'; // eslint-disable-line
 import App from './app.vue';
 
 import About from './pages/about.vue';
@@ -13,7 +13,7 @@ import AboutTab3 from './pages/about-tab-3.vue';
 Vue.use(Framework7Vue, Framework7);
 
 // Init Vue App
-new Vue({
+window.app = new Vue({
   // Root Element
   el: '#app',
   render: c => c('app'),

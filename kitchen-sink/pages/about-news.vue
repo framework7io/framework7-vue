@@ -25,10 +25,11 @@
   </div>
 </template>
 <script>
-  import { f7Page } from '../../src/framework7-vue.js';
+  import { f7Page } from '../../src/framework7-vue';
+
   export default {
     components: {
       f7Page,
     },
-  }
+  };
 </script>

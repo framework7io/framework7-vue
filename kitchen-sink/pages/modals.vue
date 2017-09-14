@@ -6,23 +6,23 @@
       <f7-grid>
         <f7-col>
           <!--
-          Using state:
-          -->
+            Using state:
+            -->
           <f7-button @click="openLoginScreen">Login Screen</f7-button>
           <!--
-          Or using F7 API:
-          <f7-button open-login-screen="#demo-login-screen">Login Screen</f7-button>
-          -->
+            Or using F7 API:
+            <f7-button open-login-screen="#demo-login-screen">Login Screen</f7-button>
+            -->
         </f7-col>
         <f7-col>
           <!--
-          Using state:
-          -->
+            Using state:
+            -->
           <f7-button @click="openPopup">Popup</f7-button>
           <!--
-          Or using F7 API:
-          <f7-button open-popup="#demo-popup">Popup</f7-button>
-          -->
+            Or using F7 API:
+            <f7-button open-popup="#demo-popup">Popup</f7-button>
+            -->
         </f7-col>
         <f7-col>
           <f7-button @click="openInlinePopup">Inline Popup</f7-button>
@@ -35,9 +35,9 @@
                       <!-- Using state: -->
                       <f7-link @click="closeInlinePopup">Close</f7-link>
                       <!--
-                      Or using F7 API:
-                      <f7-link close-popup>Close</f7-link>
-                      -->
+                        Or using F7 API:
+                        <f7-link close-popup>Close</f7-link>
+                        -->
                     </f7-nav-right>
                   </f7-navbar>
                   <f7-block>
@@ -50,7 +50,7 @@
                 </f7-page>
               </f7-pages>
             </f7-view>
-          </f7-popup>          
+          </f7-popup>
         </f7-col>
       </f7-grid>
     </f7-block>
@@ -61,13 +61,13 @@
         </f7-col>
         <f7-col>
           <!--
-          Using state:
-          -->
+            Using state:
+            -->
           <f7-button @click="openPicker">Picker</f7-button>
           <!--
-          Or using F7 API:
-          <f7-button open-picker="#demo-picker">Picker</f7-button>
-          -->
+            Or using F7 API:
+            <f7-button open-picker="#demo-picker">Picker</f7-button>
+            -->
         </f7-col>
         <f7-col>
           <f7-button @click="openActions">Actions</f7-button>
@@ -99,62 +99,62 @@
   </f7-page>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        inlinePopupOpened: false
-      };
+export default {
+  data() {
+    return {
+      inlinePopupOpened: false,
+    };
+  },
+  methods: {
+    openAlert() {
+      const self = this;
+      self.$f7.alert('Hi, this is alert', 'Alert Title');
     },
-    methods: {
-      openAlert: function () {
-        var self = this;
-        self.$f7.alert('Hi, this is alert', 'Alert Title')
-      },
-      openConfirm: function () {
-        var self = this;
-        self.$f7.confirm('Are you sure want to do it?', 'Confirm Title', function () {
-          console.log('Confirm Ok');
-        }, function () {
-          console.log('Confirm Cancel')
-        })
-      },
-      openPrompt: function () {
-        var self = this;
-        self.$f7.prompt('Your name please!', 'Prompt Title', function (value) {
-          self.$f7.alert('Your name is: ' + value, 'Your name')
-        })
-      },
-      openPreloader: function () {
-        var self = this;
-        self.$f7.showPreloader('Loading text...');
-        setTimeout(function () {
-          self.$f7.hidePreloader();
-        }, 3000);
-      },
-      openPopup: function () {
-        var self = this;
-        self.$root.popupOpened = true;
-      },
-      openPicker: function () {
-        var self = this;
-        self.$root.pickerOpened = true;
-      },
-      openLoginScreen: function () {
-        var self = this;
-        self.$root.loginScreenOpened = true;
-      },
-      openActions: function () {
-        var self = this;
-        self.$root.actionsOpened = true;
-      },
-      openInlinePopup: function () {
-        var self = this;
-        self.inlinePopupOpened = true;
-      },
-      closeInlinePopup: function () {
-        var self = this;
-        self.inlinePopupOpened = false;
-      }
-    }
-  }
+    openConfirm() {
+      const self = this;
+      self.$f7.confirm('Are you sure want to do it?', 'Confirm Title', () => {
+        console.log('Confirm Ok');
+      }, () => {
+        console.log('Confirm Cancel');
+      });
+    },
+    openPrompt() {
+      const self = this;
+      self.$f7.prompt('Your name please!', 'Prompt Title', (value) => {
+        self.$f7.alert(`Your name is: ${value}`, 'Your name');
+      });
+    },
+    openPreloader() {
+      const self = this;
+      self.$f7.showPreloader('Loading text...');
+      setTimeout(() => {
+        self.$f7.hidePreloader();
+      }, 3000);
+    },
+    openPopup() {
+      const self = this;
+      self.$root.popupOpened = true;
+    },
+    openPicker() {
+      const self = this;
+      self.$root.pickerOpened = true;
+    },
+    openLoginScreen() {
+      const self = this;
+      self.$root.loginScreenOpened = true;
+    },
+    openActions() {
+      const self = this;
+      self.$root.actionsOpened = true;
+    },
+    openInlinePopup() {
+      const self = this;
+      self.inlinePopupOpened = true;
+    },
+    closeInlinePopup() {
+      const self = this;
+      self.inlinePopupOpened = false;
+    },
+  },
+};
 </script>

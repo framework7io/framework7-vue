@@ -34,7 +34,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp",
     "build": "cross-env NODE_ENV=production gulp build",
-    "dist": "gulp dist"
+    "dist": "gulp dist",
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "bugs": {
     "url": "https://github.com/nolimits4web/Framework7-Vue/issues"

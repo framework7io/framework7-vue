@@ -41,9 +41,9 @@
 <script>
   export default {
     methods: {
-      onActionClick: function () {
+      onActionClick() {
         console.log('Dial action clicked!');
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

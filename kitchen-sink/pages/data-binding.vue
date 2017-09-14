@@ -15,10 +15,10 @@
 </template>
 <script>
   export default {
-    data: function () {
+    data() {
       return {
-        user: this.$root.user
-      }
-    }
-  }
+        user: this.$root.user,
+      };
+    },
+  };
 </script>
