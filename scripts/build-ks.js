@@ -15,7 +15,7 @@ function build(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
   rollup({
-    input: './kitchen-sink/app.js',
+    input: './kitchen-sink/src/app.js',
     plugins: [
       vue(),
       replace({

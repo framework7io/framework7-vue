@@ -1,0 +1,59 @@
+<template>
+<div class="page">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="ios-only">Back</span>
+        </a>
+      </div>
+      <div class="title">Tabs</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="list">
+      <ul>
+        <li>
+          <a href="/tabs-static/" class="item-content item-link">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Static Tabs</div>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="/tabs-animated/" class="item-content item-link">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Animated Tabs</div>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="/tabs-swipeable/" class="item-content item-link">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Swipeable Tabs</div>
+              <div class="item-after"><span class="badge">TODO</span></div>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="/tabs-routable/" class="item-content item-link">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Routable Tabs</div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+  import { f7Navbar, f7Page } from 'framework7-vue';
+
+  export default {}
+</script>

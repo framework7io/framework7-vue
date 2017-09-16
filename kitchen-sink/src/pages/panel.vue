@@ -1,0 +1,33 @@
+<template>
+<div class="page">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="ios-only">Back</span>
+        </a>
+      </div>
+      <div class="title">Panel / Side panels</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block">
+      <p>Framework7 comes with 2 panels (on left and on right), both are optional. They have two different layouts/effects - <b>cover</b> above the content (like left panel here) and <b>reveal</b> (like right panel). You can put absolutely anything inside: data lists, forms, custom content, and even other isolated app view (like in right panel now) with its own dynamic navbar. Checkout panels:</p>
+    </div>
+    <div class="block row">
+      <div class="col">
+        <a href="#" class="button button-raised panel-open">Open left panel</a>
+      </div>
+      <div class="col">
+        <a href="#" class="button button-raised panel-open" data-panel="right">Open right panel</a>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+  import { f7Navbar, f7Page } from 'framework7-vue';
+
+  export default {}
+</script>

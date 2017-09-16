@@ -1,0 +1,83 @@
+<template>
+<div class="page">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="ios-only">Back</span>
+        </a>
+      </div>
+      <div class="title">Toggle</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block-title">Super Heroes</div>
+    <div class="list simple-list">
+      <ul>
+        <li>
+          <span>Batman</span>
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Aquaman</span>
+          <label class="toggle color-cyan">
+            <input type="checkbox" checked>
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Superman</span>
+          <label class="toggle color-red">
+            <input type="checkbox" checked>
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Hulk</span>
+          <label class="toggle color-lightgreen">
+            <input type="checkbox">
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Spiderman (Disabled)</span>
+          <label class="toggle disabled">
+            <input type="checkbox">
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Ironman (Disabled)</span>
+          <label class="toggle">
+            <input type="checkbox" checked disabled>
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Thor</span>
+          <label class="toggle color-orange">
+            <input type="checkbox" checked>
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+        <li>
+          <span>Wonder Woman</span>
+          <label class="toggle color-pink">
+            <input type="checkbox">
+            <span class="toggle-icon"></span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+  import { f7Navbar, f7Page } from 'framework7-vue';
+
+  export default {}
+</script>

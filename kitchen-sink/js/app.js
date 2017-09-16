@@ -9447,7 +9447,7 @@ var Animate = {
 $$1$1.use(Methods, Scroll, Animate);
 
 /**
- * Framework7 2.0.0-beta.6
+ * Framework7 2.0.0-beta.7
  * Full featured mobile HTML framework for building iOS & Android apps
  * http://framework7.io/
  *
@@ -12582,6 +12582,7 @@ function load(loadParams, loadOptions, ignorePageChange) {
   var component = params.component;
   var componentUrl = params.componentUrl;
   var ignoreCache = options.ignoreCache;
+
   if (options.route &&
     options.route.route &&
     options.route.route.parentPath &&
@@ -14512,6 +14513,7 @@ var Router$1 = (function (Framework7Class) {
         }
       });
     }
+
     if (router.$el.children('.page:not(.stacked)').length === 0 && initUrl) {
       // No pages presented in DOM, reload new page
       router.navigate(initUrl, {
@@ -15761,6 +15763,9 @@ var TouchRipple$1 = function TouchRipple$1($el, x, y) {
   ripple.$rippleWaveEl = $$1$1(("<div class=\"ripple-wave\" style=\"width: " + diameter + "px; height: " + diameter + "px; margin-top:-" + (diameter / 2) + "px; margin-left:-" + (diameter / 2) + "px; left:" + (center.x) + "px; top:" + (center.y) + "px;\"></div>"));
 
   $el.prepend(ripple.$rippleWaveEl);
+
+  /* eslint no-underscore-dangle: ["error", { "allow": ["_clientLeft"] }] */
+  ripple._clientLeft = ripple.$rippleWaveEl[0].clientLeft;
 
   ripple.rippleTransform = "translate3d(" + (-center.x + (width / 2)) + "px, " + (-center.y + (height / 2)) + "px, 0) scale(1)";
 
@@ -21229,7 +21234,7 @@ var SmartSelect$1 = (function (Framework7Class) {
     // Url
     var url = params.url;
     if (!url) {
-      if ($el.attr('href')) { url = $el.attr('href'); }
+      if ($el.attr('href') && $el.attr('href') !== '#') { url = $el.attr('href'); }
       else { url = ($selectEl.attr('name').toLowerCase()) + "-select/"; }
     }
     if (!url) { url = ss.params.url; }
@@ -21565,7 +21570,6 @@ var SmartSelect$1 = (function (Framework7Class) {
     if (ss.opened) { return ss; }
     ss.getItemsData();
     var pageHtml = ss.renderPage(ss.items);
-
     ss.view.router.navigate(ss.url, {
       createRoute: {
         content: pageHtml,
@@ -23173,6 +23177,8 @@ var Searchbar$1 = (function (Framework7Class) {
     var app = sb.app;
     sb.$disableButtonEl.transition(0).show();
     sb.$disableButtonEl.css(("margin-" + (app.rtl ? 'left' : 'right')), ((-sb.disableButtonEl.offsetWidth) + "px"));
+    /* eslint no-underscore-dangle: ["error", { "allow": ["_clientLeft"] }] */
+    sb._clientLeft = sb.$disableButtonEl[0].clientLeft;
     sb.$disableButtonEl.transition('');
     sb.disableButtonHasMargin = true;
   };
@@ -31171,6 +31177,12 @@ Framework7$1.components = [
 ];
 
 var Utils$1 = {
+  isTrueProp: function isTrueProp(val) {
+    return val === true || val === '';
+  },
+  isStringProp: function isStringProp(val) {
+    return typeof val === 'string' && val !== '';
+  },
   isObject: function isObject(o) {
     return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
   },
@@ -31259,12 +31271,16 @@ var VueRouter = {
         pageEl = $pageEl;
       }
       if (!pageEl) { return; }
-
+      var pageVueFound;
       routerVue.pages.forEach(function (page, index) {
         if (page.el === pageEl) {
+          pageVueFound = true;
           routerVue.pages.splice(index, 1);
         }
       });
+      if (!pageVueFound) {
+        pageEl.parentNode.removeChild(pageEl);
+      }
     },
     tabComponentLoader: function tabComponentLoader(tabEl, component, componentUrl, options, resolve, reject) {
       if (!tabEl) { reject(); }
@@ -31287,7 +31303,10 @@ var VueRouter = {
       if (!tabEl) { return; }
 
       var tabVue = tabEl.__vue__;
-      if (!tabVue) { return; }
+      if (!tabVue) {
+        tabEl.innerHTML = ''; // eslint-disable-line
+        return;
+      }
 
       tabVue.tabContent = null;
     },
@@ -31305,12 +31324,24 @@ var Framework7Vue = {
     var f7Instance;
 
     // Define protos
-    var $theme = { ios: false, md: false };
-    Vue.prototype.$f7 = undefined;
+    Object.defineProperty(Vue.prototype, '$f7', {
+      get: function get() {
+        return f7Instance;
+      },
+    });
+
+    var $theme = {};
+    Object.defineProperty(Vue.prototype, '$theme', {
+      get: function get() {
+        return {
+          ios: f7Instance ? f7Instance.theme === 'ios' : $theme.ios,
+          md: f7Instance ? f7Instance.theme === 'md' : $theme.md,
+        };
+      },
+    });
     Vue.prototype.Dom7 = Framework7.$;
     Vue.prototype.$$ = Framework7.$;
     Vue.prototype.$device = (Framework7.Device || Framework7.device);
-    Vue.prototype.$theme = $theme;
 
     // Init F7
     function initFramework7(rootEl, params, routes) {
@@ -31318,11 +31349,8 @@ var Framework7Vue = {
       if (routes && routes.length && !f7Params.routes) { f7Params.routes = routes; }
 
       f7Instance = new Framework7(f7Params);
-      Vue.prototype.$f7 = f7Instance;
-      $theme.ios = f7Instance.theme === 'ios';
-      $theme.md = f7Instance.theme === 'md';
       f7Ready = true;
-      eventHub.$emit('f7init', f7Instance);
+      eventHub.$emit('f7Ready', f7Instance);
     }
 
     // Extend Router
@@ -31363,11 +31391,11 @@ var Framework7Vue = {
         if (self === self.$root) {
           initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
         }
-        if (!self.onF7Init) { return; }
-        if (f7Ready) { self.onF7Init(f7Instance); }
+        if (!self.onF7Ready) { return; }
+        if (f7Ready) { self.onF7Ready(f7Instance); }
         else {
-          eventHub.$on('f7init', function (f7) {
-            self.onF7Init(f7);
+          eventHub.$on('f7Ready', function (f7) {
+            self.onF7Ready(f7);
           });
         }
       },
@@ -31475,7 +31503,7 @@ var f7View = {
     },
   },
   methods: {
-    onF7Init: function onF7Init(f7) {
+    onF7Ready: function onF7Ready(f7) {
       var self = this;
       if (!self.init) { return; }
 
@@ -31506,14 +31534,12 @@ var f7View = {
   },
 };
 
-var f7Page = {
+var f7PageContent = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-content",class:_vm.classes,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},staticRenderFns: [],
   render: function render(c) {
-    var pageContentEl;
+    var self = this;
+
     var ptrEl;
     var infiniteEl;
-    var fixedList = [];
-    var staticList = [];
-    var self = this;
 
     if (self.ptr && (self.ptrPreloader)) {
       ptrEl = c('div', { staticClass: 'ptr-preloader' }, [
@@ -31523,13 +31549,110 @@ var f7Page = {
     if ((self.infinite) && self.infinitePreloader) {
       infiniteEl = c('div', { staticClass: 'preloader infinite-scroll-preloader' });
     }
+    return c('div', {
+      staticClass: 'page-content',
+      class: self.classes,
+      attrs: {
+        'data-ptr-distance': self.ptrDistance,
+        'data-infinite-distance': self.infiniteDistance,
+      },
+      on: {
+        'ptr:pullstart': self.onPtrPullStart,
+        'ptr:pullmove': self.onPtrPullMove,
+        'ptr:pullend': self.onPtrPullEnd,
+        'ptr:refresh': self.onPtrRefresh,
+        'ptr:done': self.onPtrRefreshDone,
+        infinite: self.onInfinite,
+        'tab:show': self.onTabShow,
+        'tab:hide': self.onTabHide,
+      },
+    }, (self.infiniteTop ? [ptrEl, infiniteEl, self.$slots.default] : [ptrEl, self.$slots.default, infiniteEl]));
+  },
+  props: {
+    tab: Boolean,
+    tabActive: Boolean,
+    ptr: Boolean,
+    ptrDistance: Number,
+    ptrPreloader: {
+      type: Boolean,
+      default: true,
+    },
+    infinite: Boolean,
+    infiniteTop: Boolean,
+    infiniteDistance: Number,
+    infinitePreloader: {
+      type: Boolean,
+      default: true,
+    },
+    hideBarsOnScroll: Boolean,
+    hideNavbarOnScroll: Boolean,
+    hideToolbarOnScroll: Boolean,
+    messagesContent: Boolean,
+    loginScreen: Boolean,
+  },
+  computed: {
+    classes: function classes() {
+      var self = this;
+      return {
+        tab: self.tab,
+        'tab-active': self.tabActive,
+        'ptr-content': this.ptr,
+        'infinite-scroll-content': this.infinite,
+        'infinite-scroll-top': this.infiniteTop,
+        'hide-bars-on-scroll': this.hideBarsOnScroll,
+        'hide-navbar-on-scroll': this.hideNavbarOnScroll,
+        'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
+        'messages-content': this.messagesContent,
+        'login-screen-content': this.loginScreen,
+      };
+    },
+  },
+  methods: {
+    onPtrPullStart: function onPtrPullStart(event) {
+      this.$emit('ptr:pullstart', event);
+    },
+    onPtrPullMove: function onPtrPullMove(event) {
+      this.$emit('ptr:pullmove', event);
+    },
+    onPtrPullEnd: function onPtrPullEnd(event) {
+      this.$emit('ptr:pullend', event);
+    },
+    onPtrRefresh: function onPtrRefresh(event) {
+      this.$emit('ptr:refresh', event.detail);
+    },
+    onPtrRefreshDone: function onPtrRefreshDone(event) {
+      this.$emit('ptr:done', event);
+    },
+    onInfinite: function onInfinite(event) {
+      this.$emit('infinite', event);
+    },
+    onTabShow: function onTabShow(e) {
+      var self = this;
+      self.$emit('tab:show', e);
+    },
+    onTabHide: function onTabHide(e) {
+      var self = this;
+      self.$emit('tab:hide', e);
+    },
+  },
+};
+
+var f7Page = {
+  components: {
+    f7PageContent: f7PageContent,
+  },
+  render: function render(c) {
+    var fixedList = [];
+    var staticList = [];
+    var self = this;
+
+    var pageContentEl;
 
     var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab').split(' ');
 
     var tag;
     var child;
     var withSubnavbar;
-    var withMessages;
     var withSearchbar;
 
     if (self.$slots.default) {
@@ -31541,7 +31664,6 @@ var f7Page = {
           continue;
         }
         var isFixed = false;
-        if (tag.indexOf('messages') >= 0) { withMessages = true; }
         if (tag.indexOf('subnavbar') >= 0) { withSubnavbar = true; }
         if (tag.indexOf('searchbar') >= 0) { withSearchbar = true; }
         for (var j = 0; j < fixedTags.length; j += 1) {
@@ -31557,14 +31679,21 @@ var f7Page = {
     if (fixedList.length > 0 && withSearchbar) {
       fixedList.push(c('div', { class: { 'searchbar-overlay': true } }));
     }
-    if (withMessages) { self.classesPageContent['messages-content'] = true; }
-    if (!self.noPageContent) {
-      pageContentEl = c('div', {
-        staticClass: 'page-content',
-        class: self.classesPageContent,
-        attrs: {
-          'data-ptr-distance': self.ptrDistance,
-          'data-infinite-distance': self.infiniteDistance,
+    if (self.pageContent) {
+      pageContentEl = c('f7-page-content', {
+        props: {
+          ptr: self.ptr,
+          ptrDistance: self.ptrDistance,
+          ptrPreloader: self.ptrPreloader,
+          infinite: self.infinite,
+          infiniteTop: self.infiniteTop,
+          infiniteDistance: self.infiniteDistance,
+          infinitePreloader: self.infinitePreloader,
+          hideBarsOnScroll: self.hideBarsOnScroll,
+          hideNavbarOnScroll: self.hideNavbarOnScroll,
+          hideToolbarOnScroll: self.hideToolbarOnScroll,
+          messagesContent: self.messagesContent,
+          loginScreen: self.loginScreen,
         },
         on: {
           'ptr:pullstart': self.onPtrPullStart,
@@ -31574,7 +31703,7 @@ var f7Page = {
           'ptr:done': self.onPtrRefreshDone,
           infinite: self.onInfinite,
         },
-      }, (self.infiniteTop ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]));
+      }, [self.$slots.static, staticList]);
     } else {
       pageContentEl = [];
       if (self.$slots.default && fixedList.length > 0) {
@@ -31590,9 +31719,10 @@ var f7Page = {
     fixedList.push(self.$slots.fixed);
 
     if (withSubnavbar) { self.classesPage['with-subnavbar'] = true; }
+
     var pageEl = c('div', {
       staticClass: 'page',
-      class: self.classesPage,
+      class: self.classes,
       attrs: {
         'data-name': self.name,
       },
@@ -31613,59 +31743,49 @@ var f7Page = {
   props: {
     name: String,
     stacked: Boolean,
-    'with-subnavbar': Boolean,
+    withSubnavbar: Boolean,
     subnavbar: Boolean,
-    'no-navbar': Boolean,
-    'no-toolbar': Boolean,
-    'no-tabbar': Boolean,
+    noNavbar: Boolean,
+    noToolbar: Boolean,
+    tabs: Boolean,
+    pageContent: {
+      type: Boolean,
+      default: true,
+    },
+    colorTheme: String,
+    noSwipeback: Boolean,
+    // Page Content Props
     ptr: Boolean,
-    'ptr-distance': Number,
-    'ptr-preloader': {
+    ptrDistance: Number,
+    ptrPreloader: {
       type: Boolean,
       default: true,
     },
     infinite: Boolean,
-    'infinite-top': Boolean,
-    'infinite-distance': Number,
-    'infinite-preloader': {
+    infiniteTop: Boolean,
+    infiniteDistance: Number,
+    infinitePreloader: {
       type: Boolean,
       default: true,
     },
-    'hide-bars-on-scroll': Boolean,
-    'hide-navbar-on-scroll': Boolean,
-    'hide-toolbar-on-scroll': Boolean,
+    hideBarsOnScroll: Boolean,
+    hideNavbarOnScroll: Boolean,
+    hideToolbarOnScroll: Boolean,
     messagesContent: Boolean,
-    tabs: Boolean,
-    'no-page-content': Boolean,
-    'login-screen': Boolean,
-    colorTheme: String,
-    'no-swipeback': Boolean,
+    loginScreen: Boolean,
   },
   computed: {
-    classesPage: function classesPage() {
+    classes: function classes() {
       var co = {
         stacked: this.stacked,
         tabs: this.tabs,
         'page-with-subnavbar': this.subnavbar || this.withSubnavbar,
         'no-navbar': this.noNavbar,
         'no-toolbar': this.noToolbar,
-        'no-tabbar': this.noTabbar,
         'no-swipeback': this.noSwipeback,
       };
       if (this.theme) { co[("color-theme-" + (this.colorTheme))] = true; }
       return co;
-    },
-    classesPageContent: function classesPageContent() {
-      return {
-        'ptr-content': this.ptr,
-        'infinite-scroll-content': this.infinite,
-        'infinite-scroll-top': this.infiniteTop,
-        'hide-bars-on-scroll': this.hideBarsOnScroll,
-        'hide-navbar-on-scroll': this.hideNavbarOnScroll,
-        'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
-        'messages-content': this.messagesContent,
-        'login-screen-content': this.loginScreen,
-      };
     },
   },
   methods: {
@@ -31787,6 +31907,7 @@ var f7Navbar = {
     },
     title: String,
     colorTheme: String,
+    color: String,
     hidden: Boolean,
     noShadow: Boolean,
     inner: {
@@ -31796,27 +31917,31 @@ var f7Navbar = {
   },
   computed: {
     classes: function classes() {
+      var self = this;
       var co = {
-        'navbar-hidden': this.hidden,
+        'navbar-hidden': self.hidden,
       };
-      if (this.colorTheme) { co[("color-theme-" + (this.colorTheme))] = true; }
+      if (self.colorTheme) { co[("color-theme-" + (self.colorTheme))] = true; }
       // if (this.layout) co[`layout-${this.layout}`] = true;
-      if (this.noShadow) { co['no-shadow'] = true; }
+      if (self.noShadow) { co['no-shadow'] = true; }
       return co;
     },
   },
   methods: {
     hide: function hide(animate) {
-      if (!this.$f7) { return undefined; }
-      return this.$f7.navbar.show(this.$el, animate);
+      var self = this;
+      if (!self.$f7) { return; }
+      self.$f7.navbar.hide(self.$el, animate);
     },
     show: function show(animate) {
-      if (!this.$f7) { return undefined; }
-      return this.$f7.navbar.show(this.$el, animate);
+      var self = this;
+      if (!self.$f7) { return; }
+      self.$f7.navbar.show(self.$el, animate);
     },
     size: function size() {
-      if (!this.$f7) { return undefined; }
-      return this.$f7.navbar.size(this.$el);
+      var self = this;
+      if (!self.$f7) { return; }
+      self.$f7.navbar.size(self.$el);
     },
     onBackClick: function onBackClick(e) {
       this.$emit('back-click', e);
@@ -31869,298 +31994,114 @@ var f7Block = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
 
 var f7BlockTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-title"},[_vm._t("default")],2)},staticRenderFns: [],};
 
-var f7BlockHeader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-header"},[_vm._t("default")],2)},staticRenderFns: [],};
-
-var f7BlockFooter = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-footer"},[_vm._t("default")],2)},staticRenderFns: [],};
-
-var f7CardHeader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-header"},[_vm._t("default")],2)},staticRenderFns: [],};
-
-var f7CardContent = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-content",class:{'card-content-padding': _vm.padding}},[_vm._t("default")],2)},staticRenderFns: [],
-  props: {
-    padding: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-
-var f7CardFooter = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-footer"},[_vm._t("default")],2)},staticRenderFns: [],};
-
-var f7Card = {
-  components: {
-    f7CardHeader: f7CardHeader,
-    f7CardContent: f7CardContent,
-    f7CardFooter: f7CardFooter,
-  },
-  render: function render(c) {
-    var self = this;
-    var headerEl;
-    var contentEl;
-    var footerEl;
-
-    if (self.title || (self.$slots && self.$slots.header)) {
-      headerEl = c('f7-card-header', [self.title, self.$slots.header]);
-    }
-    if (self.content || (self.$slots && self.$slots.content)) {
-      contentEl = c('f7-card-content', { props: { padding: self.padding } }, [self.content, self.$slots.content]);
-    }
-    if (self.footer || (self.$slots && self.$slots.footer)) {
-      footerEl = c('f7-card-footer', [self.footer, self.$slots.footer]);
-    }
-    return c('div', { staticClass: 'card' }, [headerEl, contentEl, footerEl, self.$slots.default]);
-  },
-  props: {
-    title: [String, Number],
-    content: [String, Number],
-    footer: [String, Number],
-    padding: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-
-var f7Chip = {
-  render: function render(c) {
-    var self = this;
-    var mediaEl;
-    var labelEl;
-    var deleteEl;
-    if (self.$slots && self.$slots.media) {
-      mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.$slots.media);
-    }
-    if (self.text || (self.$slots && self.$slots.text)) {
-      labelEl = c('div', { staticClass: 'chip-label' }, [self.text, self.$slots.text]);
-    }
-    if (self.deleteable) {
-      deleteEl = c('a', {
-        staticClass: 'chip-delete',
-        attrs: {
-          href: '#',
-        },
-        on: {
-          click: self.onDeleteClick,
-        },
-      });
-    }
-    return c('div', {
-      staticClass: 'chip',
-      class: self.chipClasses,
-    }, [mediaEl, labelEl, deleteEl]);
-  },
-  props: {
-    media: String,
-    text: [String, Number],
-    deleteable: Boolean,
-    color: String,
-    bgColor: String,
-    textColor: String,
-    mediaBgColor: String,
-    mediaTextColor: String,
-  },
-  computed: {
-    mediaClasses: function mediaClasses() {
-      var c = {};
-      if (this.mediaTextColor) { c[("text-color-" + (this.mediaTextColor))] = true; }
-      if (this.mediaBgColor) { c[("bg-color-" + (this.mediaBgColor))] = true; }
-      return c;
-    },
-    chipClasses: function chipClasses() {
-      var c = {};
-      if (this.color) { c[("color-" + (this.color))] = true; }
-      if (this.bgColor) { c[("bg-color-" + (this.bgColor))] = true; }
-      if (this.textColor) { c[("text-color-" + (this.textColor))] = true; }
-      return c;
-    },
-  },
-  methods: {
-    onClick: function onClick(event) {
-      this.$emit('click', event);
-    },
-    onDeleteClick: function onDeleteClick(event) {
-      this.$emit('delete', event);
-    },
-  },
-};
-
-var f7Icon = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('i',{staticClass:"icon",class:_vm.classes,style:({'font-size':_vm.sizeComputed})},[_vm._v(_vm._s(_vm.iconTextComputed)),_vm._t("default")],2)},staticRenderFns: [],
-  props: {
-    color: String,
-    material: String, // Material Icons
-    f7: String, // Framework7 Icons
-    ion: String, // Ionicons
-    fa: String, // Font Awesome
-    icon: String, // Custom
-    ifMd: String,
-    ifIos: String,
-    size: [String, Number],
-  },
-  computed: {
-    sizeComputed: function sizeComputed() {
-      var self = this;
-      var size = self.size;
-      if (typeof size === 'number' || parseFloat(size) === size * 1) {
-        size = size + "px";
-      }
-      return size;
-    },
-    iconTextComputed: function iconTextComputed() {
-      var self = this;
-      var text = self.material || self.f7;
-      if (self.ifMd && self.$theme.md && (self.ifMd.indexOf('material:') >= 0 || self.ifMd.indexOf('f7:') >= 0)) {
-        text = self.ifMd.split(':')[1];
-      } else if (self.ifIos && self.$theme.ios && (self.ifIos.indexOf('material:') >= 0 || self.ifIos.indexOf('f7:') >= 0)) {
-        text = self.ifIos.split(':')[1];
-      }
-      return text;
-    },
-    classes: function classes() {
-      var classes = {};
-      var self = this;
-      if (self.ifMd || self.ifIos) {
-        var parts = self[self.$theme.md ? 'ifMd' : 'ifIos'].split(':');
-        var prop = parts[0];
-        var value = parts[1];
-        if (prop === 'material' || prop === 'fa' || prop === 'f7') {
-          classes.fa = prop === 'fa';
-          classes['material-icons'] = prop === 'material';
-          classes['f7-icons'] = prop === 'f7';
-        }
-        if (prop === 'fa' || prop === 'ion') {
-          classes[(prop + "-" + value)] = true;
-        }
-        if (prop === 'icon') {
-          classes[value] = true;
-        }
-      } else {
-        classes = {
-          'material-icons': this.material,
-          'f7-icons': this.f7,
-          fa: this.fa,
-        };
-        if (this.ion) { classes[("ion-" + (this.ion))] = true; }
-        if (this.fa) { classes[("fa-" + (this.fa))] = true; }
-        if (this.icon) { classes[this.icon] = true; }
-      }
-      if (this.color) { classes[("color-" + (this.color))] = true; }
-      return classes;
-    },
-  },
-};
-
-var f7Col = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:('col-' + _vm.width) + (_vm.tabletWidth ? (" tablet-" + (_vm.tabletWidth)) : '') + (_vm.desktopWidth ? (" desktop-" + (_vm.desktopWidth)) : '')},[_vm._t("default")],2)},staticRenderFns: [],
-  props: {
-    width: {
-      type: [Number, String],
-      default: 'auto',
-    },
-    tabletWidth: {
-      type: [Number, String],
-    },
-    desktopWidth: {
-      type: [Number, String],
-    },
-  },
-  data: function data() {
-    return {};
-  },
-};
-
-var f7Row = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row",class:{'no-gap': _vm.noGap}},[_vm._t("default")],2)},staticRenderFns: [],
-  props: {
-    noGap: Boolean,
-  },
-};
-
 var f7Badge = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"badge",class:_vm.color ? ("color-" + (_vm.color)) : ''},[_vm._t("default")],2)},staticRenderFns: [],
   props: {
     color: String,
   },
 };
 
-var f7Preloader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader",class:(_vm.color ? ("color-" + (_vm.color)) : ''),style:({'width': (_vm.sizeComputed ? ((_vm.sizeComputed) + "px") : ''), 'height': (_vm.sizeComputed ? ((_vm.sizeComputed) + "px") : '')})},[(_vm.$theme.md)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._m(1)]):_vm._e()])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-left"},[_c('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-right"},[_c('span',{staticClass:"preloader-inner-half-circle"})])}],
-  props: {
-    color: String,
-    size: [Number, String],
-  },
-  computed: {
-    sizeComputed: function sizeComputed() {
-      var s = this.size;
-      if (s && typeof s === 'string' && s.indexOf('px') >= 0) {
-        s = s.replace('px', '');
-      }
-      return s;
-    },
-  },
-};
-
 var f7Statusbar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar"})},staticRenderFns: [],};
 
-var f7Subnavbar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"subnavbar",class:_vm.sliding ? 'sliding' : ''},[(_vm.inner)?_c('div',{staticClass:"subnavbar-inner"},[_vm._t("default")],2):_vm._t("default")],2)},staticRenderFns: [],
-  props: {
-    sliding: Boolean,
-    inner: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-
-var f7Tabs = {
-  render: function render(c) {
+var f7List = {
+  beforeDestroy: function beforeDestroy() {
     var self = this;
-    var tabsEl = c('div', { staticClass: 'tabs' }, [self.$slots.default]);
-    if (self.animated || self.swipeable) { return c('div', { class: self.classes }, [tabsEl]); }
-    return tabsEl;
+    if (!(self.virtual && self.virtualInit && self.f7VirtualList)) { return; }
+    if (self.f7VirtualList.destroy) { self.f7VirtualList.destroy(); }
   },
-  props: {
-    animated: Boolean,
-    swipeable: Boolean,
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'tabs-animated-wrap': this.animated,
-        'tabs-swipeable-wrap': this.swipeable,
-      };
+  watch: {
+    'virtualListParams.items': function onItemsChange() {
+      // Items Updated
+      var self = this;
+      if (!(self.virtual && self.virtualInit && self.f7VirtualList)) { return; }
+      self.f7VirtualList.replaceAllItems(self.virtualListParams.items);
     },
-  },
-};
-
-var f7Tab = {
-  props: {
-    tabActive: Boolean,
-    id: String,
-  },
-  data: function data() {
-    return {
-      tabContent: null,
-    };
   },
   render: function render(c) {
     var self = this;
 
-    return c(
-      'div', {
-        staticClass: 'tab',
-        attrs: {
-          id: self.id,
-        },
+    var listChildren = [];
+    var ulChildren = [];
+
+    if (self.$slots.default) {
+      for (var i = 0; i < self.$slots.default.length; i += 1) {
+        var tag = self.$slots.default[i].tag;
+        if (tag && !(tag === 'li' || tag.indexOf('list-item') >= 0 || tag.indexOf('list-button') >= 0)) {
+          listChildren.push(self.$slots.default[i]);
+        } else {
+          ulChildren.push(self.$slots.default[i]);
+        }
+      }
+    }
+    var blockEl = c(
+      self.form ? 'form' : 'div',
+      {
+        staticClass: 'list',
         class: {
-          active: self.tabActive,
+          inset: self.inset,
+          'tablet-inset': self.tabletInset,
+          'media-list': self.mediaList,
+          'simple-list': self.simpleList,
+          'links-list': self.linksList,
+          sortable: self.sortable,
+          'accordion-list': self.accordionList,
+          'contacts-block': self.contactsList,
+          'virtual-list': self.virtualList,
+          tab: self.tab,
+          'tab-active': self.tabActive,
+          'no-hairlines': self.noHairlines,
+          'no-hairlines-between': self.noHairlinesBetween,
+          'form-store-data': self.formStoreData,
         },
         on: {
+          'sortable:enable': self.onSortableEnable,
+          'sortable:disable': self.onSortableDisable,
+          'sortable:sort': self.onSortableSort,
           'tab:show': self.onTabShow,
           'tab:hide': self.onTabHide,
         },
       },
-      [self.tabContent ? c(self.tabContent.component, { tag: 'component', props: self.tabContent.params, key: self.tabContent.id }) : self.$slots.default]
+      [
+        ulChildren.length > 0 ? [c('ul', {}, ulChildren), listChildren] : listChildren ]
     );
+    return blockEl;
+  },
+  props: {
+    inset: Boolean,
+    tabletInset: Boolean,
+    mediaList: Boolean,
+    grouped: Boolean,
+    sortable: Boolean,
+    accordionList: Boolean,
+    contactsList: Boolean,
+
+    noHairlines: Boolean,
+    noHairlinesBetween: Boolean,
+
+    // Tab
+    tab: Boolean,
+    tabActive: Boolean,
+
+    // Form
+    form: Boolean,
+    formStoreData: Boolean,
+
+    // Virtual List
+    virtualList: Boolean,
+    virtualListInit: {
+      type: Boolean,
+      default: true,
+    },
+    virtualListParams: Object,
   },
   methods: {
-    show: function show(animated) {
-      if (!this.$f7) { return; }
-      this.$f7.tab.show(this.$el, animated);
+    onSortableEnable: function onSortableEnable(event) {
+      this.$emit('sortable:enable', event);
+    },
+    onSortableDisable: function onSortableDisable(event) {
+      this.$emit('sortable:disable', event);
+    },
+    onSortableSort: function onSortableSort(event) {
+      this.$emit('sortable:sort', event, event.detail);
     },
     onTabShow: function onTabShow(e) {
       this.$emit('tab:show', e);
@@ -32168,82 +32109,1002 @@ var f7Tab = {
     onTabHide: function onTabHide(e) {
       this.$emit('tab:hide', e);
     },
+    onF7Ready: function onF7Ready(f7) {
+      var self = this;
+      // Init Virtual List
+      if (!(self.virtual && self.virtualInit)) { return; }
+      var $$ = self.$$;
+      var $el = $$(self.$el);
+      var templateScript = $el.find('script');
+      var template = templateScript.html();
+      if (!template && templateScript.length > 0) {
+        template = templateScript[0].outerHTML;
+        template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
+      }
+      if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) { return; }
+      if (template) { template = self.$t7.compile(template); }
+
+      self.f7VirtualList = f7.virtualList(self.$el, {
+        items: self.virtualItems || [],
+        template: template,
+        height: self.virtualHeight || undefined,
+        cols: self.virtualCols,
+        rowsBefore: self.virtualRowsBefore || undefined,
+        rowsAfter: self.virtualRowsAfter || undefined,
+        showFilteredItemsOnly: self.virtualFilteredOnly,
+        searchByItem: self.virtualSearchByItem,
+        searchAll: self.virtualSearchAll,
+        renderItem: self.virtualRenderItem,
+        renderExternal: self.virtualRenderExternal,
+        emptyTemplate: self.virtualEmptyTemplate,
+        onItemBeforeInsert: function onItemBeforeInsert(list, item) {
+          self.$emit('virtual:itembeforeinsert', list, item);
+        },
+        onBeforeClear: function onBeforeClear(list, fragment) {
+          self.$emit('virtual:beforeclear', list, fragment);
+        },
+        onItemsBeforeInsert: function onItemsBeforeInsert(list, fragment) {
+          self.$emit('virtual:itemsbeforeinsert', list, fragment);
+        },
+        onItemsAfterInsert: function onItemsAfterInsert(list, fragment) {
+          self.$emit('virtual:itemsafterinsert', list, fragment);
+        },
+      });
+    },
   },
 };
 
-var App = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('f7-statusbar'),_c('f7-view',{attrs:{"url":"/about/"}})],1)},staticRenderFns: [],
+var f7ListItemContent = {
+  components: {
+    f7Badge: f7Badge,
+  },
+  render: function render(c) {
+    var self = this;
+    var slotsContentStart = [];
+    var slotsContent = [];
+    var slotsContentEnd = [];
+    var slotsInnerStart = [];
+    var slotsInner = [];
+    var slotsInnerEnd = [];
+    var slotsAfterStart = [];
+    var slotsAfter = [];
+    var slotsAfterEnd = [];
+    var slotsMediaStart = [];
+    var slotsMedia = [];
+    var slotsMediaEnd = [];
+    var slotsTitle = [];
+    var slotsSubtitle = [];
+    var slotsText = [];
+    var slotsHeader = [];
+    var slotsFooter = [];
+
+    var ref = [];
+    var titleEl = ref[0];
+    var afterWrapEl = ref[1];
+    var afterEl = ref[2];
+    var badgeEl = ref[3];
+    var innerEl = ref[4];
+    var titleRowEl = ref[5];
+    var subtitleEl = ref[6];
+    var textEl = ref[7];
+    var mediaEl = ref[8];
+    var inputEl = ref[9];
+    var inputIconEl = ref[10];
+    var headerEl = ref[11];
+    var footerEl = ref[12];
+
+    if (self.$slots.default && self.$slots.default.length > 0) {
+      for (var i = 0; i < self.$slots.default.length; i += 1) {
+        var slotName = self.$slots.default[i].data ? self.$slots.default[i].data.slot : undefined;
+        if (!slotName || (slotName === 'inner')) { slotsInner.push(self.$slots.default[i]); }
+        if (slotName === 'content-start') { slotsContentStart.push(self.$slots.default[i]); }
+        if (slotName === 'content') { slotsContent.push(self.$slots.default[i]); }
+        if (slotName === 'content-end') { slotsContentEnd.push(self.$slots.default[i]); }
+        if (slotName === 'after-start') { slotsAfterStart.push(self.$slots.default[i]); }
+        if (slotName === 'after') { slotsAfter.push(self.$slots.default[i]); }
+        if (slotName === 'after-end') { slotsAfterEnd.push(self.$slots.default[i]); }
+        if (slotName === 'media-start') { slotsMediaStart.push(self.$slots.default[i]); }
+        if (slotName === 'media') { slotsMedia.push(self.$slots.default[i]); }
+        if (slotName === 'media-end') { slotsMediaEnd.push(self.$slots.default[i]); }
+        if (slotName === 'inner-start') { slotsInnerStart.push(self.$slots.default[i]); }
+        if (slotName === 'inner-end') { slotsInnerEnd.push(self.$slots.default[i]); }
+        if (slotName === 'title') { slotsTitle.push(self.$slots.default[i]); }
+        if (slotName === 'subtitle') { slotsSubtitle.push(self.$slots.default[i]); }
+        if (slotName === 'text') { slotsText.push(self.$slots.default[i]); }
+        if (slotName === 'header') { slotsHeader.push(self.$slots.default[i]); }
+        if (slotName === 'footer') { slotsFooter.push(self.$slots.default[i]); }
+      }
+    }
+
+    // Input
+    if (self.radio || self.checkbox) {
+      inputEl = c('input', {
+        attrs: {
+          value: self.inputValue,
+          name: self.inputName,
+          checked: self.checked,
+          readonly: self.readonly,
+          disabled: self.disabled,
+          required: self.required,
+          type: self.radio ? 'radio' : 'checkbox',
+        },
+        on: {
+          change: self.onChange,
+        },
+        domProps: {
+          checked: self.checked,
+          disabled: self.disabled,
+          required: self.required,
+        },
+      });
+      inputIconEl = c('i', { staticClass: ("icon icon-" + (self.radio ? 'radio' : 'checkbox')) });
+    }
+    // Media
+    if (self.media || slotsMediaStart.length || slotsMedia.length || slotsMediaEnd.length) {
+      mediaEl = c('div', { staticClass: 'item-media' }, [slotsMediaStart, slotsMedia, slotsMediaEnd]);
+    }
+    // Inner Elements
+    if (self.header || slotsHeader.length) {
+      headerEl = c('div', { staticClass: 'item-header' }, [self.header, slotsHeader]);
+    }
+    if (self.footer || slotsFooter.length) {
+      footerEl = c('div', { staticClass: 'item-footer' }, [self.footer, slotsFooter]);
+    }
+    if (self.title || slotsTitle.length) {
+      titleEl = c('div', { staticClass: 'item-title' }, [!self.mediaList && headerEl, self.title, slotsTitle, !self.mediaList && footerEl]);
+    }
+    if (self.subtitle || slotsSubtitle.length) {
+      subtitleEl = c('div', { staticClass: 'item-subtitle' }, [self.subtitle, slotsSubtitle]);
+    }
+    if (self.text || slotsText.length) {
+      textEl = c('div', { staticClass: 'item-text' }, [self.text, slotsText]);
+    }
+    if (self.after || self.badge || slotsAfter.length) {
+      if (self.after) {
+        afterEl = c('span', [self.after]);
+      }
+      if (self.badge) {
+        badgeEl = c('f7-badge', { props: { color: self.badgeColor } }, [self.badge]);
+      }
+      afterWrapEl = c('div', { staticClass: 'item-after' }, [slotsAfterStart, afterEl, badgeEl, slotsAfter, slotsAfterEnd]);
+    }
+    if (self.mediaList) {
+      titleRowEl = c('div', { staticClass: 'item-title-row' }, [titleEl, afterWrapEl]);
+    }
+    innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner, slotsInnerEnd]);
+
+    // Finalize
+    return c((self.checkbox || self.radio) ? 'label' : 'div', {
+      staticClass: 'item-content',
+      class: {
+        'item-checkbox': self.checkbox,
+        'item-radio': self.radio,
+      },
+      on: {
+        click: self.onClick,
+      },
+    }, [slotsContentStart, inputEl, inputIconEl, mediaEl, innerEl, slotsContent, slotsContentEnd]);
+  },
+  props: {
+    title: [String, Number],
+    text: [String, Number],
+    media: String,
+    subtitle: [String, Number],
+    header: [String, Number],
+    footer: [String, Number],
+    after: [String, Number],
+    badge: [String, Number],
+    badgeColor: String,
+    mediaList: Boolean,
+
+    checkbox: Boolean,
+    checked: Boolean,
+    radio: Boolean,
+    inputName: String,
+    inputValue: [String, Number, Boolean, Array],
+    readonly: Boolean,
+    required: Boolean,
+    disabled: Boolean,
+  },
+  methods: {
+    onClick: function onClick(event) {
+      this.$emit('click', event);
+    },
+    onChange: function onChange(event) {
+      this.$emit('change', event);
+    },
+    onInput: function onInput(event) {
+      this.$emit('input', event);
+    },
+  },
+};
+
+var f7ListItem = {
+  components: {
+    f7ListItemContent: f7ListItemContent,
+  },
+  render: function render(c) {
+    var self = this;
+
+    var liChildren;
+    var linkEl;
+
+    // Item Content
+    var itemContentEl = c('f7-list-item-content', {
+      props: {
+        title: self.title,
+        text: self.text,
+        media: self.media,
+        subtitle: self.subtitle,
+        after: self.after,
+        header: self.header,
+        footer: self.footer,
+        badge: self.badge,
+        badgeColor: self.badgeColor,
+        mediaList: self.mediaListComputed,
+        accordionItem: self.accordionItem,
+
+        checkbox: self.checkbox,
+        checked: self.checked,
+        radio: self.radio,
+        inputName: self.inputName,
+        inputValue: self.inputValue,
+        readonly: self.readonly,
+        required: self.required,
+        disabled: self.disabled,
+      },
+      on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
+    }, [
+      self.$slots['content-start'],
+      self.$slots.content,
+      self.$slots['content-end'],
+      self.$slots['media-start'],
+      self.$slots.media,
+      self.$slots['media-end'],
+      self.$slots['inner-start'],
+      self.$slots.inner,
+      self.$slots['inner-end'],
+      self.$slots['after-start'],
+      self.$slots.after,
+      self.$slots['after-end'],
+      self.$slots.header,
+      self.$slots.footer,
+      self.$slots.title,
+      self.$slots.subtitle,
+      self.$slots.text,
+      (self.swipeout || self.accordionItem ? [] : self.$slots.default) ]);
+
+    // Link Props
+    var linkExternal = self.linkExternal;
+    var linkBack = self.linkBack;
+    var linkNoFastclick = self.linkNoFastclick;
+    var linkForce = self.linkForce;
+    var linkReloadCurrent = self.linkReloadCurrent;
+    var linkReloadAll = self.linkReloadAll;
+    var linkReloadPrevious = self.linkReloadPrevious;
+    var linkAnimate = self.linkAnimate;
+    var linkIgnoreCache = self.linkIgnoreCache;
+    var linkTarget = self.linkTarget;
+    var linkView = self.linkView;
+    var linkPanelOpen = self.linkPanelOpen;
+    var linkPanelClose = self.linkPanelClose;
+    var linkPopupOpen = self.linkPopupOpen;
+    var linkPopupClose = self.linkPopupClose;
+    var linkPopoverOpen = self.linkPopoverOpen;
+    var linkPopoverClose = self.linkPopoverClose;
+    var linkLoginScreenOpen = self.linkLoginScreenOpen;
+    var linkLoginScreenClose = self.linkLoginScreenClose;
+    var linkSheetOpen = self.linkSheetOpen;
+    var linkSheetClose = self.linkSheetClose;
+    var linkSortableEnable = self.linkSortableEnable;
+    var linkSortableDisable = self.linkSortableDisable;
+    var linkSortableToggle = self.linkSortableToggle;
+
+    // Link
+    if (self.link || self.accordionItem || self.smartSelect) {
+      linkEl = c('a', {
+        attrs: {
+          href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+          target: linkTarget,
+          'data-view': Utils$1.isStringProp(linkView) ? linkView : false,
+          'data-panel': Utils$1.isStringProp(linkPanelOpen) ? linkPanelOpen : false,
+          'data-popup': Utils$1.isStringProp(linkPopupOpen) ? linkPopupOpen : false,
+          'data-popover': Utils$1.isStringProp(linkPopoverOpen) ? linkPopoverOpen : false,
+          'data-picker': Utils$1.isStringProp(linkSheetOpen) ? linkSheetOpen : false,
+          'data-login-screen': Utils$1.isStringProp(linkLoginScreenOpen) ? linkLoginScreenOpen : false,
+          'data-sortable': Utils$1.isStringProp(linkSortableEnable) ? linkSortableEnable : (Utils$1.isStringProp(linkSortableToggle) ? linkSortableToggle : false), // eslint-disable-line
+
+          'data-force': linkForce,
+          'data-reload-current': linkReloadCurrent,
+          'data-reload-all': linkReloadAll,
+          'data-reload-previous': linkReloadPrevious,
+          'data-animate': ('linkAnimate' in self.$options.propsData) ? linkAnimate.toString() : undefined,
+          'data-ignore-cache': linkIgnoreCache,
+        },
+        class: {
+          'item-link': true,
+          external: linkExternal,
+          back: linkBack,
+          'no-fastclick': linkNoFastclick,
+          'smart-select': self.smartSelect,
+          'panel-close': Utils$1.isTrueProp(linkPanelClose),
+          'panel-open': linkPanelOpen || linkPanelOpen === '',
+          'popup-close': Utils$1.isTrueProp(linkPopupClose),
+          'popup-open': linkPopupOpen || linkPopupOpen === '',
+          'popover-close': Utils$1.isTrueProp(linkPopoverClose),
+          'popover-open': linkPopoverOpen || linkPopoverOpen === '',
+          'sheet-close': Utils$1.isTrueProp(linkSheetClose),
+          'sheet-open': linkSheetOpen || linkSheetOpen === '',
+          'login-screen-close': Utils$1.isTrueProp(linkLoginScreenClose),
+          'login-screen-open': linkLoginScreenOpen || linkLoginScreenOpen === '',
+          'sortable-enable': Utils$1.isTrueProp(linkSortableEnable),
+          'sortable-disable': Utils$1.isTrueProp(linkSortableDisable),
+          'sortable-toggle': Utils$1.isTrueProp(linkSortableToggle),
+        },
+        on: {
+          click: self.onClick,
+        },
+      }, [itemContentEl]);
+    }
+
+    if (self.divider || self.groupTitle) {
+      liChildren = [c('span', self.$slots.default || self.title)];
+    } else {
+      var linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
+      if (self.swipeout) {
+        liChildren = [c('div', { class: { 'swipeout-content': true } }, [linkItemEl])];
+      } else {
+        liChildren = [linkItemEl];
+      }
+      if (self.sortableComputed) {
+        liChildren.push(c('div', { class: { 'sortable-handler': true } }));
+      }
+      if (self.swipeout || self.accordionItem) {
+        liChildren.push(self.$slots.default);
+      }
+      liChildren.unshift(self.$slots['root-start']);
+      liChildren.push(self.$slots.root);
+    }
+
+    return c(
+      'li',
+      {
+        class: {
+          'item-divider': self.divider,
+          'list-group-title': self.groupTitle,
+          'media-item': self.mediaItem,
+          swipeout: self.swipeout,
+          'accordion-item': self.accordionItem,
+          'accordion-item-opened': self.accordionItemOpened,
+        },
+        on: {
+          'swipeout:open': self.onSwipeoutOpen,
+          'swipeout:opened': self.onSwipeoutOpened,
+          'swipeout:close': self.onSwipeoutClose,
+          'swipeout:closed': self.onSwipeoutClosed,
+          'swipeout:delete': self.onSwipeoutDelete,
+          'swipeout:deleted': self.onSwipeoutDeleted,
+          swipeout: self.onSwipeout,
+          'accordion:open': self.onAccOpen,
+          'accordion:opened': self.onAccOpened,
+          'accordion:close': self.onAccClose,
+          'accordion:closed': self.onAccClosed,
+        },
+      },
+      liChildren
+    );
+  },
+  props: {
+    title: [String, Number],
+    text: [String, Number],
+    media: String,
+    subtitle: [String, Number],
+    header: [String, Number],
+    footer: [String, Number],
+
+    // Link Props
+    link: [Boolean, String],
+    linkExternal: Boolean,
+    linkBack: Boolean,
+    linkNoFastclick: Boolean,
+    linkForce: Boolean,
+    linkReloadCurrent: Boolean,
+    linkReloadAll: Boolean,
+    linkReloadPrevious: Boolean,
+    linkAnimate: Boolean,
+    linkIgnoreCache: Boolean,
+    linkTarget: String,
+    linkView: String,
+
+    linkPanelOpen: [Boolean, String],
+    linkPanelClose: [Boolean, String],
+    linkPopupOpen: [Boolean, String],
+    linkPopupClose: [Boolean, String],
+    linkPopoverOpen: [Boolean, String],
+    linkPopoverClose: [Boolean, String],
+    linkLoginScreenOpen: [Boolean, String],
+    linkLoginScreenClose: [Boolean, String],
+    linkSheetOpen: [Boolean, String],
+    linkSheetClose: [Boolean, String],
+    linkSortableEnable: [Boolean, String],
+    linkSortableDisable: [Boolean, String],
+    linkSortableToggle: [Boolean, String],
+
+    after: [String, Number],
+    badge: [String, Number],
+    badgeColor: String,
+
+    mediaItem: Boolean,
+    mediaList: Boolean,
+    divider: Boolean,
+    groupTitle: Boolean,
+    swipeout: Boolean,
+    sortable: Boolean,
+    accordionItem: Boolean,
+    accordionItemOpened: Boolean,
+
+    // Smart Select
+    smartSelect: Boolean,
+    smartSelectParams: Object,
+
+    // Inputs
+    checkbox: Boolean,
+    radio: Boolean,
+    checked: Boolean,
+    inputName: String,
+    inputValue: [String, Number, Boolean, Array],
+    readonly: Boolean,
+    required: Boolean,
+    disabled: Boolean,
+  },
+  computed: {
+    sortableComputed: function sortableComputed() {
+      return this.sortable || this.$parent.sortable || this.$parent.sortableComputed;
+    },
+    mediaListComputed: function mediaListComputed() {
+      return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
+    },
+  },
+  mounted: function mounted() {
+    var self = this;
+    if (!self.smartSelect) { return; }
+    var smartSelectParams = Utils$1.extend({ el: self.$el.querySelector('a.smart-select') }, (self.smartSelectParams || {}));
+    self.f7SmartSelect = self.$f7.smartSelect.create(smartSelectParams);
+  },
+  beforeDestroy: function beforeDestroy() {
+    var self = this;
+    if (self.smartSelect && self.f7SmartSelect) {
+      self.f7SmartSelect.destroy();
+    }
+  },
+  methods: {
+    onClick: function onClick(event) {
+      var self = this;
+      if (self.smartSelect && self.f7SmartSelect) {
+        self.f7SmartSelect.open();
+      }
+      if (event.target.tagName.toLowerCase() !== 'input') {
+        self.$emit('click', event);
+      }
+    },
+    onSwipeoutDeleted: function onSwipeoutDeleted(event) {
+      this.$emit('swipeout:deleted', event);
+    },
+    onSwipeoutDelete: function onSwipeoutDelete(event) {
+      this.$emit('swipeout:delete', event);
+    },
+    onSwipeoutClose: function onSwipeoutClose(event) {
+      this.$emit('swipeout:close', event);
+    },
+    onSwipeoutClosed: function onSwipeoutClosed(event) {
+      this.$emit('swipeout:closed', event);
+    },
+    onSwipeoutOpen: function onSwipeoutOpen(event) {
+      this.$emit('swipeout:open', event);
+    },
+    onSwipeoutOpened: function onSwipeoutOpened(event) {
+      this.$emit('swipeout:opened', event);
+    },
+    onSwipeout: function onSwipeout(event) {
+      this.$emit('swipeout', event);
+    },
+    onAccClose: function onAccClose(event) {
+      this.$emit('accordion:close', event);
+    },
+    onAccClosed: function onAccClosed(event) {
+      this.$emit('accordion:closed', event);
+    },
+    onAccOpen: function onAccOpen(event) {
+      this.$emit('accordion:open', event);
+    },
+    onAccOpened: function onAccOpened(event) {
+      this.$emit('accordion:opened', event);
+    },
+    onChange: function onChange(event) {
+      this.$emit('change', event);
+    },
+    onInput: function onInput(event) {
+      this.$emit('input', event);
+    },
+  },
+};
+
+var app = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('f7-statusbar'),_c('f7-view',{attrs:{"url":"/"}})],1)},staticRenderFns: [],
   components: {
     f7View: f7View,
     f7Statusbar: f7Statusbar,
   },
-  mounted: function mounted() {
-    console.log('app mounted');
-  }
 };
 
-var About = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('f7-page',{attrs:{"ptr":""}},[_c('f7-navbar',{attrs:{"title":"Hello"}},[_c('f7-nav-right',[_vm._v("Nice")]),_c('f7-subnavbar',[_vm._v("Hello!")])],1),_c('f7-block-title',[_vm._v("Title")]),_c('f7-block',{attrs:{"strong":""}},[_c('f7-block-header',[_vm._v("Header")]),_c('p',[_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem reprehenderit, fuga iusto tenetur odit sint magni quidem laboriosam dolores ullam dolorem nostrum id blanditiis ipsum nulla quam praesentium non odio.")]),_c('f7-block-footer',[_vm._v("Footer")])],1),_c('f7-card',{attrs:{"title":"Hello","content":"Text content goes here","footer":"Footer text"}}),_c('f7-card',[_c('p',{attrs:{"slot":"header"},slot:"header"},[_vm._v("I am header")]),_c('p',{attrs:{"slot":"content"},slot:"content"},[_vm._v("I am content")]),_c('p',{attrs:{"slot":"footer"},slot:"footer"},[_vm._v("I am footer")])]),_c('f7-block-title',[_vm._v("Chips")]),_c('f7-block',[_c('f7-chip',{attrs:{"text":"Example Chip"}}),_c('f7-chip',{attrs:{"text":"Another Chip","bg-color":"red","text-color":"white"}}),_c('f7-chip',{attrs:{"text":"One More Chip","bg-color":"green","text-color":"white"}}),_c('f7-chip',{attrs:{"text":"Jane Doe"}},[_c('img',{attrs:{"slot":"media","src":"http://lorempixel.com/100/100/people/9/"},slot:"media"})]),_c('f7-chip',{attrs:{"text":"John Doe","bg-color":"orange"}},[_c('img',{attrs:{"slot":"media","src":"http://lorempixel.com/100/100/people/3/"},slot:"media"})]),_c('f7-chip',{attrs:{"text":"Another Chip","deleteable":""}}),_c('f7-chip',{attrs:{"text":"John Doe","deleteable":""}},[_c('img',{attrs:{"slot":"media","src":"http://lorempixel.com/100/100/people/3/"},slot:"media"})])],1),_c('f7-block',[_c('f7-icon',{attrs:{"if-ios":"f7:home","if-md":"material:test"}})],1),_c('f7-block',[_c('f7-row',[_c('f7-col',{attrs:{"width":"50","tablet-width":"33","desktop-width":"25"}},[_vm._v("1")]),_c('f7-col',{attrs:{"width":"50","tablet-width":"33","desktop-width":"25"}},[_vm._v("2")])],1)],1),_c('f7-block',[_c('p',[_c('f7-badge',[_vm._v("45")]),_c('f7-badge',{attrs:{"color":"red"}},[_vm._v("Red")])],1)]),_c('f7-block',[_c('f7-preloader'),_c('f7-preloader',{attrs:{"color":"red"}}),_c('f7-preloader',{attrs:{"color":"multi"}}),_c('f7-preloader',{attrs:{"color":"blue"}})],1),_c('f7-block-title',[_vm._v("Tabs")]),_c('f7-block',[_c('a',{staticClass:"tab-link",attrs:{"href":"./","data-route-tab-id":"tab-1"}},[_vm._v("Tab 1")]),_vm._v(" "),_c('a',{staticClass:"tab-link",attrs:{"href":"./tab-2/","data-route-tab-id":"tab-2"}},[_vm._v("Tab 2")]),_vm._v(" "),_c('a',{staticClass:"tab-link",attrs:{"href":"./tab-3/","data-route-tab-id":"tab-3"}},[_vm._v("Tab 3")]),_c('f7-tabs',[_c('f7-tab',{staticStyle:{"height":"100px"},attrs:{"id":"tab-1"}}),_c('f7-tab',{staticStyle:{"height":"100px"},attrs:{"id":"tab-2"}}),_c('f7-tab',{staticStyle:{"height":"100px"},attrs:{"id":"tab-3"}})],1)],1)],1)},staticRenderFns: [],
+var Home = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('f7-page',[_c('f7-navbar',{attrs:{"title":"Framework7"}},[_c('f7-nav-right',[_c('a',{staticClass:"link icon-only searchbar-enable",attrs:{"data-searchbar":".searchbar-components"}},[_c('i',{staticClass:"icon f7-icons ios-only"},[_vm._v("search_strong")]),_vm._v(" "),_c('i',{staticClass:"icon material-icons md-only"},[_vm._v("search")])])]),_c('form',{staticClass:"searchbar searchbar-expandable searchbar-components searchbar-init",attrs:{"data-search-container":".components-list","data-search-in":"a"}},[_c('div',{staticClass:"searchbar-inner"},[_c('div',{staticClass:"searchbar-input-wrap"},[_c('input',{attrs:{"type":"search","placeholder":"Search components"}}),_vm._v(" "),_c('i',{staticClass:"searchbar-icon"}),_vm._v(" "),_c('span',{staticClass:"input-clear-button"})]),_c('span',{staticClass:"searchbar-disable-button"},[_vm._v("Cancel")])])])],1),_c('f7-list',[_c('f7-list-item',{attrs:{"title":"About Framework7","link":"/about/"}})],1),_c('f7-block-title',{staticClass:"searchbar-found"},[_vm._v("Components")]),_c('f7-list',{staticClass:"components-list searchbar-found"},[_c('f7-list-item',{attrs:{"link":"/accordion/","title":"Accordion"}}),_c('f7-list-item',{attrs:{"link":"/action-sheet/","title":"Action Sheet"}}),_c('f7-list-item',{attrs:{"link":"/autocomplete/","title":"Autocomplete"}}),_c('f7-list-item',{attrs:{"link":"/badge/","title":"Badge"}}),_c('f7-list-item',{attrs:{"link":"/buttons/","title":"Buttons"}}),_c('f7-list-item',{attrs:{"link":"/calendar/","title":"Calendar / Date Picker","badge":"TODO"}}),_c('f7-list-item',{attrs:{"link":"/cards/","title":"Cards"}}),_c('f7-list-item',{attrs:{"link":"/checkbox/","title":"Checkbox"}}),_c('f7-list-item',{attrs:{"link":"/chips/","title":"Chips/Tags"}}),_c('f7-list-item',{attrs:{"link":"/contacts-list/","title":"Contacts List"}}),_c('f7-list-item',{attrs:{"link":"/content-block/","title":"Content Block"}}),_c('f7-list-item',{attrs:{"link":"/data-table/","title":"Data Table"}}),_c('f7-list-item',{attrs:{"link":"/dialog/","title":"Dialog"}}),_c('f7-list-item',{attrs:{"link":"/fab/","title":"FAB"}}),_c('f7-list-item',{attrs:{"link":"/fab-morph/","title":"FAB Morph"}}),_c('f7-list-item',{attrs:{"link":"/form-storage/","title":"Form Storage"}}),_c('f7-list-item',{attrs:{"link":"/icons/","title":"Icons"}}),_c('f7-list-item',{attrs:{"link":"/infinite-scroll/","title":"Infinite Scroll"}}),_c('f7-list-item',{attrs:{"link":"/inputs/","title":"Inputs"}}),_c('f7-list-item',{attrs:{"link":"/grid/","title":"Grid / Layout Grid"}}),_c('f7-list-item',{attrs:{"link":"/lazy-load/","title":"Lazy Load"}}),_c('f7-list-item',{attrs:{"link":"/list/","title":"List View"}}),_c('f7-list-item',{attrs:{"link":"/login-screen/","title":"Login Screen"}}),_c('f7-list-item',{attrs:{"link":"/messages/","title":"Messages"}}),_c('f7-list-item',{attrs:{"link":"/navbar/","title":"Navbar"}}),_c('f7-list-item',{attrs:{"link":"/notifications/","title":"Notifications"}}),_c('f7-list-item',{attrs:{"link":"/panel/","title":"Panel / Side Panels"}}),_c('f7-list-item',{attrs:{"link":"/picker/","title":"PickerPicker","badge":"TODO"}}),_c('f7-list-item',{attrs:{"link":"/photo-browser/","title":"Photo Browser"}}),_c('f7-list-item',{attrs:{"link":"/popup/","title":"Popup"}}),_c('f7-list-item',{attrs:{"link":"/popover/","title":"Popover"}}),_c('f7-list-item',{attrs:{"link":"/preloader/","title":"Preloader"}}),_c('f7-list-item',{attrs:{"link":"/progressbar/","title":"Progress Bar"}}),_c('f7-list-item',{attrs:{"link":"/pull-to-refresh/","title":"Pull To Refresh"}}),_c('f7-list-item',{attrs:{"link":"/radio/","title":"Radio"}}),_c('f7-list-item',{attrs:{"link":"/range/","title":"Range Slider"}}),_c('f7-list-item',{attrs:{"link":"/searchbar/","title":"Searchbar"}}),_c('f7-list-item',{attrs:{"link":"/searchbar-expandable/","title":"Searchbar Expandable"}}),_c('f7-list-item',{attrs:{"link":"/sheet-modal/","title":"Sheet Modal"}}),_c('f7-list-item',{attrs:{"link":"/smart-select/","title":"Smart Select"}}),_c('f7-list-item',{attrs:{"link":"/sortable/","title":"Sortable List"}}),_c('f7-list-item',{attrs:{"link":"/statusbar/","title":"Statusbar"}}),_c('f7-list-item',{attrs:{"link":"/subnavbar/","title":"Subnavbar"}}),_c('f7-list-item',{attrs:{"link":"/swipeout/","title":"Swipeout (Swipe To Delete)"}}),_c('f7-list-item',{attrs:{"link":"/swiper/","title":"Swiper Slider"}}),_c('f7-list-item',{attrs:{"link":"/tabs/","title":"Tabs"}}),_c('f7-list-item',{attrs:{"link":"/timeline/","title":"Timeline"}}),_c('f7-list-item',{attrs:{"link":"/toast/","title":"Toast"}}),_c('f7-list-item',{attrs:{"link":"/toggle/","title":"Toggle"}}),_c('f7-list-item',{attrs:{"link":"/toolbar-tabbar/","title":"Toolbar & Tabbar"}}),_c('f7-list-item',{attrs:{"link":"/virtual-list/","title":"Virtual List"}})],1),_c('f7-block-title',[_vm._v("Themes")]),_c('f7-list',[_c('f7-list-item',{attrs:{"title":"iOS Theme","external":"","link":"./?theme=ios"}},[_c('f7-list-item',{attrs:{"title":"Material (MD) Theme","external":"","link":"./?theme=md"}},[_c('f7-list-item',{attrs:{"title":"Color Themes","external":"","link":"/color-themes/"}})],1)],1)],1)],1)},staticRenderFns: [],
   components: {
     f7Page: f7Page,
     f7Navbar: f7Navbar,
-    f7Block: f7Block,
-    f7BlockHeader: f7BlockHeader,
-    f7BlockFooter: f7BlockFooter,
-    f7BlockTitle: f7BlockTitle,
-    f7Card: f7Card,
-    f7Chip: f7Chip,
-    f7Icon: f7Icon,
-    f7Row: f7Row,
-    f7Col: f7Col,
-    f7Badge: f7Badge,
     f7NavRight: f7NavRight,
-    f7Preloader: f7Preloader,
-    f7Subnavbar: f7Subnavbar,
-    f7Tabs: f7Tabs,
-    f7Tab: f7Tab,
+    f7BlockTitle: f7BlockTitle,
+    f7List: f7List,
+    f7ListItem: f7ListItem,
   },
-  mounted: function mounted() {
-  }
 };
 
-var AboutTab1 = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('p',[_vm._v("Tab 1")])},staticRenderFns: [],};
+var About = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('f7-page',[_c('f7-navbar',{attrs:{"title":"About Framework7","back-link":"Back"}}),_c('f7-block-title',[_vm._v("Welcome to Framework7")]),_c('f7-block',{attrs:{"strong":""}},[_c('p',[_vm._v("Framework7 - is a free and open source HTML mobile framework to develop hybrid mobile apps or web apps with iOS or Android (Material) native look and feel. It is also an indispensable prototyping apps tool to show working app prototype as soon as possible in case you need to. Framework7 is created by Vladimir Kharlampidi (iDangero.us).")]),_c('p',[_vm._v("The main approach of the Framework7 is to give you an opportunity to create iOS and Android (Material) apps with HTML, CSS and JavaScript easily and clear. Framework7 is full of freedom. It doesn't limit your imagination or offer ways of any solutions somehow. Framework7 gives you freedom!")]),_c('p',[_vm._v("Framework7 is not compatible with all platforms. It is focused only on iOS and Android (Material) to bring the best experience and simplicity.")]),_c('p',[_vm._v("Framework7 is definitely for you if you decide to build iOS and Android hybrid app (PhoneGap) or web app that looks like and feels as great native iOS or Android (Material) apps.")])])],1)},staticRenderFns: [],
+  components: {
+    f7Page: f7Page,
+    f7Navbar: f7Navbar,
+    f7BlockTitle: f7BlockTitle,
+    f7Block: f7Block,
+  },
+};
 
-var AboutTab2 = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('p',[_vm._v("Tab 2")])},staticRenderFns: [],};
+// import Accordion from './pages/accordion.vue';
+// import ActionSheet from './pages/action-sheet.vue';
 
-var AboutTab3 = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('p',[_vm._v("Tab 3")])},staticRenderFns: [],};
+// Pages
+var routes = [
+  // Index page
+  {
+    path: '/',
+    component: Home,
+  },
+  // About page
+  {
+    path: '/about/',
+    component: About,
+  },
+  // Right Panel pages
+  {
+    path: '/panel-right-1/',
+    content: '\
+      <div class="page">\
+        <div class="navbar">\
+          <div class="navbar-inner sliding">\
+            <div class="left">\
+              <a href="#" class="link back">\
+                <i class="icon icon-back"></i>\
+                <span class="ios-only">Back</span>\
+              </a>\
+            </div>\
+            <div class="title">Panel Page 1</div>\
+          </div>\
+        </div>\
+        <div class="page-content">\
+          <div class="block">\
+            <p>This is a right panel page 1</p>\
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo saepe aspernatur inventore dolorum voluptates consequatur tempore ipsum! Quia, incidunt, aliquam sit veritatis nisi aliquid porro similique ipsa mollitia eaque ex!</p>\
+          </div>\
+        </div>\
+      </div>\
+    ',
+  },
+  {
+    path: '/panel-right-2/',
+    content: '\
+      <div class="page">\
+        <div class="navbar">\
+          <div class="navbar-inner sliding">\
+            <div class="left">\
+              <a href="#" class="link back">\
+                <i class="icon icon-back"></i>\
+                <span class="ios-only">Back</span>\
+              </a>\
+            </div>\
+            <div class="title">Panel Page 2</div>\
+          </div>\
+        </div>\
+        <div class="page-content">\
+          <div class="block">\
+            <p>This is a right panel page 2</p>\
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo saepe aspernatur inventore dolorum voluptates consequatur tempore ipsum! Quia, incidunt, aliquam sit veritatis nisi aliquid porro similique ipsa mollitia eaque ex!</p>\
+          </div>\
+        </div>\
+      </div>\
+    ',
+  },
+
+  // Components
+  {
+    path: '/accordion/',
+    url: './pages/accordion.html',
+  },
+  {
+    path: '/action-sheet/',
+    componentUrl: './pages/action-sheet.html',
+  },
+  {
+    path: '/autocomplete/',
+    componentUrl: './pages/autocomplete.html',
+  },
+  {
+    path: '/badge/',
+    componentUrl: './pages/badge.html',
+  },
+  {
+    path: '/buttons/',
+    url: './pages/buttons.html',
+  },
+  {
+    path: '/cards/',
+    url: './pages/cards.html',
+  },
+  {
+    path: '/checkbox/',
+    url: './pages/checkbox.html',
+  },
+  {
+    path: '/chips/',
+    componentUrl: './pages/chips.html',
+  },
+  {
+    path: '/contacts-list/',
+    url: './pages/contacts-list.html',
+  },
+  {
+    path: '/content-block/',
+    url: './pages/content-block.html',
+  },
+  {
+    path: '/data-table/',
+    componentUrl: './pages/data-table.html',
+  },
+  {
+    path: '/dialog/',
+    componentUrl: './pages/dialog.html',
+  },
+  {
+    path: '/fab/',
+    url: './pages/fab.html',
+  },
+  {
+    path: '/fab-morph/',
+    url: './pages/fab-morph.html',
+  },
+  {
+    path: '/form-storage/',
+    url: './pages/form-storage.html',
+  },
+  {
+    path: '/grid/',
+    url: './pages/grid.html',
+  },
+  {
+    path: '/icons/',
+    componentUrl: './pages/icons.html',
+  },
+  {
+    path: '/infinite-scroll/',
+    componentUrl: './pages/infinite-scroll.html',
+  },
+  {
+    path: '/inputs/',
+    url: './pages/inputs.html',
+  },
+  {
+    path: '/lazy-load/',
+    url: './pages/lazy-load.html',
+  },
+  {
+    path: '/list/',
+    url: './pages/list.html',
+  },
+  {
+    path: '/login-screen/',
+    componentUrl: './pages/login-screen.html',
+  },
+  {
+    path: '/login-screen-page/',
+    componentUrl: './pages/login-screen-page.html',
+  },
+  {
+    path: '/messages/',
+    componentUrl: './pages/messages.html',
+  },
+  {
+    path: '/navbar/',
+    url: './pages/navbar.html',
+  },
+  {
+    path: '/navbar-hide-scroll/',
+    url: './pages/navbar-hide-scroll.html',
+  },
+  {
+    path: '/notifications/',
+    componentUrl: './pages/notifications.html',
+  },
+  {
+    path: '/panel/',
+    url: './pages/panel.html',
+  },
+  {
+    path: '/photo-browser/',
+    componentUrl: './pages/photo-browser.html',
+  },
+  {
+    path: '/popup/',
+    componentUrl: './pages/popup.html',
+  },
+  {
+    path: '/popover/',
+    url: './pages/popover.html',
+  },
+  {
+    path: '/preloader/',
+    componentUrl: './pages/preloader.html',
+  },
+  {
+    path: '/progressbar/',
+    componentUrl: './pages/progressbar.html',
+  },
+  {
+    path: '/pull-to-refresh/',
+    componentUrl: './pages/pull-to-refresh.html',
+  },
+  {
+    path: '/radio/',
+    url: './pages/radio.html',
+  },
+  {
+    path: '/range/',
+    componentUrl: './pages/range.html',
+  },
+  {
+    path: '/searchbar/',
+    url: './pages/searchbar.html',
+  },
+  {
+    path: '/searchbar-expandable/',
+    url: './pages/searchbar-expandable.html',
+  },
+  {
+    path: '/sheet-modal/',
+    componentUrl: './pages/sheet-modal.html',
+  },
+  {
+    path: '/smart-select/',
+    url: './pages/smart-select.html',
+  },
+  {
+    path: '/sortable/',
+    url: './pages/sortable.html',
+  },
+  {
+    path: '/statusbar/',
+    componentUrl: './pages/statusbar.html',
+  },
+  {
+    path: '/subnavbar/',
+    url: './pages/subnavbar.html',
+  },
+  {
+    path: '/subnavbar-title/',
+    url: './pages/subnavbar-title.html',
+  },
+  {
+    path: '/swiper/',
+    url: './pages/swiper.html',
+    routes: [
+      {
+        path: 'swiper-horizontal/',
+        url: './pages/swiper-horizontal.html',
+      },
+      {
+        path: 'swiper-vertical/',
+        url: './pages/swiper-vertical.html',
+      },
+      {
+        path: 'swiper-space-between/',
+        url: './pages/swiper-space-between.html',
+      },
+      {
+        path: 'swiper-multiple/',
+        url: './pages/swiper-multiple.html',
+      },
+      {
+        path: 'swiper-nested/',
+        url: './pages/swiper-nested.html',
+      },
+      {
+        path: 'swiper-loop/',
+        url: './pages/swiper-loop.html',
+      },
+      {
+        path: 'swiper-3d-cube/',
+        url: './pages/swiper-3d-cube.html',
+      },
+      {
+        path: 'swiper-3d-coverflow/',
+        url: './pages/swiper-3d-coverflow.html',
+      },
+      {
+        path: 'swiper-3d-flip/',
+        url: './pages/swiper-3d-flip.html',
+      },
+      {
+        path: 'swiper-fade/',
+        url: './pages/swiper-fade.html',
+      },
+      {
+        path: 'swiper-scrollbar/',
+        url: './pages/swiper-scrollbar.html',
+      },
+      {
+        path: 'swiper-gallery/',
+        componentUrl: './pages/swiper-gallery.html',
+      },
+      {
+        path: 'swiper-custom-controls/',
+        url: './pages/swiper-custom-controls.html',
+      },
+      {
+        path: 'swiper-parallax/',
+        url: './pages/swiper-parallax.html',
+      },
+      {
+        path: 'swiper-lazy/',
+        url: './pages/swiper-lazy.html',
+      },
+      {
+        path: 'swiper-pagination-progress/',
+        url: './pages/swiper-pagination-progress.html',
+      },
+      {
+        path: 'swiper-pagination-fraction/',
+        url: './pages/swiper-pagination-fraction.html',
+      },
+      {
+        path: 'swiper-zoom/',
+        url: './pages/swiper-zoom.html',
+      } ],
+  },
+  {
+    path: '/swipeout/',
+    componentUrl: './pages/swipeout.html',
+  },
+  {
+    path: '/tabs/',
+    url: './pages/tabs.html',
+  },
+  {
+    path: '/tabs-static/',
+    url: './pages/tabs-static.html',
+  },
+  {
+    path: '/tabs-animated/',
+    url: './pages/tabs-animated.html',
+  },
+  {
+    path: '/tabs-swipeable/',
+    url: './pages/tabs-swipeable.html',
+  },
+  {
+    path: '/tabs-routable/',
+    url: './pages/tabs-routable.html',
+    tabs: [
+      {
+        path: '/',
+        id: 'tab1',
+        content: ' \
+        <div class="block"> \
+          <p>Tab 1 content</p> \
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam enim quia molestiae facilis laudantium voluptates obcaecati officia cum, sit libero commodi. Ratione illo suscipit temporibus sequi iure ad laboriosam accusamus?</p> \
+          <p>Saepe explicabo voluptas ducimus provident, doloremque quo totam molestias! Suscipit blanditiis eaque exercitationem praesentium reprehenderit, fuga accusamus possimus sed, sint facilis ratione quod, qui dignissimos voluptas! Aliquam rerum consequuntur deleniti.</p> \
+          <p>Totam reprehenderit amet commodi ipsum nam provident doloremque possimus odio itaque, est animi culpa modi consequatur reiciendis corporis libero laudantium sed eveniet unde delectus a maiores nihil dolores? Natus, perferendis.</p> \
+        </div> \
+        ',
+      },
+      {
+        path: '/tab2/',
+        id: 'tab2',
+        content: '\
+        <div class="block"> \
+          <p>Tab 2 content</p> \
+          <p>Suscipit, facere quasi atque totam. Repudiandae facilis at optio atque, rem nam, natus ratione cum enim voluptatem suscipit veniam! Repellat, est debitis. Modi nam mollitia explicabo, unde aliquid impedit! Adipisci!</p> \
+          <p>Deserunt adipisci tempora asperiores, quo, nisi ex delectus vitae consectetur iste fugiat iusto dolorem autem. Itaque, ipsa voluptas, a assumenda rem, dolorum porro accusantium, officiis veniam nostrum cum cumque impedit.</p> \
+          <p>Laborum illum ipsa voluptatibus possimus nesciunt ex consequatur rem, natus ad praesentium rerum libero consectetur temporibus cupiditate atque aspernatur, eaque provident eligendi quaerat ea soluta doloremque. Iure fugit, minima facere.</p> \
+        </div> \
+        ',
+      },
+      {
+        path: '/tab3/',
+        id: 'tab3',
+        content: '\
+        <div class="block"> \
+          <p>Tab 3 content</p> \
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam enim quia molestiae facilis laudantium voluptates obcaecati officia cum, sit libero commodi. Ratione illo suscipit temporibus sequi iure ad laboriosam accusamus?</p> \
+          <p>Deserunt adipisci tempora asperiores, quo, nisi ex delectus vitae consectetur iste fugiat iusto dolorem autem. Itaque, ipsa voluptas, a assumenda rem, dolorum porro accusantium, officiis veniam nostrum cum cumque impedit.</p> \
+          <p>Laborum illum ipsa voluptatibus possimus nesciunt ex consequatur rem, natus ad praesentium rerum libero consectetur temporibus cupiditate atque aspernatur, eaque provident eligendi quaerat ea soluta doloremque. Iure fugit, minima facere.</p> \
+        </div> \
+        ',
+      } ],
+  },
+  {
+    path: '/toast/',
+    componentUrl: './pages/toast.html',
+  },
+  {
+    path: '/toggle/',
+    url: './pages/toggle.html',
+  },
+  {
+    path: '/toolbar-tabbar/',
+    componentUrl: './pages/toolbar-tabbar.html',
+    routes: [
+      {
+        path: 'tabbar/',
+        componentUrl: './pages/tabbar.html',
+      },
+      {
+        path: 'tabbar-labels/',
+        componentUrl: './pages/tabbar-labels.html',
+      },
+      {
+        path: 'tabbar-scrollable/',
+        componentUrl: './pages/tabbar-scrollable.html',
+      },
+      {
+        path: 'toolbar-hide-scroll/',
+        url: './pages/toolbar-hide-scroll.html',
+      } ],
+  },
+  {
+    path: '/timeline/',
+    url: './pages/timeline.html',
+  },
+  {
+    path: '/timeline-vertical/',
+    url: './pages/timeline-vertical.html',
+  },
+  {
+    path: '/timeline-horizontal/',
+    url: './pages/timeline-horizontal.html',
+  },
+  {
+    path: '/timeline-horizontal-calendar/',
+    url: './pages/timeline-horizontal-calendar.html',
+  },
+  {
+    path: '/virtual-list/',
+    componentUrl: './pages/virtual-list.html',
+  },
+
+  // Color Themes
+  {
+    path: '/color-themes/',
+    componentUrl: './pages/color-themes.html',
+  } ];
 
 /* eslint import/no-extraneous-dependencies: "off" */
 // Install Plugin
 Vue$3$1.use(Framework7Vue, Framework7$1);
 
 // Init Vue App
-new Vue$3$1({
+window.app = new Vue$3$1({
   // Root Element
   el: '#app',
   render: function (c) { return c('app'); },
   components: {
-    App: App,
+    app: app,
   },
-  routes: [
-    {
-      path: '/about/',
-      component: About,
-      tabs: [
-        {
-          id: 'tab-1',
-          path: '/',
-          component: AboutTab1,
-        },
-        {
-          id: 'tab-2',
-          path: '/tab-2/',
-          component: AboutTab2,
-        },
-        {
-          id: 'tab-3',
-          path: '/tab-3/',
-          component: AboutTab3,
-        } ],
-    } ],
+  routes: routes,
 });
 
 }());
