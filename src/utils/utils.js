@@ -1,4 +1,10 @@
 const Utils = {
+  isTrueProp(val) {
+    return val === true || val === '';
+  },
+  isStringProp(val) {
+    return typeof val === 'string' && val !== '';
+  },
   isObject(o) {
     return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
   },
