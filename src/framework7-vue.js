@@ -31,6 +31,13 @@ import f7FabButtons from './components/fab-buttons.vue';
 import f7Toolbar from './components/toolbar.vue';
 import f7Progressbar from './components/progressbar.vue';
 import f7LoginScreenTitle from './components/login-screen-title.vue';
+import f7Swiper from './components/swiper.vue';
+import f7SwiperSlide from './components/swiper-slide.vue';
+import f7List from './components/list.vue';
+import f7ListItem from './components/list-item.vue';
+import f7ListItemContent from './components/list-item-content.vue';
+import f7SwipeoutActions from './components/swipeout-actions.vue';
+import f7SwipeoutButton from './components/swipeout-button.vue';
 
 export {
   VuePlugin as Framework7Vue,
@@ -66,5 +73,12 @@ export {
   f7Toolbar,
   f7Progressbar,
   f7LoginScreenTitle,
+  f7Swiper,
+  f7SwiperSlide,
+  f7List,
+  f7ListItem,
+  f7ListItemContent,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
 };
 
