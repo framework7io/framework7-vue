@@ -38,12 +38,16 @@ export default {
         pageEl = $pageEl;
       }
       if (!pageEl) return;
-
+      let pageVueFound;
       routerVue.pages.forEach((page, index) => {
         if (page.el === pageEl) {
+          pageVueFound = true;
           routerVue.pages.splice(index, 1);
         }
       });
+      if (!pageVueFound) {
+        pageEl.parentNode.removeChild(pageEl);
+      }
     },
     tabComponentLoader(tabEl, component, componentUrl, options, resolve, reject) {
       if (!tabEl) reject();
@@ -66,7 +70,10 @@ export default {
       if (!tabEl) return;
 
       const tabVue = tabEl.__vue__;
-      if (!tabVue) return;
+      if (!tabVue) {
+        tabEl.innerHTML = ''; // eslint-disable-line
+        return;
+      }
 
       tabVue.tabContent = null;
     },
