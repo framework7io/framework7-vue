@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <f7-statusbar></f7-statusbar>
-    <f7-view url="/about/"></f7-view>
+    <f7-view url="/"></f7-view>
   </div>
 </template>
 <script>
@@ -11,9 +11,6 @@
     components: {
       f7View,
       f7Statusbar,
-    },
-    mounted() {
-      console.log('app mounted');
     },
   };
 </script>
