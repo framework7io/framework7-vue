@@ -1,20 +1,13 @@
 <script>
+import Utils from '../utils/utils';
+
 export default {
-  data() {
-    return {
-      routeInfo: {
-        activeTab: this.$route && this.$route.route.tab,
-      },
-    };
-  },
   props: {
     noLinkClass: Boolean,
     noFastclick: Boolean,
 
     external: Boolean,
     color: String,
-    bg: String,
-    theme: String,
     text: String,
     iconOnly: Boolean,
     icon: String,
@@ -22,7 +15,7 @@ export default {
     iconIon: String,
     iconFa: String,
     iconF7: String,
-    iconIfMaterial: String,
+    iconIfMd: String,
     iconIfIos: String,
     iconSize: [String, Number],
     rippleColor: String,
@@ -33,52 +26,56 @@ export default {
 
     // Button
     round: Boolean,
+    roundMd: Boolean,
+    roundIos: Boolean,
     fill: Boolean,
+    fillMd: Boolean,
+    fillIos: Boolean,
     big: Boolean,
+    bigMd: Boolean,
+    bigIos: Boolean,
+    small: Boolean,
+    smallMd: Boolean,
+    smallIos: Boolean,
     raised: Boolean,
 
     // Router
     force: Boolean,
     reload: Boolean,
-    animatePages: Boolean,
+    animate: Boolean,
     ignoreCache: Boolean,
-    pageName: String,
-    template: String,
 
     // View
     view: String,
 
     // Panel
-    openPanel: [Boolean, String],
-    closePanel: [Boolean, String],
+    panelOpen: [Boolean, String],
+    panelClose: [Boolean, String],
 
     // Popup
-    openPopup: [Boolean, String],
-    closePopup: [Boolean, String],
+    popupOpen: [Boolean, String],
+    popupClose: [Boolean, String],
 
     // Popover
-    openPopover: [Boolean, String],
-    closePopover: [Boolean, String],
+    popoverOpen: [Boolean, String],
+    popoverClose: [Boolean, String],
 
     // Login Screen
-    openLoginScreen: [Boolean, String],
-    closeLoginScreen: [Boolean, String],
+    loginScreenOpen: [Boolean, String],
+    loginScreenClose: [Boolean, String],
 
     // Picker
-    openPicker: [Boolean, String],
-    closePicker: [Boolean, String],
+    sheetOpen: [Boolean, String],
+    sheetClose: [Boolean, String],
 
     // Tab
     tabLink: [Boolean, String],
-    routeTabLink: [Boolean, String],
+    tabLinkActive: [Boolean, String],
 
     // Sortable
-    openSortable: [Boolean, String],
-    closeSortable: [Boolean, String],
-    toggleSortable: [Boolean, String],
-
-    // Active
-    active: Boolean,
+    sortableEnable: [Boolean, String],
+    sortableDisable: [Boolean, String],
+    sortableToggle: [Boolean, String],
 
     // Badge
     badge: [String, Number],
@@ -89,100 +86,139 @@ export default {
     back: Boolean,
   },
   computed: {
-    attrsObject() {
+    attrs() {
       const self = this;
+
+      // Link Props
+      const {
+        href,
+        force,
+        reloadCurrent,
+        reloadAll,
+        reloadPrevious,
+        animate,
+        ignoreCache,
+        target,
+        view,
+        panelOpen,
+        popupOpen,
+        popupClose,
+        popoverOpen,
+        popoverClose,
+        loginScreenOpen,
+        loginScreenClose,
+        sheetOpen,
+        sheetClose,
+        sortableEnable,
+        sortableDisable,
+        sortableToggle,
+        tabLink,
+      } = self;
+
       const ao = {
-        href: self.href,
+        href,
+        target,
+        'data-force': force,
+        'data-reload-current': reloadCurrent,
+        'data-reload-all': reloadAll,
+        'data-reload-previous': reloadPrevious,
+        'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
+        'data-ignore-cache': ignoreCache,
+        'data-view': Utils.isStringProp(view) ? view : false,
+        'data-panel': Utils.isStringProp(panelOpen),
+        'data-tab': Utils.isStringProp(tabLink),
       };
-      const pd = self.$options.propsData;
-      if ('force' in pd) ao['data-force'] = self.force;
-      if ('reload' in pd) ao['data-reload'] = 'true';
-      if ('animatePages' in pd && typeof pd.animatePages === 'boolean') ao['data-animate-pages'] = pd.animatePages.toString();
-      if ('ignoreCache' in pd) ao['data-ignore-cache'] = 'true';
-      if (self.pageName) ao['data-page-name'] = self.pageName;
-      if (self.template) ao['data-template'] = self.template;
-      if (self.view) ao['data-view'] = self.view;
 
-      function trustyString(s) {
-        if (typeof s === 'string' && s !== '') return true;
-        return false;
-      }
+      if (Utils.isStringProp(popupOpen)) ao['data-popup'] = popupOpen;
+      if (Utils.isStringProp(popoverOpen)) ao['data-popover'] = popoverOpen;
+      if (Utils.isStringProp(sheetOpen)) ao['data-sheet'] = sheetOpen;
+      if (Utils.isStringProp(loginScreenOpen)) ao['data-login-screen'] = loginScreenOpen;
+      if (Utils.isStringProp(sortableEnable)) ao['data-sortable'] = sortableEnable;
+      if (Utils.isStringProp(sortableToggle)) ao['data-sortable'] = sortableToggle;
 
-      if (trustyString(self.openPanel)) ao['data-panel'] = self.openPanel;
-      if (trustyString(self.openPopup)) ao['data-popup'] = self.openPopup;
-      if (trustyString(self.openPopover)) ao['data-popover'] = self.openPopover;
-      if (trustyString(self.openPicker)) ao['data-picker'] = self.openPicker;
-      if (trustyString(self.openLoginScreen)) ao['data-login-screen'] = self.openLoginScreen;
-      if (trustyString(self.openSortable)) ao['data-sortable'] = self.openSortable;
-      if (trustyString(self.toggleSortable)) ao['data-sortable'] = self.toggleSortable;
-
-      if (trustyString(self.closePopup)) ao['data-popup'] = self.closePopup;
-      if (trustyString(self.closePopover)) ao['data-popover'] = self.closePopover;
-      if (trustyString(self.closePicker)) ao['data-picker'] = self.closePicker;
-      if (trustyString(self.closeLoginScreen)) ao['data-login-screen'] = self.closeLoginScreen;
-      if (trustyString(self.closeSortable)) ao['data-sortable'] = self.closeSortable;
-
-      if (trustyString(self.tabLink)) ao['data-tab'] = self.tabLink;
+      if (Utils.isStringProp(popupClose)) ao['data-popup'] = popupClose;
+      if (Utils.isStringProp(popoverClose)) ao['data-popover'] = popoverClose;
+      if (Utils.isStringProp(sheetClose)) ao['data-picker'] = sheetClose;
+      if (Utils.isStringProp(loginScreenClose)) ao['data-login-screen'] = loginScreenClose;
+      if (Utils.isStringProp(sortableDisable)) ao['data-sortable'] = sortableDisable;
 
       return ao;
     },
-    classesObject() {
+    classes() {
       const self = this;
+
+      const {
+        external,
+        back,
+        noFastclick,
+        panelOpen,
+        panelClose,
+        popupOpen,
+        popupClose,
+        popoverOpen,
+        popoverClose,
+        loginScreenOpen,
+        loginScreenClose,
+        sheetOpen,
+        sheetClose,
+        sortableEnable,
+        sortableDisable,
+        sortableToggle,
+        tabLink,
+        rippleColor,
+        color,
+        textColor,
+
+        round,
+        roundIos,
+        roundMd,
+        fill,
+        fillIos,
+        fillMd,
+        big,
+        bigIos,
+        bigMd,
+        small,
+        smallIos,
+        smallMd,
+        raised,
+      } = self;
+
       const co = {
-        back: self.back,
-        external: self.external,
-        'no-fastclick': self.noFastclick,
+        external,
+        back,
+        [`ripple-color-${rippleColor}`]: rippleColor,
+        [`color-${color}`]: color,
+        [`text-color-${textColor}`]: textColor,
+        'tab-link': tabLink || tabLink === '',
+        'no-fastclick': noFastclick,
+        'panel-close': Utils.isTrueProp(panelClose),
+        'panel-open': panelOpen || panelOpen === '',
+        'popup-close': Utils.isTrueProp(popupClose),
+        'popup-open': popupOpen || popupOpen === '',
+        'popover-close': Utils.isTrueProp(popoverClose),
+        'popover-open': popoverOpen || popoverOpen === '',
+        'sheet-close': Utils.isTrueProp(sheetClose),
+        'sheet-open': sheetOpen || sheetOpen === '',
+        'login-screen-close': Utils.isTrueProp(loginScreenClose),
+        'login-screen-open': loginScreenOpen || loginScreenOpen === '',
+        'sortable-enable': Utils.isTrueProp(sortableEnable),
+        'sortable-disable': Utils.isTrueProp(sortableDisable),
+        'sortable-toggle': Utils.isTrueProp(sortableToggle),
+        'button-round': round,
+        'button-round-ios': roundIos,
+        'button-round-md': roundMd,
+        'button-fill': fill,
+        'button-fill-ios': fillIos,
+        'button-fill-md': fillMd,
+        'button-big': big,
+        'button-big-ios': bigIos,
+        'button-big-md': bigMd,
+        'button-small': small,
+        'button-small-ios': smallIos,
+        'button-small-md': smallMd,
+        'button-raised': raised,
       };
-      // const pd = self.$options.propsData;
-      if (self.rippleColor) co[`ripple-color-${self.rippleColor}`] = true;
-      if (self.color) co[`color-${self.color}`] = true;
-      if (self.theme) co[`theme-${self.theme}`] = true;
-      if (self.bg) co[`bg-${self.bg}`] = true;
-
-      // Button
-      ['round', 'fill', 'big', 'raised'].forEach((prop) => {
-        if (self[prop]) co[`button-${prop}`] = true;
-      });
-
-      // Active
-      if (self.routeInfo.activeTab) {
-        const isActiveTab = self.routeTabLink && self.routeTabLink.replace('#', '') === self.routeInfo.activeTab.tabId;
-        co.active = isActiveTab;
-      } else {
-        co.active = self.active;
-      }
-
-      function trustyBoolean(b) {
-        if (b || b === '') return true;
-        return false;
-      }
-      // Panel
-      if (trustyBoolean(self.closePanel)) co['close-panel'] = true;
-      if (self.openPanel || self.openPanel === '') co['open-panel'] = true;
-
-      // Popup
-      if (trustyBoolean(self.closePopup)) co['close-popup'] = true;
-      if (self.openPopup || self.openPopup === '') co['open-popup'] = true;
-
-      // Popover
-      if (trustyBoolean(self.closePopover)) co['close-popover'] = true;
-      if (self.openPopover || self.openPopover === '') co['open-popover'] = true;
-
-      // Picker
-      if (trustyBoolean(self.closePicker)) co['close-picker'] = true;
-      if (self.openPicker || self.openPicker === '') co['open-picker'] = true;
-
-      // Login Screen
-      if (trustyBoolean(self.closeLoginScreen)) co['close-login-screen'] = true;
-      if (self.openLoginScreen || self.openLoginScreen === '') co['open-login-screen'] = true;
-
-      // Sortable
-      if (trustyBoolean(self.closeSortable)) co['close-sortable'] = true;
-      if (self.openSortable || self.openSortable === '') co['open-sortable'] = true;
-      if (self.toggleSortable || self.toggleSortable === '') co['toggle-sortable'] = true;
-
-      // Tab
-      if (self.tabLink || self.tabLink === '') co['tab-link'] = true;
 
       return co;
     },
@@ -190,11 +226,6 @@ export default {
   methods: {
     onClick(event) {
       this.$emit('click', event);
-    },
-    onRouteChange(e) {
-      if (e.route.tab) {
-        this.$set(this.routeInfo, 'activeTab', e.route.tab);
-      }
     },
   },
 };
