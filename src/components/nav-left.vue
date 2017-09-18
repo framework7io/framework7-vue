@@ -13,7 +13,12 @@
   </div>
 </template>
 <script>
+  import f7Link from './link.vue';
+
   export default {
+    components: {
+      f7Link,
+    },
     props: {
       backLink: [Boolean, String],
       backLinkUrl: String,
