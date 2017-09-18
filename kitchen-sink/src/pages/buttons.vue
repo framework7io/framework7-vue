@@ -1,173 +1,193 @@
 <template>
-<div class="page">
-  <f7-navbar title="Buttons" back-link="Back"></f7-navbar>
+  <f7-page>
+    <f7-navbar title="Buttons" back-link="Back"></f7-navbar>
 
-  <div class="page-content">
-    <div class="block-title">Usual Buttons</div>
-    <div class="block">
-      <div class="row">
-        <button class="button col">Button</button>
-        <button class="button col">Button</button>
-        <button class="button col button-round">Round</button>
-      </div>
-    </div>
-    <div class="block-title">Fill Buttons</div>
-    <div class="block">
-      <div class="row">
-        <button class="col button button-fill">Button</button>
-        <button class="col button button-fill">Button</button>
-        <button class="col button button-fill button-round">Round</button>
-      </div>
-    </div>
-    <div class="block-title">Outline Buttons (MD-theme only)</div>
-    <div class="block">
-      <div class="row">
-        <button class="col button button-outline">Button</button>
-        <button class="col button button-outline">Button</button>
-        <button class="col button button-outline button-round">Round</button>
-      </div>
-    </div>
-    <div class="block-title">Raised Buttons (MD-theme only)</div>
-    <div class="block">
-      <p class="row">
-        <button class="col button button-raised">Button</button>
-        <button class="col button button-raised button-fill">Fill</button>
-        <button class="col button button-outline button-raised">Outline</button>
-      </p>
-      <p class="row">
-        <button class="col button button-raised button-round">Round</button>
-        <button class="col button button-raised button-fill button-round">Fill</button>
-        <button class="col button button-outline button-round button-raised">Outline</button>
-      </p>
-    </div>
-    <div class="block-title">Segmented</div>
-    <div class="block">
-      <p class="segmented segmented-raised">
-        <button class="button">Button</button>
-        <button class="button">Button</button>
-        <button class="button button-active">Active</button>
-      </p>
-      <p class="segmented">
-        <button class="button button-outline">Outline</button>
-        <button class="button button-outline">Outline</button>
-        <button class="button button-outline button-active">Active</button>
-      </p>
-      <p class="segmented segmented-raised segmented-round">
-        <button class="button button-round">Button</button>
-        <button class="button button-round">Button</button>
-        <button class="button button-round button-active">Active</button>
-      </p>
-      <p class="segmented segmented-round">
-        <button class="button button-round button-outline">Outline</button>
-        <button class="button button-round button-outline">Outline</button>
-        <button class="button button-round button-outline button-active">Active</button>
-      </p>
-    </div>
+    <f7-block-title>Usual Buttons</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>
+          <f7-button>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button round>Round</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
 
-    <div class="block-title">Big Buttons</div>
-    <div class="block">
-      <p class="row">
-        <button class="col button button-big">Button</button>
-        <button class="col button button-big button-fill">Fill</button>
-      </p>
-      <p class="row">
-        <button class="col button button-big button-raised">Raised</button>
-        <button class="col button button-big button-raised button-fill">Raised Fill</button>
-      </p>
-    </div>
+    <f7-block-title>Fill Buttons</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>
+          <f7-button fill>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button fill>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button fill round>Round</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
 
-    <div class="block-title">Small Buttons</div>
-    <div class="block">
-      <p class="row">
-        <button class="col button button-small">Button</button>
-        <button class="col button button-small button-outline">Outline</button>
-        <button class="col button button-small button-fill">Fill</button>
-      </p>
-    </div>
-    <div class="block-title">Color Buttons</div>
-    <div class="block">
-      <p class="row">
-        <button class="col button color-red">Red</button>
-        <button class="col button color-pink">Pink</button>
-        <button class="col button color-purple">Purple</button>
-      </p>
-      <p class="row">
-        <button class="col button color-deeppurple">Deep Purple</button>
-        <button class="col button color-indigo">Indigo</button>
-        <button class="col button color-blue">Blue</button>
-      </p>
-      <p class="row">
-        <button class="col button color-lightblue">Light Blue</button>
-        <button class="col button color-cyan">Cyan</button>
-        <button class="col button color-teal">Teal</button>
-      </p>
-      <p class="row">
-        <button class="col button color-green">Green</button>
-        <button class="col button color-lightgreen">Light Green</button>
-        <button class="col button color-lime">Lime</button>
-      </p>
-      <p class="row">
-        <button class="col button color-yellow">Yellow</button>
-        <button class="col button color-amber">Amber</button>
-        <button class="col button color-orange">Orange</button>
-      </p>
-      <p class="row">
-        <button class="col button color-deeporange">Deep Orange</button>
-        <button class="col button color-brown">Brown</button>
-        <button class="col button color-gray">Gray</button>
-      </p>
-    </div>
-    <div class="block-title">Color Fill Buttons</div>
-    <div class="block">
-      <p class="row">
-        <button class="col button button-fill color-red">Red</button>
-        <button class="col button button-fill color-pink">Pink</button>
-        <button class="col button button-fill color-purple">Purple</button>
-      </p>
-      <p class="row">
-        <button class="col button button-fill color-deeppurple">Deep Purple</button>
-        <button class="col button button-fill color-indigo">Indigo</button>
-        <button class="col button button-fill color-blue">Blue</button>
-      </p>
-      <p class="row">
-        <button class="col button button-fill color-lightblue">Light Blue</button>
-        <button class="col button button-fill color-cyan">Cyan</button>
-        <button class="col button button-fill color-teal">Teal</button>
-      </p>
-      <p class="row">
-        <button class="col button button-fill color-green">Green</button>
-        <button class="col button button-fill color-lightgreen">Light Green</button>
-        <button class="col button button-fill color-lime">Lime</button>
-      </p>
-      <p class="row">
-        <button class="col button button-fill color-yellow">Yellow</button>
-        <button class="col button button-fill color-amber">Amber</button>
-        <button class="col button button-fill color-orange">Orange</button>
-      </p>
-      <p class="row">
-        <button class="col button button-fill color-deeporange">Deep Orange</button>
-        <button class="col button button-fill color-brown">Brown</button>
-        <button class="col button button-fill color-gray">Gray</button>
-      </p>
-    </div>
-    <div class="block-title">List-Block Buttons</div>
-    <div class="list inset">
-      <ul>
-        <li><a href="#" class="list-button item-link">List Button 1</a></li>
-        <li><a href="#" class="list-button item-link">List Button 2</a></li>
-        <li><a href="#" class="list-button item-link">List Button 2</a></li>
-      </ul>
-    </div>
-    <div class="list inset">
-      <ul>
-        <li><a href="#" class="list-button item-link color-red">Big Red Button</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <f7-block-title>Outline Buttons (MD-theme only)</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>
+          <f7-button outline>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button outline>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button outline round>Round</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>Raised Buttons (MD-theme only)</f7-block-title>
+    <f7-block>
+      <f7-row tag="p">
+        <f7-col>
+          <f7-button raised>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button raised fill>Fill</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button raised outline>Outline</f7-button>
+        </f7-col>
+      </f7-row>
+      <f7-row tag="p">
+        <f7-col>
+          <f7-button raised round>Round</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button raised fill round>Fill</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button raised outline round>Outline</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>Segmented</f7-block-title>
+    <f7-block>
+      <f7-segmented raised tag="p">
+        <f7-button>Button</f7-button>
+        <f7-button>Button</f7-button>
+        <f7-button active>Active</f7-button>
+      </f7-segmented>
+      <f7-segmented raised tag="p">
+        <f7-button outline>Outline</f7-button>
+        <f7-button outline>Outline</f7-button>
+        <f7-button outline active>Active</f7-button>
+      </f7-segmented>
+      <f7-segmented raised round tag="p">
+        <f7-button round>Button</f7-button>
+        <f7-button round>Button</f7-button>
+        <f7-button round active>Active</f7-button>
+      </f7-segmented>
+      <f7-segmented round round tag="p">
+        <f7-button round outline>Outline</f7-button>
+        <f7-button round outline>Outline</f7-button>
+        <f7-button round outline active>Active</f7-button>
+      </f7-segmented>
+    </f7-block>
+
+    <f7-block-title>Big Buttons</f7-block-title>
+    <f7-block>
+      <f7-row tag="p">
+        <f7-col>
+          <f7-button big>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button big fill>Fill</f7-button>
+        </f7-col>
+      </f7-row>
+      <f7-row tag="p">
+        <f7-col>
+          <f7-button big raised>Raised</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button big raised fill>Raised Fill</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>Small Buttons</f7-block-title>
+    <f7-block>
+      <f7-row tag="p">
+        <f7-col>
+          <f7-button big small>Button</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button big small outline>Outline</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button big small fill>Fill</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>Color Buttons</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>
+          <f7-button color="red">Red</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button color="green">Green</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button color="blue">Blue</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>Color Fill Buttons</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>
+          <f7-button fill color="red">Red</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button fill color="green">Green</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button fill color="blue">Blue</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+
+    <f7-block-title>List-Block Buttons</f7-block-title>
+    <f7-list inset>
+      <f7-list-button title="List Button 1"></f7-list-button>
+      <f7-list-button title="List Button 2"></f7-list-button>
+      <f7-list-button title="List Button 3"></f7-list-button>
+    </f7-list>
+    <f7-list inset>
+      <f7-list-button title="Big Red Button" color="red"></f7-list-button>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Block, f7List, f7Row, f7Col, f7ListButton, f7Button, f7Segmented } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+      f7Block,
+      f7List,
+      f7Row,
+      f7Col,
+      f7ListButton,
+      f7Button,
+      f7Segmented,
+    }
+  }
 </script>
