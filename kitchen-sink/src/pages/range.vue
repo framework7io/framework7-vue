@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Range Slider" back-link="Back"></f7-navbar>
     <div class="page-content">
-      <div class="block-title">Volume</div>
+      <f7-block-title>Volume</f7-block-title>
       <div class="list simple-list">
         <ul>
           <li>
@@ -22,7 +22,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Brightness</div>
+      <f7-block-title>Brightness</f7-block-title>
       <div class="list simple-list">
         <ul>
           <li>
@@ -72,9 +72,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       onPriceChange: function (e, range) {
         this.$el.find('.price-value').text('$'+(range.value[0])+' - $'+(range.value[1]));

@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Chips" back-link="Back"></f7-navbar>
     <div class="page-content">
-      <div class="block-title">Chips With Text</div>
+      <f7-block-title>Chips With Text</f7-block-title>
       <div class="block block-strong">
         <div class="chip">
           <div class="chip-label">Example Chip</div>
@@ -20,7 +20,7 @@
           <div class="chip-label">Last One</div>
         </div>
       </div>
-      <div class="block-title">Icon Chips</div>
+      <f7-block-title>Icon Chips</f7-block-title>
       <div class="block block-strong">
         <div class="chip">
           <div :class="{ 'bg-color-blue' : $theme.md }" class="chip-media">
@@ -44,7 +44,7 @@
           <div class="chip-label">John Doe</div>
         </div>
       </div>
-      <div class="block-title">Contact Chips</div>
+      <f7-block-title>Contact Chips</f7-block-title>
       <div class="block block-strong">
         <div class="chip">
           <div class="chip-media"><img src="http://lorempixel.com/100/100/people/9/"/></div>
@@ -96,7 +96,7 @@
           <div class="chip-label">Adam Smith</div><a href="#" class="chip-delete" @click="deleteChip"></a>
         </div>
       </div>
-      <div class="block-title">Color Chips</div>
+      <f7-block-title>Color Chips</f7-block-title>
       <div class="block block-strong">
         <div class="chip color-red">
           <div class="chip-label">Red Chip</div>
@@ -118,9 +118,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       deleteChip(e) {
         var $ = this.$;

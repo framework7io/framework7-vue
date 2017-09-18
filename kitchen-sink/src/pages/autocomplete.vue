@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="block-title">Dropdown Autocomplete</div>
+      <f7-block-title>Dropdown Autocomplete</f7-block-title>
       <div class="block">
         <p>Dropdown autocomplete is good to use as a quick and simple solution to provide more options in addition to free-type value.</p>
       </div>
@@ -119,7 +119,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Standalone Autocomplete</div>
+      <f7-block-title>Standalone Autocomplete</f7-block-title>
       <div class="block">
         <p>Standalone autocomplete provides better mobile UX by opening it in a new page or popup. Good to use when you need to get strict values without allowing free-type values.</p>
       </div>
@@ -183,12 +183,13 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
     components: {
       f7Page,
       f7Navbar,
+      f7BlockTitle,
     },
     data: function () {
       return {

@@ -5,7 +5,7 @@
     <div class="block">
       <p>Cards are a great way to contain and organize your information, especially when combined with List Views. Cards can contain unique related data, like for example photos, text or links about a particular subject. Cards are typically an entry point to more complex and detailed information.</p>
     </div>
-    <div class="block-title">Simple Cards</div>
+    <f7-block-title>Simple Cards</f7-block-title>
     <div class="card">
       <div class="card-content card-content-padding">This is a simple card with plain text, but cards can also contain their own header, footer, list view, image, or any other element.</div>
     </div>
@@ -17,7 +17,7 @@
     <div class="card">
       <div class="card-content card-content-padding">Another card. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse feugiat sem est, non tincidunt ligula volutpat sit amet. Mauris aliquet magna justo. </div>
     </div>
-    <div class="block-title">Styled Cards</div>
+    <f7-block-title>Styled Cards</f7-block-title>
     <div class="card demo-card-header-pic">
       <div style="background-image:url(http://lorempixel.com/1000/600/nature/3/)" valign="bottom" class="card-header no-border">Journey To Mountains</div>
       <div class="card-content card-content-padding">
@@ -34,7 +34,7 @@
       </div>
       <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read more</a></div>
     </div>
-    <div class="block-title">Facebook Cards</div>
+    <f7-block-title>Facebook Cards</f7-block-title>
     <div class="card demo-facebook-card">
       <div class="card-header no-border">
         <div class="demo-facebook-avatar"><img src="http://lorempixel.com/68/68/people/1/" width="34" height="34"/></div>
@@ -56,7 +56,7 @@
       </div>
       <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
     </div>
-    <div class="block-title">Cards With List View</div>
+    <f7-block-title>Cards With List View</f7-block-title>
     <div class="card">
       <div class="card-content">
         <div class="list links-list">
@@ -111,7 +111,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

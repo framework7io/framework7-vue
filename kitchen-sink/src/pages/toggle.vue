@@ -2,7 +2,7 @@
 <div class="page">
   <f7-navbar title="Toggle" back-link="Back"></f7-navbar>
   <div class="page-content">
-    <div class="block-title">Super Heroes</div>
+    <f7-block-title>Super Heroes</f7-block-title>
     <div class="list simple-list">
       <ul>
         <li>
@@ -67,7 +67,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

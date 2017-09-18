@@ -15,7 +15,7 @@
     <div class="block">
       <p>Columns within a row are automatically set to have equal width. Otherwise you can define your column with pourcentage of screen you want.</p>
     </div>
-    <div class="block-title">Columns with gutter</div>
+    <f7-block-title>Columns with gutter</f7-block-title>
     <div class="block">
       <div class="row">
         <div class="col">50% (.col)</div>
@@ -57,7 +57,7 @@
         <div class="col-20">20% (.col-20)</div>
       </div>
     </div>
-    <div class="block-title">No gutter between columns</div>
+    <f7-block-title>No gutter between columns</f7-block-title>
     <div class="block">
       <div class="row no-gap">
         <div class="col">50% (.col)</div>
@@ -100,7 +100,7 @@
       </div>
     </div>
 
-    <div class="block-title">Nested</div>
+    <f7-block-title>Nested</f7-block-title>
     <div class="block">
       <div class="row">
         <div class="col">50% (.col)
@@ -118,7 +118,7 @@
       </div>
     </div>
 
-    <div class="block-title">Responsive Grid</div>
+    <f7-block-title>Responsive Grid</f7-block-title>
     <div class="block">
       <p>Grid cells have different size on Phone/Tablet</p>
       <div class="row">
@@ -143,7 +143,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

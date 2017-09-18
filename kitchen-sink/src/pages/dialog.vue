@@ -14,27 +14,27 @@
           <button class="col button button-raised" @click="openPassword">Password</button>
         </p>
       </div>
-      <div class="block-title">Vertical Buttons</div>
+      <f7-block-title>Vertical Buttons</f7-block-title>
       <div class="block block-strong">
         <p>
           <button class="button button-raised" @click="openVerticalButtons">Vertical Buttons</button>
         </p>
       </div>
-      <div class="block-title">Preloader Dialog</div>
+      <f7-block-title>Preloader Dialog</f7-block-title>
       <div class="block block-strong">
         <p class="row">
           <button class="col button button-raised" @click="openPreloader">Preloader</button>
           <button class="col button button-raised" @click="openCustomPreloader">Custom Text</button>
         </p>
       </div>
-      <div class="block-title">Progress Dialog</div>
+      <f7-block-title>Progress Dialog</f7-block-title>
       <div class="block block-strong">
         <p class="row">
           <button class="col button button-raised" @click="openInfiniteProgress">Infinite</button>
           <button class="col button button-raised" @click="openDeterminedProgress">Determined</button>
         </p>
       </div>
-      <div class="block-title">Dialogs Stack</div>
+      <f7-block-title>Dialogs Stack</f7-block-title>
       <div class="block block-strong">
         <p>This feature doesn't allow to open multiple dialogs at the same time, and will automatically open next dialog when you close the current one. Such behavior is similar to browser native dialogs: </p>
         <p>
@@ -45,9 +45,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       openAlert: function () {
         var app = this.$app;

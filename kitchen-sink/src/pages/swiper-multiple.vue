@@ -77,7 +77,7 @@
         <div class="swiper-slide">Slide 5</div>
       </div>
     </div>
-    <div class="block-title">Slow speed</div>
+    <f7-block-title>Slow speed</f7-block-title>
     <div data-speed="900" data-pagination='{"el": ".swiper-pagination"}' data-space-between="50" class="swiper-container swiper-init demo-swiper-multiple">
       <div class="swiper-pagination"></div>
       <div class="swiper-wrapper">
@@ -97,7 +97,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

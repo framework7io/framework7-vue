@@ -2,11 +2,11 @@
 <div class="page">
   <f7-navbar title="Radio" back-link="Back"></f7-navbar>
   <div class="page-content">
-    <div class="block-title">Inline</div>
+    <f7-block-title>Inline</f7-block-title>
     <div class="block block-strong">
       <p>Lorem <label class="radio"><input type="radio" name="demo-radio-inline"><i class="icon-radio"></i></label> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <label class="radio"><input type="radio" name="demo-radio-inline"><i class="icon-radio"></i></label> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
     </div>
-    <div class="block-title">Radio Group</div>
+    <f7-block-title>Radio Group</f7-block-title>
     <div class="list">
       <ul>
         <li>
@@ -47,7 +47,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">With Media Lists</div>
+    <f7-block-title>With Media Lists</f7-block-title>
     <div class="list media-list">
       <ul>
         <li>
@@ -112,7 +112,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

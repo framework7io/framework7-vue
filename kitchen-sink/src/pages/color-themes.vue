@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Color Themes" back-link="Back"></f7-navbar>
     <div class="page-content">
-      <div class="block-title">Choose Color Theme</div>
+      <f7-block-title>Choose Color Theme</f7-block-title>
       <div class="block">
         <p>Framework7 comes with {{colorsAmount}} color themes set.</p>
         <div class="row">
@@ -23,9 +23,14 @@
   }
 </style>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     data: function () {
       var colors = [
         'red',

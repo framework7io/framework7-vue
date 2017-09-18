@@ -5,7 +5,7 @@
       <div class="block">
         <p>How about an activity indicator? Framework 7 has a nice one. The F7 Preloader is made with SVG and animated with CSS so it can be easily resized.</p>
       </div>
-      <div class="block-title">Default</div>
+      <f7-block-title>Default</f7-block-title>
       <div class="block row demo-preloaders align-items-stretch text-align-center">
         <div class="col-25">
           <div class="preloader"></div>
@@ -20,7 +20,7 @@
           <div class="preloader preloader-big color-white"></div>
         </div>
       </div>
-      <div class="block-title">Color Preloaders</div>
+      <f7-block-title>Color Preloaders</f7-block-title>
       <div class="block row text-align-center">
         <div class="col-25">
           <div class="preloader color-red"></div>
@@ -39,7 +39,7 @@
       <div class="block text-align-center">
         <div class="preloader color-multi"></div>
       </div>
-      <div class="block-title">Preloader Modals</div>
+      <f7-block-title>Preloader Modals</f7-block-title>
       <div class="block">
         <p>With <b>app.preloader.show()</b> you can show small overlay with preloader indicator.</p>
         <p>
@@ -71,9 +71,14 @@
   }
 </style>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       openIndicator: function () {
         var self = this;

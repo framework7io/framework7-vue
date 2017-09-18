@@ -517,7 +517,7 @@
       </ul>
     </div>
 
-    <div class="block-title">Only Inputs</div>
+    <f7-block-title>Only Inputs</f7-block-title>
     <div class="list no-hairlines-md">
       <ul>
         <li class="item-content item-input">
@@ -597,7 +597,7 @@
       </ul>
     </div>
 
-    <div class="block-title">Only Inputs Inset</div>
+    <f7-block-title>Only Inputs Inset</f7-block-title>
     <div class="list inset">
       <ul>
         <li class="item-content item-input">
@@ -638,7 +638,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

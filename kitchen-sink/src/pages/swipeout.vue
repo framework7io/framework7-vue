@@ -17,7 +17,7 @@
           Swipe out actions on list elements is one of the most awesome F7 features. It allows you to call hidden menu for each list element where you can put default ready-to use delete button or any other buttons for some required actions.
         </p>
       </div>
-      <div class="block-title">Swipe to delete with confirm modal</div>
+      <f7-block-title>Swipe to delete with confirm modal</f7-block-title>
       <div class="list">
         <ul>
           <li class="swipeout">
@@ -56,7 +56,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Swipe to delete without confirm</div>
+      <f7-block-title>Swipe to delete without confirm</f7-block-title>
       <div class="list">
         <ul>
           <li class="swipeout">
@@ -88,7 +88,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Swipe for actions</div>
+      <f7-block-title>Swipe for actions</f7-block-title>
       <div class="list">
         <ul>
           <li class="swipeout">
@@ -134,7 +134,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">With callback on remove</div>
+      <f7-block-title>With callback on remove</f7-block-title>
       <div class="list">
         <ul>
           <li class="swipeout" @swipeout:deleted="onDeleted">
@@ -199,7 +199,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">On both sides with overswipes</div>
+      <f7-block-title>On both sides with overswipes</f7-block-title>
       <div class="list media-list">
         <ul>
           <li class="swipeout">
@@ -308,9 +308,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       more: function () {
         var self = this;

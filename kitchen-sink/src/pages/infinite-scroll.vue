@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Infinite Scroll" back-link="Back"></f7-navbar>
     <div data-infinite-distance="50" class="page-content infinite-scroll-content" @infinite="loadMore">
-      <div class="block-title">Scroll bottom</div>
+      <f7-block-title>Scroll bottom</f7-block-title>
       <div class="list simple-list">
         <ul>
           <li>Item 1</li>
@@ -32,9 +32,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     data: function () {
       return {
         allowInfinite: true,

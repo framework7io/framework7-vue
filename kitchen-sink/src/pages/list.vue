@@ -5,7 +5,7 @@
     <div class="block">
       <p>Framework7 allows you to be flexible with list views (table views). You can make them as navigation menus, you can use there icons, inputs, and any elements inside of the list, and even make them nested:</p>
     </div>
-    <div class="block-title">Simple List</div>
+    <f7-block-title>Simple List</f7-block-title>
     <div class="list simple-list">
       <ul>
         <li>Item 1</li>
@@ -13,7 +13,7 @@
         <li>Item 3</li>
       </ul>
     </div>
-    <div class="block-title">Simple Links List</div>
+    <f7-block-title>Simple Links List</f7-block-title>
     <div class="list links-list">
       <ul>
         <li><a href="#">Link 1</a></li>
@@ -52,7 +52,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">Links</div>
+    <f7-block-title>Links</f7-block-title>
     <div class="list">
       <ul>
         <li>
@@ -172,7 +172,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">Grouped with sticky titles</div>
+    <f7-block-title>Grouped with sticky titles</f7-block-title>
     <div class="list">
       <div class="list-group">
         <ul>
@@ -253,7 +253,7 @@
         </ul>
       </div>
     </div>
-    <div class="block-title">Mixed and nested</div>
+    <f7-block-title>Mixed and nested</f7-block-title>
     <div class="list">
       <ul>
         <li>
@@ -399,7 +399,7 @@
         <p>Here comes some useful information about list above</p>
       </div>
     </div>
-    <div class="block-title">Tablet inset</div>
+    <f7-block-title>Tablet inset</f7-block-title>
     <div class="list tablet-inset">
       <ul>
         <li>
@@ -433,11 +433,11 @@
       </div>
     </div>
 
-    <div class="block-title">Media Lists</div>
+    <f7-block-title>Media Lists</f7-block-title>
     <div class="block">
       <p>Media Lists are almost the same as Data Lists, but with a more flexible layout for visualization of more complex data, like products, services, userc, etc.</p>
     </div>
-    <div class="block-title">Songs</div>
+    <f7-block-title>Songs</f7-block-title>
     <div class="list media-list">
       <ul>
         <li>
@@ -479,7 +479,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">Mail App</div>
+    <f7-block-title>Mail App</f7-block-title>
     <div class="list media-list">
       <ul>
         <li>
@@ -532,7 +532,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">Something more simple</div>
+    <f7-block-title>Something more simple</f7-block-title>
     <div class="list media-list">
       <ul>
         <li>
@@ -569,7 +569,7 @@
         </li>
       </ul>
     </div>
-    <div class="block-title">Inset</div>
+    <f7-block-title>Inset</f7-block-title>
     <div class="list media-list inset">
       <ul>
         <li>
@@ -668,7 +668,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

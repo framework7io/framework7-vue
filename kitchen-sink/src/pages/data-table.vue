@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Data Table" back-link="Back"></f7-navbar>
     <div class="page-content">
-      <div class="block-title">Plain table</div>
+      <f7-block-title>Plain table</f7-block-title>
       <div class="data-table">
         <table>
           <thead>
@@ -46,7 +46,7 @@
           </tbody>
         </table>
       </div>
-      <div class="block-title">Within card</div>
+      <f7-block-title>Within card</f7-block-title>
       <div class="card data-table">
         <table>
           <thead>
@@ -90,7 +90,7 @@
           </tbody>
         </table>
       </div>
-      <div class="block-title">Selectable rows</div>
+      <f7-block-title>Selectable rows</f7-block-title>
       <div class="data-table data-table-init card">
         <table>
           <thead>
@@ -277,7 +277,7 @@
           </tbody>
         </table>
       </div>
-      <div class="block-title">Within card with title and actions</div>
+      <f7-block-title>Within card with title and actions</f7-block-title>
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-title">Nutrition</div>
@@ -362,7 +362,7 @@
           </table>
         </div>
       </div>
-      <div class="block-title">Sortable columns</div>
+      <f7-block-title>Sortable columns</f7-block-title>
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-title">Nutrition</div>
@@ -447,7 +447,7 @@
           </table>
         </div>
       </div>
-      <div class="block-title">With title and different actions on select</div>
+      <f7-block-title>With title and different actions on select</f7-block-title>
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-header">
@@ -538,7 +538,7 @@
           </table>
         </div>
       </div>
-      <div class="block-title">Alternate header with actions</div>
+      <f7-block-title>Alternate header with actions</f7-block-title>
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-links"><a class="link">Add</a><a class="link">Remove</a></div>
@@ -628,7 +628,7 @@
           </table>
         </div>
       </div>
-      <div class="block-title">Collapsible</div>
+      <f7-block-title>Collapsible</f7-block-title>
       <div class="block-header">
         <p>The following table will be collapsed to kind of List View on small screens:</p>
       </div>
@@ -685,9 +685,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     data() {
       var ios = this.$theme.ios;
       return {

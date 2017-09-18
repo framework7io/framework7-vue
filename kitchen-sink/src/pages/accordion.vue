@@ -2,7 +2,7 @@
   <div class="page">
     <f7-navbar title="Accordion" back-link="Back"></f7-navbar>
     <div class="page-content">
-      <div class="block-title">List View Accordion</div>
+      <f7-block-title>List View Accordion</f7-block-title>
       <div class="list accordion-list">
         <ul>
           <li class="accordion-item">
@@ -86,7 +86,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Inset Accordion</div>
+      <f7-block-title>Inset Accordion</f7-block-title>
       <div class="list accordion-list inset">
         <ul>
           <li class="accordion-item">
@@ -172,7 +172,7 @@
           </li>
         </ul>
       </div>
-      <div class="block-title">Custom Styled Accordion</div>
+      <f7-block-title>Custom Styled Accordion</f7-block-title>
       <div class="block accordion-list custom-accordion">
         <div class="accordion-item">
           <div class="accordion-item-toggle">
@@ -215,12 +215,13 @@
   </div>
 </template>
 <script>
-  import { f7Page, f7Navbar } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
     components: {
-      f7Page,
       f7Navbar,
-    },
-  };
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

@@ -5,7 +5,7 @@
       <div class="block">
         <p>In addition to <a href="/preloader/">Preloader</a>, Framework7 also comes with fancy animated determinate and infinite/indeterminate progress bars to indicate some activity.</p>
       </div>
-      <div class="block-title">Determinate Progress Bar</div>
+      <f7-block-title>Determinate Progress Bar</f7-block-title>
       <div class="block block-strong">
         <p>When progress bar is determinate it indicates how long an operation will take when the percentage complete is detectable.</p>
         <p>Inline determinate progress bar:</p>
@@ -32,7 +32,7 @@
           </p>
         </div>
       </div>
-      <div class="block-title">Infinite Progress Bar</div>
+      <f7-block-title>Infinite Progress Bar</f7-block-title>
       <div class="block block-strong">
         <p>When progress bar is infinite/indeterminate it requests that the user wait while something finishes when it’s not necessary to indicate how long it will take.</p>
         <p>Inline infinite progress bar</p>
@@ -57,7 +57,7 @@
           </p>
         </div>
       </div>
-      <div class="block-title">Colors</div>
+      <f7-block-title>Colors</f7-block-title>
       <div class="list simple-list">
         <ul>
           <li>
@@ -96,9 +96,14 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    },
     methods: {
       setInlineProgress: function (value) {
         var self = this;

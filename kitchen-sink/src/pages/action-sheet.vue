@@ -13,7 +13,7 @@
       <div class="block">
         <a href="#" class="button button-raised" @click="openGrid">Action Grid</a>
       </div>
-      <div class="block-title">Action Sheet To Popover</div>
+      <f7-block-title>Action Sheet To Popover</f7-block-title>
       <div class="block block-strong">
         <p>Action Sheet can be automatically converted to Popover (for tablets). This button will open Popover on tablets and Action Sheet on phones: <a href="#" style="display:inline-block" class="button button-to-popover" @click="openActionsPopover">Actions</a></p>
       </div>
@@ -21,12 +21,13 @@
   </div>
 </template>
 <script>
-import { f7Navbar, f7Page } from 'framework7-vue';
+import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
 export default {
   components: {
     f7Page,
     f7Navbar,
+    f7BlockTitle,
   },
   methods: {
     openDemo1: function () {

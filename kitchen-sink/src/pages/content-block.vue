@@ -12,22 +12,22 @@
       <p>Here comes another text block with additional "block-strong" class. Praesent nec imperdiet diam. Maecenas vel lectus porttitor, consectetur magna nec, viverra sem. Aliquam sed risus dolor. Morbi tincidunt ut libero id sodales. Integer blandit varius nisi quis consectetur. </p>
     </div>
 
-    <div class="block-title">Block title</div>
+    <f7-block-title>Block title</f7-block-title>
     <div class="block">
       <p>Donec et nulla auctor massa pharetra adipiscing ut sit amet sem. Suspendisse molestie velit vitae mattis tincidunt. Ut sit amet quam mollis, vulputate turpis vel, sagittis felis. </p>
     </div>
 
-    <div class="block-title">Another ultra long content block title</div>
+    <f7-block-title>Another ultra long content block title</f7-block-title>
     <div class="block block-strong">
       <p>Donec et nulla auctor massa pharetra adipiscing ut sit amet sem. Suspendisse molestie velit vitae mattis tincidunt. Ut sit amet quam mollis, vulputate turpis vel, sagittis felis. </p>
     </div>
 
-    <div class="block-title">Inset</div>
+    <f7-block-title>Inset</f7-block-title>
     <div class="block block-strong inset">
       <p>Donec et nulla auctor massa pharetra adipiscing ut sit amet sem. Suspendisse molestie velit vitae mattis tincidunt. Ut sit amet quam mollis, vulputate turpis vel, sagittis felis. </p>
     </div>
 
-    <div class="block-title">Tablet Inset</div>
+    <f7-block-title>Tablet Inset</f7-block-title>
     <div class="block block-strong tablet-inset">
       <p>Donec et nulla auctor massa pharetra adipiscing ut sit amet sem. Suspendisse molestie velit vitae mattis tincidunt. Ut sit amet quam mollis, vulputate turpis vel, sagittis felis. </p>
     </div>
@@ -60,7 +60,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

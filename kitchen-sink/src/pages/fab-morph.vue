@@ -50,7 +50,7 @@
     </ul>
   </div>
   <div class="demo-fab-fullscreen-sheet fab-morph-target">
-    <div class="block-title">Choose Something</div>
+    <f7-block-title>Choose Something</f7-block-title>
     <div class="list links-list">
       <ul>
         <li><a href="#" class="fab-close">Link 1</a></li>
@@ -81,7 +81,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>

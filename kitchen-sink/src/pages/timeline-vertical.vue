@@ -2,7 +2,7 @@
 <div class="page">
   <f7-navbar title="Vertical Timeline" back-link="Back"></f7-navbar>
   <div class="page-content">
-    <div class="block-title">Default</div>
+    <f7-block-title>Default</f7-block-title>
     <div class="timeline">
       <div class="timeline-item">
         <div class="timeline-item-date">21 <small>DEC</small></div>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="block-title">Side By Side</div>
+    <f7-block-title>Side By Side</f7-block-title>
     <div class="timeline timeline-sides">
       <div class="timeline-item">
         <div class="timeline-item-date">21 <small>DEC</small></div>
@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <div class="block-title">Only Tablet Side By Side</div>
+    <f7-block-title>Only Tablet Side By Side</f7-block-title>
     <div class="timeline tablet-sides">
       <div class="timeline-item">
         <div class="timeline-item-date">21 <small>DEC</small></div>
@@ -95,7 +95,7 @@
         </div>
       </div>
     </div>
-    <div class="block-title">Forced Sides</div>
+    <f7-block-title>Forced Sides</f7-block-title>
     <div class="timeline timeline-sides">
       <div class="timeline-item timeline-item-right">
         <div class="timeline-item-date">21 <small>DEC</small></div>
@@ -126,7 +126,7 @@
         </div>
       </div>
     </div>
-    <div class="block-title">Rich Content</div>
+    <f7-block-title>Rich Content</f7-block-title>
     <div class="timeline">
       <div class="timeline-item">
         <div class="timeline-item-date">21 <small>DEC</small></div>
@@ -188,7 +188,7 @@
         <div class="timeline-item-content">Plain text</div>
       </div>
     </div>
-    <div class="block-title">Inside Content Block</div>
+    <f7-block-title>Inside Content Block</f7-block-title>
     <div class="block block-strong">
       <div class="timeline">
         <div class="timeline-item">
@@ -225,7 +225,13 @@
 </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7BlockTitle,
+    }
+  }
 </script>
