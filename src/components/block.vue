@@ -14,6 +14,7 @@
       tabActive: Boolean,
       noHairlines: Boolean,
       noHairlinesBetween: Boolean,
+      accordionList: Boolean,
     },
     computed: {
       classes() {
@@ -21,6 +22,7 @@
         return {
           inset: self.inset,
           'block-strong': self.strong,
+          'accordion-list': self.accordionList,
           'tablet-inset': self.tabletInset,
           tabs: self.tabs,
           tab: self.tab,

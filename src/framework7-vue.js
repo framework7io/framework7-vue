@@ -42,6 +42,10 @@ import f7SwipeoutButton from './components/swipeout-button.vue';
 import f7Link from './components/link.vue';
 import f7Button from './components/button.vue';
 import f7Segmented from './components/segmented.vue';
+import f7Accordion from './components/accordion.vue';
+import f7AccordionItem from './components/accordion-item.vue';
+import f7AccordionToggle from './components/accordion-toggle.vue';
+import f7AccordionContent from './components/accordion-content.vue';
 
 export {
   VuePlugin as Framework7Vue,
@@ -88,5 +92,9 @@ export {
   f7Link,
   f7Button,
   f7Segmented,
+  f7Accordion,
+  f7AccordionItem,
+  f7AccordionToggle,
+  f7AccordionContent,
 };
 
