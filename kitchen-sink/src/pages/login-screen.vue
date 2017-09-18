@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Login Screen</div>
-      </div>
-    </div>
+    <f7-navbar title="Login Screen" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
         <p>Framework7 comes with ready to use Login Screen layout. It could be used inside of page or inside of popup (Embedded) or as a standalone overlay:</p>

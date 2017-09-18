@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Cards</div>
-    </div>
-  </div>
+  <f7-navbar title="Cards" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div class="block">
       <p>Cards are a great way to contain and organize your information, especially when combined with List Views. Cards can contain unique related data, like for example photos, text or links about a particular subject. Cards are typically an entry point to more complex and detailed information.</p>

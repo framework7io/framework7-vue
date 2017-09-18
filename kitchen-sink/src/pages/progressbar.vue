@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Progress Bar</div>
-      </div>
-    </div>
+    <f7-navbar title="Progress Bar" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
         <p>In addition to <a href="/preloader/">Preloader</a>, Framework7 also comes with fancy animated determinate and infinite/indeterminate progress bars to indicate some activity.</p>

@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Color Themes</div>
-      </div>
-    </div>
+    <f7-navbar title="Color Themes" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block-title">Choose Color Theme</div>
       <div class="block">

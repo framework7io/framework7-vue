@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Statusbar Overlay</div>
-      </div>
-    </div>
+    <f7-navbar title="Statusbar Overlay" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block block-strong">
         <p>Framework7 automatically detects if your app in full screen mode, and automatically shows statusbar overlay if app is in full screen mode (or hides statusbar if app is not in full screen mode). Its visibility can be forced using app parameters or using API:</p>

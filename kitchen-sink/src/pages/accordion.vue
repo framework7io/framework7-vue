@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Accordion</div>
-      </div>
-    </div>
+    <f7-navbar title="Accordion" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block-title">List View Accordion</div>
       <div class="list accordion-list">
@@ -224,3 +214,13 @@
     </div>
   </div>
 </template>
+<script>
+  import { f7Page, f7Navbar } from 'framework7-vue';
+
+  export default {
+    components: {
+      f7Page,
+      f7Navbar,
+    },
+  };
+</script>

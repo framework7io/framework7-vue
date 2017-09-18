@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Messsages</div>
-      </div>
-    </div>
+    <f7-navbar title="Messsages" back-link="Back"></f7-navbar>
     <div class="toolbar messagebar" @messagebar:attachmentdelete="deleteAttachment">
       <div class="toolbar-inner">
         <a class="link icon-only" @click="sheetToggle">

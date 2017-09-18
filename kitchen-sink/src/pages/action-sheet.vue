@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Action Sheet</div>
-      </div>
-    </div>
+    <f7-navbar title="Action Sheet" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block row">
         <div class="col">
@@ -31,7 +21,13 @@
   </div>
 </template>
 <script>
+import { f7Navbar, f7Page } from 'framework7-vue';
+
 export default {
+  components: {
+    f7Page,
+    f7Navbar,
+  },
   methods: {
     openDemo1: function () {
       var self = this;

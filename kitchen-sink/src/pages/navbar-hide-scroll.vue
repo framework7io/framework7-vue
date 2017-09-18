@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Hide Navbar On Scroll</div>
-    </div>
-  </div>
+  <f7-navbar title="Hide Navbar On Scroll" back-link="Back"></f7-navbar>
   <div class="page-content hide-navbar-on-scroll">
     <div class="block block-strong">
       <p>Navbar will be hidden if you scroll bottom</p>

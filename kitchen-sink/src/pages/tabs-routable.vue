@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Tabs Routable</div>
-    </div>
-  </div>
+  <f7-navbar title="Tabs Routable" back-link="Back"></f7-navbar>
   <div class="toolbar tabbar">
     <div class="toolbar-inner">
       <a href="./" class="tab-link" data-route-tab-id="tab1">Tab 1</a>

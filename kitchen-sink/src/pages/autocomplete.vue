@@ -186,6 +186,10 @@
   import { f7Navbar, f7Page } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Page,
+      f7Navbar,
+    },
     data: function () {
       return {
         fruits: 'Apple Apricot Avocado Banana Melon Orange Peach Pear Pineapple'.split(' '),

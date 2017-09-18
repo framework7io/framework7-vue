@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Floating Action Button</div>
-    </div>
-  </div>
+  <f7-navbar title="Floating Action Button" back-link="Back"></f7-navbar>
   <div class="fab fab-right-top">
     <a href="#">
       <i class="icon f7-icons ios-only">add</i>

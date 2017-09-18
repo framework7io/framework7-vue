@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Fade Effect</div>
-    </div>
-  </div>
+  <f7-navbar title="Fade Effect" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination"}' data-effect="fade" class="swiper-container swiper-init demo-swiper demo-swiper-fade">
       <div class="swiper-pagination"></div>

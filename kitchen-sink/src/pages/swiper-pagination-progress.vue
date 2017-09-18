@@ -1,16 +1,6 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Progress Pagination</div>
-    </div>
-  </div>
+  <f7-navbar title="Progress Pagination" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination", "type": "progressbar"}' class="swiper-container swiper-init demo-swiper">
       <div class="swiper-pagination"></div>

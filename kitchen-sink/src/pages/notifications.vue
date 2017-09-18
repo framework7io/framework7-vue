@@ -1,16 +1,6 @@
 <template>
   <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Notifications</div>
-      </div>
-    </div>
+    <f7-navbar title="Notifications" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
         <p>Framework7 comes with simple Notifications component that allows you to show some useful messages to user and request basic actions. Such notification are also called Snackbars & Toasts in Android</p>
