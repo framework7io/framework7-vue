@@ -1,0 +1,46 @@
+<script>
+  export default {
+    props: {
+      color: String,
+      checked: Boolean,
+      inputName: [Number, String],
+      inputValue: [Number, String, Boolean],
+      disabled: Boolean,
+      readonly: Boolean,
+    },
+    render(c) {
+      const self = this;
+
+      const inputEl = c('input', {
+        attrs: {
+          type: 'checkbox',
+          name: self.inputName,
+        },
+        domProps: {
+          value: self.inputValue,
+          disabled: self.disabled,
+          readonly: self.readonly,
+          checked: self.checked,
+        },
+        on: {
+          change: self.onChange,
+        },
+      });
+
+      const iconEl = c('i', { staticClass: 'icon-checkbox' });
+
+      return c('label', {
+        staticClass: 'checkbox',
+        class: {
+          disabled: self.disabled,
+          [`color-${self.color}`]: self.color,
+        },
+      }, [inputEl, iconEl, self.$slots.default]);
+    },
+    methods: {
+      onChange(event) {
+        this.$emit('change', event);
+      }
+    },
+  };
+</script>
