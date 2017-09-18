@@ -1,9 +1,10 @@
-<template>
-  <div :class="('col-' + width) + (tabletWidth ? ` tablet-${tabletWidth}` : '') + (desktopWidth ? ` desktop-${desktopWidth}` : '')"><slot></slot></div>
-</template>
 <script>
   export default {
     props: {
+      tag: {
+        type: String,
+        default: 'div',
+      },
       width: {
         type: [Number, String],
         default: 'auto',
@@ -15,8 +16,16 @@
         type: [Number, String],
       },
     },
-    data() {
-      return {};
+    render(c) {
+      const self = this;
+      return c(self.tag, {
+        class: {
+          col: self.width === 'auto',
+          [`col-${self.width}`]: self.width !== 'auto',
+          [`tablet-${self.tabletWidth}`]: self.tabletWidth,
+          [`desktop-${self.desktopWidth}`]: self.desktopWidth,
+        }
+      }, [self.$slots.default]);
     },
   };
 </script>

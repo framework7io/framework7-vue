@@ -1,22 +1,24 @@
-<template>
-  <div class="segmented" :class="(color ? 'color-' + color : '')"><slot></slot></div>
-</template>
 <script>
   export default {
     props: {
       color: String,
       raised: Boolean,
       round: Boolean,
+      tag: {
+        type: String,
+        default: 'div',
+      },
     },
-    computed: {
-      classes() {
-        const self = this;
-        return {
+    render(c) {
+      const self = this;
+      return c(self.tag, {
+        staticClass: 'segmented',
+        class: {
           [`color-${self.color}`]: self.color,
           'segmented-raised': self.raised,
           'segmented-round': self.round,
-        };
-      },
+        }
+      }, [self.$slots.default]);
     },
   };
 </script>
