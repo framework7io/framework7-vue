@@ -36,6 +36,7 @@ import f7SwiperSlide from './components/swiper-slide.vue';
 import f7List from './components/list.vue';
 import f7ListItem from './components/list-item.vue';
 import f7ListItemContent from './components/list-item-content.vue';
+import f7ListButton from './components/list-button.vue';
 import f7SwipeoutActions from './components/swipeout-actions.vue';
 import f7SwipeoutButton from './components/swipeout-button.vue';
 import f7Link from './components/link.vue';
@@ -81,6 +82,7 @@ export {
   f7List,
   f7ListItem,
   f7ListItemContent,
+  f7ListButton,
   f7SwipeoutActions,
   f7SwipeoutButton,
   f7Link,
