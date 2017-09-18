@@ -13,18 +13,19 @@
     </div>
     <div class="page-content">
       <div class="block">
-        <p>Framework7 comes with simple Notifications component that allows you to show some useful messages to user and request basic actions. Such notification are also called Snackbars & Toasts in Android </p>
-        {{#if $theme.md}}
+        <p>Framework7 comes with simple Notifications component that allows you to show some useful messages to user and request basic actions. Such notification are also called Snackbars & Toasts in Android</p>
+        <div v-if="$theme.md">
           <p><a href="#" class="button button-raised" @click="showMDSingleLineMessage">Single-line message</a></p>
           <p><a href="#" class="button button-raised" @click="showMDMultiLineMessage">Multi-line message</a></p>
           <p><a href="#" class="button button-raised" @click="showMDCustomButtonMessage">With custom button</a></p>
           <p><a href="#" class="button button-raised" @click="showMDCallbackOnCloseMessage">With callback on close</a></p>
-        {{else}}
+        </div>
+        <div v-else>
           <p><a href="#" class="button button-raised" @click="showIOSDefaultNotification">Default notification</a></p>
           <p><a href="#" class="button button-raised" @click="showIOSFullLayoutNotification">Full layout notification</a></p>
           <p><a href="#" class="button button-raised" @click="showIOSViewCustomImageNotification">View custom image</a></p>
           <p><a href="#" class="button button-raised" @click="showIOSCallbackOnCloseMessage">With callback on close</a></p>
-        {{/if}}
+        </div>
       </div>
     </div>
   </div>

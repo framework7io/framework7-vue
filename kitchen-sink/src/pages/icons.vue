@@ -28,22 +28,18 @@
       <div class="block block-strong tabs">
         <div id="tab-f7" class="tab tab-active">
           <div class="row">
-            {{#each f7Icons}}
-            <div class="col-33 tablet-15 demo-icon">
-              <div class="demo-icon-icon"><i class="f7-icons">{{this}}</i></div>
-              <div class="demo-icon-name">{{this}}</div>
+            <div class="col-33 tablet-15 demo-icon" v-for="icon in f7Icons" :key="icon">
+              <div class="demo-icon-icon"><i class="f7-icons">{{ icon }}</i></div>
+              <div class="demo-icon-name">{{ icon }}</div>
             </div>
-            {{/each}}
           </div>
         </div>
         <div id="tab-md" class="tab">
           <div class="row">
-            {{#each mdIcons}}
-            <div class="col-33 tablet-15 demo-icon">
-              <div class="demo-icon-icon"><i class="material-icons">{{this}}</i></div>
-              <div class="demo-icon-name">{{this}}</div>
+            <div class="col-33 tablet-15 demo-icon"  v-for="icon in mdIcons" :key="icon">
+              <div class="demo-icon-icon"><i class="material-icons">{{ icon }}</i></div>
+              <div class="demo-icon-name">{{ icon }}</div>
             </div>
-            {{/each}}
           </div>
         </div>
       </div>

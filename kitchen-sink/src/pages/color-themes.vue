@@ -16,11 +16,11 @@
       <div class="block">
         <p>Framework7 comes with {{colorsAmount}} color themes set.</p>
         <div class="row">
-        {{#each colors}}
-          <div class="col-33">
-            <button class="button button-fill button-round button-raised color-{{this}}" @click="setColorTheme('{{this}}')">{{this}}</button>
+          <div class="col-33" v-for="color in colors" :key="color">
+            <button class="button button-fill button-round button-raised" :class="`color-${color}`" @click="setColorTheme(color)">
+              {{ color }}
+            </button>
           </div>
-        {{/each}}
         </div>
       </div>
     </div>
