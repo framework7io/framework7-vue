@@ -26,17 +26,16 @@
         </a>
       </div>
       <div class="messagebar-sheet">
-        {{#each images}}
-        <label class="checkbox messagebar-sheet-image" style="background-image:url({{this}})" @change="handleAttachment">
+        <label v-for="image in images" :key="image" class="checkbox messagebar-sheet-image" :style="{ 'background-image': `url('${image}')` }" @change="handleAttachment">
           <input type="checkbox">
           <i class="icon icon-checkbox"></i>
         </label>
-        {{/each}}
       </div>
     </div>
     <div class="page-content messages-content">
       <div class="messages">
-        <div class="messages-title"><b>Sunday, Feb 9,</b> 12:58</div>
+        <div class="messages-title">
+          <b>Sunday, Feb 9,</b> 12:58</div>
         <div class="message message-sent">
           <div class="message-content">
             <div class="message-bubble">
@@ -124,172 +123,172 @@
   </div>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+import { f7Navbar, f7Page } from 'framework7-vue';
 
-  export default {
-    data: function () {
-      return {
-        images: [
-          'http://lorempixel.com/300/300/cats/1/',
-          'http://lorempixel.com/200/300/cats/2/',
-          'http://lorempixel.com/400/300/cats/3/',
-          'http://lorempixel.com/300/150/cats/4/',
-          'http://lorempixel.com/150/300/cats/5/',
-          'http://lorempixel.com/300/300/cats/6/',
-          'http://lorempixel.com/300/300/cats/7/',
-          'http://lorempixel.com/200/300/cats/8/',
-          'http://lorempixel.com/400/300/cats/9/',
-          'http://lorempixel.com/300/150/cats/10/'
-        ],
-        people: [
-          {
-            name: 'Kate Johnson',
-            avatar: 'http://lorempixel.com/100/100/people/9'
-          },
-          {
-            name: 'Blue Ninja',
-            avatar: 'http://lorempixel.com/100/100/people/7'
-          },
-        ],
-        answers: [
-          'Yes!',
-          'No',
-          'Hm...',
-          'I am not sure',
-          'And what about you?',
-          'May be ;)',
-          'Lorem ipsum dolor sit amet, consectetur',
-          'What?',
-          'Are you sure?',
-          'Of course',
-          'Need to think about it',
-          'Amazing!!!',
-        ],
-        responseInProgress: false,
+export default {
+  data: function () {
+    return {
+      images: [
+        'http://lorempixel.com/300/300/cats/1/',
+        'http://lorempixel.com/200/300/cats/2/',
+        'http://lorempixel.com/400/300/cats/3/',
+        'http://lorempixel.com/300/150/cats/4/',
+        'http://lorempixel.com/150/300/cats/5/',
+        'http://lorempixel.com/300/300/cats/6/',
+        'http://lorempixel.com/300/300/cats/7/',
+        'http://lorempixel.com/200/300/cats/8/',
+        'http://lorempixel.com/400/300/cats/9/',
+        'http://lorempixel.com/300/150/cats/10/'
+      ],
+      people: [
+        {
+          name: 'Kate Johnson',
+          avatar: 'http://lorempixel.com/100/100/people/9'
+        },
+        {
+          name: 'Blue Ninja',
+          avatar: 'http://lorempixel.com/100/100/people/7'
+        },
+      ],
+      answers: [
+        'Yes!',
+        'No',
+        'Hm...',
+        'I am not sure',
+        'And what about you?',
+        'May be ;)',
+        'Lorem ipsum dolor sit amet, consectetur',
+        'What?',
+        'Are you sure?',
+        'Of course',
+        'Need to think about it',
+        'Amazing!!!',
+      ],
+      responseInProgress: false,
+    }
+  },
+  methods: {
+    sheetToggle: function () {
+      var self = this;
+      self.messagebar.sheetToggle();
+    },
+    deleteAttachment: function (e, index) {
+      var self = this;
+      var image = self.messagebar.attachments.splice(index, 1)[0];
+      self.messagebar.renderAttachments();
+      self.checkAttachments();
+      // Uncheck in sheet
+      var imageIndex = self.images.indexOf(image);
+      self.$el.find('.messagebar-sheet .checkbox').eq(imageIndex).find('input').prop('checked', false);
+    },
+    handleAttachment: function (e) {
+      var self = this;
+      var $$ = self.$$;
+      var index = $(e.target).parents('label.checkbox').index();
+      var image = self.images[index];
+      if (e.target.checked) {
+        // Add to attachments
+        self.messagebar.attachments.unshift(image)
+      } else {
+        // Remove from attachments
+        self.messagebar.attachments.splice(self.messagebar.attachments.indexOf(image), 1);
+      }
+      self.messagebar.renderAttachments();
+      self.checkAttachments();
+    },
+    checkAttachments: function () {
+      var self = this;
+      if (self.messagebar.attachments.length > 0) {
+        self.messagebar.attachmentsShow();
+        self.messagebar.setPlaceholder('Add comment or Send');
+      } else {
+        self.messagebar.attachmentsHide();
+        self.messagebar.setPlaceholder('Message');
       }
     },
-    methods: {
-      sheetToggle: function () {
-        var self = this;
-        self.messagebar.sheetToggle();
-      },
-      deleteAttachment: function (e, index) {
-        var self = this;
-        var image = self.messagebar.attachments.splice(index, 1)[0];
-        self.messagebar.renderAttachments();
-        self.checkAttachments();
-        // Uncheck in sheet
-        var imageIndex = self.images.indexOf(image);
-        self.$el.find('.messagebar-sheet .checkbox').eq(imageIndex).find('input').prop('checked', false);
-      },
-      handleAttachment: function (e) {
-        var self = this;
-        var $$ = self.$$;
-        var index = $(e.target).parents('label.checkbox').index();
-        var image = self.images[index];
-        if (e.target.checked) {
-          // Add to attachments
-          self.messagebar.attachments.unshift(image)
-        } else {
-          // Remove from attachments
-          self.messagebar.attachments.splice(self.messagebar.attachments.indexOf(image), 1);
-        }
-        self.messagebar.renderAttachments();
-        self.checkAttachments();
-      },
-      checkAttachments: function () {
-        var self = this;
-        if (self.messagebar.attachments.length > 0) {
-          self.messagebar.attachmentsShow();
-          self.messagebar.setPlaceholder('Add comment or Send');
-        } else {
-          self.messagebar.attachmentsHide();
-          self.messagebar.setPlaceholder('Message');
-        }
-      },
-      sendMessage: function () {
-        var self = this;
-        var text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
-        var messagesToSend = [];
-        self.messagebar.attachments.forEach(function (attachment) {
-          var size = attachment.split('lorempixel.com/')[1].split('/');
-          messagesToSend.push({
-            image: '<img src="' + attachment + '" style="width: ' + (size[0]/2) + 'px; height: ' + (size[1]/2) + 'px">'
-          });
+    sendMessage: function () {
+      var self = this;
+      var text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
+      var messagesToSend = [];
+      self.messagebar.attachments.forEach(function (attachment) {
+        var size = attachment.split('lorempixel.com/')[1].split('/');
+        messagesToSend.push({
+          image: '<img src="' + attachment + '" style="width: ' + (size[0] / 2) + 'px; height: ' + (size[1] / 2) + 'px">'
         });
-        if (text.trim().length) {
-          messagesToSend.push({
-            text: text
-          });
-        }
-        // Reset attachments
-        self.messagebar.attachments = [];
-        self.checkAttachments();
-        // Hide sheet
-        self.messagebar.sheetHide();
-        // Uncheck selected images in sheet
-        self.messagebar.$sheetEl.find('input').prop('checked', false);
-        // Clear area
-        self.messagebar.clear();
-        // Focus area
-        if (text.length) self.messagebar.focus();
-        // Send message
-        self.messages.addMessages(messagesToSend);
+      });
+      if (text.trim().length) {
+        messagesToSend.push({
+          text: text
+        });
+      }
+      // Reset attachments
+      self.messagebar.attachments = [];
+      self.checkAttachments();
+      // Hide sheet
+      self.messagebar.sheetHide();
+      // Uncheck selected images in sheet
+      self.messagebar.$sheetEl.find('input').prop('checked', false);
+      // Clear area
+      self.messagebar.clear();
+      // Focus area
+      if (text.length) self.messagebar.focus();
+      // Send message
+      self.messages.addMessages(messagesToSend);
 
-        // Mock response
-        if (self.responseInProgress) return;
-        self.responseInProgress = true;
+      // Mock response
+      if (self.responseInProgress) return;
+      self.responseInProgress = true;
+      setTimeout(function () {
+        var answer = self.answers[Math.floor(Math.random() * self.answers.length)];
+        var person = self.people[Math.floor(Math.random() * self.people.length)];
+        self.messages.showTyping({
+          header: person.name + ' is typing',
+          avatar: person.avatar
+        });
         setTimeout(function () {
-          var answer = self.answers[Math.floor(Math.random() * self.answers.length)];
-          var person = self.people[Math.floor(Math.random() * self.people.length)];
-          self.messages.showTyping({
-            header: person.name + ' is typing',
+          self.messages.addMessage({
+            text: answer,
+            type: 'received',
+            name: person.name,
             avatar: person.avatar
           });
-          setTimeout(function () {
-            self.messages.addMessage({
-              text: answer,
-              type: 'received',
-              name: person.name,
-              avatar: person.avatar
-            });
-            self.messages.hideTyping();
-            self.responseInProgress = false;
-          }, 4000);
-        }, 1000);
-      },
+          self.messages.hideTyping();
+          self.responseInProgress = false;
+        }, 4000);
+      }, 1000);
     },
-    on: {
-      pageBeforeRemove: function (e, page) {
-        var self = this;
-        if (self.messagebar) self.messagebar.destroy();
-      },
-      pageInit: function (e, page) {
-        var self = this;
-        var app = self.$app;
-        self.messagebar = app.messagebar.create({
-          el: page.$el.find('.messagebar'),
-          attachments: []
-        })
-        self.messages = app.messages.create({
-          el: page.$el.find('.messages'),
-          firstMessageRule: function (message, previousMessage, nextMessage) {
-            if (message.isTitle) return false;
-            if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
-            return false;
-          },
-          lastMessageRule: function (message, previousMessage, nextMessage) {
-            if (message.isTitle) return false;
-            if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-            return false;
-          },
-          tailMessageRule: function (message, previousMessage, nextMessage) {
-            if (message.isTitle) return false;
-            if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-            return false;
-          }
-        })
-      }
+  },
+  on: {
+    pageBeforeRemove: function (e, page) {
+      var self = this;
+      if (self.messagebar) self.messagebar.destroy();
+    },
+    pageInit: function (e, page) {
+      var self = this;
+      var app = self.$app;
+      self.messagebar = app.messagebar.create({
+        el: page.$el.find('.messagebar'),
+        attachments: []
+      })
+      self.messages = app.messages.create({
+        el: page.$el.find('.messages'),
+        firstMessageRule: function (message, previousMessage, nextMessage) {
+          if (message.isTitle) return false;
+          if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
+          return false;
+        },
+        lastMessageRule: function (message, previousMessage, nextMessage) {
+          if (message.isTitle) return false;
+          if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
+          return false;
+        },
+        tailMessageRule: function (message, previousMessage, nextMessage) {
+          if (message.isTitle) return false;
+          if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
+          return false;
+        }
+      })
     }
   }
+}
 </script>

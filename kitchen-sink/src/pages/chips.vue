@@ -33,21 +33,21 @@
       <div class="block-title">Icon Chips</div>
       <div class="block block-strong">
         <div class="chip">
-          <div class="chip-media {{#if $theme.md}}bg-color-blue{{/if}}">
+          <div :class="{ 'bg-color-blue' : $theme.md }" class="chip-media">
             <i class="icon f7-icons ios-only">add_round</i>
             <i class="icon material-icons md-only">add_circle</i>
           </div>
           <div class="chip-label">Add Contact</div>
         </div>
         <div class="chip">
-          <div class="chip-media {{#if $theme.md}}bg-color-purple{{/if}}">
+          <div :class="{ 'bg-color-purple' : $theme.md }" class="chip-media">
             <i class="icon f7-icons ios-only">compass</i>
             <i class="icon material-icons md-only">location_on</i>
           </div>
           <div class="chip-label">London</div>
         </div>
         <div class="chip">
-          <div class="chip-media {{#if $theme.md}}bg-color-red{{/if}}">
+          <div :class="{ 'bg-color-red' : $theme.md }" class="chip-media">
             <i class="icon f7-icons ios-only">person</i>
             <i class="icon material-icons md-only">person</i>
           </div>

@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-return {
+export default {
   methods: {
     createSheet: function () {
       var self = this;
