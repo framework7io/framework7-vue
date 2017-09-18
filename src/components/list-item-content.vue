@@ -1,5 +1,10 @@
 <script>
+  import f7Badge from './badge.vue';
+
   export default {
+    components: {
+      f7Badge,
+    },
     render(c) {
       const self = this;
       const slotsContentStart = [];
@@ -101,6 +106,7 @@
         titleRowEl = c('div', { staticClass: 'item-title-row' }, [titleEl, afterWrapEl]);
       }
       innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner, slotsInnerEnd]);
+
       // Finalize
       return c((self.checkbox || self.radio) ? 'label' : 'div', {
         staticClass: 'item-content',
