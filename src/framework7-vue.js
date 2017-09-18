@@ -38,6 +38,9 @@ import f7ListItem from './components/list-item.vue';
 import f7ListItemContent from './components/list-item-content.vue';
 import f7SwipeoutActions from './components/swipeout-actions.vue';
 import f7SwipeoutButton from './components/swipeout-button.vue';
+import f7Link from './components/link.vue';
+import f7Button from './components/button.vue';
+import f7Segmented from './components/segmented.vue';
 
 export {
   VuePlugin as Framework7Vue,
@@ -80,5 +83,8 @@ export {
   f7ListItemContent,
   f7SwipeoutActions,
   f7SwipeoutButton,
+  f7Link,
+  f7Button,
+  f7Segmented,
 };
 
