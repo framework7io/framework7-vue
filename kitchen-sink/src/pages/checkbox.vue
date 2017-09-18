@@ -1,124 +1,69 @@
 <template>
-<div class="page">
-  <f7-navbar title="Checkbox" back-link="Back"></f7-navbar>
-  <div class="page-content">
+  <f7-page>
+    <f7-navbar title="Checkbox" back-link="Back"></f7-navbar>
     <f7-block-title>Inline</f7-block-title>
-    <div class="block block-strong">
-      <p>Lorem <label class="checkbox"><input type="checkbox"><i class="icon-checkbox"></i></label> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <label class="checkbox"><input type="checkbox"><i class="icon-checkbox"></i></label> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
-    </div>
+    <f7-block strong>
+      <p>Lorem <f7-checkbox input-name="checkbox-1"></f7-checkbox> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-checkbox input-name="checkbox-2" checked></f7-checkbox> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
+    </f7-block>
+
     <f7-block-title>Checkbox Group</f7-block-title>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-checkbox" value="Books" checked="checked"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-checkbox" value="Movies"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-checkbox" value="Food"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-checkbox" value="Drinks"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
+    <f7-list>
+      <f7-list-item checkbox title="Books" input-name="demo-checkbox" checked></f7-list-item>
+      <f7-list-item checkbox title="Movies" input-name="demo-checkbox"></f7-list-item>
+      <f7-list-item checkbox title="Food" input-name="demo-checkbox"></f7-list-item>
+      <f7-list-item checkbox title="Drinks" input-name="demo-checkbox"></f7-list-item>
+    </f7-list>
+
     <f7-block-title>With Media Lists</f7-block-title>
-    <div class="list media-list">
-      <ul>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-media-checkbox" value="1"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">Facebook</div>
-                <div class="item-after">17:14</div>
-              </div>
-              <div class="item-subtitle">New messages from John Doe</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-media-checkbox" value="2"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">John Doe (via Twitter)</div>
-                <div class="item-after">17:11</div>
-              </div>
-              <div class="item-subtitle">John Doe (@_johndoe) mentioned you on Twitter!</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-media-checkbox" value="3"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">Facebook</div>
-                <div class="item-after">16:48</div>
-              </div>
-              <div class="item-subtitle">New messages from John Doe</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="demo-media-checkbox" value="4"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">John Doe (via Twitter)</div>
-                <div class="item-after">15:32</div>
-              </div>
-              <div class="item-subtitle">John Doe (@_johndoe) mentioned you on Twitter!</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <f7-list media-list>
+      <f7-list-item
+        checkbox
+        checked
+        input-name="demo-media-checkbox"
+        title="Facebook"
+        after="17:14"
+        subtitle="New messages from John Doe"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        checkbox
+        input-name="demo-media-checkbox"
+        title="John Doe (via Twitter)"
+        after="17:11"
+        subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        checkbox
+        input-name="demo-media-checkbox"
+        title="Facebook"
+        after="16:48"
+        subtitle="New messages from John Doe"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        checkbox
+        input-name="demo-media-checkbox"
+        title="John Doe (via Twitter)"
+        after="15:32"
+        subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Block, f7List, f7ListItem, f7Checkbox } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+      f7Block,
+      f7List,
+      f7ListItem,
+      f7Checkbox,
+    },
+  };
 </script>

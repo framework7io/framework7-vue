@@ -1,124 +1,76 @@
 <template>
-<div class="page">
-  <f7-navbar title="Radio" back-link="Back"></f7-navbar>
-  <div class="page-content">
+  <f7-page>
+    <f7-navbar title="Radio" back-link="Back"></f7-navbar>
     <f7-block-title>Inline</f7-block-title>
-    <div class="block block-strong">
-      <p>Lorem <label class="radio"><input type="radio" name="demo-radio-inline"><i class="icon-radio"></i></label> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <label class="radio"><input type="radio" name="demo-radio-inline"><i class="icon-radio"></i></label> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
-    </div>
+
+    <f7-block strong>
+      <p>Lorem <f7-radio input-name="demo-radio-inline"></f7-radio> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-radio input-name="demo-radio-inline" checked></f7-radio> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
+    </f7-block>
+
     <f7-block-title>Radio Group</f7-block-title>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-radio" value="Books" checked />
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-radio" value="Movies"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-radio" value="Food"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-radio" value="Drinks"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
+    <f7-list>
+      <f7-list-item radio checked title="Books" input-name="demo-radio" checked></f7-list-item>
+      <f7-list-item radio title="Movies" input-name="demo-radio"></f7-list-item>
+      <f7-list-item radio title="Food" input-name="demo-radio"></f7-list-item>
+      <f7-list-item radio title="Drinks" input-name="demo-radio"></f7-list-item>
+    </f7-list>
+
+
     <f7-block-title>With Media Lists</f7-block-title>
-    <div class="list media-list">
-      <ul>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-media-radio" value="1" checked />
-            <i class="icon icon-radio" checked></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">Facebook</div>
-                <div class="item-after">17:14</div>
-              </div>
-              <div class="item-subtitle">New messages from John Doe</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-media-radio" value="2"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">John Doe (via Twitter)</div>
-                <div class="item-after">17:11</div>
-              </div>
-              <div class="item-subtitle">John Doe (@_johndoe) mentioned you on Twitter!</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-media-radio" value="3"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">Facebook</div>
-                <div class="item-after">16:48</div>
-              </div>
-              <div class="item-subtitle">New messages from John Doe</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="demo-media-radio" value="4"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">John Doe (via Twitter)</div>
-                <div class="item-after">15:32</div>
-              </div>
-              <div class="item-subtitle">John Doe (@_johndoe) mentioned you on Twitter!</div>
-              <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <f7-list>
+      <f7-list media-list>
+      <f7-list-item
+        radio
+        checked
+        input-name="demo-media-radio"
+        input-value="1"
+        title="Facebook"
+        after="17:14"
+        subtitle="New messages from John Doe"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        radio
+        input-name="demo-media-radio"
+        input-value="2"
+        title="John Doe (via Twitter)"
+        after="17:11"
+        subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        radio
+        input-name="demo-media-radio"
+        input-value="3"
+        title="Facebook"
+        after="16:48"
+        subtitle="New messages from John Doe"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+      <f7-list-item
+        radio
+        input-name="demo-media-radio"
+        input-value="4"
+        title="John Doe (via Twitter)"
+        after="15:32"
+        subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+      ></f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Block, f7List, f7ListItem, f7Radio } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+      f7Block,
+      f7List,
+      f7ListItem,
+      f7Radio,
+    },
+  };
 </script>
