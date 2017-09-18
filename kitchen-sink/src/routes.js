@@ -54,7 +54,7 @@ import SwiperNested from './pages/swiper-nested.vue';
 import SwiperLoop from './pages/swiper-loop.vue';
 import Swiper3dCube from './pages/swiper-3d-cube.vue';
 import Swiper3dCoverflow from './pages/swiper-3d-coverflow.vue';
-import Swiper3dFlip from './pages/swiper-3d-flip from.vue';
+import Swiper3dFlip from './pages/swiper-3d-flip.vue';
 import SwiperFade from './pages/swiper-fade.vue';
 import SwiperScrollbar from './pages/swiper-scrollbar.vue';
 import SwiperGallery from './pages/swiper-gallery.vue';
