@@ -1,12 +1,48 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
   import f7Icon from './icon.vue';
-  import LinkMixin from '../mixins/link.vue';
+
+  const ButtonProps = Utils.extend(
+    {
+      noFastClick: Boolean,
+      color: String,
+      rippleColor: String,
+      textColor: String,
+      text: String,
+      tabLink: [Boolean, String],
+      tabLinkActive: Boolean,
+      href: {
+        type: String,
+        default: '#',
+      },
+
+      round: Boolean,
+      roundMd: Boolean,
+      roundIos: Boolean,
+      fill: Boolean,
+      fillMd: Boolean,
+      fillIos: Boolean,
+      big: Boolean,
+      bigMd: Boolean,
+      bigIos: Boolean,
+      small: Boolean,
+      smallMd: Boolean,
+      smallIos: Boolean,
+      raised: Boolean,
+      outline: Boolean,
+      active: Boolean,
+    },
+    Mixins.linkIconProps,
+    Mixins.linkRouterProps,
+    Mixins.linkActionsProps
+  );
 
   export default {
     components: {
       f7Icon,
     },
-    mixins: [LinkMixin],
+    props: ButtonProps,
     render(c) {
       const self = this;
       let iconEl;
@@ -38,6 +74,75 @@
       }, [iconEl, textEl, self.$slots.default]);
 
       return linkEl;
+    },
+    computed: {
+      attrs() {
+        const self = this;
+        const { href, target, tabLink } = self;
+        return Utils.extend(
+          {
+            href,
+            target,
+            'data-tab': Utils.isStringProp(tabLink),
+          },
+          Mixins.linkRouterAttrs(self),
+          Mixins.linkActionsAttrs(self)
+        );
+      },
+      classes() {
+        const self = this;
+        const {
+          noFastclick,
+          tabLink,
+          rippleColor,
+          color,
+          textColor,
+
+          round,
+          roundIos,
+          roundMd,
+          fill,
+          fillIos,
+          fillMd,
+          big,
+          bigIos,
+          bigMd,
+          small,
+          smallIos,
+          smallMd,
+          raised,
+          active,
+          outline,
+        } = self;
+
+        return Utils.extend(
+          {
+            [`ripple-color-${rippleColor}`]: rippleColor,
+            [`color-${color}`]: color,
+            [`text-color-${textColor}`]: textColor,
+            'tab-link': tabLink || tabLink === '',
+            'no-fastclick': noFastclick,
+
+            'button-round': round,
+            'button-round-ios': roundIos,
+            'button-round-md': roundMd,
+            'button-fill': fill,
+            'button-fill-ios': fillIos,
+            'button-fill-md': fillMd,
+            'button-big': big,
+            'button-big-ios': bigIos,
+            'button-big-md': bigMd,
+            'button-small': small,
+            'button-small-ios': smallIos,
+            'button-small-md': smallMd,
+            'button-raised': raised,
+            'button-active': active,
+            'button-outline': outline,
+          },
+          Mixins.linkRouterClasses(self),
+          Mixins.linkActionsClasses(self)
+        );
+      },
     },
     methods: {
       onClick(event) {

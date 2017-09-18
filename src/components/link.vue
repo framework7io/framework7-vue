@@ -1,14 +1,39 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
   import f7Badge from './badge.vue';
   import f7Icon from './icon.vue';
-  import LinkMixin from '../mixins/link.vue';
+
+  const LinkProps = Utils.extend(
+    {
+      noLinkClass: Boolean,
+      noFastClick: Boolean,
+      color: String,
+      rippleColor: String,
+      textColor: String,
+      text: String,
+      tabLink: [Boolean, String],
+      tabLinkActive: Boolean,
+      iconOnly: Boolean,
+      badge: [String, Number],
+      iconBadge: [String, Number],
+      badgeColor: [String],
+      href: {
+        type: String,
+        default: '#',
+      },
+    },
+    Mixins.linkIconProps,
+    Mixins.linkRouterProps,
+    Mixins.linkActionsProps
+  );
 
   export default {
     components: {
       f7Badge,
       f7Icon,
     },
-    mixins: [LinkMixin],
+    props: LinkProps,
     render(c) {
       const self = this;
       const isTabbarLabel = (self.tabLink || self.tabLink === '') && self.$parent && self.$parent.tabbar && self.$parent.labels;
@@ -53,6 +78,43 @@
         },
       }, [iconEl, textEl, self.$slots.default]);
       return linkEl;
+    },
+    computed: {
+      attrs() {
+        const self = this;
+        const { href, target, tabLink } = self;
+        return Utils.extend(
+          {
+            href,
+            target,
+            'data-tab': Utils.isStringProp(tabLink),
+          },
+          Mixins.linkRouterAttrs(self),
+          Mixins.linkActionsAttrs(self)
+        );
+      },
+      classes() {
+        const self = this;
+        const {
+          noFastclick,
+          tabLink,
+          rippleColor,
+          color,
+          textColor,
+        } = self;
+
+        return Utils.extend(
+          {
+            [`ripple-color-${rippleColor}`]: rippleColor,
+            [`color-${color}`]: color,
+            [`text-color-${textColor}`]: textColor,
+            'tab-link': tabLink || tabLink === '',
+            'no-fastclick': noFastclick,
+          },
+          Mixins.linkRouterClasses(self),
+          Mixins.linkActionsClasses(self)
+        );
+      },
     },
     methods: {
       onClick(event) {

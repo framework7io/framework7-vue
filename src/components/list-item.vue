@@ -1,11 +1,57 @@
 <script>
   import Utils from '../utils/utils';
   import f7ListItemContent from './list-item-content.vue';
+  import Mixins from '../utils/mixins';
+
+  const ListItemProps = Utils.extend(
+    {
+      title: [String, Number],
+      text: [String, Number],
+      media: String,
+      subtitle: [String, Number],
+      header: [String, Number],
+      footer: [String, Number],
+
+      // Link Props
+      link: [Boolean, String],
+      noFastclick: Boolean,
+
+      after: [String, Number],
+      badge: [String, Number],
+      badgeColor: String,
+
+      mediaItem: Boolean,
+      mediaList: Boolean,
+      divider: Boolean,
+      groupTitle: Boolean,
+      swipeout: Boolean,
+      sortable: Boolean,
+      accordionItem: Boolean,
+      accordionItemOpened: Boolean,
+
+      // Smart Select
+      smartSelect: Boolean,
+      smartSelectParams: Object,
+
+      // Inputs
+      checkbox: Boolean,
+      radio: Boolean,
+      checked: Boolean,
+      inputName: String,
+      inputValue: [String, Number, Boolean, Array],
+      readonly: Boolean,
+      required: Boolean,
+      disabled: Boolean,
+    },
+    Mixins.linkRouterProps,
+    Mixins.linkActionsProps
+  );
 
   export default {
     components: {
       f7ListItemContent,
     },
+    props: ListItemProps,
     render(c) {
       const self = this;
 
@@ -58,75 +104,26 @@
         (self.swipeout || self.accordionItem ? [] : self.$slots.default),
       ]);
 
-      // Link Props
-      const {
-        linkExternal,
-        linkBack,
-        linkNoFastclick,
-        linkForce,
-        linkReloadCurrent,
-        linkReloadAll,
-        linkReloadPrevious,
-        linkAnimate,
-        linkIgnoreCache,
-        linkTarget,
-        linkView,
-        linkPanelOpen,
-        linkPanelClose,
-        linkPopupOpen,
-        linkPopupClose,
-        linkPopoverOpen,
-        linkPopoverClose,
-        linkLoginScreenOpen,
-        linkLoginScreenClose,
-        linkSheetOpen,
-        linkSheetClose,
-        linkSortableEnable,
-        linkSortableDisable,
-        linkSortableToggle,
-      } = self;
-
       // Link
       if (self.link || self.accordionItem || self.smartSelect) {
         linkEl = c('a', {
-          attrs: {
-            href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
-            target: linkTarget,
-            'data-view': Utils.isStringProp(linkView) ? linkView : false,
-            'data-panel': Utils.isStringProp(linkPanelOpen) ? linkPanelOpen : false,
-            'data-popup': Utils.isStringProp(linkPopupOpen) ? linkPopupOpen : false,
-            'data-popover': Utils.isStringProp(linkPopoverOpen) ? linkPopoverOpen : false,
-            'data-picker': Utils.isStringProp(linkSheetOpen) ? linkSheetOpen : false,
-            'data-login-screen': Utils.isStringProp(linkLoginScreenOpen) ? linkLoginScreenOpen : false,
-            'data-sortable': Utils.isStringProp(linkSortableEnable) ? linkSortableEnable : (Utils.isStringProp(linkSortableToggle) ? linkSortableToggle : false), // eslint-disable-line
-
-            'data-force': linkForce,
-            'data-reload-current': linkReloadCurrent,
-            'data-reload-all': linkReloadAll,
-            'data-reload-previous': linkReloadPrevious,
-            'data-animate': ('linkAnimate' in self.$options.propsData) ? linkAnimate.toString() : undefined,
-            'data-ignore-cache': linkIgnoreCache,
-          },
-          class: {
-            'item-link': true,
-            external: linkExternal,
-            back: linkBack,
-            'no-fastclick': linkNoFastclick,
-            'smart-select': self.smartSelect,
-            'panel-close': Utils.isTrueProp(linkPanelClose),
-            'panel-open': linkPanelOpen || linkPanelOpen === '',
-            'popup-close': Utils.isTrueProp(linkPopupClose),
-            'popup-open': linkPopupOpen || linkPopupOpen === '',
-            'popover-close': Utils.isTrueProp(linkPopoverClose),
-            'popover-open': linkPopoverOpen || linkPopoverOpen === '',
-            'sheet-close': Utils.isTrueProp(linkSheetClose),
-            'sheet-open': linkSheetOpen || linkSheetOpen === '',
-            'login-screen-close': Utils.isTrueProp(linkLoginScreenClose),
-            'login-screen-open': linkLoginScreenOpen || linkLoginScreenOpen === '',
-            'sortable-enable': Utils.isTrueProp(linkSortableEnable),
-            'sortable-disable': Utils.isTrueProp(linkSortableDisable),
-            'sortable-toggle': Utils.isTrueProp(linkSortableToggle),
-          },
+          attrs: Utils.extend(
+            {
+              href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+              target: self.target,
+            },
+            Mixins.linkRouterAttrs(self),
+            Mixins.linkActionsAttrs(self)
+          ),
+          class: Utils.extend(
+            {
+              'item-link': true,
+              'no-fastclick': self.noFastclick,
+              'smart-select': self.smartSelect,
+            },
+            Mixins.linkRouterClasses(self),
+            Mixins.linkActionsClasses(self)
+          ),
           on: {
             click: self.onClick,
           },
@@ -179,69 +176,6 @@
         },
         liChildren
       );
-    },
-    props: {
-      title: [String, Number],
-      text: [String, Number],
-      media: String,
-      subtitle: [String, Number],
-      header: [String, Number],
-      footer: [String, Number],
-
-      // Link Props
-      link: [Boolean, String],
-      linkExternal: Boolean,
-      linkBack: Boolean,
-      linkNoFastclick: Boolean,
-      linkForce: Boolean,
-      linkReloadCurrent: Boolean,
-      linkReloadAll: Boolean,
-      linkReloadPrevious: Boolean,
-      linkAnimate: Boolean,
-      linkIgnoreCache: Boolean,
-      linkTarget: String,
-      linkView: String,
-
-      linkPanelOpen: [Boolean, String],
-      linkPanelClose: [Boolean, String],
-      linkPopupOpen: [Boolean, String],
-      linkPopupClose: [Boolean, String],
-      linkPopoverOpen: [Boolean, String],
-      linkPopoverClose: [Boolean, String],
-      linkLoginScreenOpen: [Boolean, String],
-      linkLoginScreenClose: [Boolean, String],
-      linkSheetOpen: [Boolean, String],
-      linkSheetClose: [Boolean, String],
-      linkSortableEnable: [Boolean, String],
-      linkSortableDisable: [Boolean, String],
-      linkSortableToggle: [Boolean, String],
-
-      after: [String, Number],
-      badge: [String, Number],
-      badgeColor: String,
-
-      mediaItem: Boolean,
-      mediaList: Boolean,
-      divider: Boolean,
-      groupTitle: Boolean,
-      swipeout: Boolean,
-      sortable: Boolean,
-      accordionItem: Boolean,
-      accordionItemOpened: Boolean,
-
-      // Smart Select
-      smartSelect: Boolean,
-      smartSelectParams: Object,
-
-      // Inputs
-      checkbox: Boolean,
-      radio: Boolean,
-      checked: Boolean,
-      inputName: String,
-      inputValue: [String, Number, Boolean, Array],
-      readonly: Boolean,
-      required: Boolean,
-      disabled: Boolean,
     },
     computed: {
       sortableComputed() {
