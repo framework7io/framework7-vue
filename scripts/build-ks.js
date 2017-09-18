@@ -11,6 +11,8 @@ const resolve = require('rollup-plugin-node-resolve');
 const vue = require('rollup-plugin-vue');
 const sourcemaps = require('gulp-sourcemaps');
 
+let cache;
+
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
@@ -28,16 +30,20 @@ function build(cb) {
     ],
     format: 'iife',
     strict: true,
-    sourcemap: true,
+    sourcemap: false,
+    cache,
   })
     .on('error', (err) => {
       if (cb) cb();
       console.log(err.toString());
     })
+    .on('bundle', (bundle) => {
+      cache = bundle;
+    })
     .pipe(source('app.js', './kitchen-sink'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('./'))
+    // .pipe(sourcemaps.init({ loadMaps: true }))
+    // .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./kitchen-sink/js/'))
     .on('end', () => {
       if (cb) cb();
