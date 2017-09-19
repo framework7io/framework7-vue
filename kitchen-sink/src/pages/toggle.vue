@@ -17,7 +17,7 @@
       </f7-list-item>
       <f7-list-item>
         <span>Hulk</span>
-        <f7-toggle color="light-green"</f7-toggle>
+        <f7-toggle color="light-green"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Spiderman (Disabled)</span>
