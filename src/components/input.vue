@@ -199,16 +199,16 @@
         }
       },
       onTextareaResize(event) {
-        this.emit('textarea:resize', event);
+        this.$emit('textarea:resize', event);
       },
       onInputNotEmpty(event) {
-        this.emit('input:notempty', event);
+        this.$emit('input:notempty', event);
       },
       onInputEmpty(event) {
-        this.emit('input:empty', event);
+        this.$emit('input:empty', event);
       },
       onInputClear(event) {
-        this.emit('input:clear', event);
+        this.$emit('input:clear', event);
       },
       onInput(event) {
         this.$emit('input', event);
