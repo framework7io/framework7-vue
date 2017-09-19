@@ -32,7 +32,6 @@
       value(newValue) {
         const self = this;
         if (!self.f7Range) return;
-        console.log(newValue);
         self.f7Range.setValue(newValue);
       },
     },
