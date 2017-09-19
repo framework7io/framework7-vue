@@ -54,20 +54,21 @@
       onF7Ready(f7) {
         const self = this;
         if (!self.init) return;
-
-        self.f7Range = f7.range.create({
-          el: self.$el,
-          value: self.value,
-          min: self.min,
-          max: self.max,
-          step: self.step,
-          label: self.label,
-          dual: self.dual,
-          on: {
-            change(range, value) {
-              self.$emit('range:change', value);
+        self.$nextTick(() => {
+          self.f7Range = f7.range.create({
+            el: self.$el,
+            value: self.value,
+            min: self.min,
+            max: self.max,
+            step: self.step,
+            label: self.label,
+            dual: self.dual,
+            on: {
+              change(range, value) {
+                self.$emit('range:change', value);
+              },
             },
-          },
+          });
         });
       },
     },

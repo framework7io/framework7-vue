@@ -56,14 +56,15 @@
       onF7Ready(f7) {
         const self = this;
         if (!self.init) return;
-
-        self.f7Toggle = f7.toggle.create({
-          el: self.$el,
-          on: {
-            change(toggle) {
-              self.$emit('toggle:change', toggle.checked);
+        self.$nextTick(() => {
+          self.f7Toggle = f7.toggle.create({
+            el: self.$el,
+            on: {
+              change(toggle) {
+                self.$emit('toggle:change', toggle.checked);
+              },
             },
-          },
+          });
         });
       },
     },
