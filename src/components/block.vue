@@ -12,9 +12,13 @@
       tabs: Boolean,
       tab: Boolean,
       tabActive: Boolean,
+      accordionList: Boolean,
       noHairlines: Boolean,
       noHairlinesBetween: Boolean,
-      accordionList: Boolean,
+      noHairlinesMd: Boolean,
+      noHairlinesBetweenMd: Boolean,
+      noHairlinesIos: Boolean,
+      noHairlinesBetweenIos: Boolean,
     },
     computed: {
       classes() {
@@ -29,6 +33,10 @@
           'tab-active': self.tabActive,
           'no-hairlines': self.noHairlines,
           'no-hairlines-between': self.noHairlinesBetween,
+          'no-hairlines-md': self.noHairlinesMd,
+          'no-hairlines-between-md': self.noHairlinesBetweenMd,
+          'no-hairlines-ios': self.noHairlinesIos,
+          'no-hairlines-between-ios': self.noHairlinesBetweenIos,
         };
       },
     },
