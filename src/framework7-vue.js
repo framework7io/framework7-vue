@@ -35,6 +35,8 @@ import f7Swiper from './components/swiper.vue';
 import f7SwiperSlide from './components/swiper-slide.vue';
 import f7List from './components/list.vue';
 import f7ListItem from './components/list-item.vue';
+import f7ListItemCell from './components/list-item-cell.vue';
+import f7ListItemRow from './components/list-item-row.vue';
 import f7ListItemContent from './components/list-item-content.vue';
 import f7ListButton from './components/list-button.vue';
 import f7SwipeoutActions from './components/swipeout-actions.vue';
@@ -48,8 +50,12 @@ import f7AccordionToggle from './components/accordion-toggle.vue';
 import f7AccordionContent from './components/accordion-content.vue';
 import f7Checkbox from './components/checkbox.vue';
 import f7Radio from './components/radio.vue';
+import f7Range from './components/range.vue';
 
 export {
+
+
+
   VuePlugin as Framework7Vue,
   f7Views,
   f7View,
@@ -87,6 +93,8 @@ export {
   f7SwiperSlide,
   f7List,
   f7ListItem,
+  f7ListItemCell,
+  f7ListItemRow,
   f7ListItemContent,
   f7ListButton,
   f7SwipeoutActions,
@@ -100,5 +108,6 @@ export {
   f7AccordionContent,
   f7Checkbox,
   f7Radio,
+  f7Range,
 };
 
