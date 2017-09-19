@@ -57,81 +57,86 @@
 
       let liChildren;
       let linkEl;
+      let itemContentEl;
 
-      // Item Content
-      const itemContentEl = c('f7-list-item-content', {
-        props: {
-          title: self.title,
-          text: self.text,
-          media: self.media,
-          subtitle: self.subtitle,
-          after: self.after,
-          header: self.header,
-          footer: self.footer,
-          badge: self.badge,
-          badgeColor: self.badgeColor,
-          mediaList: self.mediaListComputed,
-          accordionItem: self.accordionItem,
+      if (!self.simpleListComputed) {
+        // Item Content
+        itemContentEl = c('f7-list-item-content', {
+          props: {
+            title: self.title,
+            text: self.text,
+            media: self.media,
+            subtitle: self.subtitle,
+            after: self.after,
+            header: self.header,
+            footer: self.footer,
+            badge: self.badge,
+            badgeColor: self.badgeColor,
+            mediaList: self.mediaListComputed,
+            accordionItem: self.accordionItem,
 
-          checkbox: self.checkbox,
-          checked: self.checked,
-          radio: self.radio,
-          inputName: self.inputName,
-          inputValue: self.inputValue,
-          readonly: self.readonly,
-          required: self.required,
-          disabled: self.disabled,
-        },
-        on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
-      }, [
-        self.$slots['content-start'],
-        self.$slots.content,
-        self.$slots['content-end'],
-        self.$slots['media-start'],
-        self.$slots.media,
-        self.$slots['media-end'],
-        self.$slots['inner-start'],
-        self.$slots.inner,
-        self.$slots['inner-end'],
-        self.$slots['after-start'],
-        self.$slots.after,
-        self.$slots['after-end'],
-        self.$slots.header,
-        self.$slots.footer,
-        self.$slots.title,
-        self.$slots.subtitle,
-        self.$slots.text,
-        (self.swipeout || self.accordionItem ? [] : self.$slots.default),
-      ]);
-
-      // Link
-      if (self.link || self.accordionItem || self.smartSelect) {
-        linkEl = c('a', {
-          attrs: Utils.extend(
-            {
-              href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
-              target: self.target,
-            },
-            Mixins.linkRouterAttrs(self),
-            Mixins.linkActionsAttrs(self)
-          ),
-          class: Utils.extend(
-            {
-              'item-link': true,
-              'no-fastclick': self.noFastclick,
-              'smart-select': self.smartSelect,
-            },
-            Mixins.linkRouterClasses(self),
-            Mixins.linkActionsClasses(self)
-          ),
-          on: {
-            click: self.onClick,
+            checkbox: self.checkbox,
+            checked: self.checked,
+            radio: self.radio,
+            inputName: self.inputName,
+            inputValue: self.inputValue,
+            readonly: self.readonly,
+            required: self.required,
+            disabled: self.disabled,
           },
-        }, [itemContentEl]);
+          on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
+        }, [
+          self.$slots['content-start'],
+          self.$slots.content,
+          self.$slots['content-end'],
+          self.$slots['media-start'],
+          self.$slots.media,
+          self.$slots['media-end'],
+          self.$slots['inner-start'],
+          self.$slots.inner,
+          self.$slots['inner-end'],
+          self.$slots['after-start'],
+          self.$slots.after,
+          self.$slots['after-end'],
+          self.$slots.header,
+          self.$slots.footer,
+          self.$slots.title,
+          self.$slots.subtitle,
+          self.$slots.text,
+          (self.swipeout || self.accordionItem ? [] : self.$slots.default),
+        ]);
+
+        // Link
+        if (self.link || self.accordionItem || self.smartSelect) {
+          linkEl = c('a', {
+            attrs: Utils.extend(
+              {
+                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+                target: self.target,
+              },
+              Mixins.linkRouterAttrs(self),
+              Mixins.linkActionsAttrs(self)
+            ),
+            class: Utils.extend(
+              {
+                'item-link': true,
+                'no-fastclick': self.noFastclick,
+                'smart-select': self.smartSelect,
+              },
+              Mixins.linkRouterClasses(self),
+              Mixins.linkActionsClasses(self)
+            ),
+            on: {
+              click: self.onClick,
+            },
+          }, [itemContentEl]);
+        }
       }
 
       if (self.divider || self.groupTitle) {
         liChildren = [c('span', self.$slots.default || self.title)];
+      } else if (self.simpleListComputed) {
+        liChildren = [self.title, self.$slots.default];
       } else {
         const linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
         if (self.swipeout) {
@@ -183,6 +188,9 @@
       },
       mediaListComputed() {
         return this.mediaList || this.mediaItem || this.$parent.mediaList || this.$parent.mediaListComputed;
+      },
+      simpleListComputed() {
+        return this.simpleList || this.$parent.simpleList || (this.$parent.$parent && this.$parent.simpleList);
       },
     },
     mounted() {

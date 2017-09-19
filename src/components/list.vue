@@ -71,6 +71,8 @@
       sortable: Boolean,
       accordionList: Boolean,
       contactsList: Boolean,
+      simpleList: Boolean,
+      linksList: Boolean,
 
       noHairlines: Boolean,
       noHairlinesBetween: Boolean,
