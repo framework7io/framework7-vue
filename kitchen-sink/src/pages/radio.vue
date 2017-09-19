@@ -4,15 +4,15 @@
     <f7-block-title>Inline</f7-block-title>
 
     <f7-block strong>
-      <p>Lorem <f7-radio input-name="demo-radio-inline"></f7-radio> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-radio input-name="demo-radio-inline" checked></f7-radio> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
+      <p>Lorem <f7-radio name="demo-radio-inline"></f7-radio> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-radio name="demo-radio-inline" checked></f7-radio> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
     </f7-block>
 
     <f7-block-title>Radio Group</f7-block-title>
     <f7-list>
-      <f7-list-item radio checked title="Books" input-name="demo-radio" checked></f7-list-item>
-      <f7-list-item radio title="Movies" input-name="demo-radio"></f7-list-item>
-      <f7-list-item radio title="Food" input-name="demo-radio"></f7-list-item>
-      <f7-list-item radio title="Drinks" input-name="demo-radio"></f7-list-item>
+      <f7-list-item radio checked title="Books" name="demo-radio" checked></f7-list-item>
+      <f7-list-item radio title="Movies" name="demo-radio"></f7-list-item>
+      <f7-list-item radio title="Food" name="demo-radio"></f7-list-item>
+      <f7-list-item radio title="Drinks" name="demo-radio"></f7-list-item>
     </f7-list>
 
 
@@ -22,8 +22,8 @@
       <f7-list-item
         radio
         checked
-        input-name="demo-media-radio"
-        input-value="1"
+        name="demo-media-radio"
+        value="1"
         title="Facebook"
         after="17:14"
         subtitle="New messages from John Doe"
@@ -31,8 +31,8 @@
       ></f7-list-item>
       <f7-list-item
         radio
-        input-name="demo-media-radio"
-        input-value="2"
+        name="demo-media-radio"
+        value="2"
         title="John Doe (via Twitter)"
         after="17:11"
         subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
@@ -40,8 +40,8 @@
       ></f7-list-item>
       <f7-list-item
         radio
-        input-name="demo-media-radio"
-        input-value="3"
+        name="demo-media-radio"
+        value="3"
         title="Facebook"
         after="16:48"
         subtitle="New messages from John Doe"
@@ -49,8 +49,8 @@
       ></f7-list-item>
       <f7-list-item
         radio
-        input-name="demo-media-radio"
-        input-value="4"
+        name="demo-media-radio"
+        value="4"
         title="John Doe (via Twitter)"
         after="15:32"
         subtitle="John Doe (@_johndoe) mentioned you on Twitter!"

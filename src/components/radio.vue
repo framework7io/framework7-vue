@@ -3,8 +3,8 @@
     props: {
       color: String,
       checked: Boolean,
-      inputName: [Number, String],
-      inputValue: [Number, String, Boolean],
+      name: [Number, String],
+      value: [Number, String, Boolean],
       disabled: Boolean,
       readonly: Boolean,
     },
@@ -14,10 +14,10 @@
       const inputEl = c('input', {
         attrs: {
           type: 'radio',
-          name: self.inputName,
+          name: self.name,
         },
         domProps: {
-          value: self.inputValue,
+          value: self.value,
           disabled: self.disabled,
           readonly: self.readonly,
           checked: self.checked,

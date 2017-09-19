@@ -3,15 +3,15 @@
     <f7-navbar title="Checkbox" back-link="Back"></f7-navbar>
     <f7-block-title>Inline</f7-block-title>
     <f7-block strong>
-      <p>Lorem <f7-checkbox input-name="checkbox-1"></f7-checkbox> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-checkbox input-name="checkbox-2" checked></f7-checkbox> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
+      <p>Lorem <f7-checkbox name="checkbox-1"></f7-checkbox> ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo nihil aut eius commodi sint eveniet aliquid eligendi <f7-checkbox name="checkbox-2" checked></f7-checkbox> ad delectus impedit tempore nemo, enim vel praesentium consequatur nulla mollitia!</p>
     </f7-block>
 
     <f7-block-title>Checkbox Group</f7-block-title>
     <f7-list>
-      <f7-list-item checkbox title="Books" input-name="demo-checkbox" checked></f7-list-item>
-      <f7-list-item checkbox title="Movies" input-name="demo-checkbox"></f7-list-item>
-      <f7-list-item checkbox title="Food" input-name="demo-checkbox"></f7-list-item>
-      <f7-list-item checkbox title="Drinks" input-name="demo-checkbox"></f7-list-item>
+      <f7-list-item checkbox title="Books" name="demo-checkbox" checked></f7-list-item>
+      <f7-list-item checkbox title="Movies" name="demo-checkbox"></f7-list-item>
+      <f7-list-item checkbox title="Food" name="demo-checkbox"></f7-list-item>
+      <f7-list-item checkbox title="Drinks" name="demo-checkbox"></f7-list-item>
     </f7-list>
 
     <f7-block-title>With Media Lists</f7-block-title>
@@ -19,7 +19,7 @@
       <f7-list-item
         checkbox
         checked
-        input-name="demo-media-checkbox"
+        name="demo-media-checkbox"
         title="Facebook"
         after="17:14"
         subtitle="New messages from John Doe"
@@ -27,7 +27,7 @@
       ></f7-list-item>
       <f7-list-item
         checkbox
-        input-name="demo-media-checkbox"
+        name="demo-media-checkbox"
         title="John Doe (via Twitter)"
         after="17:11"
         subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
@@ -35,7 +35,7 @@
       ></f7-list-item>
       <f7-list-item
         checkbox
-        input-name="demo-media-checkbox"
+        name="demo-media-checkbox"
         title="Facebook"
         after="16:48"
         subtitle="New messages from John Doe"
@@ -43,7 +43,7 @@
       ></f7-list-item>
       <f7-list-item
         checkbox
-        input-name="demo-media-checkbox"
+        name="demo-media-checkbox"
         title="John Doe (via Twitter)"
         after="15:32"
         subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
