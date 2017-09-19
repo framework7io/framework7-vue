@@ -47,7 +47,12 @@
             'tab-active': self.tabActive,
             'no-hairlines': self.noHairlines,
             'no-hairlines-between': self.noHairlinesBetween,
+            'no-hairlines-md': self.noHairlinesMd,
+            'no-hairlines-between-md': self.noHairlinesBetweenMd,
+            'no-hairlines-ios': self.noHairlinesIos,
+            'no-hairlines-between-ios': self.noHairlinesBetweenIos,
             'form-store-data': self.formStoreData,
+            'inline-labels': self.inlineLabels,
           },
           on: {
             'sortable:enable': self.onSortableEnable,
@@ -76,6 +81,10 @@
 
       noHairlines: Boolean,
       noHairlinesBetween: Boolean,
+      noHairlinesMd: Boolean,
+      noHairlinesBetweenMd: Boolean,
+      noHairlinesIos: Boolean,
+      noHairlinesBetweenIos: Boolean,
 
       // Tab
       tab: Boolean,
@@ -84,6 +93,7 @@
       // Form
       form: Boolean,
       formStoreData: Boolean,
+      inlineLabels: Boolean,
 
       // Virtual List
       virtualList: Boolean,

@@ -113,6 +113,9 @@
         class: {
           'item-checkbox': self.checkbox,
           'item-radio': self.radio,
+          'item-input': self.itemInput || self.itemInputForced,
+          'inline-label': self.inlineLabel || self.inlineLabelForced,
+          'item-input-with-info': self.itemInputWithInfo || self.itemInputWithInfoForced,
         },
         on: {
           click: self.onClick,
@@ -130,6 +133,9 @@
       badge: [String, Number],
       badgeColor: String,
       mediaList: Boolean,
+      itemInput: Boolean,
+      itemInputWithInfo: Boolean,
+      inlineLabel: Boolean,
 
       checkbox: Boolean,
       checked: Boolean,

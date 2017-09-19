@@ -42,6 +42,9 @@
       readonly: Boolean,
       required: Boolean,
       disabled: Boolean,
+      itemInput: Boolean,
+      itemInputWithInfo: Boolean,
+      inlineLabel: Boolean,
     },
     Mixins.linkRouterProps,
     Mixins.linkActionsProps
@@ -83,6 +86,9 @@
             readonly: self.readonly,
             required: self.required,
             disabled: self.disabled,
+            itemInput: self.itemInput || self.itemInputForced,
+            itemInputWithInfo: self.itemInputWithInfo || self.itemInputWithInfoForced,
+            inlineLabel: self.inlineLabel || self.inlineLabelForced,
           },
           on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
         }, [
