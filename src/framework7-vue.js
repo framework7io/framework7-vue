@@ -51,11 +51,9 @@ import f7AccordionContent from './components/accordion-content.vue';
 import f7Checkbox from './components/checkbox.vue';
 import f7Radio from './components/radio.vue';
 import f7Range from './components/range.vue';
+import f7Toggle from './components/toggle.vue';
 
 export {
-
-
-
   VuePlugin as Framework7Vue,
   f7Views,
   f7View,
@@ -109,5 +107,6 @@ export {
   f7Checkbox,
   f7Radio,
   f7Range,
+  f7Toggle,
 };
 
