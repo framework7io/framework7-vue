@@ -1,89 +1,99 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Range Slider" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <f7-block-title>Volume</f7-block-title>
-      <div class="list simple-list">
-        <ul>
-          <li>
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">volume_mute_fill</i>
-              <i class="icon material-icons md-only">volume_mute</i>
-            </div>
-            <div class="item-cell flex-shrink-3">
-              <div class="range-slider range-slider-init">
-                <input type="range" min="0" max="100" step="1" value="10">
-              </div>
-            </div>
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">volume_fill</i>
-              <i class="icon material-icons md-only">volume_up</i>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <f7-block-title>Brightness</f7-block-title>
-      <div class="list simple-list">
-        <ul>
-          <li>
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">circle</i>
-              <i class="icon material-icons md-only">brightness_low</i>
-            </div>
-            <div class="item-cell flex-shrink-3">
-              <div class="range-slider range-slider-init color-orange" data-label="true">
-                <input type="range" min="0" max="100" step="1" value="50">
-              </div>
-            </div>
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">circle_half</i>
-              <i class="icon material-icons md-only">brightness_high</i>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="block-title display-flex justify-content-space-between">Price Filter <span class="price-value">$200 - $400</span></div>
-      <div class="list simple-list">
-        <ul>
-          <li class="item-row">
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">money_dollar</i>
-              <i class="icon material-icons md-only">attach_money</i>
-            </div>
-            <div class="item-cell item-cell-shrink-3">
-              <div class="range-slider range-slider-init color-green" @range:change="onPriceChange"
-                data-label="true"
-                data-dual="true"
-                data-min="0"
-                data-max="500"
-                data-step="1"
-                data-value-left="200"
-                data-value-right="400"
-              ></div>
-            </div>
-            <div class="item-cell width-auto flex-shrink-0">
-              <i class="icon f7-icons ios-only">money_dollar_fill</i>
-              <i class="icon material-icons md-only">monetization_on</i>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+
+    <f7-block-title>Volume</f7-block-title>
+    <f7-list simple-list>
+      <f7-list-item>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:volume_mute_fill" if-md="material:volume_mute"></f7-icon>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="flex-shrink-3">
+          <f7-range
+            :min="0"
+            :max="100"
+            :step="1"
+            :value="10"
+          ></f7-range>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:volume_fill" if-md="material:volume_up"></f7-icon>
+        </f7-list-item-cell>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title>Brightness</f7-block-title>
+    <f7-list simple-list>
+      <f7-list-item>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:circle" if-md="material:brightness_low"></f7-icon>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="flex-shrink-3">
+          <f7-range
+            :min="0"
+            :max="100"
+            :step="1"
+            :value="50"
+            :label="true"
+            color="orange"
+          ></f7-range>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:circle_half" if-md="material:brightness_high"></f7-icon>
+        </f7-list-item-cell>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title class="display-flex justify-content-space-between">Price Filter <span>${{priceMin}} - ${{priceMax}}</span></f7-block-title>
+    <f7-list simple-list>
+      <f7-list-item>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:circle" if-md="material:brightness_low"></f7-icon>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="flex-shrink-3">
+          <f7-range
+            :min="0"
+            :max="500"
+            :step="1"
+            :value="[priceMin, priceMax]"
+            :label="true"
+            :dual="true"
+            color="green"
+            @range:change="onPriceChange"
+          ></f7-range>
+        </f7-list-item-cell>
+        <f7-list-item-cell class="width-auto flex-shrink-0">
+          <f7-icon if-ios="f7:circle_half" if-md="material:brightness_high"></f7-icon>
+        </f7-list-item-cell>
+      </f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Range, f7List, f7ListItem, f7ListItemCell, f7Icon } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
+      f7Range,
+      f7List,
+      f7ListItem,
+      f7ListItemCell,
+      f7Icon,
+    },
+    data() {
+      return {
+        priceMin: 200,
+        priceMax: 400,
+      };
     },
     methods: {
-      onPriceChange: function (e, range) {
-        this.$el.find('.price-value').text('$'+(range.value[0])+' - $'+(range.value[1]));
-      }
-    }
-  }
+      onPriceChange(values) {
+        this.priceMin = values[0];
+        this.priceMax = values[1];
+      },
+    },
+  };
 </script>
