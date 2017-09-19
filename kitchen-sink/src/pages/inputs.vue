@@ -1,650 +1,344 @@
 <template>
-<div class="page">
-  <f7-navbar title="Form Inputs" back-link="Back"></f7-navbar>
-  <div class="page-content">
-    <div class="block-title">Full Layout / Inline Labels</div>
-    <div class="list inline-labels no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Name</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Password</div>
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">E-mail</div>
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">URL</div>
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Phone</div>
-            <div class="item-input-wrap">
-              <input type="tel" placeholder="Your phone number">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Gender</div>
-            <div class="item-input-wrap">
-              <select placeholder="Please choose...">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Birthday</div>
-            <div class="item-input-wrap">
-              <input type="date" value="2014-04-30" placeholder="Please choose...">
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Date time</div>
-            <div class="item-input-wrap">
-              <input type="datetime-local" placeholder="Please choose...">
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Range</div>
-            <div class="item-input-wrap">
-              <div class="range-slider range-slider-init" data-label="true">
-                <input type="range" value="50" min="0" max="100" step="1">
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Textarea</div>
-            <div class="item-input-wrap">
-              <textarea placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Resizable</div>
-            <div class="item-input-wrap">
-              <textarea class="resizable" placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+  <f7-page>
+    <f7-navbar title="Form Inputs" back-link="Back"></f7-navbar>
+    <f7-block-title>Full Layout / Inline Labels</f7-block-title>
+    <f7-list inline-labels no-hairlines-md>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Name</f7-label>
+        <f7-input type="text" placeholder="Your name" :value="value" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Full Layout / Stacked Labels</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Name</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Password</div>
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">E-mail</div>
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">URL</div>
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Phone</div>
-            <div class="item-input-wrap">
-              <input type="tel" placeholder="Your phone number">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Gender</div>
-            <div class="item-input-wrap">
-              <select placeholder="Please choose...">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Birthday</div>
-            <div class="item-input-wrap">
-              <input type="date" value="2014-04-30" placeholder="Please choose...">
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Date time</div>
-            <div class="item-input-wrap">
-              <input type="datetime-local" placeholder="Please choose...">
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Range</div>
-            <div class="item-input-wrap">
-              <div class="range-slider range-slider-init" data-label="true">
-                <input type="range" value="50" min="0" max="100" step="1">
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Textarea</div>
-            <div class="item-input-wrap">
-              <textarea placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Resizable</div>
-            <div class="item-input-wrap">
-              <textarea class="resizable" placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Password</f7-label>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Floating Labels (MD-theme only)</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">Name</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">Password</div>
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">E-mail</div>
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">URL</div>
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">Phone</div>
-            <div class="item-input-wrap">
-              <input type="tel" placeholder="Your phone number">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-floating-label">Bio</div>
-            <div class="item-input-wrap">
-              <textarea class="resizable" placeholder="Bio"></textarea>
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>E-mail</f7-label>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Validation + Additional Info</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Name</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name" required validate>
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Default "required" validation</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Fruit</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Type 'apple' or 'banana'" required validate pattern="apple|banana">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Pattern validation (<b>apple|banana</b>)</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">E-mail</div>
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail" required validate>
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Default e-mail validation</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">URL</div>
-            <div class="item-input-wrap">
-              <input type="url" placeholder="Your URL" required validate>
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Default URL validation</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-title item-label">Number</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Enter number" required validate pattern="[0-9]*" data-error-message="Only numbers please!">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">With custom error message</div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>URL</f7-label>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Icon + Input</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-media">
-            <i class="icon demo-list-icon"></i>
-          </div>
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Phone</f7-label>
+        <f7-input type="tel" placeholder="Your phone number" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Label + Input</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-title item-label">Name</div>
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-title item-label">Password</div>
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-title item-label">E-mail</div>
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-title item-label">URL</div>
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Gender</f7-label>
+        <f7-input type="select" placeholder="Please choose...">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Birthday</f7-label>
+        <f7-input type="date" value="2014-04-30" placeholder="Please choose..."></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Date time</f7-label>
+        <f7-input type="datetime-local" placeholder="Please choose..."></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Range</f7-label>
+        <f7-input type="range" value="50" min="0" max="100" step="1"></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Textarea</f7-label>
+        <f7-input type="textarea" placeholder="Bio"></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Resizable</f7-label>
+        <f7-input type="textarea" resizable placeholder="Bio"></f7-input>
+      </f7-list-item>
+
+    </f7-list>
+
+    <f7-block-title>Full Layout / Stacked Labels</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Name</f7-label>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Password</f7-label>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>E-mail</f7-label>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>URL</f7-label>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Phone</f7-label>
+        <f7-input type="tel" placeholder="Your phone number" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Gender</f7-label>
+        <f7-input type="select" placeholder="Please choose...">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Birthday</f7-label>
+        <f7-input type="date" value="2014-04-30" placeholder="Please choose..."></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Date time</f7-label>
+        <f7-input type="datetime-local" placeholder="Please choose..."></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Range</f7-label>
+        <f7-input type="range" value="50" min="0" max="100" step="1"></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Textarea</f7-label>
+        <f7-input type="textarea" placeholder="Bio"></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Resizable</f7-label>
+        <f7-input type="textarea" resizable placeholder="Bio"></f7-input>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title>Floating Labels (MD-theme only)</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>Name</f7-label>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>Password</f7-label>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>E-mail</f7-label>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>URL</f7-label>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>Phone</f7-label>
+        <f7-input type="tel" placeholder="Your phone number" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label floating>Bio</f7-label>
+        <f7-input type="textarea" placeholder="Bio" resizable></f7-input>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title>Validation + Additional Info</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Name</f7-label>
+        <f7-input type="text" placeholder="Your name" info='Default "required" validation' required validate clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Fruit</f7-label>
+        <f7-input type="text" placeholder="Type 'apple' or 'banana'" required validate clear-button>
+          <span slot="info">Pattern validation (<b>apple|banana</b>)</span>
+        </f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>E-mail</f7-label>
+        <f7-input type="email" placeholder="Your e-mail" info='Default e-mail validation' required validate clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>URL</f7-label>
+        <f7-input type="url" placeholder="Your URL" info='Default URL validation' required validate clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-label>Number</f7-label>
+        <f7-input type="text" placeholder="Enter number" info='With custom error message' error-message="Only numbers please!" required validate pattern="[0-9]*" clear-button></f7-input>
+      </f7-list-item>
+
+    </f7-list>
+
+    <f7-block-title>Icon + Input</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-icon icon="demo-list-icon" slot="media"></f7-icon>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+
+    </f7-list>
+
+    <f7-block-title>Label + Input</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-label>Name</f7-label>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-label>Password</f7-label>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-label>E-mail</f7-label>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-label>URL</f7-label>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+    </f7-list>
 
     <f7-block-title>Only Inputs</f7-block-title>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
 
-    <div class="block-title">Inputs + Additional Info</div>
-    <div class="list no-hairlines-md">
-      <ul>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Full name please</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">8 characters minimum</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Your work e-mail address</div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input item-input-with-info">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Your website URL</div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <f7-list-item>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title>Inputs + Additional Info</f7-block-title>
+    <f7-list no-hairlines-md>
+      <f7-list-item>
+        <f7-input type="text" placeholder="Your name" info="Full name please" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="password" placeholder="Your password" info="8 characters minimum" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="email" placeholder="Your e-mail" info="Your work e-mail address" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="url" placeholder="URL" info="Your website URL" clear-button></f7-input>
+      </f7-list-item>
+    </f7-list>
 
     <f7-block-title>Only Inputs Inset</f7-block-title>
-    <div class="list inset">
-      <ul>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="text" placeholder="Your name">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="password" placeholder="Your password">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="email" placeholder="Your e-mail">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-        <li class="item-content item-input">
-          <div class="item-inner">
-            <div class="item-input-wrap">
-              <input type="url" placeholder="URL">
-              <span class="input-clear-button"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <f7-list inset>
+      <f7-list-item>
+        <f7-input type="text" placeholder="Your name" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="password" placeholder="Your password" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="email" placeholder="Your e-mail" clear-button></f7-input>
+      </f7-list-item>
+
+      <f7-list-item>
+        <f7-input type="url" placeholder="URL" clear-button></f7-input>
+      </f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7List, f7ListItem, f7Icon, f7Label, f7Input } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+      f7List,
+      f7ListItem,
+      f7Icon,
+      f7Label,
+      f7Input,
+    },
+  };
 </script>
