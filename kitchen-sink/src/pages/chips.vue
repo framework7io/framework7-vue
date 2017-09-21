@@ -129,7 +129,7 @@
     methods: {
       deleteChip(e) {
         var $ = this.$;
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.confirm('Do you want to delete this tiny demo Chip?', function () {
           $(e.target).parents('.chip').remove();
         });

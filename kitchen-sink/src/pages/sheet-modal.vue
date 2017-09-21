@@ -40,7 +40,7 @@ export default {
       var self = this;
       // Create sheet modal
       if (!self.sheet) {
-        self.sheet = self.$app.sheet.create({
+        self.sheet = self.$f7.sheet.create({
           content: '\
             <div class="sheet-modal">\
               <div class="toolbar">\
@@ -61,7 +61,7 @@ export default {
         });
       }
       // Close inline sheet
-      if (self.$('.demo-sheet.modal-in').length > 0) self.$app.sheet.close('.demo-sheet');
+      if (self.$('.demo-sheet.modal-in').length > 0) self.$f7.sheet.close('.demo-sheet');
       // Open it
       self.sheet.open();
     },
@@ -70,7 +70,7 @@ export default {
     pageBeforeOut: function () {
       var self = this;
       // Close opened sheets on page out
-      self.$app.sheet.close();
+      self.$f7.sheet.close();
     },
     pageBeforeRemove: function () {
       var self = this;

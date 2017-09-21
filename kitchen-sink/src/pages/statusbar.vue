@@ -18,10 +18,10 @@
   export default {
     methods: {
       showStatusbar: function () {
-        this.$app.statusbar.show();
+        this.$f7.statusbar.show();
       },
       hideStatusbar: function () {
-        this.$app.statusbar.hide();
+        this.$f7.statusbar.hide();
       },
     }
   }

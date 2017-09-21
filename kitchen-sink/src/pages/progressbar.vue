@@ -107,12 +107,12 @@
     methods: {
       setInlineProgress: function (value) {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         app.progressbar.set('#demo-inline-progressbar', value);
       },
       showDeterminate: function (inline) {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         if (self.determinateLoading) return;
         self.determinateLoading = true;
         var progressBarEl;
@@ -140,7 +140,7 @@
       },
       showInfinite: function (multiColor) {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         if (self.infiniteLoading) return;
         self.infiniteLoading = true;
         if (multiColor) {

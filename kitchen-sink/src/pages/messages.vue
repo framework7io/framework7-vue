@@ -255,7 +255,7 @@ export default {
     },
     pageInit: function (e, page) {
       var self = this;
-      var app = self.$app;
+      var app = self.$f7;
       self.messagebar = app.messagebar.create({
         el: page.$el.find('.messagebar'),
         attachments: []

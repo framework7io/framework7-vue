@@ -61,7 +61,7 @@
       },
       pageInit: function() {
         var self = this;
-        self.virtualList = self.$app.virtualList.create({
+        self.virtualList = self.$f7.virtualList.create({
           // List Element
           el: self.$el.find('.virtual-list'),
           // Pass array with items

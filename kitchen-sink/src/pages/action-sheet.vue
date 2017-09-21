@@ -134,12 +134,12 @@ export default {
         ],
       ]
 
-      self.actions1 = self.$app.actions.create({buttons: buttons1});
-      self.actions2 = self.$app.actions.create({buttons: buttons2});
-      self.actionsGrid = self.$app.actions.create({buttons: gridButtons, grid: true});
+      self.actions1 = self.$f7.actions.create({buttons: buttons1});
+      self.actions2 = self.$f7.actions.create({buttons: buttons2});
+      self.actionsGrid = self.$f7.actions.create({buttons: gridButtons, grid: true});
 
       // Actions To Popover
-      self.actionsToPopover = self.$app.actions.create({
+      self.actionsToPopover = self.$f7.actions.create({
         buttons: buttons1,
         // Need to specify popover target
         targetEl: self.$el.find('.button-to-popover')

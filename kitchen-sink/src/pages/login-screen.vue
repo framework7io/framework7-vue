@@ -62,7 +62,7 @@
     methods: {
       signIn: function () {
         var $ = this.$;
-        var app = this.$app;
+        var app = this.$f7;
         var username = $('input#demo-username-1').val();
         var password = $('input#demo-password-1').val();
         app.dialog.alert('Username: ' + username + '<br>Password: ' + password, function () {

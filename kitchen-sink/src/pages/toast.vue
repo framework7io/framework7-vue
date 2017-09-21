@@ -41,7 +41,7 @@
         var self = this;
         // Create toast
         if (!self.toastBottom) {
-          self.toastBottom = self.$app.toast.create({
+          self.toastBottom = self.$f7.toast.create({
             message: 'This is default bottom positioned toast',
             closeTimeout: 2000,
           });
@@ -53,7 +53,7 @@
         var self = this;
         // Create toast
         if (!self.toastTop) {
-          self.toastTop = self.$app.toast.create({
+          self.toastTop = self.$f7.toast.create({
             message: 'Top positioned toast',
             position: 'top',
             closeTimeout: 2000,
@@ -66,7 +66,7 @@
         var self = this;
         // Create toast
         if (!self.toastCenter) {
-          self.toastCenter = self.$app.toast.create({
+          self.toastCenter = self.$f7.toast.create({
             message: 'I\'m on center',
             position: 'center',
             closeTimeout: 2000,
@@ -79,7 +79,7 @@
         var self = this;
         // Create toast
         if (!self.toastIcon) {
-          self.toastIcon = self.$app.toast.create({
+          self.toastIcon = self.$f7.toast.create({
             icon: self.$theme.ios ? '<i class="f7-icons">start</i>' : '<i class="material-icons">start</i>',
             message: 'I\'m on center',
             position: 'center',
@@ -93,7 +93,7 @@
         var self = this;
         // Create toast
         if (!self.toastLargeMessage) {
-          self.toastLargeMessage = self.$app.toast.create({
+          self.toastLargeMessage = self.$f7.toast.create({
             message: 'This toast contains a lot of text. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, quae, ab. Delectus amet optio facere autem sapiente quisquam beatae culpa dolore.',
             closeTimeout: 2000,
           });
@@ -105,7 +105,7 @@
         var self = this;
         // Create toast
         if (!self.toastWithButton) {
-          self.toastWithButton = self.$app.toast.create({
+          self.toastWithButton = self.$f7.toast.create({
             message: 'Toast with additional close button',
             closeButton: true,
           });
@@ -117,7 +117,7 @@
         var self = this;
         // Create toast
         if (!self.toastWithCustomButton) {
-          self.toastWithCustomButton = self.$app.toast.create({
+          self.toastWithCustomButton = self.$f7.toast.create({
             message: 'Custom close button',
             closeButton: true,
             closeButtonText: 'Close Me',
@@ -131,12 +131,12 @@
         var self = this;
         // Create toast
         if (!self.toastWithCallback) {
-          self.toastWithCallback = self.$app.toast.create({
+          self.toastWithCallback = self.$f7.toast.create({
             message: 'Callback on close',
             closeButton: true,
             on: {
               close: function () {
-                self.$app.dialog.alert('Toast closed');
+                self.$f7.dialog.alert('Toast closed');
               },
             }
           });
@@ -148,7 +148,7 @@
     on: {
       pageBeforeOut: function () {
         var self = this;
-        self.$app.toast.close();
+        self.$f7.toast.close();
       },
       pageBeforeRemove: function () {
         var self = this;

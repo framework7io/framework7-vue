@@ -51,14 +51,14 @@
       },
       pageInit() {
         var self = this;
-        var swiperTop = self.$app.swiper.create('.demo-swiper-gallery-top', {
+        var swiperTop = self.$f7.swiper.create('.demo-swiper-gallery-top', {
             spaceBetween: 10,
             navigation: {
               nextEl: '.swiper-button-next',
               prevEl: '.swiper-button-prev',
             },
         });
-        var swiperThumbs = self.$app.swiper.create('.demo-swiper-gallery-thumbs', {
+        var swiperThumbs = self.$f7.swiper.create('.demo-swiper-gallery-thumbs', {
             slidesPerView: 'auto',
             spaceBetween: 10,
             centeredSlides: true,

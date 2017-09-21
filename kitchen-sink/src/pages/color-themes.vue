@@ -61,7 +61,7 @@
     methods: {
       setColorTheme: function (color) {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         var currentColorClass = app.root[0].className.match(/color-theme-([a-z]*)/);
         if (currentColorClass) app.root.removeClass(currentColorClass[0])
           app.root.addClass('color-theme-' + color);
