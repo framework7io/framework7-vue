@@ -55,17 +55,17 @@
     },
     methods: {
       openAlert: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Hello!');
       },
       openConfirm: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.confirm('Are you feel good today?', function () {
           app.dialog.alert('Great!');
         });
       },
       openPrompt: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.prompt('What is your name?', function (name) {
           app.dialog.confirm('Are you sure that your name is ' + name + '?', function () {
             app.dialog.alert('Ok, your name is ' + name);
@@ -73,19 +73,19 @@
         });
       },
       openLogin: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.login('Enter your username and password', function (username, password) {
           app.dialog.alert('Thank you!<br>Username:' + username + '<br>Password:' + password);
         });
       },
       openPassword: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.password('Enter your username and password', function (password) {
           app.dialog.alert('Thank you!<br>Password:' + password);
         });
       },
       openAlerts: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Alert 1');
         app.dialog.alert('Alert 2');
         app.dialog.alert('Alert 3');
@@ -93,7 +93,7 @@
         app.dialog.alert('Alert 5');
       },
       openVerticalButtons: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.create({
           title: 'Vertical Buttons',
           buttons: [
@@ -111,28 +111,28 @@
         }).open();
       },
       openPreloader: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.preloader();
         setTimeout(function () {
           app.dialog.close();
         }, 3000);
       },
       openCustomPreloader: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.preloader('My text...');
         setTimeout(function () {
           app.dialog.close();
         }, 3000);
       },
       openInfiniteProgress: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.progress();
         setTimeout(function () {
           app.dialog.close();
         }, 3000);
       },
       openDeterminedProgress: function () {
-        var app = this.$app;
+        var app = this.$f7;
         var progress = 0;
         var dialog = app.dialog.progress('Loading assets', progress);
         dialog.setText('Image 1 of 10');

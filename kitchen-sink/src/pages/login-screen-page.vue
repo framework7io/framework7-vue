@@ -41,7 +41,7 @@
     methods: {
       signIn: function () {
         var $ = this.$;
-        var app = this.$app;
+        var app = this.$f7;
         var router = this.$router;
         var username = $('input#demo-username-2').val();
         var password = $('input#demo-password-2').val();

@@ -82,23 +82,23 @@
     methods: {
       openIndicator: function () {
         var self = this;
-        self.$app.preloader.show();
+        self.$f7.preloader.show();
         setTimeout(function () {
-          self.$app.preloader.hide();
+          self.$f7.preloader.hide();
         }, 2000);
       },
       openDialog: function () {
         var self = this;
-        self.$app.dialog.preloader();
+        self.$f7.dialog.preloader();
         setTimeout(function () {
-          self.$app.dialog.close();
+          self.$f7.dialog.close();
         }, 2000);
       },
       openCustomDialog: function () {
         var self = this;
-        self.$app.dialog.preloader('My text...');
+        self.$f7.dialog.preloader('My text...');
         setTimeout(function () {
-          self.$app.dialog.close();
+          self.$f7.dialog.close();
         }, 2000);
       },
     }

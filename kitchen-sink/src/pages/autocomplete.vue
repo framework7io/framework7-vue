@@ -214,7 +214,7 @@
       },
       pageInit: function () {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         var fruits = self.fruits;
         var $ = self.$;
 

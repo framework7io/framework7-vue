@@ -40,7 +40,7 @@
         var self = this;
         // Create popup
         if (!self.popup) {
-          self.popup = self.$app.popup.create({
+          self.popup = self.$f7.popup.create({
             content: '\
               <div class="popup">\
                 <div class="page">\

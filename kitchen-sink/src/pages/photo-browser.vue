@@ -84,28 +84,28 @@
       pageInit: function () {
         const self = this;
         // Create PBs when page init
-        self.standalone = self.$app.photoBrowser.create({
+        self.standalone = self.$f7.photoBrowser.create({
           photos: self.photos,
         });
-        self.popup = self.$app.photoBrowser.create({
+        self.popup = self.$f7.photoBrowser.create({
           photos: self.photos,
           type: 'popup',
         });
-        self.page = self.$app.photoBrowser.create({
+        self.page = self.$f7.photoBrowser.create({
           photos: self.photos,
           type: 'page',
           backLinkText: 'Back',
         });
-        self.standaloneDark = self.$app.photoBrowser.create({
+        self.standaloneDark = self.$f7.photoBrowser.create({
           photos: self.photos,
           theme: 'dark',
         });
-        self.popupDark = self.$app.photoBrowser.create({
+        self.popupDark = self.$f7.photoBrowser.create({
           photos: self.photos,
           type: 'popup',
           theme: 'dark',
         });
-        self.pageDark = self.$app.photoBrowser.create({
+        self.pageDark = self.$f7.photoBrowser.create({
           photos: self.photos,
           type: 'page',
           backLinkText: 'Back',

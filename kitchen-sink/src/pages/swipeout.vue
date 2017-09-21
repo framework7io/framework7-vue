@@ -322,19 +322,19 @@
         self.actions.open();
       },
       mark: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Mark');
       },
       reply: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Reply');
       },
       forward: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Forward');
       },
       onDeleted: function () {
-        var app = this.$app;
+        var app = this.$f7;
         app.dialog.alert('Thanks, item removed!');
       },
     },
@@ -345,7 +345,7 @@
       },
       pageInit: function () {
         var self = this;
-        var app = self.$app;
+        var app = self.$f7;
         self.actions = app.actions.create({
           buttons: [
             [
