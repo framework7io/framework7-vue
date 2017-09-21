@@ -21,7 +21,7 @@ export default {
       routerVue.$nextTick(() => {
         const pageEl = el.children[el.children.length - 1];
         pageData.el = pageEl;
-        resolve(pageEl);
+        resolve(pageEl, { pageEvents: component.on });
       });
     },
     removePage($pageEl) {
@@ -63,7 +63,7 @@ export default {
       });
       tabVue.$nextTick(() => {
         const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl);
+        resolve(tabContentEl, { pageEvents: component.on });
       });
     },
     removeTabContent(tabEl) {
