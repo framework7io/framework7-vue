@@ -21,7 +21,11 @@ export default {
       routerVue.$nextTick(() => {
         const pageEl = el.children[el.children.length - 1];
         pageData.el = pageEl;
-        resolve(pageEl, { pageEvents: component.on });
+        let pageEvents = component.on;
+        if (typeof pageEvents === 'function') {
+          pageEvents = pageEvents.apply(routerVue);
+        }
+        resolve(pageEl, { pageEvents });
       });
     },
     removePage($pageEl) {
@@ -63,7 +67,11 @@ export default {
       });
       tabVue.$nextTick(() => {
         const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { pageEvents: component.on });
+        let pageEvents = component.on;
+        if (typeof pageEvents === 'function') {
+          pageEvents = pageEvents.apply(tabVue);
+        }
+        resolve(tabContentEl, { pageEvents });
       });
     },
     removeTabContent(tabEl) {

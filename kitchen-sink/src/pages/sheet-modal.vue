@@ -66,17 +66,18 @@ export default {
       self.sheet.open();
     },
   },
-  on: {
-    pageBeforeOut: function () {
-      var self = this;
-      // Close opened sheets on page out
-      self.$f7.sheet.close();
-    },
-    pageBeforeRemove: function () {
-      var self = this;
-      // Destroy sheet modal when page removed
-      if (self.sheet) self.sheet.destroy();
-    },
+  on() {
+    const self = this;
+    return {
+      pageBeforeOut: function () {
+        // Close opened sheets on page out
+        self.$f7.sheet.close();
+      },
+      pageBeforeRemove: function () {
+        // Destroy sheet modal when page removed
+        if (self.sheet) self.sheet.destroy();
+      },
+    }
   }
 }
 </script>

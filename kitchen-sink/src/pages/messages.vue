@@ -248,36 +248,37 @@ export default {
       }, 1000);
     },
   },
-  on: {
-    pageBeforeRemove: function (e, page) {
-      var self = this;
-      if (self.messagebar) self.messagebar.destroy();
-    },
-    pageInit: function (e, page) {
-      var self = this;
-      var app = self.$f7;
-      self.messagebar = app.messagebar.create({
-        el: page.$el.find('.messagebar'),
-        attachments: []
-      })
-      self.messages = app.messages.create({
-        el: page.$el.find('.messages'),
-        firstMessageRule: function (message, previousMessage, nextMessage) {
-          if (message.isTitle) return false;
-          if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
-          return false;
-        },
-        lastMessageRule: function (message, previousMessage, nextMessage) {
-          if (message.isTitle) return false;
-          if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-          return false;
-        },
-        tailMessageRule: function (message, previousMessage, nextMessage) {
-          if (message.isTitle) return false;
-          if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-          return false;
-        }
-      })
+  on() {
+    const self = this;
+    return {
+      pageBeforeRemove: function (e, page) {
+        if (self.messagebar) self.messagebar.destroy();
+      },
+      pageInit: function (e, page) {
+        var app = self.$f7;
+        self.messagebar = app.messagebar.create({
+          el: page.$el.find('.messagebar'),
+          attachments: []
+        })
+        self.messages = app.messages.create({
+          el: page.$el.find('.messages'),
+          firstMessageRule: function (message, previousMessage, nextMessage) {
+            if (message.isTitle) return false;
+            if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
+            return false;
+          },
+          lastMessageRule: function (message, previousMessage, nextMessage) {
+            if (message.isTitle) return false;
+            if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
+            return false;
+          },
+          tailMessageRule: function (message, previousMessage, nextMessage) {
+            if (message.isTitle) return false;
+            if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
+            return false;
+          }
+        })
+      }
     }
   }
 }

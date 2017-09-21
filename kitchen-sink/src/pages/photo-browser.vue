@@ -80,48 +80,49 @@
         self.pageDark.open();
       },
     },
-    on: {
-      pageInit: function () {
-        const self = this;
-        // Create PBs when page init
-        self.standalone = self.$f7.photoBrowser.create({
-          photos: self.photos,
-        });
-        self.popup = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'popup',
-        });
-        self.page = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'page',
-          backLinkText: 'Back',
-        });
-        self.standaloneDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          theme: 'dark',
-        });
-        self.popupDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'popup',
-          theme: 'dark',
-        });
-        self.pageDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'page',
-          backLinkText: 'Back',
-          theme: 'dark',
-        });
-      },
-      pageBeforeRemove: function () {
-        const self = this;
-        // Destroy PBs on page remove
-        self.standalone.destroy();
-        self.popup.destroy();
-        self.page.destroy();
-        self.standaloneDark.destroy();
-        self.popupDark.destroy();
-        self.pageDark.destroy();
-      },
+    on() {
+      const self = this;
+      return {
+        pageInit: function () {
+          // Create PBs when page init
+          self.standalone = self.$f7.photoBrowser.create({
+            photos: self.photos,
+          });
+          self.popup = self.$f7.photoBrowser.create({
+            photos: self.photos,
+            type: 'popup',
+          });
+          self.page = self.$f7.photoBrowser.create({
+            photos: self.photos,
+            type: 'page',
+            backLinkText: 'Back',
+          });
+          self.standaloneDark = self.$f7.photoBrowser.create({
+            photos: self.photos,
+            theme: 'dark',
+          });
+          self.popupDark = self.$f7.photoBrowser.create({
+            photos: self.photos,
+            type: 'popup',
+            theme: 'dark',
+          });
+          self.pageDark = self.$f7.photoBrowser.create({
+            photos: self.photos,
+            type: 'page',
+            backLinkText: 'Back',
+            theme: 'dark',
+          });
+        },
+        pageBeforeRemove: function () {
+          // Destroy PBs on page remove
+          self.standalone.destroy();
+          self.popup.destroy();
+          self.page.destroy();
+          self.standaloneDark.destroy();
+          self.popupDark.destroy();
+          self.pageDark.destroy();
+        },
+      }
     }
   };
 </script>
