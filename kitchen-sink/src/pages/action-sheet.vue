@@ -142,7 +142,7 @@ export default {
       self.actionsToPopover = self.$f7.actions.create({
         buttons: buttons1,
         // Need to specify popover target
-        targetEl: self.$el.find('.button-to-popover')
+        targetEl: self.$el.querySelector('.button-to-popover')
       });
     }
   }
