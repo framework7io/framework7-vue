@@ -21,7 +21,27 @@ export default {
       routerVue.$nextTick(() => {
         const pageEl = el.children[el.children.length - 1];
         pageData.el = pageEl;
-        resolve(pageEl, { pageEvents: component.on });
+
+        let pageEvents;
+        if (component.on) {
+          let pageVueFound;
+          let pageVue = pageEl.__vue__;
+          while (pageVue.$parent && !pageVueFound) {
+            if (pageVue.$parent.$el === pageEl) {
+              pageVue = pageVue.$parent;
+            } else {
+              pageVueFound = true;
+            }
+          }
+          if (pageVue) {
+            pageEvents = Utils.extend({}, component.on);
+            Object.keys(pageEvents).forEach((pageEvent) => {
+              pageEvents[pageEvent] = pageEvents[pageEvent].bind(pageVue);
+            });
+          }
+        }
+
+        resolve(pageEl, { pageEvents });
       });
     },
     removePage($pageEl) {
@@ -61,9 +81,18 @@ export default {
         component,
         params: Utils.extend({}, options.route.params),
       });
+
+      let pageEvents;
+      if (component.on) {
+        pageEvents = Utils.extend({}, component.on);
+        Object.keys(pageEvents).forEach((pageEvent) => {
+          pageEvents[pageEvent] = pageEvents[pageEvent].bind(tabVue);
+        });
+      }
+
       tabVue.$nextTick(() => {
         const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { pageEvents: component.on });
+        resolve(tabContentEl, { pageEvents });
       });
     },
     removeTabContent(tabEl) {
