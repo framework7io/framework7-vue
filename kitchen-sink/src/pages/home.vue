@@ -52,7 +52,7 @@
       <f7-list-item link="/navbar/" title="Navbar"></f7-list-item>
       <f7-list-item link="/notifications/" title="Notifications"></f7-list-item>
       <f7-list-item link="/panel/" title="Panel / Side Panels"></f7-list-item>
-      <f7-list-item link="/picker/" title="PickerPicker" badge="TODO"></f7-list-item>
+      <f7-list-item link="/picker/" title="Picker" badge="TODO"></f7-list-item>
       <f7-list-item link="/photo-browser/" title="Photo Browser"></f7-list-item>
       <f7-list-item link="/popup/" title="Popup"></f7-list-item>
       <f7-list-item link="/popover/" title="Popover"></f7-list-item>
