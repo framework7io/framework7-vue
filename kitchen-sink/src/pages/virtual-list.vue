@@ -54,41 +54,42 @@
         items: items
       };
     },
-    on: {
-      pageBeforeRemove: function () {
-        var self = this;
-        self.virtualList.destroy();
-      },
-      pageInit: function() {
-        var self = this;
-        self.virtualList = self.$f7.virtualList.create({
-          // List Element
-          el: self.$el.find('.virtual-list'),
-          // Pass array with items
-          items: self.items,
-          // Custom search function for searchbar
-          searchAll: function (query, items) {
-            var found = [];
-            for (var i = 0; i < items.length; i++) {
-              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
-            }
-            return found; //return array with mathced indexes
-          },
-          // List item Template7 template
-          itemTemplate:
-            '<li>' +
-              '<a href="#" class="item-link item-content">' +
-                '<div class="item-inner">' +
-                  '<div class="item-title-row">' +
-                    '<div class="item-title">{{title}}</div>' +
+    on() {
+      const self = this;
+      return {
+        pageBeforeRemove: function () {
+          self.virtualList.destroy();
+        },
+        pageInit: function() {
+          self.virtualList = self.$f7.virtualList.create({
+            // List Element
+            el: self.$el.find('.virtual-list'),
+            // Pass array with items
+            items: self.items,
+            // Custom search function for searchbar
+            searchAll: function (query, items) {
+              var found = [];
+              for (var i = 0; i < items.length; i++) {
+                if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+              }
+              return found; //return array with mathced indexes
+            },
+            // List item Template7 template
+            itemTemplate:
+              '<li>' +
+                '<a href="#" class="item-link item-content">' +
+                  '<div class="item-inner">' +
+                    '<div class="item-title-row">' +
+                      '<div class="item-title">{{title}}</div>' +
+                    '</div>' +
+                    '<div class="item-subtitle">{{subtitle}}</div>' +
                   '</div>' +
-                  '<div class="item-subtitle">{{subtitle}}</div>' +
-                '</div>' +
-              '</a>' +
-            '</li>',
-          // Item height
-          height: self.$theme.ios ? 63 : 73,
-        });
+                '</a>' +
+              '</li>',
+            // Item height
+            height: self.$theme.ios ? 63 : 73,
+          });
+        }
       }
     }
   }

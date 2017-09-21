@@ -47,40 +47,18 @@ export default {
       self.actionsToPopover.open();
     },
   },
-  on: {
-    pageBeforeRemove() {
-      var self = this;
-      self.actions1.destroy();
-      self.actions2.destroy();
-      self.actionsGrid.destroy();
-      self.actionsToPopover.destroy();
-    },
-    pageInit: function(page) {
-      var self = this;
-
-      // 1 Group
-      var buttons1 = [
-        {
-          text: 'Do something',
-          label: true
-        },
-        {
-          text: 'Button 1',
-          bold: true
-        },
-        {
-          text: 'Button 2',
-        },
-        {
-          text: 'Cancel',
-          color: 'red'
-        },
-      ];
-
-      // 2 Groups
-      var buttons2 = [
-        // First Group
-        [
+  on() {
+    const self = this;
+    return {
+      pageBeforeRemove() {
+        self.actions1.destroy();
+        self.actions2.destroy();
+        self.actionsGrid.destroy();
+        self.actionsToPopover.destroy();
+      },
+      pageInit: function(page) {
+        // 1 Group
+        var buttons1 = [
           {
             text: 'Do something',
             label: true
@@ -91,59 +69,81 @@ export default {
           },
           {
             text: 'Button 2',
-          }
-        ],
-        // Second Group
-        [
+          },
           {
             text: 'Cancel',
             color: 'red'
-          }
+          },
+        ];
+
+        // 2 Groups
+        var buttons2 = [
+          // First Group
+          [
+            {
+              text: 'Do something',
+              label: true
+            },
+            {
+              text: 'Button 1',
+              bold: true
+            },
+            {
+              text: 'Button 2',
+            }
+          ],
+          // Second Group
+          [
+            {
+              text: 'Cancel',
+              color: 'red'
+            }
+          ]
         ]
-      ]
 
-      // Grid buttons with icons/images
-      var gridButtons = [
-        [
-          {
-            text: 'Button 1',
-            icon: '<img src="http://lorempixel.com/96/96/people/1" width="48"/>'
-          },
-          {
-            text: 'Button 2',
-            icon: '<img src="http://lorempixel.com/96/96/people/2" width="48">'
-          },
-          {
-            text: 'Button 3',
-            icon: '<img src="http://lorempixel.com/96/96/people/3" width="48">'
-          },
-        ],
-        [
-          {
-            text: 'Button 1',
-            icon: '<img src="http://lorempixel.com/96/96/fashion/4" width="48"/>'
-          },
-          {
-            text: 'Button 2',
-            icon: '<img src="http://lorempixel.com/96/96/fashion/5" width="48">'
-          },
-          {
-            text: 'Button 3',
-            icon: '<img src="http://lorempixel.com/96/96/fashion/6" width="48">'
-          },
-        ],
-      ]
+        // Grid buttons with icons/images
+        var gridButtons = [
+          [
+            {
+              text: 'Button 1',
+              icon: '<img src="http://lorempixel.com/96/96/people/1" width="48"/>'
+            },
+            {
+              text: 'Button 2',
+              icon: '<img src="http://lorempixel.com/96/96/people/2" width="48">'
+            },
+            {
+              text: 'Button 3',
+              icon: '<img src="http://lorempixel.com/96/96/people/3" width="48">'
+            },
+          ],
+          [
+            {
+              text: 'Button 1',
+              icon: '<img src="http://lorempixel.com/96/96/fashion/4" width="48"/>'
+            },
+            {
+              text: 'Button 2',
+              icon: '<img src="http://lorempixel.com/96/96/fashion/5" width="48">'
+            },
+            {
+              text: 'Button 3',
+              icon: '<img src="http://lorempixel.com/96/96/fashion/6" width="48">'
+            },
+          ],
+        ]
 
-      self.actions1 = self.$f7.actions.create({buttons: buttons1});
-      self.actions2 = self.$f7.actions.create({buttons: buttons2});
-      self.actionsGrid = self.$f7.actions.create({buttons: gridButtons, grid: true});
+        self.actions1 = self.$f7.actions.create({buttons: buttons1});
+        self.actions2 = self.$f7.actions.create({buttons: buttons2});
+        self.actionsGrid = self.$f7.actions.create({buttons: gridButtons, grid: true});
 
-      // Actions To Popover
-      self.actionsToPopover = self.$f7.actions.create({
-        buttons: buttons1,
-        // Need to specify popover target
-        targetEl: self.$el.find('.button-to-popover')
-      });
+        // Actions To Popover
+        self.actionsToPopover = self.$f7.actions.create({
+          buttons: buttons1,
+          // Need to specify popover target
+          targetEl: self.$el.find('.button-to-popover')
+        });
+      }
     }
   }
 }

@@ -65,12 +65,14 @@
         self.popup.open();
       },
     },
-    on: {
-      pageBeforeRemove: function () {
-        var self = this;
-        // Destroy popup when page removed
-        if (self.popup) self.popup.destroy();
-      },
+    on() {
+      const self = this;
+      return {
+        pageBeforeRemove: function () {
+          // Destroy popup when page removed
+          if (self.popup) self.popup.destroy();
+        },
+      }
     }
   }
 </script>

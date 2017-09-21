@@ -338,37 +338,38 @@
         app.dialog.alert('Thanks, item removed!');
       },
     },
-    on: {
-      pageBeforeRemove() {
-        var self = this;
-        self.actions.destroy();
-      },
-      pageInit: function () {
-        var self = this;
-        var app = self.$f7;
-        self.actions = app.actions.create({
-          buttons: [
-            [
-              {
-                text: 'Here comes some optional description or warning for actions below',
-                label: true,
-              },
-              {
-                text: 'Action 1',
-              },
-              {
-                text: 'Action 2',
-              },
+    on() {
+      const self = this;
+      return {
+        pageBeforeRemove() {
+          self.actions.destroy();
+        },
+        pageInit: function () {
+          var app = self.$f7;
+          self.actions = app.actions.create({
+            buttons: [
+              [
+                {
+                  text: 'Here comes some optional description or warning for actions below',
+                  label: true,
+                },
+                {
+                  text: 'Action 1',
+                },
+                {
+                  text: 'Action 2',
+                },
+              ],
+              [
+                {
+                  text: 'Cancel',
+                  bold: true,
+                }
+              ]
             ],
-            [
-              {
-                text: 'Cancel',
-                bold: true,
-              }
-            ]
-          ],
-        })
-      },
+          })
+        },
+      }
     }
   }
 </script>
