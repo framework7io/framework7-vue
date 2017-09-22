@@ -118,6 +118,6 @@
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+    },
+  };
 </script>
