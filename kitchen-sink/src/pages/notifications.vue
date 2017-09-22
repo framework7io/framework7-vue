@@ -26,13 +26,13 @@
   export default {
     methods: {
       showMDSingleLineMessage: function () {
-          app.notification.add({message: 'Simple message'});
+          this.$f7.notification.add({message: 'Simple message'});
       },
       showMDMultiLineMessage: function () {
-          app.notification.add({message: 'Multi-line message. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in magna nisi.'});
+          this.$f7.notification.add({message: 'Multi-line message. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in magna nisi.'});
       },
       showMDCustomButtonMessage: function () {
-          app.notification.add({message: 'Nice yellow button',
+          this.$f7.notification.add({message: 'Nice yellow button',
             button: {
                 text: 'Click me',
                 color: 'yellow'
@@ -40,6 +40,7 @@
           });
       },
       showMDCallbackOnCloseMessage: function () {
+          const app = this.$f7;
           app.notification.add({
             message: 'Close me to see Alert',
             button: {
@@ -52,13 +53,13 @@
           });
       },
       showIOSDefaultNotification: function () {
-          app.notification.add({
+          this.$f7.notification.add({
             title: 'Framework7',
             message: 'This is a simple notification message with title and message'
           });
       },
       showIOSFullLayoutNotification: function () {
-          app.notification.add({
+          this.$f7.notification.add({
             title: 'Framework7',
             subtitle: 'Notification subtitle',
             message: 'This is a simple notification message with custom icon and subtitle',
@@ -66,7 +67,7 @@
           });
       },
       showIOSViewCustomImageNotification: function () {
-          app.notification.add({
+          this.$f7.notification.add({
             title: 'My Awesome App',
             subtitle: 'New message from John Doe',
             message: 'Hello, how are you? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut posuere erat. Pellentesque id elementum urna, a aliquam ante. Donec vitae volutpat orci. Aliquam sed molestie risus, quis tincidunt dui.',
@@ -74,6 +75,7 @@
           });
       },
       showIOSCallbackOnCloseMessage: function () {
+          const app = this.$f7;
           app.notification.add({
             title: 'My Awesome App',
             subtitle: 'New message from John Doe',
