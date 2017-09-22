@@ -22,7 +22,6 @@
           <a href="/tabs-swipeable/" class="item-content item-link">
             <div class="item-inner">
               <div class="item-title">Swipeable Tabs</div>
-              <div class="item-after"><span class="badge">TODO</span></div>
             </div>
           </a>
         </li>
