@@ -46,7 +46,7 @@
     },
     beforeDestroy() {
       const self = this;
-      if (self.f7Toggle && self.f7Toggle.destroy) self.f7Toggle.destroy();
+      if (self.f7Toggle && self.f7Toggle.destroy && self.f7Toggle.$el) self.f7Toggle.destroy();
     },
     methods: {
       toggle() {
