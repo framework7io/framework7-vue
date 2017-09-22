@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <f7-statusbar></f7-statusbar>
-    <f7-view url="/"></f7-view>
+    <f7-view url="/" :main="true"></f7-view>
   </div>
 </template>
 <script>
