@@ -1,92 +1,108 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Notifications" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block">
-        <p>Framework7 comes with simple Notifications component that allows you to show some useful messages to user and request basic actions. Such notification are also called Snackbars & Toasts in Android</p>
-        <div v-if="$theme.md">
-          <p><a href="#" class="button button-raised" @click="showMDSingleLineMessage">Single-line message</a></p>
-          <p><a href="#" class="button button-raised" @click="showMDMultiLineMessage">Multi-line message</a></p>
-          <p><a href="#" class="button button-raised" @click="showMDCustomButtonMessage">With custom button</a></p>
-          <p><a href="#" class="button button-raised" @click="showMDCallbackOnCloseMessage">With callback on close</a></p>
-        </div>
-        <div v-else>
-          <p><a href="#" class="button button-raised" @click="showIOSDefaultNotification">Default notification</a></p>
-          <p><a href="#" class="button button-raised" @click="showIOSFullLayoutNotification">Full layout notification</a></p>
-          <p><a href="#" class="button button-raised" @click="showIOSViewCustomImageNotification">View custom image</a></p>
-          <p><a href="#" class="button button-raised" @click="showIOSCallbackOnCloseMessage">With callback on close</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
+    <f7-block>
+      <p>Framework7 comes with simple Notifications component that allows you to show some useful messages to user and request basic actions.</p>
+      <p><f7-button raised @click="showNotificationFull">Full layout notification</f7-button></p>
+      <p><f7-button raised @click="showNotificationWithButton">With close button</f7-button></p>
+      <p><f7-button raised @click="showNotificationCloseOnClick">Click to close</f7-button></p>
+      <p><f7-button raised @click="showNotificationCallbackOnClose">Callback on close</f7-button></p>
+    </f7-block>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Block, f7Button } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7Button,
+      f7Block,
+    },
     methods: {
-      showMDSingleLineMessage: function () {
-          this.$f7.notification.add({message: 'Simple message'});
-      },
-      showMDMultiLineMessage: function () {
-          this.$f7.notification.add({message: 'Multi-line message. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in magna nisi.'});
-      },
-      showMDCustomButtonMessage: function () {
-          this.$f7.notification.add({message: 'Nice yellow button',
-            button: {
-                text: 'Click me',
-                color: 'yellow'
-            }
+      showNotificationFull() {
+        const self = this;
+        // Create toast
+        if (!self.notificationFull) {
+          self.notificationFull = self.$f7.notification.create({
+            icon: '<i class="icon icon-f7"></i>',
+            title: 'Framework7',
+            titleRightText: 'now',
+            subtitle: 'This is a subtitle',
+            text: 'This is a simple notification message',
+            closeTimeout: 3000,
           });
+        }
+        // Open it
+        self.notificationFull.open();
       },
-      showMDCallbackOnCloseMessage: function () {
-          const app = this.$f7;
-          app.notification.add({
-            message: 'Close me to see Alert',
-            button: {
-                text: 'Close',
-                color: 'lightgreen'
+      showNotificationWithButton() {
+        const self = this;
+        // Create toast
+        if (!self.notificationWithButton) {
+          self.notificationWithButton = self.$f7.notification.create({
+            icon: '<i class="icon icon-f7"></i>',
+            title: 'Framework7',
+            subtitle: 'Notification with close button',
+            text: 'Click (x) button to close me',
+            closeButton: true,
+          });
+        }
+        // Open it
+        self.notificationWithButton.open();
+      },
+      showNotificationCloseOnClick() {
+        const self = this;
+        // Create toast
+        if (!self.notificationCloseOnClick) {
+          self.notificationCloseOnClick = self.$f7.notification.create({
+            icon: '<i class="icon icon-f7"></i>',
+            title: 'Framework7',
+            titleRightText: 'now',
+            subtitle: 'Notification with close on click',
+            text: 'Click me to close',
+            closeOnClick: true,
+          });
+        }
+        // Open it
+        self.notificationCloseOnClick.open();
+      },
+      showNotificationCallbackOnClose() {
+        const self = this;
+        // Create toast
+        if (!self.notificationCallbackOnClose) {
+          self.notificationCallbackOnClose = self.$f7.notification.create({
+            icon: '<i class="icon icon-f7"></i>',
+            title: 'Framework7',
+            titleRightText: 'now',
+            subtitle: 'Notification with close on click',
+            text: 'Click me to close',
+            closeOnClick: true,
+            on: {
+              close() {
+                self.$f7.dialog.alert('Notification closed');
+              },
             },
-            onClose: function () {
-                app.dialog.alert('Notification closed.');
-            }
           });
+        }
+        // Open it
+        self.notificationCallbackOnClose.open();
       },
-      showIOSDefaultNotification: function () {
-          this.$f7.notification.add({
-            title: 'Framework7',
-            message: 'This is a simple notification message with title and message'
-          });
+    },
+    on: {
+      pageBeforeOut() {
+        const self = this;
+        self.$f7.notification.close();
       },
-      showIOSFullLayoutNotification: function () {
-          this.$f7.notification.add({
-            title: 'Framework7',
-            subtitle: 'Notification subtitle',
-            message: 'This is a simple notification message with custom icon and subtitle',
-            media: '<i class="icon icon-f7"></i>'
-          });
+      pageBeforeRemove() {
+        const self = this;
+        // Destroy toasts when page removed
+        if (self.notificationFull) self.notificationFull.destroy();
+        if (self.notificationWithButton) self.notificationWithButton.destroy();
+        if (self.notificationCloseOnClick) self.notificationCloseOnClick.destroy();
+        if (self.notificationCallbackOnClose) self.notificationCallbackOnClose.destroy();
       },
-      showIOSViewCustomImageNotification: function () {
-          this.$f7.notification.add({
-            title: 'My Awesome App',
-            subtitle: 'New message from John Doe',
-            message: 'Hello, how are you? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut posuere erat. Pellentesque id elementum urna, a aliquam ante. Donec vitae volutpat orci. Aliquam sed molestie risus, quis tincidunt dui.',
-            media: '<img width="44" height="44" style="border-radius:100%" src="http://lorempixel.com/100/100/people/9/">'
-          });
-      },
-      showIOSCallbackOnCloseMessage: function () {
-          const app = this.$f7;
-          app.notification.add({
-            title: 'My Awesome App',
-            subtitle: 'New message from John Doe',
-            message: 'Hello, how are you? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut posuere erat. Pellentesque id elementum urna, a aliquam ante. Donec vitae volutpat orci. Aliquam sed molestie risus, quis tincidunt dui.',
-            media: '<img width="44" height="44" style="border-radius:100%" src="http://lorempixel.com/100/100/people/9/">',
-            onClose: function () {
-                app.dialog.alert('Notification closed');
-            }
-          });
-      },
-
-    }
-  }
+    },
+  };
 </script>
