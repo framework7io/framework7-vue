@@ -61,9 +61,10 @@
       },
       pageInit: function() {
         var self = this;
+        var $el = self.$$(self.$el);
         self.virtualList = self.$f7.virtualList.create({
           // List Element
-          el: self.$el.find('.virtual-list'),
+          el: $el.find('.virtual-list'),
           // Pass array with items
           items: self.items,
           // Custom search function for searchbar

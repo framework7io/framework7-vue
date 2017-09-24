@@ -216,7 +216,7 @@
         var self = this;
         var app = self.$f7;
         var fruits = self.fruits;
-        var $ = self.$;
+        var $ = self.$$;
 
         // Simple Dropdown
         self.autocompleteDropdownSimple = app.autocomplete.create({
