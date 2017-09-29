@@ -89,7 +89,7 @@
   export default {
     methods: {
       toggleToolbarPosition: function () {
-        this.$el.find('.toolbar, .tabbar').toggleClass('toolbar-bottom-md');
+        this.$$(this.$el).find('.toolbar, .tabbar').toggleClass('toolbar-bottom-md');
       },
     }
   }

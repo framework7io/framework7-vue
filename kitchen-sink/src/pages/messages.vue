@@ -164,16 +164,16 @@ export default {
     },
     deleteAttachment: function (e, index) {
       var self = this;
+      var $el = self.$$(self.$el);
       var image = self.messagebar.attachments.splice(index, 1)[0];
       self.messagebar.renderAttachments();
       self.checkAttachments();
       // Uncheck in sheet
       var imageIndex = self.images.indexOf(image);
-      self.$el.find('.messagebar-sheet .checkbox').eq(imageIndex).find('input').prop('checked', false);
+      $el.find('.messagebar-sheet .checkbox').eq(imageIndex).find('input').prop('checked', false);
     },
     handleAttachment: function (e) {
       var self = this;
-      var $$ = self.$$;
       var index = $(e.target).parents('label.checkbox').index();
       var image = self.images[index];
       if (e.target.checked) {
@@ -198,6 +198,7 @@ export default {
     },
     sendMessage: function () {
       var self = this;
+      var $ = self.$$;
       var text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
       var messagesToSend = [];
       self.messagebar.attachments.forEach(function (attachment) {
@@ -217,7 +218,7 @@ export default {
       // Hide sheet
       self.messagebar.sheetHide();
       // Uncheck selected images in sheet
-      self.messagebar.$sheetEl.find('input').prop('checked', false);
+      $(self.messagebar.$sheetEl).find('input').prop('checked', false);
       // Clear area
       self.messagebar.clear();
       // Focus area
@@ -255,13 +256,14 @@ export default {
     },
     pageInit: function (e, page) {
       var self = this;
+      var $pageEl = self.$$(self.$el);
       var app = self.$f7;
       self.messagebar = app.messagebar.create({
-        el: page.$el.find('.messagebar'),
+        el: $pageEl.find('.messagebar'),
         attachments: []
       })
       self.messages = app.messages.create({
-        el: page.$el.find('.messages'),
+        el: $pageEl.find('.messages'),
         firstMessageRule: function (message, previousMessage, nextMessage) {
           if (message.isTitle) return false;
           if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;

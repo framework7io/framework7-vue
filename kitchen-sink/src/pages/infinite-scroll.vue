@@ -49,13 +49,13 @@
     methods: {
       loadMore: function () {
         var self = this;
-        var $ = self.$$;
+        var $el = self.$$(self.$el);
         if (!self.allowInfinite) return;
         self.allowInfinite = false;
 
         setTimeout(function () {
           if (self.lastItem >= 200) {
-            $(self.$el).find('.preloader').remove();
+            $el.find('.preloader').remove();
             return;
           }
           var html = '';
@@ -64,7 +64,7 @@
             html += '<li>Item ' + (self.lastItem + i) + '</li>';
           }
 
-          $(self.$el).find('.list ul').append(html);
+          $el.find('.list ul').append(html);
 
           self.lastItem += 20;
 
