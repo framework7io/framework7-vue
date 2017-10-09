@@ -55,8 +55,8 @@
       if (self.radio || self.checkbox) {
         inputEl = c('input', {
           attrs: {
-            value: self.inputValue,
-            name: self.inputName,
+            value: self.value,
+            name: self.name,
             checked: self.checked,
             readonly: self.readonly,
             disabled: self.disabled,
@@ -141,8 +141,8 @@
       checkbox: Boolean,
       checked: Boolean,
       radio: Boolean,
-      inputName: String,
-      inputValue: [String, Number, Boolean, Array],
+      name: String,
+      value: [String, Number, Array],
       readonly: Boolean,
       required: Boolean,
       disabled: Boolean,
