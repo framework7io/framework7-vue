@@ -5,36 +5,6 @@ const connect = require('gulp-connect');
 const gopen = require('gulp-open');
 const buildJs = require('./build-js.js');
 const buildKs = require('./build-ks.js');
-const fs = require('fs');
-const path = require('path');
-
-gulp.task('convert-ks', (cb) => {
-  fs.readdirSync('./kitchen-sink/src/pages').forEach((fileName) => {
-    const ext = path.extname(fileName);
-    if (ext === '.html') {
-      let fileContent = fs.readFileSync(`./kitchen-sink/src/pages/${fileName}`, 'utf8');
-      if (fileContent.indexOf('<template>') < 0) {
-        fileContent = `
-<template>
-${fileContent.trim()}
-</template>
-<script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
-
-  export default {}
-</script>
-        `.trim();
-      } else {
-        fileContent = fileContent.replace('<script>\n  return {', `
-<script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
-
-  export default {`.trim());
-      }
-      fs.writeFileSync(`./kitchen-sink/src/pages/${path.basename(fileName, ext)}.vue`, fileContent);
-    }
-  });
-});
 
 // Tasks
 gulp.task('js', (cb) => {

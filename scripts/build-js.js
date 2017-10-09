@@ -41,7 +41,7 @@ function es(cb) {
     })
     .pipe(source('framework7-vue.js', './src'))
     .pipe(buffer())
-    .pipe(rename('framework7-vue.module.js'))
+    .pipe(rename('framework7-vue.esm.js'))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/`))
     .on('end', () => {
       if (cb) cb();
@@ -80,7 +80,7 @@ function umd(cb) {
         return;
       }
       // Minified version
-      gulp.src('./dist/js/framework7-vue.js')
+      gulp.src('./dist/framework7-vue.js')
         .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(header(banner))
@@ -89,7 +89,7 @@ function umd(cb) {
           filePath.basename += '.min';
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/js/'))
+        .pipe(gulp.dest('./dist/'))
         .on('end', () => {
           cb();
         });

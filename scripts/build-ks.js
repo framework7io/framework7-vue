@@ -9,13 +9,15 @@ const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
 const vue = require('rollup-plugin-vue');
-const sourcemaps = require('gulp-sourcemaps');
 
 let cache;
 
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
+  const f7VuePath = env === 'development'
+    ? '../src/framework7-vue'
+    : '../dist/framework7-vue.esm.js';
   rollup({
     input: './kitchen-sink/src/app.js',
     plugins: [
@@ -23,7 +25,7 @@ function build(cb) {
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target),
-        'framework7-vue': () => path.resolve(__dirname, '../src/framework7-vue'),
+        'framework7-vue': () => path.resolve(__dirname, f7VuePath),
       }),
       resolve({ jsnext: true }),
       buble(),
