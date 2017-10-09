@@ -8,6 +8,7 @@
       title: [String, Number],
       text: [String, Number],
       tabLink: [Boolean, String],
+      tabLinkActive: Boolean,
       link: [Boolean, String],
       href: [Boolean, String],
       tabindex: [Number, String],
@@ -49,7 +50,7 @@
           {
             href: ((typeof link === 'boolean' && typeof href === 'boolean') ? '#' : (link || href)),
             target,
-            'data-tab': Utils.isStringProp(tabLink),
+            'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
           Mixins.linkActionsAttrs(self)
@@ -61,6 +62,7 @@
         const {
           noFastclick,
           tabLink,
+          tabLinkActive,
           rippleColor,
           color,
           textColor,
@@ -72,6 +74,7 @@
             [`ripple-color-${rippleColor}`]: rippleColor,
             [`text-color-${textColor}`]: textColor,
             'tab-link': tabLink || tabLink === '',
+            'tab-link-active': tabLinkActive,
             'no-fastclick': noFastclick,
           },
           Mixins.linkRouterClasses(self),

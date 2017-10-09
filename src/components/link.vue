@@ -88,7 +88,7 @@
           {
             href,
             target,
-            'data-tab': Utils.isStringProp(tabLink),
+            'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
           Mixins.linkActionsAttrs(self)
@@ -99,6 +99,7 @@
         const {
           noFastclick,
           tabLink,
+          tabLinkActive,
           rippleColor,
           color,
           textColor,
@@ -110,6 +111,7 @@
             [`color-${color}`]: color,
             [`text-color-${textColor}`]: textColor,
             'tab-link': tabLink || tabLink === '',
+            'tab-link-active': tabLinkActive,
             'no-fastclick': noFastclick,
           },
           Mixins.linkRouterClasses(self),
