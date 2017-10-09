@@ -12,6 +12,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-accordion-item',
     props: {
       opened: Boolean
     },

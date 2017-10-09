@@ -4,6 +4,7 @@
 </label>
 <script>
   export default {
+    name: 'f7-toggle',
     render(c) {
       const self = this;
 

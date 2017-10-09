@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-radio',
     props: {
       color: String,
       checked: Boolean,

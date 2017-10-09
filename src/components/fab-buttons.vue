@@ -3,6 +3,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-fab-buttons',
     props: {
       color: String,
       position: {

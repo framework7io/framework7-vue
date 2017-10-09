@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-list',
     beforeDestroy() {
       const self = this;
       if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;

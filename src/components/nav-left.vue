@@ -16,6 +16,7 @@
   import f7Link from './link.vue';
 
   export default {
+    name: 'f7-nav-left',
     components: {
       f7Link,
     },

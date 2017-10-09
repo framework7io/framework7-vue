@@ -3,6 +3,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-icon',
     props: {
       color: String,
       material: String, // Material Icons

@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-checkbox',
     props: {
       color: String,
       checked: Boolean,

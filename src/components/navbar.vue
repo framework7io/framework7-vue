@@ -3,6 +3,7 @@
   import f7NavTitle from './nav-title.vue';
 
   export default {
+    name: 'f7-navbar',
     components: {
       f7NavLeft,
       f7NavTitle,

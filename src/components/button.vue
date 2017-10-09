@@ -39,6 +39,7 @@
   );
 
   export default {
+    name: 'f7-button',
     components: {
       f7Icon,
     },

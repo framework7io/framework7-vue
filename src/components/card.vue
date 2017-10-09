@@ -4,6 +4,7 @@
   import f7CardFooter from './card-footer.vue';
 
   export default {
+    name: 'f7-card',
     components: {
       f7CardHeader,
       f7CardContent,

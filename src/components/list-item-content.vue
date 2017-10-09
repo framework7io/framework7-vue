@@ -2,6 +2,7 @@
   import f7Badge from './badge.vue';
 
   export default {
+    name: 'f7-list-item-content',
     components: {
       f7Badge,
     },

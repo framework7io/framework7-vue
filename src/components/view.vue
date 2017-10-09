@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-view',
     render(c) {
       const self = this;
       const pages = self.pages.map(page => c(page.component, {

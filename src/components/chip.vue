@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-chip',
     render(c) {
       const self = this;
       let mediaEl;

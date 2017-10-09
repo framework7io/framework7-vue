@@ -5,6 +5,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-block',
     props: {
       inset: Boolean,
       tabletInset: Boolean,

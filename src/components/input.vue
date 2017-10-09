@@ -3,6 +3,7 @@
   import f7Range from './range.vue';
 
   export default {
+    name: 'f7-input',
     components: {
       f7Toggle,
       f7Range,

@@ -3,6 +3,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-nav-right',
     props: {
       sliding: Boolean,
     },

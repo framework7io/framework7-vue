@@ -2,5 +2,7 @@
   <div class="statusbar"></div>
 </template>
 <script>
-  export default {};
+  export default {
+    name: 'f7-statusbar',
+  };
 </script>

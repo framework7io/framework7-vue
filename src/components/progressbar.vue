@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-progressbar',
     render(c) {
       const self = this;
       const { color, progress, infinite } = self;

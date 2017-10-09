@@ -5,6 +5,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-card-content',
     props: {
       padding: {
         type: Boolean,

@@ -3,6 +3,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-page-content',
     render(c) {
       const self = this;
 

@@ -7,6 +7,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-list-group',
     props: {
       mediaList: Boolean,
       sortable: Boolean,

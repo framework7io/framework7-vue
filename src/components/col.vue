@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-col',
     props: {
       tag: {
         type: String,

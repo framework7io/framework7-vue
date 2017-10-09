@@ -16,6 +16,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-preloader',
     props: {
       color: String,
       size: [Number, String],

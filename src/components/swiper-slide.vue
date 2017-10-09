@@ -8,6 +8,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-swiper-slide',
     props: {
       zoom: Boolean,
     },

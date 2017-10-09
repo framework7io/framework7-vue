@@ -9,6 +9,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-toolbar',
     props: {
       bottomMd: Boolean,
       tabbar: Boolean,

@@ -29,6 +29,7 @@
   );
 
   export default {
+    name: 'f7-link',
     components: {
       f7Badge,
       f7Icon,

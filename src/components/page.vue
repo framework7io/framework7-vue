@@ -2,6 +2,7 @@
   import f7PageContent from './page-content.vue';
 
   export default {
+    name: 'f7-page',
     components: {
       f7PageContent,
     },

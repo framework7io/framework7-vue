@@ -20,6 +20,7 @@
   );
 
   export default {
+    name: 'f7-list-button',
     render(c) {
       const self = this;
       const linkEl = c('a', {

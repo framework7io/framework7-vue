@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-range',
     render(c) {
       const self = this;
 

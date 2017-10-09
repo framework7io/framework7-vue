@@ -15,6 +15,7 @@
   let initialUpdate = false;
 
   export default {
+    name: 'f7-swiper',
     beforeDestroy() {
       const self = this;
       if (!self.init) return;

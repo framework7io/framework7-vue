@@ -5,6 +5,7 @@
 </template>
 <script>
   export default {
+    name: 'f7-swipeout-actions',
     props: {
       left: Boolean,
       right: Boolean,

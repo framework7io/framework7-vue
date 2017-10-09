@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-tabs',
     render(c) {
       const self = this;
       const tabsEl = c('div', { staticClass: 'tabs' }, [self.$slots.default]);

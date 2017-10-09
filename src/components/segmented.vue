@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-segmented',
     props: {
       color: String,
       raised: Boolean,
@@ -17,7 +18,7 @@
           [`color-${self.color}`]: self.color,
           'segmented-raised': self.raised,
           'segmented-round': self.round,
-        }
+        },
       }, [self.$slots.default]);
     },
   };

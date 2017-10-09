@@ -1,5 +1,6 @@
 <script>
   export default {
+    name: 'f7-tab',
     props: {
       tabActive: Boolean,
       id: String,
