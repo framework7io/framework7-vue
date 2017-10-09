@@ -3,8 +3,8 @@
   "version": "2.0.0-beta.1",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
   "main": "dist/framework7-vue.js",
-  "jsnext:main": "dist/framework7-vue.module.js",
-  "module": "dist/framework7-vue.module.js",
+  "jsnext:main": "dist/framework7-vue.esm.js",
+  "module": "dist/framework7-vue.esm.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/framework7io/framework7-vue.git"
@@ -32,9 +32,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development gulp",
-    "build": "cross-env NODE_ENV=production gulp build",
-    "dist": "gulp dist",
+    "build-dev": "cross-env NODE_ENV=development gulp build",
+    "build-prod": "cross-env NODE_ENV=production gulp build",
+    "dev": "cross-env NODE_ENV=development gulp ks && cross-env NODE_ENV=development gulp server",
+    "prod": "cross-env NODE_ENV=production gulp ks && cross-env NODE_ENV=production gulp server",
     "lint": "eslint .",
     "test": "npm run lint"
   },
@@ -51,7 +52,7 @@
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "^2.7.0",
-    "framework7": "^2.0.0-beta.8",
+    "framework7": "^2.0.0-beta.9",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-header": "^1.8.9",
