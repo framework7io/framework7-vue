@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.1 - Released on October 9, 2017
+  * Initial v2 beta release
+
 ## Framework7 Vue v0.9.3 - Updated on September 7, 2017
   * Fixed backClick nav event
   * Added `tabindex` property for **f7-input** and **f7-list-button** components
