@@ -96,12 +96,19 @@ const Mixins = {
     } = self;
 
     return {
-      'data-panel': Utils.isStringProp(panelOpen) || Utils.isStringProp(panelClose),
-      'data-popup': Utils.isStringProp(popupOpen) || Utils.isStringProp(popupClose),
-      'data-popover': Utils.isStringProp(popoverOpen) || Utils.isStringProp(popoverClose),
-      'data-sheet': Utils.isStringProp(sheetOpen) || Utils.isStringProp(sheetClose),
-      'data-login-screen': Utils.isStringProp(loginScreenOpen) || Utils.isStringProp(loginScreenClose),
-      'data-sortable': Utils.isStringProp(sortableEnable) || Utils.isStringProp(sortableDisable) || Utils.isStringProp(sortableToggle),
+      'data-panel': (Utils.isStringProp(panelOpen) && panelOpen) ||
+                    (Utils.isStringProp(panelClose) && panelClose),
+      'data-popup': (Utils.isStringProp(popupOpen) && popupOpen) ||
+                    (Utils.isStringProp(popupClose) && popupClose),
+      'data-popover': (Utils.isStringProp(popoverOpen) && popoverOpen) ||
+                      (Utils.isStringProp(popoverClose) && popoverClose),
+      'data-sheet': (Utils.isStringProp(sheetOpen) && sheetOpen) ||
+                    (Utils.isStringProp(sheetClose) && sheetClose),
+      'data-login-screen': (Utils.isStringProp(loginScreenOpen) && loginScreenOpen) ||
+                           (Utils.isStringProp(loginScreenClose) && loginScreenClose),
+      'data-sortable': (Utils.isStringProp(sortableEnable) && sortableEnable) ||
+                       (Utils.isStringProp(sortableDisable) && sortableDisable) ||
+                       (Utils.isStringProp(sortableToggle) && sortableToggle),
     };
   },
   linkActionsClasses(self) {
