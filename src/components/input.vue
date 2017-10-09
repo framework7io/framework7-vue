@@ -132,7 +132,7 @@
       // Inputs
       type: String,
       name: String,
-      value: [String, Number],
+      value: [String, Number, Array],
       placeholder: String,
       id: String,
       size: [String, Number],
