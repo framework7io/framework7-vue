@@ -1,9 +1,6 @@
-# Logs
 logs
 *.log
 npm-debug.log*
-
-# Runtime data
 pids
 *.pid
 *.seed
@@ -38,3 +35,5 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+kitchen-sink/js/
