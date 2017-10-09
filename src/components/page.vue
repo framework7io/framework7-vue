@@ -26,7 +26,7 @@
           tag = child.tag;
           if (!tag) {
             staticList.push(child);
-            continue;
+            continue; // eslint-disable-line
           }
           let isFixed = false;
           if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
@@ -83,7 +83,7 @@
       }
       fixedList.push(self.$slots.fixed);
 
-      if (withSubnavbar) self.classesPage['with-subnavbar'] = true;
+      if (withSubnavbar) self.classes['page-with-subnavbar'] = true;
 
       const pageEl = c('div', {
         staticClass: 'page',
