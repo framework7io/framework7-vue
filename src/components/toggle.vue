@@ -1,5 +1,5 @@
 <label class="toggle">
-  <input type="checkbox" checked>
+  <input type="checkbox" checked :value="value">
   <span class="toggle-icon"></span>
 </label>
 <script>
@@ -37,6 +37,7 @@
       disabled: Boolean,
       readonly: Boolean,
       color: String,
+      value: [String, Number, Array],
     },
     watch: {
       checked(newValue) {
