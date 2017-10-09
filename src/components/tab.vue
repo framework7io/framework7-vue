@@ -20,7 +20,7 @@
             id: self.id,
           },
           class: {
-            active: self.tabActive,
+            'tab-active': self.tabActive,
           },
           on: {
             'tab:show': self.onTabShow,
