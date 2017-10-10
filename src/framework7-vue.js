@@ -54,6 +54,7 @@ import f7Range from './components/range.vue';
 import f7Toggle from './components/toggle.vue';
 import f7Label from './components/label.vue';
 import f7Input from './components/input.vue';
+import f7Panel from './components/panel.vue';
 
 export {
   VuePlugin as Framework7Vue,
@@ -112,5 +113,7 @@ export {
   f7Toggle,
   f7Label,
   f7Input,
+  f7Panel,
 };
 
+export default VuePlugin;
