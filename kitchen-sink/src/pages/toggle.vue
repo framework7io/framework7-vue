@@ -9,11 +9,11 @@
       </f7-list-item>
       <f7-list-item>
         <span>Aquaman</span>
-        <f7-toggle checked color="cyan"></f7-toggle>
+        <f7-toggle checked v-f7-color="'cyan'"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Superman</span>
-        <f7-toggle checked color="red"></f7-toggle>
+        <f7-toggle checked v-f7-color="'red'"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Hulk</span>
@@ -29,11 +29,11 @@
       </f7-list-item>
       <f7-list-item>
         <span>Thor</span>
-        <f7-toggle checked color="orange"></f7-toggle>
+        <f7-toggle checked v-f7-color="'orange'"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Wonder Woman</span>
-        <f7-toggle color="pink"></f7-toggle>
+        <f7-toggle v-f7-color="'pink'"></f7-toggle>
       </f7-list-item>
     </f7-list>
   </f7-page>
