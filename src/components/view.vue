@@ -9,6 +9,8 @@
         tab: Boolean,
         tabActive: Boolean,
 
+        name: String,
+        linksView: [Object, String],
         url: String,
         main: Boolean,
         stackPages: String,
