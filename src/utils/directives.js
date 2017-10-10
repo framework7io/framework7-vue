@@ -1,7 +1,7 @@
 const Directives = {};
 ['color', 'color-theme', 'text-color', 'bg-color', 'border-color', 'ripple-color'].forEach((name) => {
   Directives[`f7-${name}`] = {
-    inserted(el, binding) {
+    bind(el, binding) {
       const { value, oldValue } = binding;
       if (!el.classList) return;
       if (!value) return;
