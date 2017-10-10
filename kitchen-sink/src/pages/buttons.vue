@@ -147,13 +147,13 @@
     <f7-block>
       <f7-row>
         <f7-col>
-          <f7-button v-f7-color="'red'">Red</f7-button>
+          <f7-button color="red">Red</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button v-f7-color="'green'">Green</f7-button>
+          <f7-button color="green">Green</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button v-f7-color="'blue'">Blue</f7-button>
+          <f7-button color="blue">Blue</f7-button>
         </f7-col>
       </f7-row>
     </f7-block>
@@ -162,13 +162,13 @@
     <f7-block>
       <f7-row>
         <f7-col>
-          <f7-button fill v-f7-color="'red'">Red</f7-button>
+          <f7-button fill color="red">Red</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button fill v-f7-color="'green'">Green</f7-button>
+          <f7-button fill color="green">Green</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button fill v-f7-color="'blue'">Blue</f7-button>
+          <f7-button fill color="blue">Blue</f7-button>
         </f7-col>
       </f7-row>
     </f7-block>
@@ -180,7 +180,7 @@
       <f7-list-button title="List Button 3"></f7-list-button>
     </f7-list>
     <f7-list inset>
-      <f7-list-button title="Big Red Button" v-f7-color="'red'"></f7-list-button>
+      <f7-list-button title="Big Red Button" color="red"></f7-list-button>
     </f7-list>
   </f7-page>
 </template>

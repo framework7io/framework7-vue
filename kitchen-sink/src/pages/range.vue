@@ -35,7 +35,7 @@
             :step="1"
             :value="50"
             :label="true"
-            v-f7-color="'orange'"
+            color="orange"
           ></f7-range>
         </f7-list-item-cell>
         <f7-list-item-cell class="width-auto flex-shrink-0">
@@ -58,7 +58,7 @@
             :value="[priceMin, priceMax]"
             :label="true"
             :dual="true"
-            v-f7-color="'green'"
+            color="green"
             @range:change="onPriceChange"
           ></f7-range>
         </f7-list-item-cell>
