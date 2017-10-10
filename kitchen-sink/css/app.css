@@ -231,7 +231,7 @@ div.demo-lazy {
   background: #ddd;
   z-index: 1000;
 }
-.ios .panel-left:after {
+.ios .panel-left .view:after {
   content: '';
   height: 100%;
   width: 1px;
