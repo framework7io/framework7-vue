@@ -1,6 +1,47 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-list',
+    props: Utils.extend(
+      {
+        inset: Boolean,
+        tabletInset: Boolean,
+        mediaList: Boolean,
+        grouped: Boolean,
+        sortable: Boolean,
+        accordionList: Boolean,
+        contactsList: Boolean,
+        simpleList: Boolean,
+        linksList: Boolean,
+
+        noHairlines: Boolean,
+        noHairlinesBetween: Boolean,
+        noHairlinesMd: Boolean,
+        noHairlinesBetweenMd: Boolean,
+        noHairlinesIos: Boolean,
+        noHairlinesBetweenIos: Boolean,
+
+        // Tab
+        tab: Boolean,
+        tabActive: Boolean,
+
+        // Form
+        form: Boolean,
+        formStoreData: Boolean,
+        inlineLabels: Boolean,
+
+        // Virtual List
+        virtualList: Boolean,
+        virtualListInit: {
+          type: Boolean,
+          default: true,
+        },
+        virtualListParams: Object,
+      },
+      Mixins.colorProps
+    ),
     beforeDestroy() {
       const self = this;
       if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;
@@ -34,27 +75,30 @@
         self.form ? 'form' : 'div',
         {
           staticClass: 'list',
-          class: {
-            inset: self.inset,
-            'tablet-inset': self.tabletInset,
-            'media-list': self.mediaList,
-            'simple-list': self.simpleList,
-            'links-list': self.linksList,
-            sortable: self.sortable,
-            'accordion-list': self.accordionList,
-            'contacts-block': self.contactsList,
-            'virtual-list': self.virtualList,
-            tab: self.tab,
-            'tab-active': self.tabActive,
-            'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween,
-            'no-hairlines-md': self.noHairlinesMd,
-            'no-hairlines-between-md': self.noHairlinesBetweenMd,
-            'no-hairlines-ios': self.noHairlinesIos,
-            'no-hairlines-between-ios': self.noHairlinesBetweenIos,
-            'form-store-data': self.formStoreData,
-            'inline-labels': self.inlineLabels,
-          },
+          class: Utils.extend(
+            {
+              inset: self.inset,
+              'tablet-inset': self.tabletInset,
+              'media-list': self.mediaList,
+              'simple-list': self.simpleList,
+              'links-list': self.linksList,
+              sortable: self.sortable,
+              'accordion-list': self.accordionList,
+              'contacts-block': self.contactsList,
+              'virtual-list': self.virtualList,
+              tab: self.tab,
+              'tab-active': self.tabActive,
+              'no-hairlines': self.noHairlines,
+              'no-hairlines-between': self.noHairlinesBetween,
+              'no-hairlines-md': self.noHairlinesMd,
+              'no-hairlines-between-md': self.noHairlinesBetweenMd,
+              'no-hairlines-ios': self.noHairlinesIos,
+              'no-hairlines-between-ios': self.noHairlinesBetweenIos,
+              'form-store-data': self.formStoreData,
+              'inline-labels': self.inlineLabels,
+            },
+            Mixins.colorClasses(self)
+          ),
           on: {
             'sortable:enable': self.onSortableEnable,
             'sortable:disable': self.onSortableDisable,
@@ -68,41 +112,6 @@
         ]
       );
       return blockEl;
-    },
-    props: {
-      inset: Boolean,
-      tabletInset: Boolean,
-      mediaList: Boolean,
-      grouped: Boolean,
-      sortable: Boolean,
-      accordionList: Boolean,
-      contactsList: Boolean,
-      simpleList: Boolean,
-      linksList: Boolean,
-
-      noHairlines: Boolean,
-      noHairlinesBetween: Boolean,
-      noHairlinesMd: Boolean,
-      noHairlinesBetweenMd: Boolean,
-      noHairlinesIos: Boolean,
-      noHairlinesBetweenIos: Boolean,
-
-      // Tab
-      tab: Boolean,
-      tabActive: Boolean,
-
-      // Form
-      form: Boolean,
-      formStoreData: Boolean,
-      inlineLabels: Boolean,
-
-      // Virtual List
-      virtualList: Boolean,
-      virtualListInit: {
-        type: Boolean,
-        default: true,
-      },
-      virtualListParams: Object,
     },
     methods: {
       onSortableEnable(event) {
@@ -130,6 +139,7 @@
         let template = templateScript.html();
         if (!template && templateScript.length > 0) {
           template = templateScript[0].outerHTML;
+          // eslint-disable-next-line
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
         if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) return;

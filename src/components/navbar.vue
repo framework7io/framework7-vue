@@ -1,4 +1,7 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   import f7NavLeft from './nav-left.vue';
   import f7NavTitle from './nav-title.vue';
 
@@ -46,7 +49,7 @@
         self.$f7.navbar.size(self.$el);
       });
     },
-    props: {
+    props: Utils.extend({
       backLink: [Boolean, String],
       backLinkUrl: String,
       sliding: {
@@ -60,16 +63,14 @@
         type: Boolean,
         default: true,
       },
-    },
+    }, Mixins.colorProps),
     computed: {
       classes() {
         const self = this;
-        const co = {
+        return Utils.extend({
           'navbar-hidden': self.hidden,
-        };
-        // if (this.layout) co[`layout-${this.layout}`] = true;
-        if (self.noShadow) co['no-shadow'] = true;
-        return co;
+          'no-shadow': self.noShadow,
+        }, Mixins.colorClasses(self));
       },
     },
     methods: {

@@ -1,6 +1,19 @@
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Fab = {
     name: 'f7-fab',
+    props: Utils.extend(
+      {
+        morphTo: String,
+        position: {
+          type: String,
+          default: 'right-bottom',
+        },
+      },
+      Mixins.colorProps
+    ),
     render(c) {
       const self = this;
 
@@ -34,20 +47,16 @@
         },
       }, fabChildren);
     },
-    props: {
-      morphTo: String,
-      position: {
-        type: String,
-        default: 'right-bottom',
-      },
-    },
     computed: {
       classes() {
         const self = this;
-        return {
-          'fab-morph': self.morphTo,
-          [`fab-${self.position}`]: true,
-        };
+        return Utils.extend(
+          {
+            'fab-morph': self.morphTo,
+            [`fab-${self.position}`]: true,
+          },
+          Mixins.colorClasses(self)
+        );
       },
     },
     methods: {
@@ -57,4 +66,5 @@
       },
     },
   };
+  export default Fab;
 </script>

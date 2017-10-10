@@ -1,13 +1,19 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-checkbox',
-    props: {
-      checked: Boolean,
-      name: [Number, String],
-      value: [Number, String, Boolean],
-      disabled: Boolean,
-      readonly: Boolean,
-    },
+    props: Utils.extend(
+      {
+        checked: Boolean,
+        name: [Number, String],
+        value: [Number, String, Boolean],
+        disabled: Boolean,
+        readonly: Boolean,
+      },
+      Mixins.colorProps
+    ),
     render(c) {
       const self = this;
 
@@ -31,10 +37,19 @@
 
       return c('label', {
         staticClass: 'checkbox',
-        class: {
-          disabled: self.disabled,
-        },
+        class: self.classes,
       }, [inputEl, iconEl, self.$slots.default]);
+    },
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend(
+          {
+            disabled: self.disabled,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
     },
     methods: {
       onChange(event) {

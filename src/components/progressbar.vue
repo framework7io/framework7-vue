@@ -1,14 +1,15 @@
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Progressbar = {
     name: 'f7-progressbar',
     render(c) {
       const self = this;
-      const { progress, infinite } = self;
+      const { progress } = self;
       return c('span', {
         staticClass: 'progressbar',
-        class: {
-          'progressbar-infinite': infinite,
-        },
+        class: self.classes,
         attrs: {
           'data-progress': progress,
         },
@@ -20,9 +21,16 @@
         }),
       ]);
     },
-    props: {
+    props: Utils.extend({
       progress: Number,
       infinite: Boolean,
+    }, Mixins.colorProps),
+    computed: {
+      classes() {
+        return Utils.extend({
+          'progressbar-infinite': this.infinite,
+        }, Mixins.colorClasses(this));
+      },
     },
     methods: {
       set(progress, speed) {
@@ -42,4 +50,6 @@
       },
     },
   };
+
+  export default Progressbar;
 </script>

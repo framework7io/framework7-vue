@@ -1,5 +1,5 @@
 <template>
-  <div class="left" :class="{ sliding }">
+  <div class="left" :class="classes">
     <f7-link
       v-if="backLink"
       :href="backLinkUrl || '#'"
@@ -13,6 +13,9 @@
   </div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   import f7Link from './link.vue';
 
   export default {
@@ -20,10 +23,17 @@
     components: {
       f7Link,
     },
-    props: {
+    props: Utils.extend({
       backLink: [Boolean, String],
       backLinkUrl: String,
       sliding: Boolean,
+    }, Mixins.colorProps),
+    computed: {
+      classes() {
+        return Utils.extend({
+          slidng: this.slidng,
+        }, Mixins.colorClasses(this));
+      },
     },
     methods: {
       onBackClick(e) {

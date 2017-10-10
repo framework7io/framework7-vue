@@ -46,6 +46,7 @@
       itemInputWithInfo: Boolean,
       inlineLabel: Boolean,
     },
+    Mixins.colorProps,
     Mixins.linkRouterProps,
     Mixins.linkActionsProps
   );
@@ -164,14 +165,17 @@
       return c(
         'li',
         {
-          class: {
-            'item-divider': self.divider,
-            'list-group-title': self.groupTitle,
-            'media-item': self.mediaItem,
-            swipeout: self.swipeout,
-            'accordion-item': self.accordionItem,
-            'accordion-item-opened': self.accordionItemOpened,
-          },
+          class: Utils.extend(
+            {
+              'item-divider': self.divider,
+              'list-group-title': self.groupTitle,
+              'media-item': self.mediaItem,
+              swipeout: self.swipeout,
+              'accordion-item': self.accordionItem,
+              'accordion-item-opened': self.accordionItemOpened,
+            },
+            Mixins.colorClasses(self)
+          ),
           on: {
             'swipeout:open': self.onSwipeoutOpen,
             'swipeout:opened': self.onSwipeoutOpened,

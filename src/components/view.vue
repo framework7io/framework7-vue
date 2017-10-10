@@ -1,6 +1,60 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-view',
+    props: Utils.extend(
+      {
+        tab: Boolean,
+        tabActive: Boolean,
+
+        url: String,
+        main: Boolean,
+        stackPages: String,
+        xhrCache: String,
+        xhrCacheIgnore: Array,
+        xhrCacheIgnoreGetParameters: Boolean,
+        xhrCacheDuration: Number,
+        preloadPreviousPage: Boolean,
+        uniqueHistory: Boolean,
+        uniqueHistoryIgnoreGetParameters: Boolean,
+        allowDuplicateUrls: Boolean,
+        reloadPages: Boolean,
+        removeElements: Boolean,
+        removeElementsWithTimeout: Boolean,
+        removeElementsTimeout: Number,
+        restoreScrollTopOnBack: Boolean,
+        // Swipe Back
+        iosSwipeBack: Boolean,
+        iosSwipeBackAnimateShadow: Boolean,
+        iosSwipeBackAnimateOpacity: Boolean,
+        iosSwipeBackActiveArea: Number,
+        iosSwipeBackThreshold: Number,
+        // Push State
+        pushState: Boolean,
+        pushStateRoot: String,
+        pushStateAnimate: Boolean,
+        pushStateAnimateOnLoad: Boolean,
+        pushStateSeparator: String,
+        pushStateOnLoad: Boolean,
+        // Animate Pages
+        animate: Boolean,
+        // iOS Dynamic Navbar
+        iosDynamicNavbar: Boolean,
+        iosSeparateDynamicNavbar: Boolean,
+        // Animate iOS Navbar Back Icon
+        iosAnimateNavbarBackIcon: Boolean,
+        // MD Theme delay
+        materialPageLoadDelay: Number,
+
+        init: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      Mixins.colorProps
+    ),
     render(c) {
       const self = this;
       const pages = self.pages.map(page => c(page.component, {
@@ -34,54 +88,6 @@
       const self = this;
       if (self.f7View && self.f7View.destroy) self.f7View.destroy();
     },
-    props: {
-      tab: Boolean,
-      tabActive: Boolean,
-
-      url: String,
-      main: Boolean,
-      stackPages: String,
-      xhrCache: String,
-      xhrCacheIgnore: Array,
-      xhrCacheIgnoreGetParameters: Boolean,
-      xhrCacheDuration: Number,
-      preloadPreviousPage: Boolean,
-      uniqueHistory: Boolean,
-      uniqueHistoryIgnoreGetParameters: Boolean,
-      allowDuplicateUrls: Boolean,
-      reloadPages: Boolean,
-      removeElements: Boolean,
-      removeElementsWithTimeout: Boolean,
-      removeElementsTimeout: Number,
-      restoreScrollTopOnBack: Boolean,
-      // Swipe Back
-      iosSwipeBack: Boolean,
-      iosSwipeBackAnimateShadow: Boolean,
-      iosSwipeBackAnimateOpacity: Boolean,
-      iosSwipeBackActiveArea: Number,
-      iosSwipeBackThreshold: Number,
-      // Push State
-      pushState: Boolean,
-      pushStateRoot: String,
-      pushStateAnimate: Boolean,
-      pushStateAnimateOnLoad: Boolean,
-      pushStateSeparator: String,
-      pushStateOnLoad: Boolean,
-      // Animate Pages
-      animate: Boolean,
-      // iOS Dynamic Navbar
-      iosDynamicNavbar: Boolean,
-      iosSeparateDynamicNavbar: Boolean,
-      // Animate iOS Navbar Back Icon
-      iosAnimateNavbarBackIcon: Boolean,
-      // MD Theme delay
-      materialPageLoadDelay: Number,
-
-      init: {
-        type: Boolean,
-        default: true,
-      },
-    },
     data() {
       return {
         pages: [],
@@ -89,12 +95,14 @@
     },
     computed: {
       classes() {
-        const co = {
-          'view-main': this.main,
-          'tab-active': this.tabActive,
-          tab: this.tab,
-        };
-        return co;
+        return Utils.extend(
+          {
+            'view-main': this.main,
+            'tab-active': this.tabActive,
+            tab: this.tab,
+          },
+          Mixins.colorClasses(this)
+        );
       },
     },
     methods: {

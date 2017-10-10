@@ -30,6 +30,7 @@
       outline: Boolean,
       active: Boolean,
     },
+    Mixins.colorProps,
     Mixins.linkIconProps,
     Mixins.linkRouterProps,
     Mixins.linkActionsProps
@@ -132,6 +133,7 @@
             'button-active': active,
             'button-outline': outline,
           },
+          Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
           Mixins.linkActionsClasses(self)
         );

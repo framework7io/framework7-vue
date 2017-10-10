@@ -1,4 +1,7 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-range',
     render(c) {
@@ -6,12 +9,12 @@
 
       return c('div', {
         staticClass: 'range-slider',
-        class: {
+        class: Utils.extend({
           disabled: self.disabled,
-        },
+        }, Mixins.colorClasses(self)),
       });
     },
-    props: {
+    props: Utils.extend({
       init: {
         type: Boolean,
         default: true,
@@ -26,7 +29,7 @@
       label: Boolean,
       dual: Boolean,
       disabled: Boolean,
-    },
+    }, Mixins.colorProps),
     watch: {
       value(newValue) {
         const self = this;

@@ -1,6 +1,16 @@
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Chip = {
     name: 'f7-chip',
+    props: Utils.extend({
+      media: String,
+      text: [String, Number],
+      deleteable: Boolean,
+      mediaBgColor: String,
+      mediaTextColor: String,
+    }, Mixins.colorProps),
     render(c) {
       const self = this;
       let mediaEl;
@@ -25,16 +35,14 @@
       }
       return c('div', {
         staticClass: 'chip',
+        class: self.classes,
       }, [mediaEl, labelEl, deleteEl]);
     },
-    props: {
-      media: String,
-      text: [String, Number],
-      deleteable: Boolean,
-      mediaBgColor: String,
-      mediaTextColor: String,
-    },
     computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
       mediaClasses() {
         const c = {};
         if (this.mediaTextColor) c[`text-color-${this.mediaTextColor}`] = true;
@@ -51,4 +59,5 @@
       },
     },
   };
+  export default Chip;
 </script>

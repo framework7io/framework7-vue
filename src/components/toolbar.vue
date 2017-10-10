@@ -8,16 +8,19 @@
   </div>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Toolbar = {
     name: 'f7-toolbar',
-    props: {
+    props: Utils.extend({
       bottomMd: Boolean,
       tabbar: Boolean,
       labels: Boolean,
       scrollable: Boolean,
       hidden: Boolean,
       noShadow: Boolean,
-    },
+    }, Mixins.colorProps),
     updated() {
       const self = this;
       if (self.tabbar && self.$f7) {
@@ -29,15 +32,14 @@
     computed: {
       classes() {
         const self = this;
-        const co = {
+        return Utils.extend({
           'toolbar-bottom-md': self.bottomMd,
           tabbar: self.tabbar,
           'tabbar-labels': self.labels,
           'tabbar-scrollable': self.scrollable,
           'toolbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
-        };
-        return co;
+        }, Mixins.colorClasses(self));
       },
     },
     methods: {
@@ -53,4 +55,6 @@
       },
     },
   };
+
+  export default Toolbar;
 </script>

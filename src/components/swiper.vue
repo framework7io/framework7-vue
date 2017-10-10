@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" :class="classes">
     <div class="swiper-wrapper">
       <slot></slot>
     </div>
@@ -11,25 +11,29 @@
 </template>
 <script>
   import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
 
-  let initialUpdate = false;
-
-  export default {
+  const Swiper = {
     name: 'f7-swiper',
     beforeDestroy() {
       const self = this;
       if (!self.init) return;
       if (self.swiper && self.swiper.destroy) self.swiper.destroy();
     },
+    data() {
+      return {
+        initialUpdate: false,
+      };
+    },
     updated() {
       const self = this;
-      if (!initialUpdate) {
-        initialUpdate = true;
+      if (!self.initialUpdate) {
+        self.initialUpdate = true;
         return;
       }
       if (self.swiper && self.swiper.update) self.swiper.update();
     },
-    props: {
+    props: Utils.extend({
       params: Object,
       pagination: Boolean,
       scrollbar: Boolean,
@@ -38,8 +42,11 @@
         type: Boolean,
         default: true,
       },
-    },
+    }, Mixins.colorProps),
     computed: {
+      classes() {
+        return Mixins.colorClasses(this);
+      },
       paginationComputed() {
         const self = this;
         if (self.pagination === true || (self.params && self.params.pagination && !self.params.pagination.el)) {
@@ -83,4 +90,6 @@
       },
     },
   };
+
+  export default Swiper;
 </script>

@@ -3,6 +3,9 @@
   <span class="toggle-icon"></span>
 </label>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-toggle',
     render(c) {
@@ -10,9 +13,12 @@
 
       return c('label', {
         staticClass: 'toggle',
-        class: {
-          disabled: self.disabled,
-        },
+        class: Utils.extend(
+          {
+            disabled: self.disabled,
+          },
+          Mixins.colorClasses(self)
+        ),
       }, [
         c('input', {
           attrs: {
@@ -27,7 +33,7 @@
         c('span', { staticClass: 'toggle-icon' }),
       ]);
     },
-    props: {
+    props: Utils.extend({
       init: {
         type: Boolean,
         default: true,
@@ -36,7 +42,7 @@
       disabled: Boolean,
       readonly: Boolean,
       value: [String, Number, Array],
-    },
+    }, Mixins.colorProps),
     watch: {
       checked(newValue) {
         const self = this;

@@ -2,18 +2,28 @@
   <div class="views" :class="classes"><slot></slot></div>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Views = {
     name: 'f7-views',
-    props: {
-      tabs: Boolean,
-    },
+    props: Utils.extend(
+      {
+        tabs: Boolean,
+      },
+      Mixins.colorProps
+    ),
     computed: {
       classes() {
-        const co = {
-          tabs: this.tabs,
-        };
-        return co;
+        return Utils.extend(
+          {
+            tabs: this.tabs,
+          },
+          Mixins.colorClasses(this)
+        );
       },
     },
   };
+
+  export default Views;
 </script>

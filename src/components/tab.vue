@@ -1,10 +1,13 @@
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Tab = {
     name: 'f7-tab',
-    props: {
+    props: Utils.extend({
       tabActive: Boolean,
       id: String,
-    },
+    }, Mixins.colorProps),
     data() {
       return {
         tabContent: null,
@@ -19,9 +22,9 @@
           attrs: {
             id: self.id,
           },
-          class: {
+          class: Utils.extend({
             'tab-active': self.tabActive,
-          },
+          }, Mixins.colorClasses(self)),
           on: {
             'tab:show': self.onTabShow,
             'tab:hide': self.onTabHide,
@@ -43,4 +46,6 @@
       },
     },
   };
+
+  export default Tab;
 </script>

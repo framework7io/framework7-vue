@@ -1,5 +1,5 @@
 <template>
-  <span class="preloader"
+  <span class="preloader" :class="classes"
     :style="{'width': (sizeComputed ? `${sizeComputed}px` : ''), 'height': (sizeComputed ? `${sizeComputed}px` : '')}"
   >
     <span class="preloader-inner" v-if="$theme.md">
@@ -14,12 +14,18 @@
   </span>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Preloader = {
     name: 'f7-preloader',
-    props: {
+    props: Utils.extend({
       size: [Number, String],
-    },
+    }, Mixins.colorProps),
     computed: {
+      classes() {
+        return Mixins.colorClasses(this);
+      },
       sizeComputed() {
         let s = this.size;
         if (s && typeof s === 'string' && s.indexOf('px') >= 0) {
@@ -29,4 +35,6 @@
       },
     },
   };
+
+  export default Preloader;
 </script>

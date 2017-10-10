@@ -2,21 +2,32 @@
   <div class="fab-buttons" :class="classes"><slot></slot></div>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const FabButtons = {
     name: 'f7-fab-buttons',
-    props: {
-      position: {
-        type: String,
-        default: 'top',
+    props: Utils.extend(
+      {
+        position: {
+          type: String,
+          default: 'top',
+        },
       },
-    },
+      Mixins.colorProps
+    ),
     computed: {
       classes() {
         const self = this;
-        return {
-          [`fab-buttons-${self.position}`]: true,
-        };
+        return Utils.extend(
+          {
+            [`fab-buttons-${self.position}`]: true,
+          },
+          Mixins.colorClasses(self)
+        );
       },
     },
   };
+
+  export default FabButtons;
 </script>

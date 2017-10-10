@@ -1,13 +1,16 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-radio',
-    props: {
+    props: Utils.extend({
       checked: Boolean,
       name: [Number, String],
       value: [Number, String, Boolean],
       disabled: Boolean,
       readonly: Boolean,
-    },
+    }, Mixins.colorProps),
     render(c) {
       const self = this;
 
@@ -31,15 +34,15 @@
 
       return c('label', {
         staticClass: 'radio',
-        class: {
+        class: Utils.extend({
           disabled: self.disabled,
-        },
+        }, Mixins.colorClasses(self)),
       }, [inputEl, iconEl, self.$slots.default]);
     },
     methods: {
       onChange(event) {
         this.$emit('change', event);
-      }
+      },
     },
   };
 </script>

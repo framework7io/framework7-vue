@@ -1,17 +1,25 @@
 <template>
-  <div :class="`swipeout-actions-${sideComputed}`">
+  <div :class="classes">
     <slot></slot>
   </div>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const SwipeoutActions = {
     name: 'f7-swipeout-actions',
-    props: {
+    props: Utils.extend({
       left: Boolean,
       right: Boolean,
       side: String,
-    },
+    }, Mixins.colorProps),
     computed: {
+      classes() {
+        return Utils.extend({
+          [`swipeout-actions-${this.sideComputed}`]: true,
+        }, Mixins.colorClasses(this));
+      },
       sideComputed() {
         if (!this.side) {
           if (this.left) return 'left';
@@ -25,4 +33,6 @@
       return {};
     },
   };
+
+  export default SwipeoutActions;
 </script>

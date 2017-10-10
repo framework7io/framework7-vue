@@ -1,5 +1,5 @@
 <template>
-  <div class="subnavbar" :class="sliding ? 'sliding' : ''">
+  <div class="subnavbar" :class="classes">
     <div class="subnavbar-inner" v-if="inner">
       <slot></slot>
     </div>
@@ -7,14 +7,26 @@
   </div>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Subnavbar = {
     name: 'f7-subnavbar',
-    props: {
+    props: Utils.extend({
       sliding: Boolean,
       inner: {
         type: Boolean,
         default: true,
       },
+    }, Mixins.colorProps),
+    computed: {
+      classes() {
+        return Utils.extend({
+          sliding: this.sliding,
+        }, Mixins.colorClasses(this));
+      },
     },
   };
+
+  export default Subnavbar;
 </script>

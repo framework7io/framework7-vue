@@ -2,17 +2,26 @@
   <a :class="classes" @click="onClick"><slot></slot></a>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const FabButton = {
     name: 'f7-fab-button',
-    props: {
-      fabClose: Boolean,
-    },
+    props: Utils.extend(
+      {
+        fabClose: Boolean,
+      },
+      Mixins.colorProps
+    ),
     computed: {
       classes() {
         const self = this;
-        return {
-          'fab-close': self.fabClose,
-        };
+        return Utils.extend(
+          {
+            'fab-close': self.fabClose,
+          },
+          Mixins.colorClasses(self)
+        );
       },
     },
     methods: {
@@ -21,4 +30,6 @@
       },
     },
   };
+
+  export default FabButton;
 </script>

@@ -2,6 +2,9 @@
   <div class="page-content" :class="classes" @tab:show="onTabShow" @tab:hide="onTabHide"><slot></slot></div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-page-content',
     render(c) {
@@ -38,7 +41,7 @@
         },
       }, (self.infiniteTop ? [ptrEl, infiniteEl, self.$slots.default] : [ptrEl, self.$slots.default, infiniteEl]));
     },
-    props: {
+    props: Utils.extend({
       tab: Boolean,
       tabActive: Boolean,
       ptr: Boolean,
@@ -59,22 +62,22 @@
       hideToolbarOnScroll: Boolean,
       messagesContent: Boolean,
       loginScreen: Boolean,
-    },
+    }, Mixins.colorProps),
     computed: {
       classes() {
         const self = this;
-        return {
+        return Utils.extend({
           tab: self.tab,
           'tab-active': self.tabActive,
-          'ptr-content': this.ptr,
-          'infinite-scroll-content': this.infinite,
-          'infinite-scroll-top': this.infiniteTop,
-          'hide-bars-on-scroll': this.hideBarsOnScroll,
-          'hide-navbar-on-scroll': this.hideNavbarOnScroll,
-          'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
-          'messages-content': this.messagesContent,
-          'login-screen-content': this.loginScreen,
-        };
+          'ptr-content': self.ptr,
+          'infinite-scroll-content': self.infinite,
+          'infinite-scroll-top': self.infiniteTop,
+          'hide-bars-on-scroll': self.hideBarsOnScroll,
+          'hide-navbar-on-scroll': self.hideNavbarOnScroll,
+          'hide-toolbar-on-scroll': self.hideToolbarOnScroll,
+          'messages-content': self.messagesContent,
+          'login-screen-content': self.loginScreen,
+        }, Mixins.colorClasses(self));
       },
     },
     methods: {

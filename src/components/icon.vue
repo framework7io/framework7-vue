@@ -2,18 +2,24 @@
   <i class="icon" :style="{'font-size':sizeComputed}" :class="classes">{{iconTextComputed}}<slot></slot></i>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-icon',
-    props: {
-      material: String, // Material Icons
-      f7: String, // Framework7 Icons
-      ion: String, // Ionicons
-      fa: String, // Font Awesome
-      icon: String, // Custom
-      ifMd: String,
-      ifIos: String,
-      size: [String, Number],
-    },
+    props: Utils.extend(
+      {
+        material: String, // Material Icons
+        f7: String, // Framework7 Icons
+        ion: String, // Ionicons
+        fa: String, // Font Awesome
+        icon: String, // Custom
+        ifMd: String,
+        ifIos: String,
+        size: [String, Number],
+      },
+      Mixins.colorProps
+    ),
     computed: {
       sizeComputed() {
         const self = this;
@@ -61,7 +67,7 @@
           if (this.fa) classes[`fa-${this.fa}`] = true;
           if (this.icon) classes[this.icon] = true;
         }
-        return classes;
+        return Utils.extend(classes, Mixins.colorClasses(self));
       },
     },
   };

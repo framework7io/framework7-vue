@@ -1,4 +1,7 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   import f7PageContent from './page-content.vue';
 
   export default {
@@ -105,7 +108,7 @@
 
       return pageEl;
     },
-    props: {
+    props: Utils.extend({
       name: String,
       stacked: Boolean,
       withSubnavbar: Boolean,
@@ -137,18 +140,17 @@
       hideToolbarOnScroll: Boolean,
       messagesContent: Boolean,
       loginScreen: Boolean,
-    },
+    }, Mixins.colorProps),
     computed: {
       classes() {
-        const co = {
+        return Utils.extend({
           stacked: this.stacked,
           tabs: this.tabs,
           'page-with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
           'no-swipeback': this.noSwipeback,
-        };
-        return co;
+        }, Mixins.colorClasses(this));
       },
     },
     methods: {

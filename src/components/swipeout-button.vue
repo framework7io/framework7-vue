@@ -2,22 +2,24 @@
   <a @click="onClick" :class="classes"><slot>{{text}}</slot></a>
 </template>
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const SwipeoutButton = {
     name: 'f7-swipeout-button',
-    props: {
+    props: Utils.extend({
       text: String,
       overswipe: Boolean,
       close: Boolean,
       delete: Boolean,
-    },
+    }, Mixins.colorProps),
     computed: {
       classes() {
-        const co = {
+        return Utils.extend({
           'swipeout-overswipe': this.overswipe,
           'swipeout-delete': this.delete,
           'swipeout-close': this.close,
-        };
-        return co;
+        }, Mixins.colorClasses(this));
       },
     },
     methods: {
@@ -26,4 +28,6 @@
       },
     },
   };
+
+  export default SwipeoutButton;
 </script>

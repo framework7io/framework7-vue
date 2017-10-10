@@ -1,17 +1,20 @@
-<template>
-  <div class="item-title" :class="{'item-label': !floating, 'item-floating-label' : floating}"><slot></slot></div>
-</template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   export default {
     name: 'f7-label',
-    props: {
-      floating: Boolean,
-      inline: Boolean,
-      wrap: {
-        type: Boolean,
-        default: true,
+    props: Utils.extend(
+      {
+        floating: Boolean,
+        inline: Boolean,
+        wrap: {
+          type: Boolean,
+          default: true,
+        },
       },
-    },
+      Mixins.colorProps
+    ),
     render(c) {
       const self = this;
 
@@ -30,11 +33,20 @@
 
       return c('div', {
         staticClass: 'item-title',
-        class: {
-          'item-label': !self.floating,
-          'item-floating-label': self.floating,
-        },
+        class: self.classes,
       }, [self.$slots.default]);
+    },
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend(
+          {
+            'item-label': !self.floating,
+            'item-floating-label': self.floating,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
     },
   };
 </script>

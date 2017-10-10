@@ -1,5 +1,8 @@
 <script>
-  export default {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const Tabs = {
     name: 'f7-tabs',
     render(c) {
       const self = this;
@@ -7,17 +10,19 @@
       if (self.animated || self.swipeable) return c('div', { class: self.classes }, [tabsEl]);
       return tabsEl;
     },
-    props: {
+    props: Utils.extend({
       animated: Boolean,
       swipeable: Boolean,
-    },
+    }, Mixins.colorProps),
     computed: {
       classes() {
-        return {
+        return Utils.extend({
           'tabs-animated-wrap': this.animated,
           'tabs-swipeable-wrap': this.swipeable,
-        };
+        }, Mixins.colorClasses(this));
       },
     },
   };
+
+  export default Tabs;
 </script>

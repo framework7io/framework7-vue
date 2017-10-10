@@ -1,4 +1,7 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
   import f7Badge from './badge.vue';
 
   export default {
@@ -6,6 +9,33 @@
     components: {
       f7Badge,
     },
+    props: Utils.extend(
+      {
+        title: [String, Number],
+        text: [String, Number],
+        media: String,
+        subtitle: [String, Number],
+        header: [String, Number],
+        footer: [String, Number],
+        after: [String, Number],
+        badge: [String, Number],
+        badgeColor: String,
+        mediaList: Boolean,
+        itemInput: Boolean,
+        itemInputWithInfo: Boolean,
+        inlineLabel: Boolean,
+
+        checkbox: Boolean,
+        checked: Boolean,
+        radio: Boolean,
+        name: String,
+        value: [String, Number, Array],
+        readonly: Boolean,
+        required: Boolean,
+        disabled: Boolean,
+      },
+      Mixins.colorProps
+    ),
     render(c) {
       const self = this;
       const slotsContentStart = [];
@@ -111,41 +141,20 @@
       // Finalize
       return c((self.checkbox || self.radio) ? 'label' : 'div', {
         staticClass: 'item-content',
-        class: {
-          'item-checkbox': self.checkbox,
-          'item-radio': self.radio,
-          'item-input': self.itemInput || self.itemInputForced,
-          'inline-label': self.inlineLabel || self.inlineLabelForced,
-          'item-input-with-info': self.itemInputWithInfo || self.itemInputWithInfoForced,
-        },
+        class: Utils.extend(
+          {
+            'item-checkbox': self.checkbox,
+            'item-radio': self.radio,
+            'item-input': self.itemInput || self.itemInputForced,
+            'inline-label': self.inlineLabel || self.inlineLabelForced,
+            'item-input-with-info': self.itemInputWithInfo || self.itemInputWithInfoForced,
+          },
+          Mixins.colorClasses(self)
+        ),
         on: {
           click: self.onClick,
         },
       }, [slotsContentStart, inputEl, inputIconEl, mediaEl, innerEl, slotsContent, slotsContentEnd]);
-    },
-    props: {
-      title: [String, Number],
-      text: [String, Number],
-      media: String,
-      subtitle: [String, Number],
-      header: [String, Number],
-      footer: [String, Number],
-      after: [String, Number],
-      badge: [String, Number],
-      badgeColor: String,
-      mediaList: Boolean,
-      itemInput: Boolean,
-      itemInputWithInfo: Boolean,
-      inlineLabel: Boolean,
-
-      checkbox: Boolean,
-      checked: Boolean,
-      radio: Boolean,
-      name: String,
-      value: [String, Number, Array],
-      readonly: Boolean,
-      required: Boolean,
-      disabled: Boolean,
     },
     methods: {
       onClick(event) {

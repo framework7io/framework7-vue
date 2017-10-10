@@ -13,6 +13,7 @@
       href: [Boolean, String],
       tabindex: [Number, String],
     },
+    Mixins.colorProps,
     Mixins.linkRouterProps,
     Mixins.linkActionsProps
   );
@@ -68,6 +69,7 @@
             'tab-link-active': tabLinkActive,
             'no-fastclick': noFastclick,
           },
+          Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
           Mixins.linkActionsClasses(self)
         );
