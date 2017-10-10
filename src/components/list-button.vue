@@ -12,9 +12,6 @@
       link: [Boolean, String],
       href: [Boolean, String],
       tabindex: [Number, String],
-      color: String,
-      rippleColor: String,
-      textColor: String,
     },
     Mixins.linkRouterProps,
     Mixins.linkActionsProps
@@ -63,16 +60,10 @@
           noFastclick,
           tabLink,
           tabLinkActive,
-          rippleColor,
-          color,
-          textColor,
         } = self;
 
         return Utils.extend(
           {
-            [`color-${color}`]: color,
-            [`ripple-color-${rippleColor}`]: rippleColor,
-            [`text-color-${textColor}`]: textColor,
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
             'no-fastclick': noFastclick,

@@ -2,7 +2,6 @@
   export default {
     name: 'f7-radio',
     props: {
-      color: String,
       checked: Boolean,
       name: [Number, String],
       value: [Number, String, Boolean],
@@ -34,7 +33,6 @@
         staticClass: 'radio',
         class: {
           disabled: self.disabled,
-          [`color-${self.color}`]: self.color,
         },
       }, [inputEl, iconEl, self.$slots.default]);
     },

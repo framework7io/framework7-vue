@@ -15,8 +15,6 @@
       tabbar: Boolean,
       labels: Boolean,
       scrollable: Boolean,
-      colorTheme: String,
-      color: String,
       hidden: Boolean,
       noShadow: Boolean,
     },
@@ -39,8 +37,6 @@
           'toolbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
         };
-        if (self.colorTheme) co[`color-theme-${self.colorTheme}`] = true;
-        if (self.color) co[`color-${self.color}`] = true;
         return co;
       },
     },

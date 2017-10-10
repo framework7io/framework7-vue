@@ -2,7 +2,6 @@
   export default {
     name: 'f7-segmented',
     props: {
-      color: String,
       raised: Boolean,
       round: Boolean,
       tag: {
@@ -15,7 +14,6 @@
       return c(self.tag, {
         staticClass: 'segmented',
         class: {
-          [`color-${self.color}`]: self.color,
           'segmented-raised': self.raised,
           'segmented-round': self.round,
         },

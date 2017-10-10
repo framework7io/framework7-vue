@@ -1,6 +1,5 @@
 <template>
   <span class="preloader"
-    :class="(color ? `color-${color}` : '')"
     :style="{'width': (sizeComputed ? `${sizeComputed}px` : ''), 'height': (sizeComputed ? `${sizeComputed}px` : '')}"
   >
     <span class="preloader-inner" v-if="$theme.md">
@@ -18,7 +17,6 @@
   export default {
     name: 'f7-preloader',
     props: {
-      color: String,
       size: [Number, String],
     },
     computed: {

@@ -8,7 +8,6 @@
         staticClass: 'range-slider',
         class: {
           disabled: self.disabled,
-          [`color-${self.color}`]: self.color,
         },
       });
     },
@@ -27,7 +26,6 @@
       label: Boolean,
       dual: Boolean,
       disabled: Boolean,
-      color: String,
     },
     watch: {
       value(newValue) {

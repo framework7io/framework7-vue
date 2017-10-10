@@ -5,7 +5,6 @@
   export default {
     name: 'f7-icon',
     props: {
-      color: String,
       material: String, // Material Icons
       f7: String, // Framework7 Icons
       ion: String, // Ionicons
@@ -62,7 +61,6 @@
           if (this.fa) classes[`fa-${this.fa}`] = true;
           if (this.icon) classes[this.icon] = true;
         }
-        if (this.color) classes[`color-${this.color}`] = true;
         return classes;
       },
     },

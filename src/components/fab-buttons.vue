@@ -5,7 +5,6 @@
   export default {
     name: 'f7-fab-buttons',
     props: {
-      color: String,
       position: {
         type: String,
         default: 'top',
@@ -15,7 +14,6 @@
       classes() {
         const self = this;
         return {
-          [`color-${self.color}`]: self.color,
           [`fab-buttons-${self.position}`]: true,
         };
       },

@@ -35,7 +35,6 @@
         multiple: self.multiple,
         readonly: self.readonly,
         required: self.required,
-        color: self.color,
         pattern: self.pattern,
         validate: self.validate,
         tabindex: self.tabindex,
@@ -165,7 +164,6 @@
       info: String,
 
       // Components
-      color: String,
       wrap: {
         type: Boolean,
         default: true,

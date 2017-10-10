@@ -5,14 +5,12 @@
   export default {
     name: 'f7-fab-button',
     props: {
-      color: String,
       fabClose: Boolean,
     },
     computed: {
       classes() {
         const self = this;
         return {
-          [`color-${self.color}`]: self.color,
           'fab-close': self.fabClose,
         };
       },

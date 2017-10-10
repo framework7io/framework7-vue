@@ -54,8 +54,6 @@
         default: true,
       },
       title: String,
-      colorTheme: String,
-      color: String,
       hidden: Boolean,
       noShadow: Boolean,
       inner: {
@@ -69,7 +67,6 @@
         const co = {
           'navbar-hidden': self.hidden,
         };
-        if (self.colorTheme) co[`color-theme-${self.colorTheme}`] = true;
         // if (this.layout) co[`layout-${this.layout}`] = true;
         if (self.noShadow) co['no-shadow'] = true;
         return co;

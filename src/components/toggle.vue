@@ -12,7 +12,6 @@
         staticClass: 'toggle',
         class: {
           disabled: self.disabled,
-          [`color-${self.color}`]: self.color,
         },
       }, [
         c('input', {
@@ -36,7 +35,6 @@
       checked: Boolean,
       disabled: Boolean,
       readonly: Boolean,
-      color: String,
       value: [String, Number, Array],
     },
     watch: {

@@ -8,9 +8,6 @@
     {
       noLinkClass: Boolean,
       noFastClick: Boolean,
-      color: String,
-      rippleColor: String,
-      textColor: String,
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
@@ -100,16 +97,10 @@
           noFastclick,
           tabLink,
           tabLinkActive,
-          rippleColor,
-          color,
-          textColor,
         } = self;
 
         return Utils.extend(
           {
-            [`ripple-color-${rippleColor}`]: rippleColor,
-            [`color-${color}`]: color,
-            [`text-color-${textColor}`]: textColor,
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
             'no-fastclick': noFastclick,

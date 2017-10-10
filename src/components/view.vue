@@ -81,8 +81,6 @@
         type: Boolean,
         default: true,
       },
-
-      colorTheme: String,
     },
     data() {
       return {
@@ -96,7 +94,6 @@
           'tab-active': this.tabActive,
           tab: this.tab,
         };
-        if (this.colorTheme) co[`color-theme-${this.colorTheme}`] = true;
         return co;
       },
     },

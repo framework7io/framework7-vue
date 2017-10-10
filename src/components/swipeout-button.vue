@@ -9,7 +9,6 @@
       overswipe: Boolean,
       close: Boolean,
       delete: Boolean,
-      color: String,
     },
     computed: {
       classes() {
@@ -17,7 +16,6 @@
           'swipeout-overswipe': this.overswipe,
           'swipeout-delete': this.delete,
           'swipeout-close': this.close,
-          [`color-${this.color}`]: this.color,
         };
         return co;
       },

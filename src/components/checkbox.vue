@@ -2,7 +2,6 @@
   export default {
     name: 'f7-checkbox',
     props: {
-      color: String,
       checked: Boolean,
       name: [Number, String],
       value: [Number, String, Boolean],
@@ -34,14 +33,13 @@
         staticClass: 'checkbox',
         class: {
           disabled: self.disabled,
-          [`color-${self.color}`]: self.color,
         },
       }, [inputEl, iconEl, self.$slots.default]);
     },
     methods: {
       onChange(event) {
         this.$emit('change', event);
-      }
+      },
     },
   };
 </script>

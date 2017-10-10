@@ -35,7 +35,6 @@
       }, fabChildren);
     },
     props: {
-      color: String,
       morphTo: String,
       position: {
         type: String,
@@ -48,7 +47,6 @@
         return {
           'fab-morph': self.morphTo,
           [`fab-${self.position}`]: true,
-          [`color-${self.color}`]: self.color,
         };
       },
     },

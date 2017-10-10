@@ -25,16 +25,12 @@
       }
       return c('div', {
         staticClass: 'chip',
-        class: self.chipClasses,
       }, [mediaEl, labelEl, deleteEl]);
     },
     props: {
       media: String,
       text: [String, Number],
       deleteable: Boolean,
-      color: String,
-      bgColor: String,
-      textColor: String,
       mediaBgColor: String,
       mediaTextColor: String,
     },
@@ -43,13 +39,6 @@
         const c = {};
         if (this.mediaTextColor) c[`text-color-${this.mediaTextColor}`] = true;
         if (this.mediaBgColor) c[`bg-color-${this.mediaBgColor}`] = true;
-        return c;
-      },
-      chipClasses() {
-        const c = {};
-        if (this.color) c[`color-${this.color}`] = true;
-        if (this.bgColor) c[`bg-color-${this.bgColor}`] = true;
-        if (this.textColor) c[`text-color-${this.textColor}`] = true;
         return c;
       },
     },

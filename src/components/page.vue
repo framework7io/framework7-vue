@@ -117,7 +117,6 @@
         type: Boolean,
         default: true,
       },
-      colorTheme: String,
       noSwipeback: Boolean,
       // Page Content Props
       ptr: Boolean,
@@ -149,7 +148,6 @@
           'no-toolbar': this.noToolbar,
           'no-swipeback': this.noSwipeback,
         };
-        if (this.theme) co[`color-theme-${this.colorTheme}`] = true;
         return co;
       },
     },

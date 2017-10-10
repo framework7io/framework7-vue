@@ -3,10 +3,12 @@
     name: 'f7-progressbar',
     render(c) {
       const self = this;
-      const { color, progress, infinite } = self;
+      const { progress, infinite } = self;
       return c('span', {
         staticClass: 'progressbar',
-        class: [(color ? `color-${color}` : ''), (infinite ? 'progressbar-infinite' : '')].join(' '),
+        class: {
+          'progressbar-infinite': infinite,
+        },
         attrs: {
           'data-progress': progress,
         },
@@ -19,7 +21,6 @@
       ]);
     },
     props: {
-      color: String,
       progress: Number,
       infinite: Boolean,
     },
