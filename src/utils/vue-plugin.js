@@ -1,5 +1,6 @@
 /* eslint no-param-reassign: "off" */
 import Utils from './utils';
+import Directives from './directives';
 import VueRouter from './vue-router';
 
 export default {
@@ -46,6 +47,7 @@ export default {
 
     // Mixin
     Vue.mixin({
+      directives: Directives,
       beforeCreate() {
         const self = this;
         if (self === self.$root) {
