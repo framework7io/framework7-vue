@@ -1,33 +1,51 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
-
 const gulp = require('gulp');
 const rollup = require('rollup-stream');
 const buble = require('rollup-plugin-buble');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
-const resolve = require('rollup-plugin-node-resolve');
 const header = require('gulp-header');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const vue = require('rollup-plugin-vue2');
 const banner = require('./banner.js');
+const getComponents = require('./get-components.js');
 
 function es(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
 
-  // Bundle
+  const components = getComponents();
+
+  const IMPORT_PLUGIN = 'import VuePlugin from \'./vue-plugin.js\';';
+  const IMPORT_COMPONENTS = components.map(c => `import ${c.name} from './components/${c.file}';`).join('\n');
+  const REGISTER_COMPONENTS_BUNDLE = components.map(c => `${c.name},`).join('\n        ');
+  const EXPORT = `
+export {
+  VuePlugin as Framework7Vue,
+  ${components.map(c => `${c.name},`).join('\n  ')}
+}
+  `.trim();
+
+  let cbs = 0;
+
+  // Modular
   rollup({
     input: './src/framework7-vue.js',
     plugins: [
-      vue(),
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target),
+        IMPORT_PLUGIN,
+        IMPORT_COMPONENTS,
+        EXPORT,
+        IMPORT_COMPONENTS_BUNDLE: '',
+        REGISTER_COMPONENTS_BUNDLE: '',
       }),
+      vue(),
     ],
     format: 'es',
     name: 'Framework7Vue',
@@ -42,23 +60,62 @@ function es(cb) {
     .pipe(source('framework7-vue.js', './src'))
     .pipe(buffer())
     .pipe(rename('framework7-vue.esm.js'))
-    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/`))
+    .pipe(gulp.dest('./dist/'))
     .on('end', () => {
+      cbs += 1;
+      if (cbs === 2 && cb) cb();
+    });
+
+  // Bundle Build
+  rollup({
+    input: './src/vue-plugin.js',
+    plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
+        'process.env.TARGET': JSON.stringify(target),
+        IMPORT_COMPONENTS_BUNDLE: IMPORT_COMPONENTS,
+        REGISTER_COMPONENTS_BUNDLE,
+      }),
+      vue(),
+    ],
+    format: 'es',
+    name: 'Framework7Vue',
+    strict: true,
+    sourcemap: false,
+    banner,
+  })
+    .on('error', (err) => {
       if (cb) cb();
+      console.log(err.toString());
+    })
+    .pipe(source('vue-plugin.js', './src'))
+    .pipe(buffer())
+    .pipe(rename('framework7-vue.esm.bundle.js'))
+    .pipe(gulp.dest('./dist/'))
+    .on('end', () => {
+      cbs += 1;
+      if (cbs === 2 && cb) cb();
     });
 }
 function umd(cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || 'universal';
+
+  const components = getComponents();
+
+  const IMPORT_COMPONENTS = components.map(c => `import ${c.name} from './components/${c.file}';`).join('\n');
+  const REGISTER_COMPONENTS_BUNDLE = components.map(c => `${c.name},`).join('\n        ');
+
   rollup({
-    input: './src/framework7-vue.js',
+    input: './src/vue-plugin.js',
     plugins: [
-      vue(),
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target),
+        IMPORT_COMPONENTS_BUNDLE: IMPORT_COMPONENTS,
+        REGISTER_COMPONENTS_BUNDLE,
       }),
-      resolve({ jsnext: true }),
+      vue(),
       buble(),
     ],
     format: 'umd',
@@ -71,9 +128,13 @@ function umd(cb) {
       if (cb) cb();
       console.log(err.toString());
     })
-    .pipe(source('framework7-vue.js', './src'))
+    .pipe(source('vue-plugin.js', './src'))
     .pipe(buffer())
-    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/`))
+    .pipe(rename((filePath) => {
+      /* eslint no-param-reassign: ["error", { "props": false }] */
+      filePath.basename = 'framework7-vue';
+    }))
+    .pipe(gulp.dest('./dist/'))
     .on('end', () => {
       if (env === 'development') {
         if (cb) cb();
@@ -100,7 +161,6 @@ function build(cb) {
 
   const expectCbs = env === 'development' ? 1 : 2;
   let cbs = 0;
-
   umd(() => {
     cbs += 1;
     if (cbs === expectCbs) cb();

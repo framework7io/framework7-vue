@@ -9,6 +9,7 @@ const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
 const vue = require('rollup-plugin-vue');
+const getComponents = require('./get-components.js');
 
 let cache;
 
@@ -18,19 +19,35 @@ function build(cb) {
   const f7VuePath = env === 'development'
     ? '../src/framework7-vue'
     : '../dist/framework7-vue.esm.js';
+  const components = getComponents();
+
+  const IMPORT_PLUGIN = 'import VuePlugin from \'./vue-plugin.js\';';
+  const IMPORT_COMPONENTS = components.map(c => `import ${c.name} from './components/${c.file}';`).join('\n');
+  const EXPORT = `
+export {
+  VuePlugin as Framework7Vue,
+  ${components.map(c => `${c.name},`).join('\n  ')}
+}
+  `.trim();
   rollup({
     input: './kitchen-sink/src/app.js',
     plugins: [
-      vue(),
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target),
         'framework7-vue': () => path.resolve(__dirname, f7VuePath),
+        IMPORT_PLUGIN,
+        IMPORT_COMPONENTS,
+        EXPORT,
+        IMPORT_COMPONENTS_BUNDLE: '',
+        REGISTER_COMPONENTS_BUNDLE: '',
       }),
       resolve({ jsnext: true }),
+      vue(),
       buble(),
     ],
-    format: 'iife',
+    format: 'umd',
+    name: 'app',
     strict: true,
     sourcemap: false,
     cache,

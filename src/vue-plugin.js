@@ -1,7 +1,10 @@
 /* eslint no-param-reassign: "off" */
-import Utils from './utils';
-import Directives from './directives';
-import VueRouter from './vue-router';
+import Utils from './utils/utils';
+import Directives from './utils/directives';
+import VueRouter from './utils/vue-router';
+
+// eslint-disable-next-line
+IMPORT_COMPONENTS_BUNDLE
 
 export default {
   install(Vue, Framework7) {
@@ -48,6 +51,10 @@ export default {
     // Mixin
     Vue.mixin({
       directives: Directives,
+      components: {
+        // eslint-disable-next-line
+        REGISTER_COMPONENTS_BUNDLE
+      },
       beforeCreate() {
         const self = this;
         if (self === self.$root) {
