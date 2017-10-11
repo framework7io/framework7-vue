@@ -9,7 +9,7 @@ import routes from './routes';
 Vue.use(Framework7Vue, Framework7);
 
 // Init Vue App
-window.app = new Vue({
+export default new Vue({
   // Root Element
   el: '#app',
   render: c => c('app'),
