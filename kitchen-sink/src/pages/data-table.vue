@@ -214,7 +214,7 @@
               <th class="numeric-cell">Fat (g)</th>
               <th class="numeric-cell">Carbs</th>
               <th class="numeric-cell">Protein (g)</th>
-              <th class="tablet-only">{{commentsIcon}} Comments</th>
+              <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
             </tr>
           </thead>
           <tbody>
@@ -281,7 +281,10 @@
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-title">Nutrition</div>
-          <div class="data-table-actions"><a class="link icon-only">{{sortIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+          <div class="data-table-actions">
+            <a class="link icon-only" v-html="sortIcon"></a>
+            <a class="link icon-only" v-html="moreIcon"></a>
+          </div>
         </div>
         <div class="card-content">
           <table>
@@ -298,7 +301,7 @@
                 <th class="numeric-cell">Fat (g)</th>
                 <th class="numeric-cell">Carbs</th>
                 <th class="numeric-cell">Protein (g)</th>
-                <th class="tablet-only">{{commentsIcon}} Comments</th>
+                <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
               </tr>
             </thead>
             <tbody>
@@ -366,7 +369,10 @@
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-title">Nutrition</div>
-          <div class="data-table-actions"><a class="link icon-only">{{sortIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+          <div class="data-table-actions">
+            <a class="link icon-only" v-html="sortIcon"></a>
+            <a class="link icon-only" v-html="moreIcon"></a>
+          </div>
         </div>
         <div class="card-content">
           <table>
@@ -383,7 +389,7 @@
                 <th class="numeric-cell sortable-cell">Fat (g)</th>
                 <th class="numeric-cell sortable-cell">Carbs</th>
                 <th class="numeric-cell sortable-cell">Protein (g)</th>
-                <th class="tablet-only">{{commentsIcon}} Comments</th>
+                <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
               </tr>
             </thead>
             <tbody>
@@ -452,11 +458,17 @@
         <div class="card-header">
           <div class="data-table-header">
             <div class="data-table-title">Nutrition</div>
-            <div class="data-table-actions"><a class="link icon-only">{{sortIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+            <div class="data-table-actions">
+              <a class="link icon-only" v-html="sortIcon"></a>
+              <a class="link icon-only" v-html="moreIcon"></a>
+            </div>
           </div>
           <div class="data-table-header-selected">
             <div class="data-table-title-selected"><span class="data-table-selected-count"></span> items selected</div>
-            <div class="data-table-actions"><a class="link icon-only">{{trashIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+            <div class="data-table-actions">
+              <a class="link icon-only" v-html="trashIcon"></a>
+              <a class="link icon-only" v-html="moreIcon"></a>
+            </div>
           </div>
         </div>
         <div class="card-content">
@@ -474,7 +486,7 @@
                 <th class="numeric-cell">Fat (g)</th>
                 <th class="numeric-cell">Carbs</th>
                 <th class="numeric-cell">Protein (g)</th>
-                <th class="tablet-only">{{commentsIcon}} Comments</th>
+                <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
               </tr>
             </thead>
             <tbody>
@@ -542,7 +554,10 @@
       <div class="data-table data-table-init card">
         <div class="card-header">
           <div class="data-table-links"><a class="link">Add</a><a class="link">Remove</a></div>
-          <div class="data-table-actions"><a class="link icon-only">{{sortIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+          <div class="data-table-actions">
+            <a class="link icon-only" v-html="sortIcon"></a>
+            <a class="link icon-only" v-html="moreIcon"></a>
+          </div>
         </div>
         <div class="card-content">
           <table>
@@ -559,7 +574,7 @@
                 <th class="numeric-cell">Fat (g)</th>
                 <th class="numeric-cell">Carbs</th>
                 <th class="numeric-cell">Protein (g)</th>
-                <th class="tablet-only">{{commentsIcon}} Comments</th>
+                <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
                 <th></th>
               </tr>
             </thead>
@@ -577,7 +592,10 @@
                 <td class="numeric-cell">24</td>
                 <td class="numeric-cell">4.0</td>
                 <td class="tablet-only">I like frozen yogurt</td>
-                <td class="actions-cell"><a class="link icon-only">{{composeIcon}}</a><a class="link icon-only">{{trashIcon}}</a></td>
+                <td class="actions-cell">
+                  <a class="link icon-only" v-html="composeIcon"></a>
+                  <a class="link icon-only" v-html="trashIcon"></a>
+                </td>
               </tr>
               <tr>
                 <td class="checkbox-cell">
@@ -592,7 +610,10 @@
                 <td class="numeric-cell">37</td>
                 <td class="numeric-cell">4.4</td>
                 <td class="tablet-only">But like ice cream more</td>
-                <td class="actions-cell"><a class="link icon-only">{{composeIcon}}</a><a class="link icon-only">{{trashIcon}}</a></td>
+                <td class="actions-cell">
+                  <a class="link icon-only" v-html="composeIcon"></a>
+                  <a class="link icon-only" v-html="trashIcon"></a>
+                </td>
               </tr>
               <tr>
                 <td class="checkbox-cell">
@@ -607,7 +628,10 @@
                 <td class="numeric-cell">24</td>
                 <td class="numeric-cell">6.0</td>
                 <td class="tablet-only">Super tasty</td>
-                <td class="actions-cell"><a class="link icon-only">{{composeIcon}}</a><a class="link icon-only">{{trashIcon}}</a></td>
+                <td class="actions-cell">
+                  <a class="link icon-only" v-html="composeIcon"></a>
+                  <a class="link icon-only" v-html="trashIcon"></a>
+                </td>
               </tr>
               <tr>
                 <td class="checkbox-cell">
@@ -622,7 +646,10 @@
                 <td class="numeric-cell">67</td>
                 <td class="numeric-cell">4.3</td>
                 <td class="tablet-only">Don't like it</td>
-                <td class="actions-cell"><a class="link icon-only">{{composeIcon}}</a><a class="link icon-only">{{trashIcon}}</a></td>
+                <td class="actions-cell">
+                  <a class="link icon-only" v-html="composeIcon"></a>
+                  <a class="link icon-only" v-html="trashIcon"></a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -635,7 +662,10 @@
       <div class="card data-table data-table-collapsible data-table-init">
         <div class="card-header">
           <div class="data-table-title">Nutrition</div>
-          <div class="data-table-actions"><a class="link icon-only">{{sortIcon}}</a><a class="link icon-only">{{moreIcon}}</a></div>
+          <div class="data-table-actions">
+            <a class="link icon-only" v-html="sortIcon"></a>
+            <a class="link icon-only" v-html="moreIcon"></a>
+          </div>
         </div>
         <div class="card-content">
           <table>
