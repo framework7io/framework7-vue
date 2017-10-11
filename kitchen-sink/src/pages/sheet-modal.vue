@@ -38,6 +38,7 @@ export default {
   methods: {
     createSheet: function () {
       var self = this;
+      var $ = self.$$;
       // Create sheet modal
       if (!self.sheet) {
         self.sheet = self.$f7.sheet.create({
@@ -61,7 +62,7 @@ export default {
         });
       }
       // Close inline sheet
-      if (self.$('.demo-sheet.modal-in').length > 0) self.$f7.sheet.close('.demo-sheet');
+      if ($('.demo-sheet.modal-in').length > 0) self.$f7.sheet.close('.demo-sheet');
       // Open it
       self.sheet.open();
     },
