@@ -6,7 +6,7 @@
   import f7CardContent from './card-content.vue';
   import f7CardFooter from './card-footer.vue';
 
-  const Card = {
+  export default {
     name: 'f7-card',
     components: {
       f7CardHeader,
@@ -49,5 +49,4 @@
       },
     },
   };
-  export default Card;
 </script>

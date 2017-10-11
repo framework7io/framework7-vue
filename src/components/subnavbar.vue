@@ -10,7 +10,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Subnavbar = {
+  export default {
     name: 'f7-subnavbar',
     props: Utils.extend({
       sliding: Boolean,
@@ -27,6 +27,4 @@
       },
     },
   };
-
-  export default Subnavbar;
 </script>

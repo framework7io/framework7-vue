@@ -11,7 +11,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Toolbar = {
+  export default {
     name: 'f7-toolbar',
     props: Utils.extend({
       bottomMd: Boolean,
@@ -55,6 +55,4 @@
       },
     },
   };
-
-  export default Toolbar;
 </script>

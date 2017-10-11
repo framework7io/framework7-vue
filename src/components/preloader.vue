@@ -17,7 +17,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Preloader = {
+  export default {
     name: 'f7-preloader',
     props: Utils.extend({
       size: [Number, String],
@@ -35,6 +35,4 @@
       },
     },
   };
-
-  export default Preloader;
 </script>

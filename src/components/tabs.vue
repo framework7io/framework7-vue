@@ -2,7 +2,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Tabs = {
+  export default {
     name: 'f7-tabs',
     render(c) {
       const self = this;
@@ -23,6 +23,4 @@
       },
     },
   };
-
-  export default Tabs;
 </script>

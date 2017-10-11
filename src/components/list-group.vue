@@ -9,7 +9,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const ListGroup = {
+  export default {
     name: 'f7-list-group',
     props: Utils.extend(
       {
@@ -34,6 +34,4 @@
       return {};
     },
   };
-
-  export default ListGroup;
 </script>

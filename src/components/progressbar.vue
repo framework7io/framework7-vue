@@ -2,7 +2,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Progressbar = {
+  export default {
     name: 'f7-progressbar',
     render(c) {
       const self = this;
@@ -50,6 +50,4 @@
       },
     },
   };
-
-  export default Progressbar;
 </script>

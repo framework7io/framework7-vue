@@ -16,7 +16,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Panel = {
+  export default {
     props: Utils.extend(
       {
         side: String,
@@ -109,6 +109,4 @@
       },
     },
   };
-
-  export default Panel;
 </script>

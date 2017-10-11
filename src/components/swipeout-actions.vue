@@ -7,7 +7,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const SwipeoutActions = {
+  export default {
     name: 'f7-swipeout-actions',
     props: Utils.extend({
       left: Boolean,
@@ -33,6 +33,4 @@
       return {};
     },
   };
-
-  export default SwipeoutActions;
 </script>

@@ -5,7 +5,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Views = {
+  export default {
     name: 'f7-views',
     props: Utils.extend(
       {
@@ -24,6 +24,4 @@
       },
     },
   };
-
-  export default Views;
 </script>

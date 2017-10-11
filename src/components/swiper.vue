@@ -13,7 +13,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Swiper = {
+  export default {
     name: 'f7-swiper',
     beforeDestroy() {
       const self = this;
@@ -90,6 +90,4 @@
       },
     },
   };
-
-  export default Swiper;
 </script>

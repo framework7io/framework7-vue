@@ -5,7 +5,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const SwipeoutButton = {
+  export default {
     name: 'f7-swipeout-button',
     props: Utils.extend({
       text: String,
@@ -28,6 +28,4 @@
       },
     },
   };
-
-  export default SwipeoutButton;
 </script>

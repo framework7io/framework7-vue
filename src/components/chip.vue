@@ -2,7 +2,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const Chip = {
+  export default {
     name: 'f7-chip',
     props: Utils.extend({
       media: String,
@@ -59,5 +59,4 @@
       },
     },
   };
-  export default Chip;
 </script>

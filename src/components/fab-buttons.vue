@@ -5,7 +5,7 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
-  const FabButtons = {
+  export default {
     name: 'f7-fab-buttons',
     props: Utils.extend(
       {
@@ -28,6 +28,4 @@
       },
     },
   };
-
-  export default FabButtons;
 </script>
