@@ -39,3 +39,5 @@ jspm_packages
 kitchen-sink/js/
 
 kitchen-sink/js/app.js
+
+bundle.css
