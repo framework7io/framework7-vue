@@ -189,13 +189,14 @@
         if (self.type === 'range' || self.type === 'toggle') return;
         const f7 = self.$f7;
         if (!f7) return;
+        const inputEl = self.wrap ? self.$el.querySelector('input, select, textarea') : self.$el;
         self.$nextTick(() => {
-          f7.input.checkEmptyState(self.$el.querySelector('input, select, textarea'));
+          f7.input.checkEmptyState(inputEl);
           if (self.validate) {
-            f7.input.validate(self.$el.querySelector('input, select, textarea'));
+            f7.input.validate(inputEl);
           }
           if (self.resizable) {
-            f7.input.resizeTextarea(self.$el.querySelector('input, select, textarea'));
+            f7.input.resizeTextarea(inputEl);
           }
         });
       },
@@ -203,12 +204,13 @@
     methods: {
       onF7Ready(f7) {
         const self = this;
-        f7.input.checkEmptyState(self.$el.querySelector('input, select, textarea'));
+        const inputEl = self.wrap ? self.$el.querySelector('input, select, textarea') : self.$el;
+        f7.input.checkEmptyState(inputEl);
         if (self.validate) {
-          f7.input.validate(self.$el.querySelector('input, select, textarea'));
+          f7.input.validate(inputEl);
         }
         if (self.resizable) {
-          f7.input.resizeTextarea(self.$el.querySelector('input, select, textarea'));
+          f7.input.resizeTextarea(inputEl);
         }
       },
       onTextareaResize(event) {
