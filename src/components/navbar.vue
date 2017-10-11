@@ -5,6 +5,22 @@
   import f7NavLeft from './nav-left.vue';
   import f7NavTitle from './nav-title.vue';
 
+  const NavbarProps = Utils.extend({
+    backLink: [Boolean, String],
+    backLinkUrl: String,
+    sliding: {
+      type: Boolean,
+      default: true,
+    },
+    title: String,
+    hidden: Boolean,
+    noShadow: Boolean,
+    inner: {
+      type: Boolean,
+      default: true,
+    },
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-navbar',
     components: {
@@ -49,21 +65,7 @@
         self.$f7.navbar.size(self.$el);
       });
     },
-    props: Utils.extend({
-      backLink: [Boolean, String],
-      backLinkUrl: String,
-      sliding: {
-        type: Boolean,
-        default: true,
-      },
-      title: String,
-      hidden: Boolean,
-      noShadow: Boolean,
-      inner: {
-        type: Boolean,
-        default: true,
-      },
-    }, Mixins.colorProps),
+    props: NavbarProps,
     computed: {
       classes() {
         const self = this;

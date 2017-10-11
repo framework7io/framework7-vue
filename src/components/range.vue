@@ -2,6 +2,23 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const RangeProps = Utils.extend({
+    init: {
+      type: Boolean,
+      default: true,
+    },
+    value: [Number, Array, String],
+    min: [Number, String],
+    max: [Number, String],
+    step: {
+      type: [Number, String],
+      default: 1,
+    },
+    label: Boolean,
+    dual: Boolean,
+    disabled: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-range',
     render(c) {
@@ -14,22 +31,7 @@
         }, Mixins.colorClasses(self)),
       });
     },
-    props: Utils.extend({
-      init: {
-        type: Boolean,
-        default: true,
-      },
-      value: [Number, Array, String],
-      min: [Number, String],
-      max: [Number, String],
-      step: {
-        type: [Number, String],
-        default: 1,
-      },
-      label: Boolean,
-      dual: Boolean,
-      disabled: Boolean,
-    }, Mixins.colorProps),
+    props: RangeProps,
     watch: {
       value(newValue) {
         const self = this;

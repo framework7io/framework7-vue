@@ -2,18 +2,20 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const RowProps = Utils.extend(
+    {
+      noGap: Boolean,
+      tag: {
+        type: String,
+        default: 'div',
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-row',
-    props: Utils.extend(
-      {
-        noGap: Boolean,
-        tag: {
-          type: String,
-          default: 'div',
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: RowProps,
     render(c) {
       const self = this;
       return c(self.tag, {

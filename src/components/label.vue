@@ -2,19 +2,21 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const LabelProps = Utils.extend(
+    {
+      floating: Boolean,
+      inline: Boolean,
+      wrap: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-label',
-    props: Utils.extend(
-      {
-        floating: Boolean,
-        inline: Boolean,
-        wrap: {
-          type: Boolean,
-          default: true,
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: LabelProps,
     render(c) {
       const self = this;
 

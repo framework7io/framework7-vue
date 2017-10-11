@@ -5,6 +5,29 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const PageContentProps = Utils.extend({
+    tab: Boolean,
+    tabActive: Boolean,
+    ptr: Boolean,
+    ptrDistance: Number,
+    ptrPreloader: {
+      type: Boolean,
+      default: true,
+    },
+    infinite: Boolean,
+    infiniteTop: Boolean,
+    infiniteDistance: Number,
+    infinitePreloader: {
+      type: Boolean,
+      default: true,
+    },
+    hideBarsOnScroll: Boolean,
+    hideNavbarOnScroll: Boolean,
+    hideToolbarOnScroll: Boolean,
+    messagesContent: Boolean,
+    loginScreen: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-page-content',
     render(c) {
@@ -41,28 +64,7 @@
         },
       }, (self.infiniteTop ? [ptrEl, infiniteEl, self.$slots.default] : [ptrEl, self.$slots.default, infiniteEl]));
     },
-    props: Utils.extend({
-      tab: Boolean,
-      tabActive: Boolean,
-      ptr: Boolean,
-      ptrDistance: Number,
-      ptrPreloader: {
-        type: Boolean,
-        default: true,
-      },
-      infinite: Boolean,
-      infiniteTop: Boolean,
-      infiniteDistance: Number,
-      infinitePreloader: {
-        type: Boolean,
-        default: true,
-      },
-      hideBarsOnScroll: Boolean,
-      hideNavbarOnScroll: Boolean,
-      hideToolbarOnScroll: Boolean,
-      messagesContent: Boolean,
-      loginScreen: Boolean,
-    }, Mixins.colorProps),
+    props: PageContentProps,
     computed: {
       classes() {
         const self = this;

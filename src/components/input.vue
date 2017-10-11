@@ -5,57 +5,59 @@
   import f7Toggle from './toggle.vue';
   import f7Range from './range.vue';
 
+  const InputProps = Utils.extend(
+    {
+      // Inputs
+      type: String,
+      name: String,
+      value: [String, Number, Array],
+      placeholder: String,
+      id: String,
+      size: [String, Number],
+      accept: [String, Number],
+      autocomplete: [String],
+      autocorrect: [String],
+      autocapitalize: [String],
+      spellcheck: [String],
+      autofocus: Boolean,
+      autosave: String,
+      checked: Boolean,
+      disabled: Boolean,
+      max: [String, Number],
+      min: [String, Number],
+      step: [String, Number],
+      maxlength: [String, Number],
+      minlength: [String, Number],
+      multiple: Boolean,
+      readonly: Boolean,
+      required: Boolean,
+      inputStyle: String,
+      pattern: String,
+      validate: Boolean,
+      tabindex: [String, Number],
+      resizable: Boolean,
+      clearButton: Boolean,
+
+      // Error, Info
+      errorMessage: String,
+      info: String,
+
+      // Components
+      wrap: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-input',
     components: {
       f7Toggle,
       f7Range,
     },
-    props: Utils.extend(
-      {
-        // Inputs
-        type: String,
-        name: String,
-        value: [String, Number, Array],
-        placeholder: String,
-        id: String,
-        size: [String, Number],
-        accept: [String, Number],
-        autocomplete: [String],
-        autocorrect: [String],
-        autocapitalize: [String],
-        spellcheck: [String],
-        autofocus: Boolean,
-        autosave: String,
-        checked: Boolean,
-        disabled: Boolean,
-        max: [String, Number],
-        min: [String, Number],
-        step: [String, Number],
-        maxlength: [String, Number],
-        minlength: [String, Number],
-        multiple: Boolean,
-        readonly: Boolean,
-        required: Boolean,
-        inputStyle: String,
-        pattern: String,
-        validate: Boolean,
-        tabindex: [String, Number],
-        resizable: Boolean,
-        clearButton: Boolean,
-
-        // Error, Info
-        errorMessage: String,
-        info: String,
-
-        // Components
-        wrap: {
-          type: Boolean,
-          default: true,
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: InputProps,
     render(c) {
       let inputEl;
       const self = this;

@@ -5,11 +5,13 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const NavRightProps = Utils.extend({
+    sliding: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-nav-right',
-    props: Utils.extend({
-      sliding: Boolean,
-    }, Mixins.colorProps),
+    props: NavRightProps,
     computed: {
       classes() {
         return Utils.extend({

@@ -14,14 +14,16 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const AccordionItemProps = Utils.extend(
+    {
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-accordion-item',
-    props: Utils.extend(
-      {
-        opened: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: AccordionItemProps,
     computed: {
       classes() {
         const self = this;

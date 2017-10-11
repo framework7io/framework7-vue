@@ -2,27 +2,29 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ColProps = Utils.extend(
+    {
+      tag: {
+        type: String,
+        default: 'div',
+      },
+      width: {
+        type: [Number, String],
+        default: 'auto',
+      },
+      tabletWidth: {
+        type: [Number, String],
+      },
+      desktopWidth: {
+        type: [Number, String],
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-col',
-    props: Utils.extend(
-      {
-        tag: {
-          type: String,
-          default: 'div',
-        },
-        width: {
-          type: [Number, String],
-          default: 'auto',
-        },
-        tabletWidth: {
-          type: [Number, String],
-        },
-        desktopWidth: {
-          type: [Number, String],
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: ColProps,
     render(c) {
       const self = this;
       return c(self.tag, {

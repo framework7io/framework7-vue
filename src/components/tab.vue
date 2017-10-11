@@ -2,12 +2,14 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const TabProps = Utils.extend({
+    tabActive: Boolean,
+    id: String,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-tab',
-    props: Utils.extend({
-      tabActive: Boolean,
-      id: String,
-    }, Mixins.colorProps),
+    props: TabProps,
     data() {
       return {
         tabContent: null,

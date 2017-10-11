@@ -7,17 +7,19 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const CardContentProps = Utils.extend(
+    {
+      padding: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-card-content',
-    props: Utils.extend(
-      {
-        padding: {
-          type: Boolean,
-          default: true,
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: CardContentProps,
     computed: {
       classes() {
         const self = this;

@@ -5,14 +5,16 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const FabButtonProps = Utils.extend(
+    {
+      fabClose: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-fab-button',
-    props: Utils.extend(
-      {
-        fabClose: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: FabButtonProps,
     computed: {
       classes() {
         const self = this;

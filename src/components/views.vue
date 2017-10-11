@@ -5,14 +5,16 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ViewsProps = Utils.extend(
+    {
+      tabs: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-views',
-    props: Utils.extend(
-      {
-        tabs: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: ViewsProps,
     computed: {
       classes() {
         return Utils.extend(

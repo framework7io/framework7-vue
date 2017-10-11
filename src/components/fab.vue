@@ -2,18 +2,20 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const FabProps = Utils.extend(
+    {
+      morphTo: String,
+      position: {
+        type: String,
+        default: 'right-bottom',
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-fab',
-    props: Utils.extend(
-      {
-        morphTo: String,
-        position: {
-          type: String,
-          default: 'right-bottom',
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: FabProps,
     render(c) {
       const self = this;
 

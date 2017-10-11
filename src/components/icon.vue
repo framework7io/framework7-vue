@@ -5,21 +5,23 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const IconProps = Utils.extend(
+    {
+      material: String, // Material Icons
+      f7: String, // Framework7 Icons
+      ion: String, // Ionicons
+      fa: String, // Font Awesome
+      icon: String, // Custom
+      ifMd: String,
+      ifIos: String,
+      size: [String, Number],
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-icon',
-    props: Utils.extend(
-      {
-        material: String, // Material Icons
-        f7: String, // Framework7 Icons
-        ion: String, // Ionicons
-        fa: String, // Font Awesome
-        icon: String, // Custom
-        ifMd: String,
-        ifIos: String,
-        size: [String, Number],
-      },
-      Mixins.colorProps
-    ),
+    props: IconProps,
     computed: {
       sizeComputed() {
         const self = this;

@@ -5,17 +5,19 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const FabButtonsProps = Utils.extend(
+    {
+      position: {
+        type: String,
+        default: 'top',
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-fab-buttons',
-    props: Utils.extend(
-      {
-        position: {
-          type: String,
-          default: 'top',
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: FabButtonsProps,
     computed: {
       classes() {
         const self = this;

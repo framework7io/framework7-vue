@@ -2,6 +2,11 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ProgressbarProps = Utils.extend({
+    progress: Number,
+    infinite: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-progressbar',
     render(c) {
@@ -21,10 +26,7 @@
         }),
       ]);
     },
-    props: Utils.extend({
-      progress: Number,
-      infinite: Boolean,
-    }, Mixins.colorProps),
+    props: ProgressbarProps,
     computed: {
       classes() {
         return Utils.extend({

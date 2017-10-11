@@ -2,46 +2,48 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ListProps = Utils.extend(
+    {
+      inset: Boolean,
+      tabletInset: Boolean,
+      mediaList: Boolean,
+      grouped: Boolean,
+      sortable: Boolean,
+      accordionList: Boolean,
+      contactsList: Boolean,
+      simpleList: Boolean,
+      linksList: Boolean,
+
+      noHairlines: Boolean,
+      noHairlinesBetween: Boolean,
+      noHairlinesMd: Boolean,
+      noHairlinesBetweenMd: Boolean,
+      noHairlinesIos: Boolean,
+      noHairlinesBetweenIos: Boolean,
+
+      // Tab
+      tab: Boolean,
+      tabActive: Boolean,
+
+      // Form
+      form: Boolean,
+      formStoreData: Boolean,
+      inlineLabels: Boolean,
+
+      // Virtual List
+      virtualList: Boolean,
+      virtualListInit: {
+        type: Boolean,
+        default: true,
+      },
+      virtualListParams: Object,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-list',
-    props: Utils.extend(
-      {
-        inset: Boolean,
-        tabletInset: Boolean,
-        mediaList: Boolean,
-        grouped: Boolean,
-        sortable: Boolean,
-        accordionList: Boolean,
-        contactsList: Boolean,
-        simpleList: Boolean,
-        linksList: Boolean,
-
-        noHairlines: Boolean,
-        noHairlinesBetween: Boolean,
-        noHairlinesMd: Boolean,
-        noHairlinesBetweenMd: Boolean,
-        noHairlinesIos: Boolean,
-        noHairlinesBetweenIos: Boolean,
-
-        // Tab
-        tab: Boolean,
-        tabActive: Boolean,
-
-        // Form
-        form: Boolean,
-        formStoreData: Boolean,
-        inlineLabels: Boolean,
-
-        // Virtual List
-        virtualList: Boolean,
-        virtualListInit: {
-          type: Boolean,
-          default: true,
-        },
-        virtualListParams: Object,
-      },
-      Mixins.colorProps
-    ),
+    props: ListProps,
     beforeDestroy() {
       const self = this;
       if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;

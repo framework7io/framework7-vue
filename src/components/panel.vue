@@ -16,19 +16,21 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const PanelProps = Utils.extend(
+    {
+      side: String,
+      effect: String,
+      cover: Boolean,
+      reveal: Boolean,
+      left: Boolean,
+      right: Boolean,
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    props: Utils.extend(
-      {
-        side: String,
-        effect: String,
-        cover: Boolean,
-        reveal: Boolean,
-        left: Boolean,
-        right: Boolean,
-        opened: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: PanelProps,
     computed: {
       classes() {
         const self = this;

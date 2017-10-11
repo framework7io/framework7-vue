@@ -9,15 +9,17 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ListGroupProps = Utils.extend(
+    {
+      mediaList: Boolean,
+      sortable: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-list-group',
-    props: Utils.extend(
-      {
-        mediaList: Boolean,
-        sortable: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: ListGroupProps,
     computed: {
       classes() {
         const self = this;

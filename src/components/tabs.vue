@@ -2,6 +2,11 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const TabsProps = Utils.extend({
+    animated: Boolean,
+    swipeable: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-tabs',
     render(c) {
@@ -10,10 +15,7 @@
       if (self.animated || self.swipeable) return c('div', { class: self.classes }, [tabsEl]);
       return tabsEl;
     },
-    props: Utils.extend({
-      animated: Boolean,
-      swipeable: Boolean,
-    }, Mixins.colorProps),
+    props: TabsProps,
     computed: {
       classes() {
         return Utils.extend({

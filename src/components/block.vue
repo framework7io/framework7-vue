@@ -7,26 +7,28 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const BlockProps = Utils.extend(
+    {
+      inset: Boolean,
+      tabletInset: Boolean,
+      strong: Boolean,
+      tabs: Boolean,
+      tab: Boolean,
+      tabActive: Boolean,
+      accordionList: Boolean,
+      noHairlines: Boolean,
+      noHairlinesBetween: Boolean,
+      noHairlinesMd: Boolean,
+      noHairlinesBetweenMd: Boolean,
+      noHairlinesIos: Boolean,
+      noHairlinesBetweenIos: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-block',
-    props: Utils.extend(
-      {
-        inset: Boolean,
-        tabletInset: Boolean,
-        strong: Boolean,
-        tabs: Boolean,
-        tab: Boolean,
-        tabActive: Boolean,
-        accordionList: Boolean,
-        noHairlines: Boolean,
-        noHairlinesBetween: Boolean,
-        noHairlinesMd: Boolean,
-        noHairlinesBetweenMd: Boolean,
-        noHairlinesIos: Boolean,
-        noHairlinesBetweenIos: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: BlockProps,
     computed: {
       classes() {
         const self = this;

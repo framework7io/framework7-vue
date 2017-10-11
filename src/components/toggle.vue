@@ -6,6 +6,17 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ToggleProps = Utils.extend({
+    init: {
+      type: Boolean,
+      default: true,
+    },
+    checked: Boolean,
+    disabled: Boolean,
+    readonly: Boolean,
+    value: [String, Number, Array],
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-toggle',
     render(c) {
@@ -33,16 +44,7 @@
         c('span', { staticClass: 'toggle-icon' }),
       ]);
     },
-    props: Utils.extend({
-      init: {
-        type: Boolean,
-        default: true,
-      },
-      checked: Boolean,
-      disabled: Boolean,
-      readonly: Boolean,
-      value: [String, Number, Array],
-    }, Mixins.colorProps),
+    props: ToggleProps,
     watch: {
       checked(newValue) {
         const self = this;

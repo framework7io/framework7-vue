@@ -4,38 +4,40 @@
 
   import f7Badge from './badge.vue';
 
+  const ListItemContentProps = Utils.extend(
+    {
+      title: [String, Number],
+      text: [String, Number],
+      media: String,
+      subtitle: [String, Number],
+      header: [String, Number],
+      footer: [String, Number],
+      after: [String, Number],
+      badge: [String, Number],
+      badgeColor: String,
+      mediaList: Boolean,
+      itemInput: Boolean,
+      itemInputWithInfo: Boolean,
+      inlineLabel: Boolean,
+
+      checkbox: Boolean,
+      checked: Boolean,
+      radio: Boolean,
+      name: String,
+      value: [String, Number, Array],
+      readonly: Boolean,
+      required: Boolean,
+      disabled: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-list-item-content',
     components: {
       f7Badge,
     },
-    props: Utils.extend(
-      {
-        title: [String, Number],
-        text: [String, Number],
-        media: String,
-        subtitle: [String, Number],
-        header: [String, Number],
-        footer: [String, Number],
-        after: [String, Number],
-        badge: [String, Number],
-        badgeColor: String,
-        mediaList: Boolean,
-        itemInput: Boolean,
-        itemInputWithInfo: Boolean,
-        inlineLabel: Boolean,
-
-        checkbox: Boolean,
-        checked: Boolean,
-        radio: Boolean,
-        name: String,
-        value: [String, Number, Array],
-        readonly: Boolean,
-        required: Boolean,
-        disabled: Boolean,
-      },
-      Mixins.colorProps
-    ),
+    props: ListItemContentProps,
     render(c) {
       const self = this;
       const slotsContentStart = [];

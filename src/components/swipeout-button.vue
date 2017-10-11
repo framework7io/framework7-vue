@@ -5,14 +5,16 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const SwipeoutButtonProps = Utils.extend({
+    text: String,
+    overswipe: Boolean,
+    close: Boolean,
+    delete: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-swipeout-button',
-    props: Utils.extend({
-      text: String,
-      overswipe: Boolean,
-      close: Boolean,
-      delete: Boolean,
-    }, Mixins.colorProps),
+    props: SwipeoutButtonProps,
     computed: {
       classes() {
         return Utils.extend({

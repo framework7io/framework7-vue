@@ -2,15 +2,17 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const RadioProps = Utils.extend({
+    checked: Boolean,
+    name: [Number, String],
+    value: [Number, String, Boolean],
+    disabled: Boolean,
+    readonly: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-radio',
-    props: Utils.extend({
-      checked: Boolean,
-      name: [Number, String],
-      value: [Number, String, Boolean],
-      disabled: Boolean,
-      readonly: Boolean,
-    }, Mixins.colorProps),
+    props: RadioProps,
     render(c) {
       const self = this;
 

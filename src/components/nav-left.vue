@@ -18,16 +18,18 @@
 
   import f7Link from './link.vue';
 
+  const NavLeftProps = Utils.extend({
+    backLink: [Boolean, String],
+    backLinkUrl: String,
+    sliding: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-nav-left',
     components: {
       f7Link,
     },
-    props: Utils.extend({
-      backLink: [Boolean, String],
-      backLinkUrl: String,
-      sliding: Boolean,
-    }, Mixins.colorProps),
+    props: NavLeftProps,
     computed: {
       classes() {
         return Utils.extend({

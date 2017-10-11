@@ -11,16 +11,18 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const ToolbarProps = Utils.extend({
+    bottomMd: Boolean,
+    tabbar: Boolean,
+    labels: Boolean,
+    scrollable: Boolean,
+    hidden: Boolean,
+    noShadow: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-toolbar',
-    props: Utils.extend({
-      bottomMd: Boolean,
-      tabbar: Boolean,
-      labels: Boolean,
-      scrollable: Boolean,
-      hidden: Boolean,
-      noShadow: Boolean,
-    }, Mixins.colorProps),
+    props: ToolbarProps,
     updated() {
       const self = this;
       if (self.tabbar && self.$f7) {

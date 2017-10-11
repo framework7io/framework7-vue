@@ -6,6 +6,19 @@
   import f7CardContent from './card-content.vue';
   import f7CardFooter from './card-footer.vue';
 
+  const CardProps = Utils.extend(
+    {
+      title: [String, Number],
+      content: [String, Number],
+      footer: [String, Number],
+      padding: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
     name: 'f7-card',
     components: {
@@ -13,18 +26,7 @@
       f7CardContent,
       f7CardFooter,
     },
-    props: Utils.extend(
-      {
-        title: [String, Number],
-        content: [String, Number],
-        footer: [String, Number],
-        padding: {
-          type: Boolean,
-          default: true,
-        },
-      },
-      Mixins.colorProps
-    ),
+    props: CardProps,
     render(c) {
       const self = this;
       let headerEl;

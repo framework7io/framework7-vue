@@ -13,6 +13,17 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const SwiperProps = Utils.extend({
+    params: Object,
+    pagination: Boolean,
+    scrollbar: Boolean,
+    navigation: Boolean,
+    init: {
+      type: Boolean,
+      default: true,
+    },
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-swiper',
     beforeDestroy() {
@@ -33,16 +44,7 @@
       }
       if (self.swiper && self.swiper.update) self.swiper.update();
     },
-    props: Utils.extend({
-      params: Object,
-      pagination: Boolean,
-      scrollbar: Boolean,
-      navigation: Boolean,
-      init: {
-        type: Boolean,
-        default: true,
-      },
-    }, Mixins.colorProps),
+    props: SwiperProps,
     computed: {
       classes() {
         return Mixins.colorClasses(this);

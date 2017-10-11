@@ -17,11 +17,13 @@
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
 
+  const PreloaderProps = Utils.extend({
+    size: [Number, String],
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-preloader',
-    props: Utils.extend({
-      size: [Number, String],
-    }, Mixins.colorProps),
+    props: PreloaderProps,
     computed: {
       classes() {
         return Mixins.colorClasses(this);

@@ -4,6 +4,40 @@
 
   import f7PageContent from './page-content.vue';
 
+  const PageProps = Utils.extend({
+    name: String,
+    stacked: Boolean,
+    withSubnavbar: Boolean,
+    subnavbar: Boolean,
+    noNavbar: Boolean,
+    noToolbar: Boolean,
+    tabs: Boolean,
+    pageContent: {
+      type: Boolean,
+      default: true,
+    },
+    noSwipeback: Boolean,
+    // Page Content Props
+    ptr: Boolean,
+    ptrDistance: Number,
+    ptrPreloader: {
+      type: Boolean,
+      default: true,
+    },
+    infinite: Boolean,
+    infiniteTop: Boolean,
+    infiniteDistance: Number,
+    infinitePreloader: {
+      type: Boolean,
+      default: true,
+    },
+    hideBarsOnScroll: Boolean,
+    hideNavbarOnScroll: Boolean,
+    hideToolbarOnScroll: Boolean,
+    messagesContent: Boolean,
+    loginScreen: Boolean,
+  }, Mixins.colorProps);
+
   export default {
     name: 'f7-page',
     components: {
@@ -108,39 +142,7 @@
 
       return pageEl;
     },
-    props: Utils.extend({
-      name: String,
-      stacked: Boolean,
-      withSubnavbar: Boolean,
-      subnavbar: Boolean,
-      noNavbar: Boolean,
-      noToolbar: Boolean,
-      tabs: Boolean,
-      pageContent: {
-        type: Boolean,
-        default: true,
-      },
-      noSwipeback: Boolean,
-      // Page Content Props
-      ptr: Boolean,
-      ptrDistance: Number,
-      ptrPreloader: {
-        type: Boolean,
-        default: true,
-      },
-      infinite: Boolean,
-      infiniteTop: Boolean,
-      infiniteDistance: Number,
-      infinitePreloader: {
-        type: Boolean,
-        default: true,
-      },
-      hideBarsOnScroll: Boolean,
-      hideNavbarOnScroll: Boolean,
-      hideToolbarOnScroll: Boolean,
-      messagesContent: Boolean,
-      loginScreen: Boolean,
-    }, Mixins.colorProps),
+    props: PageProps,
     computed: {
       classes() {
         return Utils.extend({
