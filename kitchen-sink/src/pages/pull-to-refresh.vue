@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Pull To Refresh" back-link="Back"></f7-navbar>
     <div data-infinite-distance="50" class="page-content ptr-content" @ptr:refresh="loadMore">
       <div class="ptr-preloader">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

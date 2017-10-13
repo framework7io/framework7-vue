@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Parallax" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination"}' data-navigation='{"nextEl": ".swiper-button-next", "prevEl": ".swiper-button-prev"}' data-parallax="true" data-speed="600" class="swiper-container swiper-init demo-swiper-parallax">
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

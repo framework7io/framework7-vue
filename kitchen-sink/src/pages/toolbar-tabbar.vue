@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <div class="navbar">
       <div class="navbar-inner sliding">
         <div class="left">
@@ -40,7 +40,7 @@
         <p><a class="button button-raised" @click="toggleToolbarPosition">Toggle Toolbar Position</a></p>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

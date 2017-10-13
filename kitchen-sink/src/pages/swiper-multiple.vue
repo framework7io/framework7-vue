@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Multiple Swipers" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div class="block-title">1 Slide Per View, 50px Between</div>
@@ -94,7 +94,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';

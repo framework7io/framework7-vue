@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="About Framework7" back-link="Back"></f7-navbar>
   <div class="page-content">
     <f7-block-title>Welcome to Framework7</f7-block-title>
@@ -102,7 +102,7 @@
       </ul>
     </form>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';

@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Login Screen" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="login-screen">
-      <div class="page">
+      <f7-page>
         <div class="page-content login-screen-content">
           <div class="login-screen-title">Framework7</div>
           <form>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="3D Coverflow Effect" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination"}' data-effect="coverflow" data-slides-per-view="auto" data-centered-slides="true" class="swiper-container swiper-init demo-swiper demo-swiper-coverflow">
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

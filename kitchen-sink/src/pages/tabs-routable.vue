@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Tabs Routable" back-link="Back"></f7-navbar>
   <div class="toolbar tabbar">
     <div class="toolbar-inner">
@@ -13,7 +13,7 @@
     <div class="page-content tab" id="tab2"></div>
     <div class="page-content tab" id="tab3"></div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

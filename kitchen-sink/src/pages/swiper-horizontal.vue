@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Swiper Horizontal" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination", "hideOnClick": true}' class="swiper-container swiper-init demo-swiper">
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

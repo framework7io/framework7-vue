@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Hide Navbar On Scroll" back-link="Back"></f7-navbar>
   <div class="page-content hide-navbar-on-scroll">
     <div class="block block-strong">
@@ -38,7 +38,7 @@
       <p>Exercitationem odio nulla rerum soluta aspernatur fugit, illo iusto ullam similique. Recusandae consectetur rem, odio autem voluptate similique atque, alias possimus quis vitae in, officiis labore deserunt aspernatur rerum sunt?</p>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

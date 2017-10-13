@@ -1,82 +1,91 @@
 <template>
-  <div class="page">
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Badge</div>
-        <div class="right">
-          <a class="link icon-only">
-            <i class="icon f7-icons ios-only">person_fill<span class="badge color-red">5</span></i>
-            <i class="icon material-icons md-only">person<span class="badge color-red">5</span></i>
-          </a>
-        </div>
-      </div>
+  <f7-page>
+    <f7-navbar sliding back-link="Back" title="Badge">
+      <f7-nav-right>
+        <f7-link icon-only>
+          <f7-icon if-ios="f7:person_fill" if-md="material:person" class="icon f7-icons ios-only">
+            <f7-badge color="red">5</f7-badge>
+          </f7-icon>
+        </f7-link>
+      </f7-nav-right>
+    </f7-navbar>
+    <f7-toolbar tabbar labels>
+      <f7-link tab-link="#tab-1" tab-link-active>
+        <f7-icon class="icon-fill" if-ios="f7:email_fill" if-md="material:email">
+          <f7-badge color="green">5</f7-badge>
+        </f7-icon>
+        <span class="tabbar-label">Inbox</span>
+      </f7-link>
+      <f7-link tab-link="#tab-2">
+        <f7-icon if-ios="f7:today" if-md="material:today">
+          <f7-badge color="red">7</f7-badge>
+        </f7-icon>
+        <span class="tabbar-label">Calendar</span>
+      </f7-link>
+      <f7-link tab-link="#tab-3">
+        <f7-icon if-ios="f7:cloud" if-md="material:file_upload">
+          <f7-badge color="red">1</f7-badge>
+        </f7-icon>
+        <span class="tabbar-label">Upload</span>
+      </f7-link>
+    </f7-toolbar>
+
+    <div class="list">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Foo Bar</div>
+              <div class="item-after"><span class="badge">0</span></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Ivan Petrov</div>
+              <div class="item-after"><span class="badge color-blue">CEO</span></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">John Doe</div>
+              <div class="item-after"><span class="badge color-green">5</span></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-media"><i class="icon icon-f7"></i></div>
+            <div class="item-inner">
+              <div class="item-title">Jane Doe</div>
+              <div class="item-after"><span class="badge color-orange">NEW</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div class="toolbar tabbar tabbar-labels">
-      <div class="toolbar-inner">
-        <a href="#tab-1" class="tab-link tab-link-active">
-          <i class="icon icon-fill f7-icons ios-only">email_fill<span class="badge color-green">5</span></i>
-          <i class="icon material-icons md-only">email<span class="badge color-green">5</span></i>
-          <span class="tabbar-label">Inbox</span>
-        </a>
-        <a href="#tab-2" class="tab-link">
-          <i class="icon f7-icons ios-only">today<span class="badge color-red">7</span></i>
-          <i class="icon material-icons md-only">today<span class="badge color-red">7</span></i>
-          <span class="tabbar-label">Calendar</span>
-        </a>
-        <a href="#tab-3" class="tab-link">
-          <i class="icon f7-icons ios-only">cloud<span class="badge color-red">1</span></i>
-          <i class="icon material-icons md-only">file_upload<span class="badge color-red">1</span></i>
-          <span class="tabbar-label">Upload</span>
-        </a>
-      </div>
-    </div>
-    <div class="page-content">
-      <div class="list">
-        <ul>
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-f7"></i></div>
-              <div class="item-inner">
-                <div class="item-title">Foo Bar</div>
-                <div class="item-after"><span class="badge">0</span></div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-f7"></i></div>
-              <div class="item-inner">
-                <div class="item-title">Ivan Petrov</div>
-                <div class="item-after"><span class="badge color-blue">CEO</span></div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-f7"></i></div>
-              <div class="item-inner">
-                <div class="item-title">John Doe</div>
-                <div class="item-after"><span class="badge color-green">5</span></div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-f7"></i></div>
-              <div class="item-inner">
-                <div class="item-title">Jane Doe</div>
-                <div class="item-after"><span class="badge color-orange">NEW</span></div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  </f7-page>
 </template>
+<script>
+  import { f7Navbar, f7NavRight, f7Toolbar, f7Page, f7Link, f7Badge, f7List, f7ListItem, f7Icon } from 'framework7-vue';
+
+  export default {
+    components: {
+      f7Page,
+      f7Navbar,
+      f7NavRight,
+      f7Toolbar,
+      f7Link,
+      f7Badge,
+      f7List,
+      f7ListItem,
+      f7Icon,
+    },
+  };
+</script>

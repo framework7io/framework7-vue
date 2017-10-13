@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Contacts List" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div class="list contacts-list">
@@ -179,7 +179,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Infinite Scroll" back-link="Back"></f7-navbar>
     <div data-infinite-distance="50" class="page-content infinite-scroll-content" @infinite="loadMore">
       <f7-block-title>Scroll bottom</f7-block-title>
@@ -29,7 +29,7 @@
       </div>
       <div class="preloader infinite-scroll-preloader"></div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';

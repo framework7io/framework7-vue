@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Preloader" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
@@ -55,7 +55,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <style scoped>
   .preloader-big {

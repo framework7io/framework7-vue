@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Timeline" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div class="list links-list">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

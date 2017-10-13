@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <div class="navbar">
       <div class="navbar-inner sliding">
         <div class="left">
@@ -305,7 +305,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';

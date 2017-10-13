@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Chips" back-link="Back"></f7-navbar>
     <div class="page-content">
       <f7-block-title>Chips With Text</f7-block-title>
@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';

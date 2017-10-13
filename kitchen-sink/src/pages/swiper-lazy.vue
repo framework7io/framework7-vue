@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Slider Lazy Loading" back-link="Back"></f7-navbar>
   <div class="page-content">
     <div data-pagination='{"el": ".swiper-pagination"}' data-navigation='{"nextEl": ".swiper-button-next", "prevEl": ".swiper-button-prev"}' data-lazy='{"enabled": true}' class="swiper-container swiper-init demo-swiper-lazy">
@@ -28,7 +28,7 @@
       <div class="swiper-button-next"></div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

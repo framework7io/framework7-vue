@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<f7-page>
   <f7-navbar title="Popover" back-link="Back"></f7-navbar>
   <div class="toolbar toolbar-bottom-md">
     <div class="toolbar-inner">
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-</div>
+</f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';

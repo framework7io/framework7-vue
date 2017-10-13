@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Popup" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="popup demo-popup">
-      <div class="page">
+      <f7-page>
         <div class="navbar">
           <div class="navbar-inner">
             <div class="title">Popup Title</div>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';
@@ -43,7 +43,7 @@
           self.popup = self.$f7.popup.create({
             content: '\
               <div class="popup">\
-                <div class="page">\
+                <f7-page>\
                   <div class="navbar">\
                     <div class="navbar-inner">\
                       <div class="title">Dynamic Popup</div>\

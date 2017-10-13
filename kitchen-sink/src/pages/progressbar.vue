@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <f7-page>
     <f7-navbar title="Progress Bar" back-link="Back"></f7-navbar>
     <div class="page-content">
       <div class="block">
@@ -93,7 +93,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
