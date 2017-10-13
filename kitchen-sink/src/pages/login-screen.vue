@@ -1,20 +1,18 @@
 <template>
   <f7-page>
     <f7-navbar title="Login Screen" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block">
-        <p>Framework7 comes with ready to use Login Screen layout. It could be used inside of page or inside of popup (Embedded) or as a standalone overlay:</p>
-      </div>
-      <div class="list links-list">
-        <ul>
-          <li>
-            <a href="/login-screen-page/">As Separate Page</a>
-          </li>
-        </ul>
-      </div>
-      <div class="block">
-        <a href="#" class="button button-raised button-big button-fill login-screen-open" data-login-screen=".login-screen">As Overlay</a>
-      </div>
+    <div class="block">
+      <p>Framework7 comes with ready to use Login Screen layout. It could be used inside of page or inside of popup (Embedded) or as a standalone overlay:</p>
+    </div>
+    <div class="list links-list">
+      <ul>
+        <li>
+          <a href="/login-screen-page/">As Separate Page</a>
+        </li>
+      </ul>
+    </div>
+    <div class="block">
+      <a href="#" class="button button-raised button-big button-fill login-screen-open" data-login-screen=".login-screen">As Overlay</a>
     </div>
     <div class="login-screen">
       <f7-page>
@@ -51,7 +49,7 @@
             </div>
           </form>
         </div>
-      </div>
+      </f7-page>
     </div>
   </f7-page>
 </template>

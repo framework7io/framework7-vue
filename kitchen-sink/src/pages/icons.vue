@@ -1,35 +1,33 @@
 <template>
   <f7-page>
     <f7-navbar title="Icons" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <f7-block-title>Scroll bottom</f7-block-title>
-      <div class="block block-strong">
-        <p>Framework7 comes with the premium and free <a href="https://github.com/nolimits4web/Framework7-Icons" class="external" target="_blank">Framework7 Icons</a> iOS-icons font developed specially to be used with iOS theme of Framework7. As for Material theme we recommend to use great-designed <a href="https://material.io/icons/" class="external" target="_blank">Material Icons</a> font. Both of these fonts use a typographic feature called <a href="http://alistapart.com/article/the-era-of-symbol-fonts" class="external" target="_blank">ligatures</a>. It’s easy to incorporate icons into your app. Here’s a small example:</p>
-        <p><code>&lt;i class="f7-icons"&gt;home&lt;/i&gt;</code> - <i class="f7-icons">home</i></p>
-        <p><code>&lt;i class="material-icons"&gt;home&lt;/i&gt;</code> - <i class="material-icons">home</i></p>
-        <p><a href="http://alistapart.com/article/the-era-of-symbol-fonts" class="external" target="_blank">Ligatures</a> allow rendering of an icon glyph simply by using its textual name. The replacement is done automatically by the web browser and provides more readable code than the equivalent numeric character reference.</p>
+    <f7-block-title>Scroll bottom</f7-block-title>
+    <div class="block block-strong">
+      <p>Framework7 comes with the premium and free <a href="https://github.com/nolimits4web/Framework7-Icons" class="external" target="_blank">Framework7 Icons</a> iOS-icons font developed specially to be used with iOS theme of Framework7. As for Material theme we recommend to use great-designed <a href="https://material.io/icons/" class="external" target="_blank">Material Icons</a> font. Both of these fonts use a typographic feature called <a href="http://alistapart.com/article/the-era-of-symbol-fonts" class="external" target="_blank">ligatures</a>. It’s easy to incorporate icons into your app. Here’s a small example:</p>
+      <p><code>&lt;i class="f7-icons"&gt;home&lt;/i&gt;</code> - <i class="f7-icons">home</i></p>
+      <p><code>&lt;i class="material-icons"&gt;home&lt;/i&gt;</code> - <i class="material-icons">home</i></p>
+      <p><a href="http://alistapart.com/article/the-era-of-symbol-fonts" class="external" target="_blank">Ligatures</a> allow rendering of an icon glyph simply by using its textual name. The replacement is done automatically by the web browser and provides more readable code than the equivalent numeric character reference.</p>
+    </div>
+    <div class="block-header">
+      <div class="segmented segmented-raised">
+        <a href="#tab-f7" class="button tab-link tab-link-active">F7 Icons</a>
+        <a href="#tab-md" class="button tab-link">Material Icons</a>
       </div>
-      <div class="block-header">
-        <div class="segmented segmented-raised">
-          <a href="#tab-f7" class="button tab-link tab-link-active">F7 Icons</a>
-          <a href="#tab-md" class="button tab-link">Material Icons</a>
-        </div>
-      </div>
-      <div class="block block-strong tabs">
-        <div id="tab-f7" class="tab tab-active">
-          <div class="row">
-            <div class="col-33 tablet-15 demo-icon" v-for="icon in f7Icons" :key="icon">
-              <div class="demo-icon-icon"><i class="f7-icons">{{ icon }}</i></div>
-              <div class="demo-icon-name">{{ icon }}</div>
-            </div>
+    </div>
+    <div class="block block-strong tabs">
+      <div id="tab-f7" class="tab tab-active">
+        <div class="row">
+          <div class="col-33 tablet-15 demo-icon" v-for="icon in f7Icons" :key="icon">
+            <div class="demo-icon-icon"><i class="f7-icons">{{ icon }}</i></div>
+            <div class="demo-icon-name">{{ icon }}</div>
           </div>
         </div>
-        <div id="tab-md" class="tab">
-          <div class="row">
-            <div class="col-33 tablet-15 demo-icon"  v-for="icon in mdIcons" :key="icon">
-              <div class="demo-icon-icon"><i class="material-icons">{{ icon }}</i></div>
-              <div class="demo-icon-name">{{ icon }}</div>
-            </div>
+      </div>
+      <div id="tab-md" class="tab">
+        <div class="row">
+          <div class="col-33 tablet-15 demo-icon"  v-for="icon in mdIcons" :key="icon">
+            <div class="demo-icon-icon"><i class="material-icons">{{ icon }}</i></div>
+            <div class="demo-icon-name">{{ icon }}</div>
           </div>
         </div>
       </div>

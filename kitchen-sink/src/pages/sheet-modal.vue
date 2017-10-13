@@ -1,14 +1,12 @@
 <template>
   <f7-page>
     <f7-navbar title="Sheet Modal" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block">
-        <p>Sheet Modals slide up from the bottom of the screen to reveal more content. Such modals allow to create custom overlays with custom content.</p>
-        <p class="row">
-          <a class="col button button-raised sheet-open" data-sheet=".demo-sheet">Open Sheet</a>
-          <a class="col button button-raised" @click="createSheet">Create Dynamic Sheet</a>
-        </p>
-      </div>
+    <div class="block">
+      <p>Sheet Modals slide up from the bottom of the screen to reveal more content. Such modals allow to create custom overlays with custom content.</p>
+      <p class="row">
+        <a class="col button button-raised sheet-open" data-sheet=".demo-sheet">Open Sheet</a>
+        <a class="col button button-raised" @click="createSheet">Create Dynamic Sheet</a>
+      </p>
     </div>
     <div class="sheet-modal demo-sheet">
       <div class="toolbar">

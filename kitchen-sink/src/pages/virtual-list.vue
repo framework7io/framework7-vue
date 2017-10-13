@@ -24,18 +24,16 @@
       </div>
     </div>
     <div class="searchbar-backdrop"></div>
-    <div class="page-content">
-      <div class="block">
-        <p>Virtual List allows to render lists with huge amount of elements without loss of performance. And it is fully compatible with all Framework7 list components such as Search Bar, Infinite Scroll, Pull To Refresh, Swipeouts (swipe-to-delete) and Sortable.</p>
-        <p>Here is the example of virtual list with 10 000 items:</p>
-      </div>
-      <div class="list simple-list searchbar-not-found">
-        <ul>
-          <li>Nothing found</li>
-        </ul>
-      </div>
-      <div class="list virtual-list media-list searchbar-found"></div>
+    <div class="block">
+      <p>Virtual List allows to render lists with huge amount of elements without loss of performance. And it is fully compatible with all Framework7 list components such as Search Bar, Infinite Scroll, Pull To Refresh, Swipeouts (swipe-to-delete) and Sortable.</p>
+      <p>Here is the example of virtual list with 10 000 items:</p>
     </div>
+    <div class="list simple-list searchbar-not-found">
+      <ul>
+        <li>Nothing found</li>
+      </ul>
+    </div>
+    <div class="list virtual-list media-list searchbar-found"></div>
   </f7-page>
 </template>
 <script>

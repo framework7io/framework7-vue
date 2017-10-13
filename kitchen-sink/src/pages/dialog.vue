@@ -1,46 +1,44 @@
 <template>
   <f7-page>
     <f7-navbar title="Dialog" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block block-strong">
-        <p>There are 1:1 replacements of native Alert, Prompt and Confirm modals. They support callbacks, have very easy api and can be combined with each other. Check these examples:</p>
-        <p class="row">
-          <button class="col button button-raised" @click="openAlert">Alert</button>
-          <button class="col button button-raised" @click="openConfirm">Confirm</button>
-          <button class="col button button-raised" @click="openPrompt">Prompt</button>
-        </p>
-        <p class="row">
-          <button class="col button button-raised" @click="openLogin">Login</button>
-          <button class="col button button-raised" @click="openPassword">Password</button>
-        </p>
-      </div>
-      <f7-block-title>Vertical Buttons</f7-block-title>
-      <div class="block block-strong">
-        <p>
-          <button class="button button-raised" @click="openVerticalButtons">Vertical Buttons</button>
-        </p>
-      </div>
-      <f7-block-title>Preloader Dialog</f7-block-title>
-      <div class="block block-strong">
-        <p class="row">
-          <button class="col button button-raised" @click="openPreloader">Preloader</button>
-          <button class="col button button-raised" @click="openCustomPreloader">Custom Text</button>
-        </p>
-      </div>
-      <f7-block-title>Progress Dialog</f7-block-title>
-      <div class="block block-strong">
-        <p class="row">
-          <button class="col button button-raised" @click="openInfiniteProgress">Infinite</button>
-          <button class="col button button-raised" @click="openDeterminedProgress">Determined</button>
-        </p>
-      </div>
-      <f7-block-title>Dialogs Stack</f7-block-title>
-      <div class="block block-strong">
-        <p>This feature doesn't allow to open multiple dialogs at the same time, and will automatically open next dialog when you close the current one. Such behavior is similar to browser native dialogs: </p>
-        <p>
-          <button class="button button-raised" @click="openAlerts">Open Multiple Alerts</button>
-        </p>
-      </div>
+    <div class="block block-strong">
+      <p>There are 1:1 replacements of native Alert, Prompt and Confirm modals. They support callbacks, have very easy api and can be combined with each other. Check these examples:</p>
+      <p class="row">
+        <button class="col button button-raised" @click="openAlert">Alert</button>
+        <button class="col button button-raised" @click="openConfirm">Confirm</button>
+        <button class="col button button-raised" @click="openPrompt">Prompt</button>
+      </p>
+      <p class="row">
+        <button class="col button button-raised" @click="openLogin">Login</button>
+        <button class="col button button-raised" @click="openPassword">Password</button>
+      </p>
+    </div>
+    <f7-block-title>Vertical Buttons</f7-block-title>
+    <div class="block block-strong">
+      <p>
+        <button class="button button-raised" @click="openVerticalButtons">Vertical Buttons</button>
+      </p>
+    </div>
+    <f7-block-title>Preloader Dialog</f7-block-title>
+    <div class="block block-strong">
+      <p class="row">
+        <button class="col button button-raised" @click="openPreloader">Preloader</button>
+        <button class="col button button-raised" @click="openCustomPreloader">Custom Text</button>
+      </p>
+    </div>
+    <f7-block-title>Progress Dialog</f7-block-title>
+    <div class="block block-strong">
+      <p class="row">
+        <button class="col button button-raised" @click="openInfiniteProgress">Infinite</button>
+        <button class="col button button-raised" @click="openDeterminedProgress">Determined</button>
+      </p>
+    </div>
+    <f7-block-title>Dialogs Stack</f7-block-title>
+    <div class="block block-strong">
+      <p>This feature doesn't allow to open multiple dialogs at the same time, and will automatically open next dialog when you close the current one. Such behavior is similar to browser native dialogs: </p>
+      <p>
+        <button class="button button-raised" @click="openAlerts">Open Multiple Alerts</button>
+      </p>
     </div>
   </f7-page>
 </template>

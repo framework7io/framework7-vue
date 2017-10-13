@@ -1,31 +1,29 @@
 <template>
   <f7-page>
     <f7-navbar title="Photo Browser" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block">
-        <p>Photo Browser is a standalone and highly configurable component that allows to open window with photo viewer and navigation elements with the following features:</p>
-        <ul>
-          <li>Swiper between photos</li>
-          <li>Multi-gestures support for zooming</li>
-          <li>Toggle zoom by double tap on photo</li>
-          <li>Single click on photo to toggle Exposition mode</li>
-        </ul>
+    <div class="block">
+      <p>Photo Browser is a standalone and highly configurable component that allows to open window with photo viewer and navigation elements with the following features:</p>
+      <ul>
+        <li>Swiper between photos</li>
+        <li>Multi-gestures support for zooming</li>
+        <li>Toggle zoom by double tap on photo</li>
+        <li>Single click on photo to toggle Exposition mode</li>
+      </ul>
+    </div>
+    <div class="block">
+      <p>Photo Browser could be opened in a three ways - as a Standalone component (Popup modification), in Popup, and as separate Page:</p>
+      <div class="row">
+        <div class="col-33"><a href="#" class="button button-raised" @click="openStandalone">Standalone</a></div>
+        <div class="col-33"><a href="#" class="button button-raised" @click="openPopup">Popup</a></div>
+        <div class="col-33"><a href="#" class="button button-raised" @click="openPage">Page</a></div>
       </div>
-      <div class="block">
-        <p>Photo Browser could be opened in a three ways - as a Standalone component (Popup modification), in Popup, and as separate Page:</p>
-        <div class="row">
-          <div class="col-33"><a href="#" class="button button-raised" @click="openStandalone">Standalone</a></div>
-          <div class="col-33"><a href="#" class="button button-raised" @click="openPopup">Popup</a></div>
-          <div class="col-33"><a href="#" class="button button-raised" @click="openPage">Page</a></div>
-        </div>
-      </div>
-      <div class="block">
-        <p>Photo Browser suppots 2 default themes - default Light (like in previous examples) and Dark theme. Here is a Dark theme examples:</p>
-        <div class="row">
-          <div class="col-33"><a href="#" class="button button-raised" @click="openStandaloneDark">Standalone</a></div>
-          <div class="col-33"><a href="#" class="button button-raised" @click="openPopupDark">Popup</a></div>
-          <div class="col-33"><a href="#" class="button button-raised" @click="openPageDark">Page</a></div>
-        </div>
+    </div>
+    <div class="block">
+      <p>Photo Browser suppots 2 default themes - default Light (like in previous examples) and Dark theme. Here is a Dark theme examples:</p>
+      <div class="row">
+        <div class="col-33"><a href="#" class="button button-raised" @click="openStandaloneDark">Standalone</a></div>
+        <div class="col-33"><a href="#" class="button button-raised" @click="openPopupDark">Popup</a></div>
+        <div class="col-33"><a href="#" class="button button-raised" @click="openPageDark">Page</a></div>
       </div>
     </div>
   </f7-page>

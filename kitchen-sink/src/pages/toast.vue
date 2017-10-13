@@ -1,34 +1,32 @@
 <template>
   <f7-page>
     <f7-navbar title="Toast" back-link="Back"></f7-navbar>
-    <div class="page-content">
-      <div class="block">
-        <p>Toasts provide brief feedback about an operation through a message on the screen.</p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastBottom">Toast on Bottom</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastTop">Toast on Top</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastCenter">Toast on Center</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastIcon">Toast with icon</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastLargeMessage">Toast with large message</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastWithButton">Toast with close button</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastWithCustomButton">Toast with custom button</a>
-        </p>
-        <p>
-          <a href="#" class="button button-raised" @click="showToastWithCallback">Toast with callback on close</a>
-        </p>
-      </div>
+    <div class="block">
+      <p>Toasts provide brief feedback about an operation through a message on the screen.</p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastBottom">Toast on Bottom</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastTop">Toast on Top</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastCenter">Toast on Center</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastIcon">Toast with icon</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastLargeMessage">Toast with large message</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastWithButton">Toast with close button</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastWithCustomButton">Toast with custom button</a>
+      </p>
+      <p>
+        <a href="#" class="button button-raised" @click="showToastWithCallback">Toast with callback on close</a>
+      </p>
     </div>
   </f7-page>
 </template>
