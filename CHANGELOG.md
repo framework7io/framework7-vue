@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.3 - Released on October 13, 2017
+  * Minor fixes
+
 ## Framework7 Vue v2.0.0-beta.2 - Released on October 11, 2017
   * Included ES module bundle build (with all components registered) in `framework7-vue.esm.bundle.js`
   * UMD build now also is a bundle version wit all components registered

@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0-beta.2
+ * Framework7 Vue 2.0.0-beta.3
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 11, 2017
+ * Released on: October 13, 2017
  */
 
 const Utils = {
@@ -1475,13 +1475,14 @@ const InputProps = Utils.extend(
         if (self.type === 'range' || self.type === 'toggle') return;
         const f7 = self.$f7;
         if (!f7) return;
+        const inputEl = self.wrap ? self.$el.querySelector('input, select, textarea') : self.$el;
         self.$nextTick(() => {
-          f7.input.checkEmptyState(self.$el.querySelector('input, select, textarea'));
+          f7.input.checkEmptyState(inputEl);
           if (self.validate) {
-            f7.input.validate(self.$el.querySelector('input, select, textarea'));
+            f7.input.validate(inputEl);
           }
           if (self.resizable) {
-            f7.input.resizeTextarea(self.$el.querySelector('input, select, textarea'));
+            f7.input.resizeTextarea(inputEl);
           }
         });
       },
@@ -1489,12 +1490,13 @@ const InputProps = Utils.extend(
     methods: {
       onF7Ready(f7) {
         const self = this;
-        f7.input.checkEmptyState(self.$el.querySelector('input, select, textarea'));
+        const inputEl = self.wrap ? self.$el.querySelector('input, select, textarea') : self.$el;
+        f7.input.checkEmptyState(inputEl);
         if (self.validate) {
-          f7.input.validate(self.$el.querySelector('input, select, textarea'));
+          f7.input.validate(inputEl);
         }
         if (self.resizable) {
-          f7.input.resizeTextarea(self.$el.querySelector('input, select, textarea'));
+          f7.input.resizeTextarea(inputEl);
         }
       },
       onTextareaResize(event) {
