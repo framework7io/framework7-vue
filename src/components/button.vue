@@ -59,6 +59,7 @@
             icon: self.icon,
             ifMd: self.iconIfMd,
             ifIos: self.iconIfIos,
+            color: self.iconColor,
             size: self.iconSize,
           },
         });
