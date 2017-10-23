@@ -95,7 +95,7 @@
         const $ = self.$$;
         if (!$) return;
         if ($('.panel-backdrop').length === 0) {
-          $('<div class="panel-overlay"></div>').insertBefore(self.$el);
+          $('<div class="panel-backdrop"></div>').insertBefore(self.$el);
         }
         self.f7Panel = self.$f7.panel.create({ el: self.$el });
       },
