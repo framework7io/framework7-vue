@@ -87,11 +87,12 @@ export default {
         if (self === self.$root) {
           initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
         }
-        if (!self.onF7Ready) return;
-        if (f7Ready) self.onF7Ready(f7Instance);
+        const callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init;
+        if (!callback) return;
+        if (f7Ready) callback(f7Instance);
         else {
           eventHub.$on('f7Ready', (f7) => {
-            self.onF7Ready(f7);
+            callback(f7);
           });
         }
       },
