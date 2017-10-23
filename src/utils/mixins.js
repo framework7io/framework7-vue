@@ -35,6 +35,7 @@ const Mixins = {
     iconF7: String,
     iconIfMd: String,
     iconIfIos: String,
+    iconColor: String,
     iconSize: [String, Number],
   },
   linkRouterProps: {
