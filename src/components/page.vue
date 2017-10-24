@@ -56,6 +56,7 @@
       let child;
       let withSubnavbar;
       let withSearchbar;
+      let withMessages = self.$options.propsData.withMessages;
 
       if (self.$slots.default) {
         for (let i = 0; i < self.$slots.default.length; i += 1) {
@@ -68,6 +69,7 @@
           let isFixed = false;
           if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
           if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
+          if (typeof withMessages === 'undefined' && tag.indexOf('messages') >= 0) withMessages = true;
           for (let j = 0; j < fixedTags.length; j += 1) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
@@ -94,7 +96,7 @@
             hideBarsOnScroll: self.hideBarsOnScroll,
             hideNavbarOnScroll: self.hideNavbarOnScroll,
             hideToolbarOnScroll: self.hideToolbarOnScroll,
-            messagesContent: self.messagesContent,
+            messagesContent: self.messagesContent || withMessages,
             loginScreen: self.loginScreen,
           },
           on: {
