@@ -32,10 +32,6 @@
 
       // Virtual List
       virtualList: Boolean,
-      virtualListInit: {
-        type: Boolean,
-        default: true,
-      },
       virtualListParams: Object,
     },
     Mixins.colorProps
@@ -46,14 +42,14 @@
     props: ListProps,
     beforeDestroy() {
       const self = this;
-      if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;
+      if (!(self.virtualList && self.f7VirtualList)) return;
       if (self.f7VirtualList.destroy) self.f7VirtualList.destroy();
     },
     watch: {
       'virtualListParams.items': function onItemsChange() {
         // Items Updated
         const self = this;
-        if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;
+        if (!(self.virtualList && self.f7VirtualList)) return;
         self.f7VirtualList.replaceAllItems(self.virtualListParams.items);
       },
     },
@@ -134,7 +130,7 @@
       onF7Ready(f7) {
         const self = this;
         // Init Virtual List
-        if (!(self.virtual && self.virtualInit)) return;
+        if (!self.virtualList) return;
         const $$ = self.$$;
         const $el = $$(self.$el);
         const templateScript = $el.find('script');
@@ -144,35 +140,35 @@
           // eslint-disable-next-line
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
-        if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) return;
+        const vlParams = self.virtualListParams || {};
+        if (!template && !vlParams.renderItem && !vlParams.itemTemplate && !vlParams.renderExternal) return;
         if (template) template = self.$t7.compile(template);
 
-        self.f7VirtualList = f7.virtualList(self.$el, {
-          items: self.virtualItems || [],
-          template,
-          height: self.virtualHeight || undefined,
-          cols: self.virtualCols,
-          rowsBefore: self.virtualRowsBefore || undefined,
-          rowsAfter: self.virtualRowsAfter || undefined,
-          showFilteredItemsOnly: self.virtualFilteredOnly,
-          searchByItem: self.virtualSearchByItem,
-          searchAll: self.virtualSearchAll,
-          renderItem: self.virtualRenderItem,
-          renderExternal: self.virtualRenderExternal,
-          emptyTemplate: self.virtualEmptyTemplate,
-          onItemBeforeInsert(list, item) {
-            self.$emit('virtual:itembeforeinsert', list, item);
+        self.f7VirtualList = f7.virtualList.create(Utils.extend(
+          {
+            el: self.$el,
+            itemTemplate: template,
+            on: {
+              itemBeforeInsert(itemEl, item) {
+                const vl = this;
+                self.$emit('virtual:itembeforeinsert', vl, itemEl, item);
+              },
+              beforeClear(fragment) {
+                const vl = this;
+                self.$emit('virtual:beforeclear', vl, fragment);
+              },
+              itemsBeforeInsert(fragment) {
+                const vl = this;
+                self.$emit('virtual:itemsbeforeinsert', vl, fragment);
+              },
+              itemsAfterInsert(fragment) {
+                const vl = this;
+                self.$emit('virtual:itemsafterinsert', vl, fragment);
+              },
+            },
           },
-          onBeforeClear(list, fragment) {
-            self.$emit('virtual:beforeclear', list, fragment);
-          },
-          onItemsBeforeInsert(list, fragment) {
-            self.$emit('virtual:itemsbeforeinsert', list, fragment);
-          },
-          onItemsAfterInsert(list, fragment) {
-            self.$emit('virtual:itemsafterinsert', list, fragment);
-          },
-        });
+          vlParams
+        ));
       },
     },
   };
