@@ -1,5 +1,10 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.4 - Released on October 26, 2017
+  * New Messagebar component with the new following components: **f7-messagebar**, **f7-messagebar-attachments**, **f7-messagebar-attachment**, **f7-messagebar-sheet**, **f7-messagebar-sheet-item**, **f7-messagebar-sheet-image**
+  * New Messages component with the new following components: **f7-messages**, **f7-message**, **f7-messages-title**
+  * Lots of minor fixes
+
 ## Framework7 Vue v2.0.0-beta.3 - Released on October 13, 2017
   * Minor fixes
 
