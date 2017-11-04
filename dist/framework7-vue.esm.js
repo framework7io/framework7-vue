@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0-beta.3
+ * Framework7 Vue 2.0.0-beta.4
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 13, 2017
+ * Released on: October 27, 2017
  */
 
 const Utils = {
@@ -118,7 +118,7 @@ var VueRouter = {
           }
         }
 
-        resolve(pageEl, { pageEvents });
+        resolve(pageEl, { on: pageEvents });
       });
     },
     removePage($pageEl) {
@@ -271,11 +271,12 @@ var vuePlugin = {
         if (self === self.$root) {
           initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
         }
-        if (!self.onF7Ready) return;
-        if (f7Ready) self.onF7Ready(f7Instance);
+        const callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init;
+        if (!callback) return;
+        if (f7Ready) callback(f7Instance);
         else {
           eventHub.$on('f7Ready', (f7) => {
-            self.onF7Ready(f7);
+            callback(f7);
           });
         }
       },
@@ -318,6 +319,7 @@ const Mixins = {
     iconF7: String,
     iconIfMd: String,
     iconIfIos: String,
+    iconColor: String,
     iconSize: [String, Number],
   },
   linkRouterProps: {
@@ -768,6 +770,7 @@ const ButtonProps = Utils.extend(
             icon: self.icon,
             ifMd: self.iconIfMd,
             ifIos: self.iconIfIos,
+            color: self.iconColor,
             size: self.iconSize,
           },
         });
@@ -1434,7 +1437,7 @@ const InputProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var input = {
+  var f7Input = {
     name: 'f7-input',
     components: {
       f7Toggle,
@@ -1787,6 +1790,7 @@ const LinkProps = Utils.extend(
             icon: self.icon,
             ifMd: self.iconIfMd,
             ifIos: self.iconIfIos,
+            color: self.iconColor,
             size: self.iconSize,
           },
         }, [iconBadgeEl]);
@@ -2353,12 +2357,6 @@ const ListItemProps = Utils.extend(
         return this.simpleList || this.$parent.simpleList || (this.$parent.$parent && this.$parent.simpleList);
       },
     },
-    mounted() {
-      const self = this;
-      if (!self.smartSelect) return;
-      const smartSelectParams = Utils.extend({ el: self.$el.querySelector('a.smart-select') }, (self.smartSelectParams || {}));
-      self.f7SmartSelect = self.$f7.smartSelect.create(smartSelectParams);
-    },
     beforeDestroy() {
       const self = this;
       if (self.smartSelect && self.f7SmartSelect) {
@@ -2366,6 +2364,12 @@ const ListItemProps = Utils.extend(
       }
     },
     methods: {
+      onF7Ready(f7) {
+        const self = this;
+        if (!self.smartSelect) return;
+        const smartSelectParams = Utils.extend({ el: self.$el.querySelector('a.smart-select') }, (self.smartSelectParams || {}));
+        self.f7SmartSelect = f7.smartSelect.create(smartSelectParams);
+      },
       onClick(event) {
         const self = this;
         if (self.smartSelect && self.f7SmartSelect) {
@@ -2447,10 +2451,6 @@ const ListProps = Utils.extend(
 
       // Virtual List
       virtualList: Boolean,
-      virtualListInit: {
-        type: Boolean,
-        default: true,
-      },
       virtualListParams: Object,
     },
     Mixins.colorProps
@@ -2461,14 +2461,14 @@ const ListProps = Utils.extend(
     props: ListProps,
     beforeDestroy() {
       const self = this;
-      if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;
+      if (!(self.virtualList && self.f7VirtualList)) return;
       if (self.f7VirtualList.destroy) self.f7VirtualList.destroy();
     },
     watch: {
       'virtualListParams.items': function onItemsChange() {
         // Items Updated
         const self = this;
-        if (!(self.virtual && self.virtualInit && self.f7VirtualList)) return;
+        if (!(self.virtualList && self.f7VirtualList)) return;
         self.f7VirtualList.replaceAllItems(self.virtualListParams.items);
       },
     },
@@ -2549,7 +2549,7 @@ const ListProps = Utils.extend(
       onF7Ready(f7) {
         const self = this;
         // Init Virtual List
-        if (!(self.virtual && self.virtualInit)) return;
+        if (!self.virtualList) return;
         const $$ = self.$$;
         const $el = $$(self.$el);
         const templateScript = $el.find('script');
@@ -2559,35 +2559,35 @@ const ListProps = Utils.extend(
           // eslint-disable-next-line
           template = /\<script type="text\/template7"\>(.*)<\/script>/.exec(template)[1];
         }
-        if (!template && !self.virtualRenderItem && !self.virtualRenderExternal) return;
+        const vlParams = self.virtualListParams || {};
+        if (!template && !vlParams.renderItem && !vlParams.itemTemplate && !vlParams.renderExternal) return;
         if (template) template = self.$t7.compile(template);
 
-        self.f7VirtualList = f7.virtualList(self.$el, {
-          items: self.virtualItems || [],
-          template,
-          height: self.virtualHeight || undefined,
-          cols: self.virtualCols,
-          rowsBefore: self.virtualRowsBefore || undefined,
-          rowsAfter: self.virtualRowsAfter || undefined,
-          showFilteredItemsOnly: self.virtualFilteredOnly,
-          searchByItem: self.virtualSearchByItem,
-          searchAll: self.virtualSearchAll,
-          renderItem: self.virtualRenderItem,
-          renderExternal: self.virtualRenderExternal,
-          emptyTemplate: self.virtualEmptyTemplate,
-          onItemBeforeInsert(list, item) {
-            self.$emit('virtual:itembeforeinsert', list, item);
+        self.f7VirtualList = f7.virtualList.create(Utils.extend(
+          {
+            el: self.$el,
+            itemTemplate: template,
+            on: {
+              itemBeforeInsert(itemEl, item) {
+                const vl = this;
+                self.$emit('virtual:itembeforeinsert', vl, itemEl, item);
+              },
+              beforeClear(fragment) {
+                const vl = this;
+                self.$emit('virtual:beforeclear', vl, fragment);
+              },
+              itemsBeforeInsert(fragment) {
+                const vl = this;
+                self.$emit('virtual:itemsbeforeinsert', vl, fragment);
+              },
+              itemsAfterInsert(fragment) {
+                const vl = this;
+                self.$emit('virtual:itemsafterinsert', vl, fragment);
+              },
+            },
           },
-          onBeforeClear(list, fragment) {
-            self.$emit('virtual:beforeclear', list, fragment);
-          },
-          onItemsBeforeInsert(list, fragment) {
-            self.$emit('virtual:itemsbeforeinsert', list, fragment);
-          },
-          onItemsAfterInsert(list, fragment) {
-            self.$emit('virtual:itemsafterinsert', list, fragment);
-          },
-        });
+          vlParams
+        ));
       },
     },
   };
@@ -2601,6 +2601,586 @@ staticRenderFns: [],
       classes() {
         const self = this;
         return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+const MessageProps = Utils.extend(
+    {
+      text: String,
+      name: String,
+      avatar: String,
+      type: {
+        type: String,
+        default: 'sent',
+      },
+      image: String,
+      header: String,
+      footer: String,
+      textHeader: String,
+      textFooter: String,
+      first: Boolean,
+      last: Boolean,
+      tail: Boolean,
+      sameName: Boolean,
+      sameHeader: Boolean,
+      sameFooter: Boolean,
+      sameAvatar: Boolean,
+    },
+    Mixins.colorProps
+  );
+  var message = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._v(_vm._s(_vm.text))]):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
+staticRenderFns: [],
+    name: 'f7-message',
+    props: MessageProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'message-sent': self.type === 'sent',
+          'message-received': self.type === 'received',
+          'message-first': self.first,
+          'message-last': self.last,
+          'message-tail': self.tail,
+          'message-same-name': self.sameName,
+          'message-same-header': self.sameHeader,
+          'message-same-footer': self.sameFooter,
+          'message-same-avatar': self.sameAvatar,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    methods: {
+      onClick(event) {
+        this.$emit('click', event);
+      },
+      onNameClick(event) {
+        this.$emit('click:name', event);
+      },
+      onTextClick(event) {
+        this.$emit('click:text', event);
+      },
+      onAvatarClick(event) {
+        this.$emit('click:avatar', event);
+      },
+      onHeaderClick(event) {
+        this.$emit('click:header', event);
+      },
+      onFooterClick(event) {
+        this.$emit('click:footer', event);
+      },
+      onBubbleClick(event) {
+        this.$emit('click:bubble', event);
+      },
+    },
+  };
+
+const MessagebarAttachmentProps = Utils.extend(
+    {
+      image: String,
+      deletable: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  var messagebarAttachment = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachment",class:_vm.classes,on:{"click":_vm.onClick}},[(_vm.image)?_c('img',{attrs:{"src":_vm.image}}):_vm._e(),_vm._v(" "),(_vm.deletable)?_c('span',{staticClass:"messagebar-attachment-delete",on:{"click":_vm.onDeleteClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
+staticRenderFns: [],
+    props: MessagebarAttachmentProps,
+    name: 'f7-messagebar-attachment',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    methods: {
+      onClick(e) {
+        this.$emit('attachment:click', e);
+      },
+      onDeleteClick(e) {
+        this.$emit('attachment:delete', e);
+      },
+    },
+  };
+
+var messagebarAttachments = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachments",class:_vm.classes},[_vm._t("default")],2)},
+staticRenderFns: [],
+    props: Mixins.colorProps,
+    name: 'f7-messagebar-attachments',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+const MessagebarSheetItemProps = Utils.extend(
+    {
+      image: String,
+      checked: Boolean,
+    },
+    Mixins.colorProps
+  );
+
+  var messagebarSheetImage = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"messagebar-sheet-image checkbox",class:_vm.classes,style:({ 'background-image': _vm.image && ("url(" + _vm.image + ")")})},[_c('input',{attrs:{"type":"checkbox"},domProps:{"checked":_vm.checked},on:{"change":_vm.onChange}}),_vm._v(" "),_c('i',{staticClass:"icon icon-checkbox"}),_vm._v(" "),_vm._t("default")],2)},
+staticRenderFns: [],
+    props: MessagebarSheetItemProps,
+    name: 'f7-messagebar-sheet-image',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    methods: {
+      onChange(e) {
+        if (this.checked) this.$emit('checked', e);
+        else this.$emit('unchecked', e);
+        this.$emit('change', e);
+      },
+    },
+  };
+
+var messagebarSheetItem = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet-item",class:_vm.classes},[_vm._t("default")],2)},
+staticRenderFns: [],
+    props: Mixins.colorProps,
+    name: 'f7-messagebar-sheet-item',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+var messagebarSheet = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet",class:_vm.classes},[_vm._t("default")],2)},
+staticRenderFns: [],
+    props: Mixins.colorProps,
+    name: 'f7-messagebar-sheet',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+const MessagebarProps = Utils.extend(
+    {
+      sheetVisible: Boolean,
+      attachmentsVisible: Boolean,
+      top: Boolean,
+      resizable: {
+        type: Boolean,
+        default: true,
+      },
+      bottomOffset: {
+        type: Number,
+        default: 0,
+      },
+      topOffset: {
+        type: Number,
+        default: 0,
+      },
+      maxHeight: Number,
+      sendLink: String,
+      value: [String, Number, Array],
+      disabled: Boolean,
+      readonly: Boolean,
+      name: String,
+      placeholder: {
+        type: String,
+        default: 'Message',
+      },
+      init: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  var messagebar = {
+    name: 'f7-messagebar',
+    components: {
+      f7Input,
+      f7Link,
+    },
+    render(c) {
+      const self = this;
+      const beforeInnerEls = [];
+      const afterInnerEls = [];
+      const innerStartEls = [];
+      const innerEndEls = []; // add send link here
+      const beforeAreaEls = []; // add attachments here
+      const afterAreaEls = [];
+
+      let linkEl;
+      if ((self.sendLink && self.sendLink.length > 0) || self.$slots['send-link']) {
+        linkEl = c('f7-link', {
+          on: {
+            click: self.onClick,
+          },
+        }, [self.sendLink ? self.sendLink : self.$slots['send-link']]);
+        innerEndEls.push(linkEl);
+      }
+
+      if (self.$slots['before-inner']) {
+        self.$slots['before-inner'].forEach((el) => {
+          beforeInnerEls.push(el);
+        });
+      }
+      if (self.$slots['after-inner']) {
+        self.$slots['after-inner'].forEach((el) => {
+          afterInnerEls.push(el);
+        });
+      }
+      if (self.$slots['inner-start']) {
+        self.$slots['inner-start'].forEach((el) => {
+          innerStartEls.push(el);
+        });
+      }
+      if (self.$slots['inner-end']) {
+        self.$slots['inner-end'].forEach((el) => {
+          innerEndEls.push(el);
+        });
+      }
+      if (self.$slots['before-area']) {
+        self.$slots['before-area'].forEach((el) => {
+          beforeAreaEls.push(el);
+        });
+      }
+      if (self.$slots['after-area']) {
+        self.$slots['after-area'].forEach((el) => {
+          afterAreaEls.push(el);
+        });
+      }
+      if (self.$slots.default) {
+        self.$slots.default.forEach((el) => {
+          const tag = el.tag;
+          if (tag && tag.indexOf('messagebar-attachments') >= 0) {
+            beforeAreaEls.push(el);
+          } else if (tag && tag.indexOf('messagebar-sheet') >= 0) {
+            afterInnerEls.push(el);
+          } else {
+            innerEndEls.push(el);
+          }
+        });
+      }
+
+      const inputEl = c('f7-input', {
+        props: {
+          type: 'textarea',
+          wrap: false,
+          placeholder: self.placeholder,
+          disabled: self.disabled,
+          name: self.name,
+          readonly: self.readonly,
+          resizable: self.resizable,
+          value: self.value,
+        },
+        on: {
+          input: self.onInput,
+          change: self.onChange,
+          focus: self.onFocus,
+          blur: self.onBlur,
+        },
+      });
+
+      const areaEl = c('div', {
+        staticClass: 'messagebar-area',
+      }, [
+        beforeAreaEls,
+        inputEl,
+        afterAreaEls,
+      ]);
+
+      const innerEl = c('div', {
+        staticClass: 'toolbar-inner',
+      }, [
+        innerStartEls,
+        areaEl,
+        innerEndEls,
+      ]);
+
+      return c('div', {
+        staticClass: 'toolbar messagebar',
+        class: self.classes,
+        on: {
+          'messagebar:attachmentdelete': self.onDeleteAttachment,
+          'messagebar:attachmentclick': self.onClickAttachment,
+          'messagebar:resizepage': self.onResizePage,
+        },
+      }, [
+        beforeInnerEls,
+        innerEl,
+        afterInnerEls,
+      ]);
+    },
+    props: MessagebarProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'messagebar-attachments-visible': self.attachmentsVisible,
+          'messagebar-sheet-visible': self.sheetVisible,
+        }, Mixins.colorClasses);
+      },
+    },
+    beforeDestroy() {
+      if (this.f7Messagebar && this.f7Messagebar.destroy) this.f7Messagebar.destroy();
+    },
+    methods: {
+      clear(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.clear(...args);
+      },
+      getValue(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.getValue(...args);
+      },
+      setValue(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.setValue(...args);
+      },
+      setPlaceholder(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.setPlaceholder(...args);
+      },
+      resizePage(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.resizePage(...args);
+      },
+      focus(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.focus(...args);
+      },
+      blur(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.blur(...args);
+      },
+      attachmentsShow(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.attachmentsShow(...args);
+      },
+      attachmentsHide(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.attachmentsHide(...args);
+      },
+      attachmentsToggle(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.attachmentsToggle(...args);
+      },
+      sheetShow(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.sheetShow(...args);
+      },
+      sheetHide(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.sheetHide(...args);
+      },
+      sheetToggle(...args) {
+        if (!this.f7Messagebar) return undefined;
+        return this.f7Messagebar.sheetToggle(...args);
+      },
+      onChange(event) {
+        this.$emit('change', event);
+      },
+      onInput(event) {
+        this.$emit('input', event);
+      },
+      onFocus(event) {
+        this.$emit('focus', event);
+      },
+      onBlur(event) {
+        this.$emit('blur', event);
+      },
+      onClick(event) {
+        const value = this.$refs.area.value;
+        const clear = this.f7Messagebar ? this.f7Messagebar.clear : () => {};
+        this.$emit('submit', value, clear);
+        this.$emit('send', value, clear);
+        this.$emit('click', event);
+      },
+      onDeleteAttachment(e) {
+        this.$emit('messagebar:attachmentdelete', e);
+      },
+      onClickAttachment(e) {
+        this.$emit('messagebar:attachmentclick', e);
+      },
+      onResizePage(e) {
+        this.$emit('messagebar:resizepage', e);
+      },
+      onF7Ready() {
+        const self = this;
+        if (!self.init) return;
+        self.f7Messagebar = self.$f7.messagebar.create({
+          el: self.$el,
+          top: self.top,
+          resizePage: self.resizable,
+          bottomOffset: self.bottomOffset,
+          topOffset: self.topOffset,
+          maxHeight: self.maxHeight,
+        });
+      },
+    },
+  };
+
+var messagesTitle = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages-title",class:_vm.classes},[_vm._t("default")],2)},
+staticRenderFns: [],
+    props: Mixins.colorProps,
+    name: 'f7-messages-title',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+var messages = {
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages"},[_vm._t("default")],2)},
+staticRenderFns: [],
+    name: 'f7-messages',
+    beforeDestroy() {
+      if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
+    },
+    beforeUpdate() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        self.$$(el.$el).addClass('message-appeared');
+      });
+    },
+    updated() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        const $el = self.$$(el.$el);
+        if (!$el.hasClass('message-appeared')) {
+          $el.addClass('message-appear-from-bottom');
+        }
+      });
+      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
+        self.f7Messages.layout();
+      }
+      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
+        self.f7Messages.scroll();
+      }
+    },
+    props: {
+      autoLayout: {
+        type: Boolean,
+        default: false,
+      },
+      messages: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      newMessagesFirst: {
+        type: Boolean,
+        default: false,
+      },
+      scrollMessages: {
+        type: Boolean,
+        default: true,
+      },
+      scrollMessagesOnEdge: {
+        type: Boolean,
+        default: true,
+      },
+      firstMessageRule: Function,
+      lastMessageRule: Function,
+      tailMessageRule: Function,
+      sameNameMessageRule: Function,
+      sameHeaderMessageRule: Function,
+      sameFooterMessageRule: Function,
+      sameAvatarMessageRule: Function,
+      customClassMessageRule: Function,
+      renderMessage: Function,
+
+      init: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    methods: {
+      renderMessages(messagesToRender, method) {
+        if (!this.f7Messages) return undefined;
+        return this.renderMessages(messagesToRender, method);
+      },
+      layout() {
+        if (!this.f7Messages) return undefined;
+        return this.layout();
+      },
+      scroll(duration, scrollTop) {
+        if (!this.f7Messages) return undefined;
+        return this.scroll(duration, scrollTop);
+      },
+      clear() {
+        if (!this.f7Messages) return undefined;
+        return this.clear();
+      },
+      removeMessage(messageToRemove, layout) {
+        if (!this.f7Messages) return undefined;
+        return this.removeMessage(messageToRemove, layout);
+      },
+      removeMessages(messagesToRemove, layout) {
+        if (!this.f7Messages) return undefined;
+        return this.removeMessages(messagesToRemove, layout);
+      },
+      addMessage(...args) {
+        if (!this.f7Messages) return undefined;
+        return this.addMessage(...args);
+      },
+      addMessages(...args) {
+        if (!this.f7Messages) return undefined;
+        return this.addMessages(...args);
+      },
+      showTyping(message) {
+        if (!this.f7Messages) return undefined;
+        return this.showTyping(message);
+      },
+      hideTyping() {
+        if (!this.f7Messages) return undefined;
+        return this.hideTyping();
+      },
+      destroy() {
+        if (!this.f7Messages) return undefined;
+        return this.destroy();
+      },
+      onF7Ready(f7) {
+        const self = this;
+        if (!self.init) return;
+        self.f7Messages = f7.messages.create({
+          el: self.$el,
+          autoLayout: self.autoLayout,
+          messages: self.messages,
+          newMessagesFirst: self.newMessagesFirst,
+          scrollMessages: self.scrollMessages,
+          scrollMessagesOnEdge: self.scrollMessagesOnEdge,
+          firstMessageRule: self.firstMessageRule,
+          lastMessageRule: self.lastMessageRule,
+          tailMessageRule: self.tailMessageRule,
+          sameNameMessageRule: self.sameNameMessageRule,
+          sameHeaderMessageRule: self.sameHeaderMessageRule,
+          sameFooterMessageRule: self.sameFooterMessageRule,
+          sameAvatarMessageRule: self.sameAvatarMessageRule,
+          customClassMessageRule: self.customClassMessageRule,
+          renderMessage: self.renderMessage,
+        });
       },
     },
   };
@@ -2925,6 +3505,7 @@ const PageProps = Utils.extend({
       let child;
       let withSubnavbar;
       let withSearchbar;
+      let withMessages = self.$options.propsData.withMessages;
 
       if (self.$slots.default) {
         for (let i = 0; i < self.$slots.default.length; i += 1) {
@@ -2937,6 +3518,7 @@ const PageProps = Utils.extend({
           let isFixed = false;
           if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
           if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
+          if (typeof withMessages === 'undefined' && tag.indexOf('messages') >= 0) withMessages = true;
           for (let j = 0; j < fixedTags.length; j += 1) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
@@ -2963,7 +3545,7 @@ const PageProps = Utils.extend({
             hideBarsOnScroll: self.hideBarsOnScroll,
             hideNavbarOnScroll: self.hideNavbarOnScroll,
             hideToolbarOnScroll: self.hideToolbarOnScroll,
-            messagesContent: self.messagesContent,
+            messagesContent: self.messagesContent || withMessages,
             loginScreen: self.loginScreen,
           },
           on: {
@@ -3151,8 +3733,9 @@ staticRenderFns: [],
         const $ = self.$$;
         if (!$) return;
         if ($('.panel-backdrop').length === 0) {
-          $('<div class="panel-overlay"></div>').insertBefore(self.$el);
+          $('<div class="panel-backdrop"></div>').insertBefore(self.$el);
         }
+        self.f7Panel = self.$f7.panel.create({ el: self.$el });
       },
       open(animate) {
         const self = this;
@@ -3814,4 +4397,4 @@ staticRenderFns: [],
     },
   };
 
-export { vuePlugin as Framework7Vue, accordionContent as f7AccordionContent, accordionItem as f7AccordionItem, accordionToggle as f7AccordionToggle, accordion as f7Accordion, f7Badge, blockFooter as f7BlockFooter, blockHeader as f7BlockHeader, blockTitle as f7BlockTitle, block as f7Block, button as f7Button, f7CardContent, f7CardFooter, f7CardHeader, card as f7Card, checkbox as f7Checkbox, chip as f7Chip, col as f7Col, fabButton as f7FabButton, fabButtons as f7FabButtons, fab as f7Fab, f7Icon, input as f7Input, label as f7Label, f7Link, listButton as f7ListButton, listGroup as f7ListGroup, listItemCell as f7ListItemCell, f7ListItemContent, listItemRow as f7ListItemRow, listItem as f7ListItem, list as f7List, loginScreenTitle as f7LoginScreenTitle, f7NavLeft, navRight as f7NavRight, f7NavTitle, navbar as f7Navbar, f7PageContent, page as f7Page, panel as f7Panel, preloader as f7Preloader, progressbar as f7Progressbar, radio as f7Radio, f7Range, row as f7Row, segmented as f7Segmented, statusbar as f7Statusbar, subnavbar as f7Subnavbar, swipeoutActions as f7SwipeoutActions, swipeoutButton as f7SwipeoutButton, swiperSlide as f7SwiperSlide, swiper as f7Swiper, tab as f7Tab, tabs as f7Tabs, f7Toggle, toolbar as f7Toolbar, view as f7View, views as f7Views };
+export { vuePlugin as Framework7Vue, accordionContent as f7AccordionContent, accordionItem as f7AccordionItem, accordionToggle as f7AccordionToggle, accordion as f7Accordion, f7Badge, blockFooter as f7BlockFooter, blockHeader as f7BlockHeader, blockTitle as f7BlockTitle, block as f7Block, button as f7Button, f7CardContent, f7CardFooter, f7CardHeader, card as f7Card, checkbox as f7Checkbox, chip as f7Chip, col as f7Col, fabButton as f7FabButton, fabButtons as f7FabButtons, fab as f7Fab, f7Icon, f7Input, label as f7Label, f7Link, listButton as f7ListButton, listGroup as f7ListGroup, listItemCell as f7ListItemCell, f7ListItemContent, listItemRow as f7ListItemRow, listItem as f7ListItem, list as f7List, loginScreenTitle as f7LoginScreenTitle, message as f7Message, messagebarAttachment as f7MessagebarAttachment, messagebarAttachments as f7MessagebarAttachments, messagebarSheetImage as f7MessagebarSheetImage, messagebarSheetItem as f7MessagebarSheetItem, messagebarSheet as f7MessagebarSheet, messagebar as f7Messagebar, messagesTitle as f7MessagesTitle, messages as f7Messages, f7NavLeft, navRight as f7NavRight, f7NavTitle, navbar as f7Navbar, f7PageContent, page as f7Page, panel as f7Panel, preloader as f7Preloader, progressbar as f7Progressbar, radio as f7Radio, f7Range, row as f7Row, segmented as f7Segmented, statusbar as f7Statusbar, subnavbar as f7Subnavbar, swipeoutActions as f7SwipeoutActions, swipeoutButton as f7SwipeoutButton, swiperSlide as f7SwiperSlide, swiper as f7Swiper, tab as f7Tab, tabs as f7Tabs, f7Toggle, toolbar as f7Toolbar, view as f7View, views as f7Views };

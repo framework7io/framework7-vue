@@ -204,12 +204,6 @@
         return this.simpleList || this.$parent.simpleList || (this.$parent.$parent && this.$parent.simpleList);
       },
     },
-    mounted() {
-      const self = this;
-      if (!self.smartSelect) return;
-      const smartSelectParams = Utils.extend({ el: self.$el.querySelector('a.smart-select') }, (self.smartSelectParams || {}));
-      self.f7SmartSelect = self.$f7.smartSelect.create(smartSelectParams);
-    },
     beforeDestroy() {
       const self = this;
       if (self.smartSelect && self.f7SmartSelect) {
@@ -217,6 +211,12 @@
       }
     },
     methods: {
+      onF7Ready(f7) {
+        const self = this;
+        if (!self.smartSelect) return;
+        const smartSelectParams = Utils.extend({ el: self.$el.querySelector('a.smart-select') }, (self.smartSelectParams || {}));
+        self.f7SmartSelect = f7.smartSelect.create(smartSelectParams);
+      },
       onClick(event) {
         const self = this;
         if (self.smartSelect && self.f7SmartSelect) {

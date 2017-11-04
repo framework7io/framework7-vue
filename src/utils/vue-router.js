@@ -41,7 +41,7 @@ export default {
           }
         }
 
-        resolve(pageEl, { pageEvents });
+        resolve(pageEl, { on: pageEvents });
       });
     },
     removePage($pageEl) {
