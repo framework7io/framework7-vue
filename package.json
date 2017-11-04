@@ -1,11 +1,13 @@
 {
   "name": "framework7-vue",
-  "version": "0.9.3",
+  "version": "2.0.0-beta.3",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
-  "main": "dist/framework7-vue.min.js",
+  "main": "dist/framework7-vue.js",
+  "jsnext:main": "dist/framework7-vue.esm.js",
+  "module": "dist/framework7-vue.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolimits4web/Framework7-Vue.git"
+    "url": "https://github.com/framework7io/framework7-vue.git"
   },
   "keywords": [
     "vue",
@@ -30,39 +32,43 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base kitchen-sink/ --open --inline --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "dist": "gulp dist"
+    "build-dev": "cross-env NODE_ENV=development gulp build",
+    "build-prod": "cross-env NODE_ENV=production gulp build",
+    "dev": "cross-env NODE_ENV=development gulp ks && cross-env NODE_ENV=development gulp server",
+    "prod": "cross-env NODE_ENV=production gulp ks && cross-env NODE_ENV=production gulp server",
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "bugs": {
     "url": "https://github.com/nolimits4web/Framework7-Vue/issues"
   },
-  "homepage": "http://www.framework7.io/vue/",
+  "homepage": "http://framework7.io/vue/",
   "engines": {
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.2.10",
-    "babel-preset-es2015": "^6.18.0",
-    "cross-env": "^3.1.3",
-    "css-loader": "^0.26.1",
-    "file-loader": "^0.10.1",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-import": "^2.7.0",
+    "framework7": "^2.0.0-beta.10",
     "gulp": "^3.9.1",
-    "gulp-header": "^1.8.8",
+    "gulp-connect": "^5.0.0",
+    "gulp-header": "^1.8.9",
+    "gulp-open": "^2.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.4.1",
-    "gulp-uglify": "^2.0.1",
-    "rollup": "^0.41.4",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
     "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-vue": "^2.5.2",
     "rollup-plugin-vue2": "^0.8.0",
-    "rollup-stream": "^1.19.0",
+    "rollup-stream": "^1.24.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "vue": "^2.2.1",
-    "vue-loader": "^11.1.3",
-    "vue-template-compiler": "^2.2.1",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "vue": "^2.4.4",
+    "vue-template-compiler": "^2.4.4"
   }
 }

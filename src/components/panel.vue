@@ -1,107 +1,115 @@
 <template>
   <div
     class="panel"
-    :class="classesObject"
+    :class="classes"
     @panel:open="onOpen"
     @panel:opened="onOpened"
     @panel:close="onClose"
     @panel:closed="onClosed"
-    @panel:overlay-click="onOverlayClick"
+    @panel:backdrop-click="onBackdropClick"
     @panel:swipe="onPanelSwipe"
   >
     <slot></slot>
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      'side': String,
-      'effect': String,
-      'cover': Boolean,
-      'reveal': Boolean,
-      'left': Boolean,
-      'right': Boolean,
-      'theme': String,
-      'layout': String,
-      'opened': Boolean
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const PanelProps = Utils.extend(
+    {
+      side: String,
+      effect: String,
+      cover: Boolean,
+      reveal: Boolean,
+      left: Boolean,
+      right: Boolean,
+      opened: Boolean,
     },
+    Mixins.colorProps
+  );
+
+  export default {
+    props: PanelProps,
     computed: {
-      classesObject: function () {
-        var self = this;
-        var side = self.side || (self.left ? 'left' : 'right');
-        var effect = self.effect || (self.reveal ? 'reveal' : 'cover');
-        var co = {};
-        co['panel-' + side] = true;
-        co['panel-' + effect] = true;
-        if (self.layout) co['layout-' + self.layout] = true;
-        if (self.theme) co['theme-' + self.theme] = true;
-        co.active = self.opened;
-        return co;
-      }
+      classes() {
+        const self = this;
+        const side = self.side || (self.left ? 'left' : 'right');
+        const effect = self.effect || (self.reveal ? 'reveal' : 'cover');
+        return Utils.extend(
+          {
+            'panel-active': self.opened,
+            [`panel-${side}`]: side,
+            [`panel-${effect}`]: effect,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
     },
     watch: {
-      opened: function (opened) {
-        var self = this;
+      opened(opened) {
+        const self = this;
         if (!self.$f7) return;
-        var side = self.side || (self.left ? 'left' : 'right');
+        const side = self.side || (self.left ? 'left' : 'right');
         if (opened) {
-          self.$f7.openPanel(side);
+          self.$f7.panel.open(side);
+        } else {
+          self.$f7.panel.open(side);
         }
-        else {
-          self.$f7.closePanel(side);
-        }
-      }
+      },
     },
-    mounted: function () {
-      var self = this;
+    mounted() {
+      const self = this;
       if (self.opened) {
         self.$el.style.display = 'block';
       }
-      var $$ = self.$$
-      if (!$$) return;
-      var side = self.side || (self.left ? 'left' : 'right');
-      var effect = self.effect || (self.reveal ? 'reveal' : 'cover');
+      const $ = self.$;
+      if (!$) return;
+      const side = self.side || (self.left ? 'left' : 'right');
+      const effect = self.effect || (self.reveal ? 'reveal' : 'cover');
       if (self.opened) {
-        $$('body').addClass('with-panel-' + side + '-' + effect)
+        $('html').addClass(`with-panel-${side}-${effect}`);
       }
     },
     methods: {
-      onOpen: function (event) {
+      onOpen(event) {
         this.$emit('panel:open', event);
       },
-      onOpened: function (event) {
+      onOpened(event) {
         this.$emit('panel:opened', event);
       },
-      onClose: function (event) {
+      onClose(event) {
         this.$emit('panel:open', event);
       },
-      onClosed: function (event) {
+      onClosed(event) {
         this.$emit('panel:closed', event);
       },
-      onOverlayClick(event) {
-        this.$emit('panel:overlay-click', event);
+      onBackdropClick(event) {
+        this.$emit('panel:backdrop-click', event);
       },
       onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
       },
-      onF7Init: function () {
-        var $$ = this.$$
-        if (!$$) return;
-        if ($$('.panel-overlay').length === 0) {
-          $$('<div class="panel-overlay"></div>').insertBefore(this.$el)
+      onF7Ready() {
+        const self = this;
+        const $ = self.$$;
+        if (!$) return;
+        if ($('.panel-backdrop').length === 0) {
+          $('<div class="panel-backdrop"></div>').insertBefore(self.$el);
         }
+        self.f7Panel = self.$f7.panel.create({ el: self.$el });
       },
-      open: function (animated) {
-        var self = this;
+      open(animate) {
+        const self = this;
         if (!self.$f7) return;
-        var side = self.side || (self.left ? 'left' : 'right');
-        self.$f7.openPanel(side, animated);
+        const side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.panel.open(side, animate);
       },
-      close: function (animated) {
-        var self = this;
+      close(animate) {
+        const self = this;
         if (!self.$f7) return;
-        self.$f7.closePanel(animated);
-      }
-    }
-  }
+        self.$f7.panel.close(animate);
+      },
+    },
+  };
 </script>

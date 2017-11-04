@@ -1,6 +1,7 @@
 <template>
-  <div class="accordion-item"
-    :class="{'accordion-item-expanded': expanded}"
+  <div
+    class="accordion-item"
+    :class="classes"
     @accordion:open="onOpen"
     @accordion:opened="onOpened"
     @accordion:close="onClose"
@@ -10,23 +11,43 @@
   </div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const AccordionItemProps = Utils.extend(
+    {
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    props: {
-      expanded: Boolean
+    name: 'f7-accordion-item',
+    props: AccordionItemProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend(
+          {
+            'accordion-item-opened': self.opened,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
     },
     methods: {
-      onOpen: function (event) {
+      onOpen(event) {
         this.$emit('accordion:open', event);
       },
-      onOpened: function (event) {
+      onOpened(event) {
         this.$emit('accordion:opened', event);
       },
-      onClose: function (event) {
+      onClose(event) {
         this.$emit('accordion:close', event);
       },
-      onClosed: function (event) {
+      onClosed(event) {
         this.$emit('accordion:closed', event);
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

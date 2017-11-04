@@ -1,5 +1,21 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.3 - Released on October 13, 2017
+  * Minor fixes
+
+## Framework7 Vue v2.0.0-beta.2 - Released on October 11, 2017
+  * Included ES module bundle build (with all components registered) in `framework7-vue.esm.bundle.js`
+  * UMD build now also is a bundle version wit all components registered
+  * All components now accept color props `color`, `color-theme`, `text-color`, `bg-color`, `border-color`
+  * Added color directives `v-f7-color`, `v-f7-color-theme`, `v-f7-text-color`, `v-f7-bg-color`, `v-f7-border-color`
+  * Improved ES-modue structure for better tree-shaking
+  * `input-value` and `input-name` props on **f7-list-item** renamed to just `value` and `name`
+  * Added *f7-panel* component
+  * Minor fixes
+
+## Framework7 Vue v2.0.0-beta.1 - Released on October 9, 2017
+  * Initial v2 beta release
+
 ## Framework7 Vue v0.9.3 - Updated on September 7, 2017
   * Fixed backClick nav event
   * Added `tabindex` property for **f7-input** and **f7-list-button** components

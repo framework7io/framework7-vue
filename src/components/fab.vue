@@ -1,15 +1,71 @@
-<template>
-  <a href="#" class="floating-button" :class="color ? 'color-' + color : false" @click="onClick"><slot></slot></a>
-</template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const FabProps = Utils.extend(
+    {
+      morphTo: String,
+      position: {
+        type: String,
+        default: 'right-bottom',
+      },
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    props: {
-      color: String
+    name: 'f7-fab',
+    props: FabProps,
+    render(c) {
+      const self = this;
+
+      const linkChildren = [];
+      const fabChildren = [];
+
+      if (self.$slots.default) {
+        for (let i = 0; i < self.$slots.default.length; i += 1) {
+          const child = self.$slots.default[i];
+          if (child.tag.indexOf('fab-buttons') >= 0) {
+            fabChildren.push(child);
+          } else {
+            linkChildren.push(child);
+          }
+        }
+      }
+
+      const linkEl = c('a', {
+        on: {
+          click: self.onClick,
+        },
+      }, linkChildren);
+
+      fabChildren.push(linkEl);
+
+      return c('div', {
+        staticClass: 'fab',
+        class: self.classes,
+        attrs: {
+          'data-morph-to': self.morphTo,
+        },
+      }, fabChildren);
+    },
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend(
+          {
+            'fab-morph': self.morphTo,
+            [`fab-${self.position}`]: true,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
     },
     methods: {
-      onClick: function (event) {
-        this.$emit('click', event);
-      }
-    }
-  }
+      onClick(event) {
+        const self = this;
+        self.$emit('click', event);
+      },
+    },
+  };
 </script>

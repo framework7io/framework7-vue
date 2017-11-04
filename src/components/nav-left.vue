@@ -1,30 +1,47 @@
 <template>
-  <div class="left" :class="{sliding:sliding}">
+  <div class="left" :class="classes">
     <f7-link
       v-if="backLink"
-      :href="backLinkUrl || backLinkHref || '#'"
+      :href="backLinkUrl || '#'"
       back
       icon="icon-back"
-      :class="{'icon-only': (backLink === true || backLink && $theme.material)}"
-      :text="backLink !== true && !$theme.material ? backLink : undefined"
+      :class="{'icon-only': (backLink === true || backLink && $theme.md)}"
+      :text="backLink !== true && !$theme.md ? backLink : undefined"
       @click="onBackClick"
       ></f7-link>
     <slot></slot>
   </div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  import f7Link from './link.vue';
+
+  const NavLeftProps = Utils.extend({
+    backLink: [Boolean, String],
+    backLinkUrl: String,
+    sliding: Boolean,
+  }, Mixins.colorProps);
+
   export default {
-    props: {
-      backLink: [Boolean, String],
-      backLinkUrl: String,
-      backLinkHref: String,
-      sliding: Boolean
+    name: 'f7-nav-left',
+    components: {
+      f7Link,
+    },
+    props: NavLeftProps,
+    computed: {
+      classes() {
+        return Utils.extend({
+          slidng: this.slidng,
+        }, Mixins.colorClasses(this));
+      },
     },
     methods: {
-      onBackClick: function (e) {
-        this.$emit('back-click', e);        
-        this.$emit('click:back', e);        
-      }
-    }
-  }
+      onBackClick(e) {
+        this.$emit('back-click', e);
+        this.$emit('click:back', e);
+      },
+    },
+  };
 </script>

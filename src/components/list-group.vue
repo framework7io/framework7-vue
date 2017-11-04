@@ -1,26 +1,39 @@
 <template>
-  <div class="list-block-group">
+  <div class="list-group" :class="classes">
     <ul>
       <slot></slot>
     </ul>
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      'media-list': Boolean,
-      'sortable': Boolean,
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const ListGroupProps = Utils.extend(
+    {
+      mediaList: Boolean,
+      sortable: Boolean,
     },
+    Mixins.colorProps
+  );
+
+  export default {
+    name: 'f7-list-group',
+    props: ListGroupProps,
     computed: {
-      sortableComputed: function () {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+      sortableComputed() {
         return this.sortable || this.$parent.sortable;
       },
-      mediaListComputed: function () {
+      mediaListComputed() {
         return this.mediaList || this.$parent.mediaList;
-      }
+      },
     },
-    data: function () {
+    data() {
       return {};
-    }
-  }
+    },
+  };
 </script>

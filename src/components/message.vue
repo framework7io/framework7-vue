@@ -1,77 +1,95 @@
 <template>
-  <div :class="classesObject" @click="onClick">
-    {{day}} <span v-if="time">{{time}}</span>
+  <div class="message" :class="classes" @click="onClick">
     <slot name="start"></slot>
-    <div class="message-name" v-if="name" @click="onNameClick">{{name}}</div>
-    <div class="message-text" @click="onTextClick">
-      <slot>{{text}}</slot>
-      <div class="message-date" v-if="date">{{date}}</div>
+    <div class="message-avatar" v-if="avatar || $slots.avatar" :style="{'background-image': avatar && 'url(' + avatar + ')'}" @click="onAvatarClick"></div>
+    <div class="message-content">
+      <slot name="content-start"></slot>
+      <div class="message-name" v-if="name || $slots.name" @click="onNameClick"><slot name="name">{{name}}</slot></div>
+      <div class="message-header" v-if="header || $slots.header" @click="onHeaderClick"><slot name="header">{{header}}</slot></div>
+      <div class="message-bubble" @click="onBubbleClick">
+        <slot name="bubble-start"></slot>
+        <div class="message-image" v-if="image || $slots.image"><slot name="image"><img :src="image"></slot></div>
+        <div class="message-text-header" v-if="textHeader || $slots['text-header']"><slot name="text-header">{{textHeader}}</slot></div>
+        <div class="message-text" v-if="text || $slots.text" @click="onTextClick">{{text}}</div>
+        <div class="message-text-footer" v-if="textFooter || $slots['text-footer']"><slot name="text-footer">{{textFooter}}</slot></div>
+        <slot name="bubble-end"></slot>
+        <slot></slot>
+      </div>
+      <div class="message-footer" v-if="footer || $slots.footer" @click="onFooterClick"><slot name="footer">{{footer}}</slot></div>
+      <slot name="content-end"></slot>
     </div>
-    <div class="message-avatar" v-if="avatar" :style="{'background-image': 'url(' + avatar + ')'}" @click="onAvatarClick"></div>
-    <div class="message-label" v-if="label">{{label}}</div>
     <slot name="end"></slot>
   </div>
 </template>
 <script>
-  export default {
-    props: {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const MessageProps = Utils.extend(
+    {
       text: String,
       name: String,
       avatar: String,
       type: {
         type: String,
-        default: 'sent'
+        default: 'sent',
       },
-      label: String,
-      day: String,
-      date: String,
-      time: String,
-      last: {
-        type: Boolean,
-        default: true
-      },
-      first: {
-        type: Boolean,
-        default: true
-      }
+      image: String,
+      header: String,
+      footer: String,
+      textHeader: String,
+      textFooter: String,
+      first: Boolean,
+      last: Boolean,
+      tail: Boolean,
+      sameName: Boolean,
+      sameHeader: Boolean,
+      sameFooter: Boolean,
+      sameAvatar: Boolean,
     },
+    Mixins.colorProps
+  );
+  export default {
+    name: 'f7-message',
+    props: MessageProps,
     computed: {
-      classesObject: function () {
-        var co = {};
-        var self = this;
-        if (self.day || self.time) {
-          co['messages-date'] = self.day || self.time;
-        }
-        else {
-          var newPosition = 'bottom';
-          if(self.$parent.newFirst) {
-            newPosition = 'top';
-          }
-          // co['message-appear-from-' + newPosition] = true;
-          co['message-date'] = self.day || self.time;
-          co['message'] = !(self.day || self.time);
-          co['message-' + self.type] = true;
-          co['message-with-avatar'] = self.avatar;
-          co['message-first'] = self.first;
-          co['message-last'] = self.last;
-          co['message-with-tail'] = self.last;
-        }
-        return co;
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'message-sent': self.type === 'sent',
+          'message-received': self.type === 'received',
+          'message-first': self.first,
+          'message-last': self.last,
+          'message-tail': self.tail,
+          'message-same-name': self.sameName,
+          'message-same-header': self.sameHeader,
+          'message-same-footer': self.sameFooter,
+          'message-same-avatar': self.sameAvatar,
+        }, Mixins.colorClasses(self));
       },
     },
     methods: {
-      onClick: function (event) {
+      onClick(event) {
         this.$emit('click', event);
       },
-      onNameClick: function (event) {
+      onNameClick(event) {
         this.$emit('click:name', event);
       },
-      onTextClick: function (event) {
+      onTextClick(event) {
         this.$emit('click:text', event);
       },
-      onAvatarClick: function (event) {
+      onAvatarClick(event) {
         this.$emit('click:avatar', event);
       },
-    }
-  }
+      onHeaderClick(event) {
+        this.$emit('click:header', event);
+      },
+      onFooterClick(event) {
+        this.$emit('click:footer', event);
+      },
+      onBubbleClick(event) {
+        this.$emit('click:bubble', event);
+      },
+    },
+  };
 </script>

@@ -1,39 +1,76 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  import f7PageContent from './page-content.vue';
+
+  const PageProps = Utils.extend({
+    name: String,
+    stacked: Boolean,
+    withSubnavbar: Boolean,
+    subnavbar: Boolean,
+    noNavbar: Boolean,
+    noToolbar: Boolean,
+    tabs: Boolean,
+    pageContent: {
+      type: Boolean,
+      default: true,
+    },
+    noSwipeback: Boolean,
+    // Page Content Props
+    ptr: Boolean,
+    ptrDistance: Number,
+    ptrPreloader: {
+      type: Boolean,
+      default: true,
+    },
+    infinite: Boolean,
+    infiniteTop: Boolean,
+    infiniteDistance: Number,
+    infinitePreloader: {
+      type: Boolean,
+      default: true,
+    },
+    hideBarsOnScroll: Boolean,
+    hideNavbarOnScroll: Boolean,
+    hideToolbarOnScroll: Boolean,
+    messagesContent: Boolean,
+    loginScreen: Boolean,
+  }, Mixins.colorProps);
+
   export default {
-    render: function (c) {
-      var pageEl, pageContentEl, ptrEl, infiniteEl, fixedList = [], staticList = [];
-      var self = this;
+    name: 'f7-page',
+    components: {
+      f7PageContent,
+    },
+    render(c) {
+      const fixedList = [];
+      const staticList = [];
+      const self = this;
 
-      if (self.pullToRefresh && (self.ptrLayer && self.pullToRefreshLayer)) {
-        ptrEl = c('div', {class: {'pull-to-refresh-layer': true}} ,[
-          c('div', {class: {'preloader': true}}),
-          c('div', {class: {'pull-to-refresh-arrow': true}})
-        ]);
-      }
-      if ((self.infiniteScroll || self.infiniteScroll === '') && self.infiniteScrollPreloader) {
-        infiniteEl = c('div', {class: {'infinite-scroll-preloader': true}} ,[
-          c('div', {class: {'preloader': true}})
-        ]);
-      }
+      let pageContentEl;
 
-      var fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab speed-dial floating-button').split(' ');
+      const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab').split(' ');
 
-      var tag, child, withSubnavbar, withMessages, withSearchbar;
+      let tag;
+      let child;
+      let withSubnavbar;
+      let withSearchbar;
+      let withMessages = self.$options.propsData.withMessages;
 
-      var i, j;
       if (self.$slots.default) {
-        for (i = 0; i < self.$slots.default.length; i++) {
+        for (let i = 0; i < self.$slots.default.length; i += 1) {
           child = self.$slots.default[i];
           tag = child.tag;
           if (!tag) {
             staticList.push(child);
-            continue;
+            continue; // eslint-disable-line
           }
-          var isFixed = false;
-          if (tag.indexOf('messages') >= 0) withMessages = true;
+          let isFixed = false;
           if (tag.indexOf('subnavbar') >= 0) withSubnavbar = true;
           if (tag.indexOf('searchbar') >= 0) withSearchbar = true;
-          for (j = 0; j < fixedTags.length; j++) {
+          if (typeof withMessages === 'undefined' && tag.indexOf('messages') >= 0) withMessages = true;
+          for (let j = 0; j < fixedTags.length; j += 1) {
             if (tag.indexOf(fixedTags[j]) >= 0) {
               isFixed = true;
             }
@@ -44,190 +81,125 @@
       }
 
       if (fixedList.length > 0 && withSearchbar) {
-        fixedList.push(c('div', {class:{'searchbar-overlay': true}}));
+        fixedList.push(c('div', { class: { 'searchbar-overlay': true } }));
       }
-      if (withMessages) self.classesObjectPageContent['messages-content'] = true;
-      if (!self.noPageContent) {
-        pageContentEl = c('div', {
-          staticClass: 'page-content',
-          class: self.classesObjectPageContent,
-          attrs: {
-            'data-ptr-distance': self.pullToRefreshDistance || self.ptrDistance,
-            'data-distance': self.infiniteScrollDistance
+      if (self.pageContent) {
+        pageContentEl = c('f7-page-content', {
+          props: {
+            ptr: self.ptr,
+            ptrDistance: self.ptrDistance,
+            ptrPreloader: self.ptrPreloader,
+            infinite: self.infinite,
+            infiniteTop: self.infiniteTop,
+            infiniteDistance: self.infiniteDistance,
+            infinitePreloader: self.infinitePreloader,
+            hideBarsOnScroll: self.hideBarsOnScroll,
+            hideNavbarOnScroll: self.hideNavbarOnScroll,
+            hideToolbarOnScroll: self.hideToolbarOnScroll,
+            messagesContent: self.messagesContent || withMessages,
+            loginScreen: self.loginScreen,
           },
           on: {
-            'ptr:pullstart': self.onPtrPullstart,
-            'ptr:pullmove': self.onPtrPullmove,
-            'ptr:pullend': self.onPtrPullend,
+            'ptr:pullstart': self.onPtrPullStart,
+            'ptr:pullmove': self.onPtrPullMove,
+            'ptr:pullend': self.onPtrPullEnd,
             'ptr:refresh': self.onPtrRefresh,
-            'ptr:done': self.onPtrRefreshdone,
-            'infinite': self.onInfinite
+            'ptr:done': self.onPtrRefreshDone,
+            infinite: self.onInfinite,
           },
-        }, (self.infiniteScroll === 'top' ? [ptrEl, infiniteEl, self.$slots.static, staticList] : [ptrEl, self.$slots.static, staticList, infiniteEl]))
-      }
-      else {
+        }, [self.$slots.static, staticList]);
+      } else {
         pageContentEl = [];
         if (self.$slots.default && fixedList.length > 0) {
-          for (i = 0; i < self.$slots.default.length; i++) {
+          for (let i = 0; i < self.$slots.default.length; i += 1) {
             if (fixedList.indexOf(self.$slots.default[i]) < 0) {
               pageContentEl.push(self.$slots.default[i]);
             }
           }
-        }
-        else {
-          pageContentEl = [self.$slots.default]
+        } else {
+          pageContentEl = [self.$slots.default];
         }
       }
       fixedList.push(self.$slots.fixed);
 
-      if (withSubnavbar) self.classesObjectPage['with-subnavbar'] = true;
-      pageEl = c('div', {
+      if (withSubnavbar) self.classes['page-with-subnavbar'] = true;
+
+      const pageEl = c('div', {
         staticClass: 'page',
-        class: self.classesObjectPage,
+        class: self.classes,
         attrs: {
-          'data-page': self.name
+          'data-name': self.name,
         },
         on: {
-          'page:beforeinit': self.onPageBeforeInit,
+          'page:mounted': self.onPageMounted,
           'page:init': self.onPageInit,
           'page:reinit': self.onPageReinit,
-          'page:beforeanimation': self.onPageBeforeAnimation,
-          'page:afteranimation': self.onPageAfterAnimation,
+          'page:beforein': self.onPageBeforeIn,
+          'page:afterain': self.onPageAfterIn,
+          'page:beforeout': self.onPageBeforeOut,
+          'page:afterout': self.onPageAfterOut,
           'page:beforeremove': self.onPageBeforeRemove,
-          'page:back': self.onPageBack,
-          'page:afterback': self.onPageAfterBack
-        }
+        },
       }, [fixedList, pageContentEl]);
 
       return pageEl;
-
     },
-    props: {
-      'name': String,
-      'cached': Boolean,
-      'navbar-fixed': Boolean,
-      'navbar-through': Boolean,
-      'toolbar-fixed': Boolean,
-      'toolbar-through': Boolean,
-      'tabbar-fixed': Boolean,
-      'tabbar-through': Boolean,
-      'tabbar-labels-fixed': Boolean,
-      'tabbar-labels-through': Boolean,
-      'with-subnavbar': Boolean,
-      'subnavbar': Boolean,
-      'no-navbar': Boolean,
-      'no-toolbar': Boolean,
-      'no-tabbar': Boolean,
-      'pull-to-refresh': Boolean,
-      'pull-to-refresh-distance': Number,
-      'ptr-distance': Number,
-      'pull-to-refresh-layer': {
-        type: Boolean,
-        default: true
-      },
-      'ptr-layer': {
-        type: Boolean,
-        default: true
-      },
-      'infinite-scroll': [Boolean, String],
-      'infinite-scroll-distance': Number,
-      'infinite-scroll-preloader': {
-        type: Boolean,
-        default: true
-      },
-      'hide-bars-on-scroll': Boolean,
-      'hide-navbar-on-scroll': Boolean,
-      'hide-toolbar-on-scroll': Boolean,
-      'hide-tabbar-on-scroll': Boolean,
-      'messages': Boolean,
-      'tabs': Boolean,
-      'no-page-content': Boolean,
-      'login-screen': Boolean,
-      'theme': String,
-      'layout': String,
-      'no-swipeback': Boolean
-    },
+    props: PageProps,
     computed: {
-      classesObjectPage: function () {
-        var co = {
-          'cached': this.cached,
-          'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
-          'navbar-through': this.navbarThrough,
-          'toolbar-fixed': this.toolbarFixed,
-          'toolbar-through': this.toolbarThrough,
-          'tabbar-fixed': this.tabbarFixed,
-          'tabbar-through': this.tabbarThrough,
-          'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabelsThrough,
-          'with-subnavbar': this.subnavbar || this.withSubnavbar,
+      classes() {
+        return Utils.extend({
+          stacked: this.stacked,
+          tabs: this.tabs,
+          'page-with-subnavbar': this.subnavbar || this.withSubnavbar,
           'no-navbar': this.noNavbar,
           'no-toolbar': this.noToolbar,
-          'no-tabbar': this.noTabbar,
-          'tabs': this.tabs,
-          'no-swipeback': this.noSwipeback
-        }
-        if (this.theme) co['theme-' + this.theme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
-        return co;
+          'no-swipeback': this.noSwipeback,
+        }, Mixins.colorClasses(this));
       },
-      classesObjectPageContent: function () {
-        return {
-          'pull-to-refresh-content': this.pullToRefresh,
-          'infinite-scroll': this.infiniteScroll || this.infiniteScroll === '',
-          'infinite-scroll-top': this.infiniteScroll === 'top',
-          'hide-bars-on-scroll': this.hideBarsOnScroll,
-          'hide-navbar-on-scroll': this.hideNavbarOnScroll,
-          'hide-toolbar-on-scroll': this.hideToolbarOnScroll,
-          'hide-tabbar-on-scroll': this.hideTabbarOnScroll,
-          'messages-content': this.messages,
-          'login-screen-content': this.loginScreen
-        }
-      }
     },
     methods: {
-      onPtrPullstart: function (event) {
+      onPtrPullStart(event) {
         this.$emit('ptr:pullstart', event);
       },
-      onPtrPullmove: function (event) {
+      onPtrPullMove(event) {
         this.$emit('ptr:pullmove', event);
       },
-      onPtrPullend: function (event) {
+      onPtrPullEnd(event) {
         this.$emit('ptr:pullend', event);
       },
-      onPtrRefresh: function (event) {
-        this.$emit('ptr:refresh', event, event.detail.done);
+      onPtrRefresh(event) {
+        this.$emit('ptr:refresh', event.detail);
       },
-      onPtrRefreshdone: function (event) {
+      onPtrRefreshDone(event) {
         this.$emit('ptr:done', event);
       },
-      onInfinite: function (event) {
+      onInfinite(event) {
         this.$emit('infinite', event);
       },
-      onPageBeforeInit: function (event) {
-        this.f7PageData = event.detail.page;
-        this.$emit('page:beforeinit', event, event.detail.page);
+      onPageMounted(event) {
+        this.$emit('page:mounted', event, event.detail);
       },
-      onPageInit: function (event) {
-        this.$emit('page:init', event, event.detail.page);
+      onPageInit(event) {
+        this.$emit('page:init', event, event.detail);
       },
-      onPageReinit: function (event) {
-        this.$emit('page:reinit', event, event.detail.page);
+      onPageReinit(event) {
+        this.$emit('page:reinit', event, event.detail);
       },
-      onPageBeforeAnimation: function (event) {
-        this.$emit('page:beforeanimation', event, event.detail.page);
+      onPageBeforeIn(event) {
+        this.$emit('page:beforein', event, event.detail);
       },
-      onPageAfterAnimation: function (event) {
-        this.$emit('page:afteranimation', event, event.detail.page);
+      onPageBeforeOut(event) {
+        this.$emit('page:beforeout', event, event.detail);
       },
-      onPageBeforeRemove: function (event) {
-        this.$emit('page:beforeremove', event, event.detail.page);
+      onPageAfterOut(event) {
+        this.$emit('page:afterout', event, event.detail);
       },
-      onPageBack: function (event) {
-        this.$emit('page:back', event, event.detail.page);
+      onPageAfterIn(event) {
+        this.$emit('page:afteranimation', event, event.detail);
       },
-      onPageAfterBack: function (event) {
-        this.$emit('page:afterback', event, event.detail.page);
-      }
-    }
-  }
+      onPageBeforeRemove(event) {
+        this.$emit('page:beforeremove', event, event.detail);
+      },
+    },
+  };
 </script>
