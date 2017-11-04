@@ -10,7 +10,7 @@
         </f7-col>
       </f7-block>
 
-      <f7-block>
+      <f7-block class="row">
         <f7-button raised @click="openGrid">Action Grid</f7-button>
       </f7-block>
 
@@ -31,7 +31,6 @@ export default {
     f7Block,
     f7Col,
     f7Link,
-    f7Button,
   },
   methods: {
     openDemo1() {
