@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="background: #000">
+  <f7-page style="background: #000">
     <f7-navbar title="Two Way Control Gallery" back-link="Back"></f7-navbar>
     <div class="swiper-container demo-swiper-gallery-top">
       <div class="swiper-wrapper">
