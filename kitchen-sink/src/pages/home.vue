@@ -84,7 +84,7 @@
     <f7-list class="searchbar-hide-on-search">
       <f7-list-item title="iOS Theme" external link="./?theme=ios"></f7-list-item>
       <f7-list-item title="Material (MD) Theme" external link="./?theme=md"></f7-list-item>
-      <f7-list-item title="Color Themes" external link="/color-themes/"></f7-list-item>
+      <f7-list-item title="Color Themes" link="/color-themes/"></f7-list-item>
     </f7-list>
   </f7-page>
 </template>
