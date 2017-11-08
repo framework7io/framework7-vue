@@ -13,8 +13,8 @@
       tabLinkActive: Boolean,
       iconOnly: Boolean,
       badge: [String, Number],
-      iconBadge: [String, Number],
       badgeColor: [String],
+      iconBadge: [String, Number],
       href: {
         type: String,
         default: '#',
