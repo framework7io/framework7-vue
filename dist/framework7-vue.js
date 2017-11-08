@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0-beta.4
+ * Framework7 Vue 2.0.0-beta.5
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 27, 2017
+ * Released on: November 8, 2017
  */
 
 (function (global, factory) {
@@ -1644,8 +1644,8 @@ var LinkProps = Utils.extend(
       tabLinkActive: Boolean,
       iconOnly: Boolean,
       badge: [String, Number],
-      iconBadge: [String, Number],
       badgeColor: [String],
+      iconBadge: [String, Number],
       href: {
         type: String,
         default: '#',
@@ -3627,7 +3627,7 @@ var PanelProps = Utils.extend(
   );
 
   var f7Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: PanelProps,
     computed: {
@@ -3655,6 +3655,10 @@ staticRenderFns: [],
           self.$f7.panel.open(side);
         }
       },
+    },
+    beforeDestroy: function beforeDestroy() {
+      var self = this;
+      if (self.f7Panel) { self.f7Panel.destroy(); }
     },
     mounted: function mounted() {
       var self = this;
@@ -3687,6 +3691,9 @@ staticRenderFns: [],
       },
       onPanelSwipe: function onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
+      },
+      onBreakpoint: function onBreakpoint(event) {
+        this.$emit('panel:breakpoint', event);
       },
       onF7Ready: function onF7Ready() {
         var self = this;

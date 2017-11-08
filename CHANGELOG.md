@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.5 - Released on November 8, 2017
+  * **f7-panel** now also triggers `panel:breakpoint` event when panel visibility changes based on breakpoint
+
 ## Framework7 Vue v2.0.0-beta.4 - Released on October 26, 2017
   * New Messagebar component with the new following components: **f7-messagebar**, **f7-messagebar-attachments**, **f7-messagebar-attachment**, **f7-messagebar-sheet**, **f7-messagebar-sheet-item**, **f7-messagebar-sheet-image**
   * New Messages component with the new following components: **f7-messages**, **f7-message**, **f7-messages-title**
