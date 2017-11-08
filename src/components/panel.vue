@@ -8,6 +8,7 @@
     @panel:closed="onClosed"
     @panel:backdrop-click="onBackdropClick"
     @panel:swipe="onPanelSwipe"
+    @panel:breakpoint="onBreakpoint"
   >
     <slot></slot>
   </div>
@@ -58,6 +59,10 @@
         }
       },
     },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Panel) self.f7Panel.destroy();
+    },
     mounted() {
       const self = this;
       if (self.opened) {
@@ -89,6 +94,9 @@
       },
       onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
+      },
+      onBreakpoint(event) {
+        this.$emit('panel:breakpoint', event);
       },
       onF7Ready() {
         const self = this;
