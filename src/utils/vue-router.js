@@ -92,7 +92,7 @@ export default {
 
       tabVue.$nextTick(() => {
         const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { pageEvents });
+        resolve(tabContentEl, { on: pageEvents });
       });
     },
     removeTabContent(tabEl) {
