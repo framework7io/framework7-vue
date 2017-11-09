@@ -1,7 +1,3 @@
-<label class="toggle">
-  <input type="checkbox" checked :value="value">
-  <span class="toggle-icon"></span>
-</label>
 <script>
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
@@ -14,6 +10,7 @@
     checked: Boolean,
     disabled: Boolean,
     readonly: Boolean,
+    name: String,
     value: [String, Number, Array],
   }, Mixins.colorProps);
 
@@ -34,11 +31,16 @@
         c('input', {
           attrs: {
             type: 'checkbox',
+            name: self.name,
           },
           domProps: {
             disabled: self.disabled,
             readonly: self.readonly,
             checked: self.checked,
+            value: self.value,
+          },
+          on: {
+            change: self.onChange,
           },
         }),
         c('span', { staticClass: 'toggle-icon' }),
@@ -60,6 +62,10 @@
       toggle() {
         const self = this;
         if (self.f7Toggle && self.f7Toggle.setValue) self.f7Toggle.toggle();
+      },
+      onChange(e) {
+        const self = this;
+        self.$emit('change', e);
       },
       onF7Ready(f7) {
         const self = this;
