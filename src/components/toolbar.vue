@@ -27,7 +27,7 @@
       const self = this;
       if (self.tabbar && self.$f7) {
         self.$nextTick(() => {
-          self.$f7.toolbar.init(self.$el);
+          self.$f7.toolbar.setHighlight(self.$el);
         });
       }
     },
@@ -54,6 +54,10 @@
         const self = this;
         if (!self.$f7) return;
         self.$f7.toolbar.show(this.$el, animate);
+      },
+      onF7Ready(f7) {
+        const self = this;
+        if (self.tabbar) f7.toolbar.setHighlight(self.$el);
       },
     },
   };
