@@ -1,5 +1,5 @@
 <template>
-  <div class="page no-toolbar no-navbar no-swipeback">
+  <f7-page no-toolbar no-navbar no-swipeback>
     <div class="page-content login-screen-content">
       <div class="login-screen-title">Framework7</div>
       <form>
