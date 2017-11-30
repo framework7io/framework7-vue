@@ -29,12 +29,12 @@
 
     gulp.task('dist', function (cb) {
         rollup({
-            entry: './src/framework7-vue.js',
+            input: './src/framework7-vue.js',
             plugins: [vue(), buble()],
             format: 'umd',
-            moduleName: 'Framework7Vue',
-            useStrict: false,
-            sourceMap: true
+            name: 'Framework7Vue',
+            strict: false,
+            sourcemap: true
         })
         .pipe(source('framework7-vue.js', './src'))
         .pipe(buffer())

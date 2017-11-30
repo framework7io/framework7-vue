@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 0.9.3
+ * Framework7 Vue 0.9.4
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://www.framework7.io/vue/
  * 
@@ -9,7 +9,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: September 7, 2017
+ * Released on: November 30, 2017
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2145,7 +2145,6 @@ var LinkMixin = {
           external: self.external,
           'no-fastclick': self.noFastclick
         };
-        var pd = self.$options.propsData;
         if (self.rippleColor) { co['ripple-color-' + self.rippleColor] = true; }
         if (self.color) { co['color-' + self.color] = true; }
         if (self.theme) { co['theme-' + self.theme] = true; }
@@ -2319,7 +2318,7 @@ staticRenderFns: [],
   };
 
 var Preloader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:({'width': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : ''), 'height': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : '')})},[(_vm.$theme.material)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._v(" "),_vm._m(1)]):_vm._e()])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader",class:(_vm.color ? ('color-' + _vm.color + ' preloader-' + _vm.color) : ''),style:({'width': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : ''), 'height': (_vm.sizeComputed ? _vm.sizeComputed + 'px' : '')})},[(_vm.$theme.material)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0,false,false),_vm._v(" "),_vm._m(1,false,false)]):_vm._e()])},
 staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-left"},[_c('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-right"},[_c('span',{staticClass:"preloader-inner-half-circle"})])}],
     props: {
       'color': String,
@@ -3074,11 +3073,6 @@ staticRenderFns: [],
           co['messages-date'] = self.day || self.time;
         }
         else {
-          var newPosition = 'bottom';
-          if(self.$parent.newFirst) {
-            newPosition = 'top';
-          }
-          // co['message-appear-from-' + newPosition] = true;
           co['message-date'] = self.day || self.time;
           co['message'] = !(self.day || self.time);
           co['message-' + self.type] = true;
@@ -3476,7 +3470,7 @@ staticRenderFns: [],
   };
 
 var Popup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"popup",class:_vm.classesObject,on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[(_vm.opened)?_vm._t("default"):_vm._e()],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"popup",class:_vm.classesObject,on:{"popup:open":_vm.onOpen,"popup:opened":_vm.onOpened,"popup:close":_vm.onClose,"popup:closed":_vm.onClosed}},[_vm._t("default")],2)},
 staticRenderFns: [],
     mounted: function () {
       var self = this;
@@ -4778,7 +4772,7 @@ Framework7Router.prototype.findMatchingRoute = function findMatchingRoute (url) 
     if (part !== '') { return part; }
   });
 
-  var i, j, k;
+  var i, j;
   for (i = 0; i < routes.length; i++) {
     if (matchingRoute) { continue; }
     var route = routes[i];

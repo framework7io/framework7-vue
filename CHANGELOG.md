@@ -1,5 +1,8 @@
 # Change Log
 
+## Framework7 Vue v0.9.4 - Updated on November 30, 2017
+  * Fixed issue with popup content not being rendered when it is not opened
+
 ## Framework7 Vue v0.9.3 - Updated on September 7, 2017
   * Fixed backClick nav event
   * Added `tabindex` property for **f7-input** and **f7-list-button** components
