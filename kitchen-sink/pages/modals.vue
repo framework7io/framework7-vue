@@ -50,7 +50,7 @@
                 </f7-page>
               </f7-pages>
             </f7-view>
-          </f7-popup>          
+          </f7-popup>
         </f7-col>
       </f7-grid>
     </f7-block>
