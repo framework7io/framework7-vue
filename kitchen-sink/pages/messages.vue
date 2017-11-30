@@ -2,7 +2,7 @@
   <f7-page toolbar-fixed>
     <f7-navbar back-link="Back" title="Messages" sliding></f7-navbar>
     <f7-subnavbar>
-      <input type="text" v-model="name" placeholder="Your name" :value="name">
+      <input type="text" v-model="name" placeholder="Your name">
     </f7-subnavbar>
     <f7-messages>
       <f7-message v-for="message in messages"
