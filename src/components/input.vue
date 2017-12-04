@@ -95,26 +95,6 @@
         blur: self.onBlur,
         input: self.onInput,
         change: self.onChange,
-        click: self.onClick,
-        keypress: self.onKeyPress,
-        keyup: self.onKeyUp,
-        keydown: self.onKeyDown,
-        beforeinput: self.onBeforeInput,
-        compositionstart: self.onCompositionStart,
-        compositionupdate: self.onCompositionUpdate,
-        compositionend: self.onCompositionEnd,
-        focusin: self.onFocusIn,
-        focusout: self.onFocusOut,
-        dblclick: self.onDblClick,
-        mousedown: self.onMouseDown,
-        mouseenter: self.onMouseEnter,
-        mouseleave: self.onMouseLeave,
-        mousemove: self.onMouseMove,
-        mouseout: self.onMouseOut,
-        mouseover: self.onMouseOver,
-        mouseup: self.onMouseUp,
-        wheel: self.onWheel,
-        select: self.onSelect,
         'textarea:resize': self.onTextareaResize,
         'input:notempty': self.onInputNotEmpty,
         'input:empty': self.onInputEmpty,
@@ -237,66 +217,6 @@
       onChange(event) {
         const self = this;
         self.$emit('change', event);
-      },
-      onClick(event) {
-        this.$emit('click', event);
-      },
-      onKeyPress(event) {
-        this.$emit('keypress', event);
-      },
-      onKeyUp(event) {
-        this.$emit('keyup', event);
-      },
-      onKeyDown(event) {
-        this.$emit('keydown', event);
-      },
-      onBeforeInput(event) {
-        this.$emit('beforeinput', event);
-      },
-      onCompositionStart(event) {
-        this.$emit('compositionstart', event);
-      },
-      onCompositionUpdate(event) {
-        this.$emit('compositionupdate', event);
-      },
-      onCompositionEnd(event) {
-        this.$emit('compositionend', event);
-      },
-      onFocusIn(event) {
-        this.$emit('focusin', event);
-      },
-      onFocusOut(event) {
-        this.$emit('focusout', event);
-      },
-      onDblClick(event) {
-        this.$emit('dblclick', event);
-      },
-      onMouseDown(event) {
-        this.$emit('mousedown', event);
-      },
-      onMouseEnter(event) {
-        this.$emit('mouseenter', event);
-      },
-      onMouseLeave(event) {
-        this.$emit('mouseleave', event);
-      },
-      onMouseMove(event) {
-        this.$emit('mousemove', event);
-      },
-      onMouseOut(event) {
-        this.$emit('mouseout', event);
-      },
-      onMouseOver(event) {
-        this.$emit('mouseover', event);
-      },
-      onMouseUp(event) {
-        this.$emit('mouseup', event);
-      },
-      onWheel(event) {
-        this.$emit('wheel', event);
-      },
-      onSelect(event) {
-        this.$emit('select', event);
       },
     },
   };
