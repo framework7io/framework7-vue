@@ -38,6 +38,9 @@
       return c('div', {
         staticClass: 'chip',
         class: self.classes,
+        on: {
+          click: self.onClick,
+        },
       }, [mediaEl, labelEl, deleteEl]);
     },
     computed: {
