@@ -5,6 +5,7 @@
   const TabsProps = Utils.extend({
     animated: Boolean,
     swipeable: Boolean,
+    routable: Boolean,
   }, Mixins.colorProps);
 
   export default {
@@ -21,6 +22,7 @@
         return Utils.extend({
           'tabs-animated-wrap': this.animated,
           'tabs-swipeable-wrap': this.swipeable,
+          'tabs-routable': this.routable,
         }, Mixins.colorClasses(this));
       },
     },
