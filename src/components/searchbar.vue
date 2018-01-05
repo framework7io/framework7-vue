@@ -1,64 +1,9 @@
 <script>
-  export default {
-    name: 'f7-searchbar',
-    render: function (c) {
-      const self = this;
-      let clearEl, disableEl;
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
 
-      const inputEl = c('input', {
-        attrs: {
-          'placeholder': self.placeholder,
-          'type': 'search'
-        },
-        on: {
-          input: self.onInput,
-          change: self.onChange,
-          focus: self.onFocus,
-          blur: self.onBlur
-        }
-      });
-      if (self.clearButton) {
-        clearEl = c('span', {
-          staticClass: 'input-clear-button',
-          on: {
-            click: self.onClearButtonClick
-          }
-        });
-      }
-      if (self.disableButton) {
-        disableEl = c('span', {
-          staticClass: 'searchbar-disable-button',
-          on: {
-            click: self.onDisableButtonClick
-          }
-        }, [self.disableButtonText]);
-      }
-      const iconEl = c('i', {
-        staticClass: 'searchbar-icon',
-      });
-
-      const inputWrapEl = c('div', {staticClass:'searchbar-input-wrap'}, [self.$slots['input-wrap-start'], inputEl, iconEl, clearEl, self.$slots['input-wrap-end']])
-
-      const innerEl = c('div', {
-        staticClass: 'searchbar-inner',
-      }, [self.$slots['inner-start'], inputWrapEl, disableEl, self.$slots['inner-end'], self.$slots['default']]);
-
-      return c(self.form ? 'form' : 'div', {
-        staticClass: 'searchbar',
-        class: {
-          'no-shadow': self.noShadow,
-          'no-hairline': self.noHairline,
-          'searchbar-expandable': self.expandable,
-        },
-        on: {
-          'submit': self.onSubmit,
-        }
-      }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
-    },
-    beforeDestroy: function () {
-      if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
-    },
-    props: {
+  const SearchbarProps = Utils.extend(
+    {
       noShadow: Boolean,
       noHairline: Boolean,
       form: {
@@ -138,8 +83,71 @@
       init: {
         type: Boolean,
         default: true
-      }
+      },
     },
+    Mixins.colorProps
+  );
+
+  export default {
+    name: 'f7-searchbar',
+    render: function (c) {
+      const self = this;
+      let clearEl, disableEl;
+
+      const inputEl = c('input', {
+        attrs: {
+          'placeholder': self.placeholder,
+          'type': 'search'
+        },
+        on: {
+          input: self.onInput,
+          change: self.onChange,
+          focus: self.onFocus,
+          blur: self.onBlur
+        }
+      });
+      if (self.clearButton) {
+        clearEl = c('span', {
+          staticClass: 'input-clear-button',
+          on: {
+            click: self.onClearButtonClick
+          }
+        });
+      }
+      if (self.disableButton) {
+        disableEl = c('span', {
+          staticClass: 'searchbar-disable-button',
+          on: {
+            click: self.onDisableButtonClick
+          }
+        }, [self.disableButtonText]);
+      }
+      const iconEl = c('i', {
+        staticClass: 'searchbar-icon',
+      });
+
+      const inputWrapEl = c('div', {staticClass:'searchbar-input-wrap'}, [self.$slots['input-wrap-start'], inputEl, iconEl, clearEl, self.$slots['input-wrap-end']])
+
+      const innerEl = c('div', {
+        staticClass: 'searchbar-inner',
+      }, [self.$slots['inner-start'], inputWrapEl, disableEl, self.$slots['inner-end'], self.$slots['default']]);
+
+      return c(self.form ? 'form' : 'div', {
+        staticClass: 'searchbar',
+        class: Utils.extend({
+          'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
+          'searchbar-expandable': self.expandable,
+        }, Mixins.colorClasses),
+        on: {
+          'submit': self.onSubmit,
+        }
+      }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
+    },
+    beforeDestroy: function () {
+      if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
+    },
+    props: SearchbarProps,
     methods: {
       search: function (query) {
         if (!this.f7Searchbar) return;
