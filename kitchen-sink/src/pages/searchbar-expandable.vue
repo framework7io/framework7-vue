@@ -1,248 +1,76 @@
 <template>
-<f7-page>
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Searchbar</div>
-      <div class="right">
-        <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-demo">
-          <i class="icon f7-icons ios-only">search_strong</i>
-          <i class="icon material-icons md-only">search</i>
-        </a>
-      </div>
-      <form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-expandable searchbar-demo searchbar-init">
-        <div class="searchbar-inner">
-          <div class="searchbar-input-wrap">
-            <input type="search" placeholder="Search"/>
-            <i class="searchbar-icon"></i>
-            <span class="input-clear-button"></span>
-          </div>
-          <span class="searchbar-disable-button">Cancel</span>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="page-content">
-    <div class="searchbar-backdrop"></div>
-    <div class="list simple-list searchbar-not-found">
-      <ul>
-        <li>Nothing found</li>
-      </ul>
-    </div>
-    <div class="list search-list searchbar-found">
-      <ul>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Acura</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Audi</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">BMW</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Cadillac </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Chevrolet </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Chrysler </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Dodge </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Ferrari </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Ford </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">GMC </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Honda</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Hummer</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Hyundai</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Infiniti </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Isuzu </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Jaguar </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Jeep </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Kia</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Lamborghini </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Land Rover</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Lexus </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Lincoln </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Lotus </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Mazda</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Mercedes-Benz</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Mercury </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Mitsubishi</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Nissan </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Oldsmobile </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Peugeot </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Pontiac </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Porsche</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Regal</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Saab </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Saturn </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Subaru </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Suzuki </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Toyota</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Volkswagen</div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="item-inner">
-            <div class="item-title">Volvo</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</f7-page>
+  <f7-page>
+    <f7-navbar back-link="Back" title="Searchbar">
+      <f7-nav-right>
+        <f7-link class="searchbar-enable" data-searchbar=".searchbar-demo" icon-if-ios="f7:search_strong" icon-if-md="material:search"></f7-link>
+      </f7-nav-right>
+      <f7-searchbar
+        class="searchbar-demo"
+        expandable
+        search-container=".search-list"
+        search-in=".item-title"
+      ></f7-searchbar>
+    </f7-navbar>
+    <f7-list class="searchbar-not-found">
+      <f7-list-item title="Nothing found"></f7-list-item>
+    </f7-list>
+    <f7-list class="search-list searchbar-found">
+      <f7-list-item title="Acura"></f7-list-item>
+      <f7-list-item title="Audi"></f7-list-item>
+      <f7-list-item title="BMW"></f7-list-item>
+      <f7-list-item title="Cadillac "></f7-list-item>
+      <f7-list-item title="Chevrolet "></f7-list-item>
+      <f7-list-item title="Chrysler "></f7-list-item>
+      <f7-list-item title="Dodge "></f7-list-item>
+      <f7-list-item title="Ferrari "></f7-list-item>
+      <f7-list-item title="Ford "></f7-list-item>
+      <f7-list-item title="GMC "></f7-list-item>
+      <f7-list-item title="Honda"></f7-list-item>
+      <f7-list-item title="Hummer"></f7-list-item>
+      <f7-list-item title="Hyundai"></f7-list-item>
+      <f7-list-item title="Infiniti "></f7-list-item>
+      <f7-list-item title="Isuzu "></f7-list-item>
+      <f7-list-item title="Jaguar "></f7-list-item>
+      <f7-list-item title="Jeep "></f7-list-item>
+      <f7-list-item title="Kia"></f7-list-item>
+      <f7-list-item title="Lamborghini "></f7-list-item>
+      <f7-list-item title="Land Rover"></f7-list-item>
+      <f7-list-item title="Lexus "></f7-list-item>
+      <f7-list-item title="Lincoln "></f7-list-item>
+      <f7-list-item title="Lotus "></f7-list-item>
+      <f7-list-item title="Mazda"></f7-list-item>
+      <f7-list-item title="Mercedes-Benz"></f7-list-item>
+      <f7-list-item title="Mercury "></f7-list-item>
+      <f7-list-item title="Mitsubishi"></f7-list-item>
+      <f7-list-item title="Nissan "></f7-list-item>
+      <f7-list-item title="Oldsmobile "></f7-list-item>
+      <f7-list-item title="Peugeot "></f7-list-item>
+      <f7-list-item title="Pontiac "></f7-list-item>
+      <f7-list-item title="Porsche"></f7-list-item>
+      <f7-list-item title="Regal"></f7-list-item>
+      <f7-list-item title="Saab "></f7-list-item>
+      <f7-list-item title="Saturn "></f7-list-item>
+      <f7-list-item title="Subaru "></f7-list-item>
+      <f7-list-item title="Suzuki "></f7-list-item>
+      <f7-list-item title="Toyota"></f7-list-item>
+      <f7-list-item title="Volkswagen"></f7-list-item>
+      <f7-list-item title="Volvo"></f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Searchbar, f7Subnavbar, f7List, f7ListItem, f7Link, f7NavRight } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7Searchbar,
+      f7Subnavbar,
+      f7List,
+      f7ListItem,
+      f7Link,
+      f7NavRight,
+    },
+  }
 </script>
