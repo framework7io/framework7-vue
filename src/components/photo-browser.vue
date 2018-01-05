@@ -1,0 +1,89 @@
+<script>
+  import Utils from '../utils/utils';
+
+  export default {
+    name: 'f7-photo-browser',
+    render: function () {},
+    beforeDestroy: function () {
+      var self = this;
+      if (self.f7PhotoBrowser && self.f7PhotoBrowser.destroy) self.f7PhotoBrowser.destroy();
+    },
+    watch: {
+      photos(newValue, oldValue) {
+        const self = this;
+        const pb = self.f7PhotoBrowser;
+        if (!pb) return;
+        self.f7PhotoBrowser.photos = newValue;
+        if (pb.opened && pb.swiper) {
+          pb.swiper.update();
+        }
+      },
+    },
+    props: {
+      init: {
+        type: Boolean,
+        default: true
+      },
+      params: Object,
+      photos: Array,
+      exposition: Boolean,
+      expositionHideCaptions: Boolean,
+      type: String,
+      navbar: Boolean,
+      toolbar: Boolean,
+      theme: String,
+      captionsTheme: String,
+      swipeToClose: Boolean,
+      backLinkText: String,
+      navbarOfText: String,
+      iconsColor: String,
+      swiper: Object,
+      url: String,
+      view: [String, Object],
+      routableModals: Boolean,
+    },
+    methods: {
+      open: function (index) {
+        return this.f7PhotoBrowser.open(index)
+      },
+      close: function () {
+        return this.f7PhotoBrowser.close()
+      },
+      expositionToggle: function () {
+        return this.f7PhotoBrowser.expositionToggle()
+      },
+      expositionEnable: function () {
+        return this.f7PhotoBrowser.expositionEnable()
+      },
+      expositionDisable: function () {
+        return this.f7PhotoBrowser.expositionDisable()
+      },
+      onF7Init: function (f7) {
+        var self = this;
+        // Init Virtual List
+        if (!self.init) return;
+        var params = Utils.extend({}, self.$options.propsData, {
+          on: {
+            open() {
+              self.$emit('photobrowser:open');
+            },
+            close() {
+              self.$emit('photobrowser:close');
+            },
+            opened() {
+              self.$emit('photobrowser:opened');
+            },
+            closed() {
+              self.$emit('photobrowser:closed');
+            },
+            swipeToClose() {
+              self.$emit('photobrowser:swipetoclose');
+            },
+          }
+        });
+
+        self.f7PhotoBrowser = f7.photoBrowser.create(params);
+      }
+    }
+  }
+</script>

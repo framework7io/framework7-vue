@@ -1,7 +1,7 @@
 <template>
   <f7-page>
     <f7-navbar title="Photo Browser" back-link="Back"></f7-navbar>
-    <div class="block">
+    <f7-block>
       <p>Photo Browser is a standalone and highly configurable component that allows to open window with photo viewer and navigation elements with the following features:</p>
       <ul>
         <li>Swiper between photos</li>
@@ -9,29 +9,56 @@
         <li>Toggle zoom by double tap on photo</li>
         <li>Single click on photo to toggle Exposition mode</li>
       </ul>
-    </div>
-    <div class="block">
+    </f7-block>
+    <f7-block>
       <p>Photo Browser could be opened in a three ways - as a Standalone component (Popup modification), in Popup, and as separate Page:</p>
-      <div class="row">
-        <div class="col-33"><a href="#" class="button button-raised" @click="openStandalone">Standalone</a></div>
-        <div class="col-33"><a href="#" class="button button-raised" @click="openPopup">Popup</a></div>
-        <div class="col-33"><a href="#" class="button button-raised" @click="openPage">Page</a></div>
-      </div>
-    </div>
-    <div class="block">
+      <f7-row>
+        <f7-col>
+          <f7-photo-browser :photos="photos" ref="standalone"></f7-photo-browser>
+          <f7-button raised @click="$refs.standalone.f7PhotoBrowser.open()">Standalone</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-photo-browser :photos="photos" type="popup" ref="popup"></f7-photo-browser>
+          <f7-button raised @click="$refs.popup.f7PhotoBrowser.open()">Popup</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-photo-browser :photos="photos" type="page" back-link-text="Back" ref="page"></f7-photo-browser>
+          <f7-button raised @click="$refs.page.f7PhotoBrowser.open()">Page</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+    <f7-block>
       <p>Photo Browser suppots 2 default themes - default Light (like in previous examples) and Dark theme. Here is a Dark theme examples:</p>
-      <div class="row">
-        <div class="col-33"><a href="#" class="button button-raised" @click="openStandaloneDark">Standalone</a></div>
-        <div class="col-33"><a href="#" class="button button-raised" @click="openPopupDark">Popup</a></div>
-        <div class="col-33"><a href="#" class="button button-raised" @click="openPageDark">Page</a></div>
-      </div>
-    </div>
+      <f7-row>
+        <f7-col>
+          <f7-photo-browser :photos="photos" theme="dark" ref="standaloneDark"></f7-photo-browser>
+          <f7-button raised @click="$refs.standaloneDark.f7PhotoBrowser.open()">Standalone</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-photo-browser :photos="photos" theme="dark" type="popup" ref="popupDark"></f7-photo-browser>
+          <f7-button raised @click="$refs.popupDark.f7PhotoBrowser.open()">Popup</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-photo-browser :photos="photos" theme="dark" type="page" back-link-text="Back" ref="pageDark"></f7-photo-browser>
+          <f7-button raised @click="$refs.pageDark.f7PhotoBrowser.open()">Page</f7-button>
+        </f7-col>
+      </f7-row>
+    </f7-block>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7PhotoBrowser, f7Block, f7Row, f7Col, f7Button } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7PhotoBrowser,
+      f7Block,
+      f7Row,
+      f7Col,
+      f7Button,
+    },
     data: function () {
       return {
         photos: [
@@ -50,76 +77,7 @@
             caption: 'Beautiful mountains in Zhangjiajie, China'
           }
         ],
-      }
+      };
     },
-    methods: {
-      openStandalone: function () {
-        const self = this;
-        self.standalone.open();
-      },
-      openPopup: function () {
-        const self = this;
-        self.popup.open();
-      },
-      openPage: function () {
-        const self = this;
-        self.page.open();
-      },
-      openStandaloneDark: function () {
-        const self = this;
-        self.standaloneDark.open();
-      },
-      openPopupDark: function () {
-        const self = this;
-        self.popupDark.open();
-      },
-      openPageDark: function () {
-        const self = this;
-        self.pageDark.open();
-      },
-    },
-    on: {
-      pageInit: function () {
-        const self = this;
-        // Create PBs when page init
-        self.standalone = self.$f7.photoBrowser.create({
-          photos: self.photos,
-        });
-        self.popup = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'popup',
-        });
-        self.page = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'page',
-          backLinkText: 'Back',
-        });
-        self.standaloneDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          theme: 'dark',
-        });
-        self.popupDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'popup',
-          theme: 'dark',
-        });
-        self.pageDark = self.$f7.photoBrowser.create({
-          photos: self.photos,
-          type: 'page',
-          backLinkText: 'Back',
-          theme: 'dark',
-        });
-      },
-      pageBeforeRemove: function () {
-        const self = this;
-        // Destroy PBs on page remove
-        self.standalone.destroy();
-        self.popup.destroy();
-        self.page.destroy();
-        self.standaloneDark.destroy();
-        self.popupDark.destroy();
-        self.pageDark.destroy();
-      },
-    }
   };
 </script>
