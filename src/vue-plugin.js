@@ -86,6 +86,8 @@ export default {
           if (parent.$f7router) $router = parent.$f7router;
           else if (parent.f7View) {
             $router = parent.f7View.router;
+          } else if (parent.$el && parent.$el.f7View) {
+            $router = parent.$el.f7View.router;
           }
           parent = parent.$parent;
         }
@@ -110,7 +112,7 @@ export default {
 
         function hasRouter(router) {
           return (self.$f7router && router === self.$f7router) ||
-                 (!self.$f7Router && self.$f7 && self.$f7.router);
+                 (!self.$f7router && self.$f7 && self.$f7.router);
         }
 
         function addRoutesCallbacks() {
