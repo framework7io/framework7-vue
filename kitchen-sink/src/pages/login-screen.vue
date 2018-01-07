@@ -1,72 +1,78 @@
 <template>
   <f7-page>
     <f7-navbar title="Login Screen" back-link="Back"></f7-navbar>
-    <div class="block">
+    <f7-block>
       <p>Framework7 comes with ready to use Login Screen layout. It could be used inside of page or inside of popup (Embedded) or as a standalone overlay:</p>
-    </div>
-    <div class="list links-list">
-      <ul>
-        <li>
-          <a href="/login-screen-page/">As Separate Page</a>
-        </li>
-      </ul>
-    </div>
-    <div class="block">
-      <a href="#" class="button button-raised button-big button-fill login-screen-open" data-login-screen=".login-screen">As Overlay</a>
-    </div>
-    <div class="login-screen">
-      <f7-page>
-        <div class="page-content login-screen-content">
-          <div class="login-screen-title">Framework7</div>
-          <form>
-            <div class="list">
-              <ul>
-                <li class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Username</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="username" id="demo-username-1" placeholder="Your username">
-                      <span class="input-clear-button"></span>
-                    </div>
-                  </div>
-                </li>
-                <li class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Password</div>
-                    <div class="item-input-wrap">
-                      <input type="password" name="password" id="demo-password-1" placeholder="Your password">
-                      <span class="input-clear-button"></span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="list">
-              <ul>
-                <li><a href="#" class="item-link list-button" @click="signIn">Sign In</a></li>
-              </ul>
-              <div class="block-footer">Some text about login information.<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-            </div>
-          </form>
-        </div>
+    </f7-block>
+
+    <f7-list>
+      <f7-list-item link="/login-screen-page/" title="As Separate Page"></f7-list-item>
+    </f7-list>
+
+    <f7-block>
+      <f7-button raised big fill login-screen-open=".demo-login-screen">As Overlay</f7-button>
+    </f7-block>
+
+    <f7-block>
+      <f7-button raised big fill @click="loginScreenOpened = true">Open Via Prop Change</f7-button>
+    </f7-block>
+
+    <f7-login-screen class="demo-login-screen" :opened="loginScreenOpened" @loginscreen:closed="loginScreenOpened = false">
+      <f7-page login-screen>
+        <f7-login-screen-title>Framework7</f7-login-screen-title>
+        <f7-list form>
+          <f7-list-item>
+            <f7-label>Username</f7-label>
+            <f7-input type="text" placeholder="Your username" @input="username = $event.target.value"></f7-input>
+          </f7-list-item>
+          <f7-list-item>
+            <f7-label>Password</f7-label>
+            <f7-input type="password" placeholder="Your password" @input="password = $event.target.value"></f7-input>
+          </f7-list-item>
+        </f7-list>
+        <f7-list>
+          <f7-list-button @click="signIn">Sign In</f7-list-button>
+          <f7-block-footer>Some text about login information.<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</f7-block-footer>
+        </f7-list>
       </f7-page>
-    </div>
+    </f7-login-screen>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Link, f7LoginScreen, f7Input, f7List, f7ListItem, f7Block, f7Button, f7LoginScreenTitle, f7BlockFooter, f7Label, f7ListButton } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7Link,
+      f7LoginScreen,
+      f7Input,
+      f7List,
+      f7ListItem,
+      f7Block,
+      f7Button,
+      f7LoginScreenTitle,
+      f7BlockFooter,
+      f7Label,
+      f7ListButton,
+    },
+    data() {
+      return {
+        loginScreenOpened: false,
+        username: '',
+        password: '',
+      };
+    },
     methods: {
-      signIn: function () {
-        var $ = this.$;
-        var app = this.$f7;
-        var username = $('input#demo-username-1').val();
-        var password = $('input#demo-password-1').val();
-        app.dialog.alert('Username: ' + username + '<br>Password: ' + password, function () {
+      signIn() {
+        const self = this;
+        const app = self.$f7;
+
+        app.dialog.alert(`Username: ${self.username}<br>Password: ${self.password}`, () => {
           app.loginScreen.close();
-        })
-      }
-    }
-  }
+        });
+      },
+    },
+  };
 </script>

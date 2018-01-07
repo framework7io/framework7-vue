@@ -1,55 +1,51 @@
 <template>
-  <f7-page no-toolbar no-navbar no-swipeback>
-    <div class="page-content login-screen-content">
-      <div class="login-screen-title">Framework7</div>
-      <form>
-        <div class="list">
-          <ul>
-            <li class="item-content item-input item-input-with-value">
-              <div class="item-inner">
-                <div class="item-title item-label">Username</div>
-                <div class="item-input-wrap">
-                  <input type="text" placeholder="Your username" id="demo-username-2" class="input-with-value">
-                  <span class="input-clear-button"></span>
-                </div>
-              </div>
-            </li>
-            <li class="item-content item-input">
-              <div class="item-inner">
-                <div class="item-title item-label">Password</div>
-                <div class="item-input-wrap">
-                  <input type="password" placeholder="Your password" id="demo-password-2" class="">
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="list">
-          <ul>
-            <li><a href="#" class="item-link list-button" @click="signIn">Sign In</a></li>
-          </ul>
-          <div class="block-footer">Some text about login information.<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-        </div>
-      </form>
-    </div>
+  <f7-page no-toolbar no-navbar no-swipeback login-screen>
+    <f7-login-screen-title>Framework7</f7-login-screen-title>
+    <f7-list form>
+      <f7-list-item>
+        <f7-label>Username</f7-label>
+        <f7-input type="text" placeholder="Your username" @input="username = $event.target.value"></f7-input>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-label>Password</f7-label>
+        <f7-input type="password" placeholder="Your password" @input="password = $event.target.value"></f7-input>
+      </f7-list-item>
+    </f7-list>
+    <f7-list>
+      <f7-list-button @click="signIn">Sign In</f7-list-button>
+      <f7-block-footer>Some text about login information.<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</f7-block-footer>
+    </f7-list>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Page, f7LoginScreenTitle, f7List, f7ListItem, f7Label, f7Input, f7ListButton, f7BlockFooter } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Page,
+      f7LoginScreenTitle,
+      f7List,
+      f7ListItem,
+      f7Label,
+      f7Input,
+      f7ListButton,
+      f7BlockFooter,
+    },
+    data() {
+      return {
+        username: '',
+        password: '',
+      };
+    },
     methods: {
-      signIn: function () {
-        var $ = this.$;
-        var app = this.$f7;
-        var router = this.$router;
-        var username = $('input#demo-username-2').val();
-        var password = $('input#demo-password-2').val();
-        app.dialog.alert('Username: ' + username + '<br>Password: ' + password, function () {
-          app.loginScreen.close();
+      signIn() {
+        const self = this;
+        const app = self.$f7;
+        const router = self.$f7router;
+        app.dialog.alert(`Username: ${self.username}<br>Password: ${self.password}`, () => {
           router.back();
-        })
-      }
-    }
-  }
+        });
+      },
+    },
+  };
 </script>
