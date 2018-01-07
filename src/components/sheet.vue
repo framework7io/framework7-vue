@@ -11,6 +11,7 @@
   );
 
   export default {
+    name: 'f7-sheet',
     render(c) {
       const self = this;
       const fixedList = [];
@@ -71,6 +72,10 @@
         const self = this;
         return Mixins.colorClasses(self);
       },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Sheet) self.f7Sheet.destroy();
     },
     methods: {
       onOpen(event) {

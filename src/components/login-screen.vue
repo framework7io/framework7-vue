@@ -42,6 +42,10 @@
         return Mixins.colorClasses(self);
       },
     },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7LoginScreen) self.f7LoginScreen.destroy();
+    },
     methods: {
       onOpen(event) {
         this.$emit('loginscreen:open', event);
