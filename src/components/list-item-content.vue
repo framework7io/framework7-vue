@@ -158,6 +158,13 @@
         },
       }, [slotsContentStart, inputEl, inputIconEl, mediaEl, innerEl, slotsContent, slotsContentEnd]);
     },
+    data() {
+      return {
+        itemInputForced: false,
+        inlineLabelForced: false,
+        itemInputWithInfoForced: false,
+      };
+    },
     methods: {
       onClick(event) {
         this.$emit('click', event);

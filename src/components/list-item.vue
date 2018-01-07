@@ -193,6 +193,13 @@
         liChildren
       );
     },
+    data() {
+      return {
+        itemInputForced: false,
+        inlineLabelForced: false,
+        itemInputWithInfoForced: false,
+      };
+    },
     computed: {
       sortableComputed() {
         return this.sortable || this.$parent.sortable || this.$parent.sortableComputed;
