@@ -29,8 +29,8 @@
       f7Page,
       f7BlockTitle,
     },
-    data: function () {
-      var colors = [
+    data() {
+      const colors = [
         'red',
         'pink',
         'purple',
@@ -52,18 +52,18 @@
         'bluegray',
       ];
       return {
-        colors: colors,
+        colors,
         colorsAmount: colors.length,
       };
     },
     methods: {
-      setColorTheme: function (color) {
-        var self = this;
-        var app = self.$f7;
-        var currentColorClass = app.root[0].className.match(/color-theme-([a-z]*)/);
-        if (currentColorClass) app.root.removeClass(currentColorClass[0])
-          app.root.addClass('color-theme-' + color);
+      setColorTheme(color) {
+        const self = this;
+        const app = self.$f7;
+        const currentColorClass = app.root[0].className.match(/color-theme-([a-z]*)/);
+        if (currentColorClass) app.root.removeClass(currentColorClass[0]);
+        app.root.addClass(`color-theme-${color}`);
       },
-    }
-  }
+    },
+  };
 </script>
