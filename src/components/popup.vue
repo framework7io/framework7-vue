@@ -11,10 +11,12 @@
   );
 
   export default {
+    name: 'f7-popup',
     render(c) {
       const self = this;
       return c('div', {
         staticClass: 'popup',
+        class: self.classes,
         on: {
           'popup:open': self.onOpen,
           'popup:opened': self.onOpened,
@@ -40,7 +42,7 @@
         const self = this;
         return Utils.extend({
           'popup-tablet-fullscreen': self.tabletFullscreen,
-        }, Mixins.colorClasses);
+        }, Mixins.colorClasses(self));
       },
     },
     beforeDestroy() {
