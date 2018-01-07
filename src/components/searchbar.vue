@@ -8,11 +8,11 @@
       noHairline: Boolean,
       form: {
         type: Boolean,
-        default: true
+        default: true,
       },
       placeholder: {
         type: String,
-        default: 'Search'
+        default: 'Search',
       },
       disableButton: {
         type: Boolean,
@@ -24,7 +24,7 @@
       },
       clearButton: {
         type: Boolean,
-        default: true
+        default: true,
       },
 
       // SB Params
@@ -33,7 +33,7 @@
       searchContainer: [String, Object],
       searchIn: {
         type: String,
-        default: '.item-title'
+        default: '.item-title',
       },
       searchItem: {
         type: String,
@@ -62,27 +62,27 @@
       },
       ignore: {
         type: String,
-        default: '.searchbar-ignore'
+        default: '.searchbar-ignore',
       },
       customSearch: {
         type: Boolean,
-        default: false
+        default: false,
       },
       removeDiacritics: {
         type: Boolean,
-        default: false
+        default: false,
       },
       hideDividers: {
         type: Boolean,
-        default: true
+        default: true,
       },
       hideGroups: {
         type: Boolean,
-        default: true
+        default: true,
       },
       init: {
         type: Boolean,
-        default: true
+        default: true,
       },
     },
     Mixins.colorProps
@@ -90,47 +90,48 @@
 
   export default {
     name: 'f7-searchbar',
-    render: function (c) {
+    render(c) {
       const self = this;
-      let clearEl, disableEl;
+      let clearEl;
+      let disableEl;
 
       const inputEl = c('input', {
         attrs: {
-          'placeholder': self.placeholder,
-          'type': 'search'
+          placeholder: self.placeholder,
+          type: 'search',
         },
         on: {
           input: self.onInput,
           change: self.onChange,
           focus: self.onFocus,
-          blur: self.onBlur
-        }
+          blur: self.onBlur,
+        },
       });
       if (self.clearButton) {
         clearEl = c('span', {
           staticClass: 'input-clear-button',
           on: {
-            click: self.onClearButtonClick
-          }
+            click: self.onClearButtonClick,
+          },
         });
       }
       if (self.disableButton) {
         disableEl = c('span', {
           staticClass: 'searchbar-disable-button',
           on: {
-            click: self.onDisableButtonClick
-          }
+            click: self.onDisableButtonClick,
+          },
         }, [self.disableButtonText]);
       }
       const iconEl = c('i', {
         staticClass: 'searchbar-icon',
       });
 
-      const inputWrapEl = c('div', {staticClass:'searchbar-input-wrap'}, [self.$slots['input-wrap-start'], inputEl, iconEl, clearEl, self.$slots['input-wrap-end']])
+      const inputWrapEl = c('div', { staticClass: 'searchbar-input-wrap' }, [self.$slots['input-wrap-start'], inputEl, iconEl, clearEl, self.$slots['input-wrap-end']]);
 
       const innerEl = c('div', {
         staticClass: 'searchbar-inner',
-      }, [self.$slots['inner-start'], inputWrapEl, disableEl, self.$slots['inner-end'], self.$slots['default']]);
+      }, [self.$slots['inner-start'], inputWrapEl, disableEl, self.$slots['inner-end'], self.$slots.default]);
 
       return c(self.form ? 'form' : 'div', {
         staticClass: 'searchbar',
@@ -138,61 +139,61 @@
           'no-shadow': self.noShadow,
           'no-hairline': self.noHairline,
           'searchbar-expandable': self.expandable,
-        }, Mixins.colorClasses),
+        }, Mixins.colorClasses(self)),
         on: {
-          'submit': self.onSubmit,
-        }
+          submit: self.onSubmit,
+        },
       }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
     },
-    beforeDestroy: function () {
+    beforeDestroy() {
       if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
     },
     props: SearchbarProps,
     methods: {
-      search: function (query) {
-        if (!this.f7Searchbar) return;
-        return this.f7Searchbar.search(query)
+      search(query) {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.search(query);
       },
-      enable: function () {
-        if (!this.f7Searchbar) return;
-        return this.f7Searchbar.enable()
+      enable() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.enable();
       },
-      disable: function () {
-        if (!this.f7Searchbar) return;
-        return this.f7Searchbar.disable()
+      disable() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.disable();
       },
-      toggle: function () {
-        if (!this.f7Searchbar) return;
-        return this.toggle.disable()
+      toggle() {
+        if (!this.f7Searchbar) return undefined;
+        return this.toggle.disable();
       },
-      clear: function () {
-        if (!this.f7Searchbar) return;
-        return this.f7Searchbar.clear()
+      clear() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.clear();
       },
-      onChange: function (event) {
+      onChange(event) {
         this.$emit('change', event);
       },
-      onInput: function (event) {
+      onInput(event) {
         this.$emit('input', event);
       },
-      onFocus: function (event) {
+      onFocus(event) {
         this.$emit('focus', event);
       },
-      onBlur: function (event) {
+      onBlur(event) {
         this.$emit('blur', event);
       },
-      onSubmit: function (event) {
+      onSubmit(event) {
         this.$emit('submit', event);
       },
-      onClearButtonClick: function (event) {
+      onClearButtonClick(event) {
         this.$emit('click:clear', event);
       },
-      onDisableButtonClick: function (event) {
+      onDisableButtonClick(event) {
         this.$emit('click:disable', event);
       },
 
-      onF7Init: function () {
-        var self = this;
+      onF7Ready() {
+        const self = this;
         if (!self.init) return;
         const params = {
           el: self.$el,
@@ -224,7 +225,7 @@
             disable(searchbar) {
               self.$emit('searchbar:disable', searchbar);
             },
-          }
+          },
         };
         Object.keys(params).forEach((key) => {
           if (typeof params[key] === 'undefined' || params[key] === '') {
@@ -232,7 +233,7 @@
           }
         });
         self.f7Searchbar = self.$f7.searchbar.create(params);
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
