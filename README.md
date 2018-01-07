@@ -3,6 +3,8 @@
 
 # Framework7 Vue
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/framework7io/framework7-vue.svg)](https://greenkeeper.io/)
+
 Framework7 Vue combines power and simplicity of great Vue.js framework with flexibility and UI of Framework7 mobile framework to build mobile apps in even more easy and quick way.
 
 ## Getting Started
