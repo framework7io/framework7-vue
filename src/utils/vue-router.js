@@ -104,7 +104,7 @@ export default {
         return;
       }
 
-      tabVue.tabContent = null;
+      tabVue.$set(tabVue, 'tabContent', null);
     },
   },
 };
