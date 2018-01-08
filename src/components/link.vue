@@ -11,6 +11,7 @@
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
+      routeTabId: String,
       iconOnly: Boolean,
       badge: [String, Number],
       badgeColor: [String],
@@ -87,6 +88,7 @@
           {
             href,
             target,
+            'data-route-tab-id': self.routeTabId,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
