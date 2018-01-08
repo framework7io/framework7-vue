@@ -1,6 +1,7 @@
 <template>
   <div class="subnavbar" :class="classes">
     <div class="subnavbar-inner" v-if="inner">
+      <div v-if="title" class="title">{{title}}</div>
       <slot></slot>
     </div>
     <slot v-else></slot>
@@ -12,6 +13,7 @@
 
   const SubnavbarProps = Utils.extend({
     sliding: Boolean,
+    title: String,
     inner: {
       type: Boolean,
       default: true,
