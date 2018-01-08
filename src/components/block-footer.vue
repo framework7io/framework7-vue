@@ -5,8 +5,8 @@
   import Mixins from '../utils/mixins';
 
   export default {
-    props: Mixins.colorProps,
     name: 'f7-block-footer',
+    props: Mixins.colorProps,
     computed: {
       classes() {
         const self = this;
