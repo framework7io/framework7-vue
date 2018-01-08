@@ -168,7 +168,7 @@
         this.$emit('ptr:pullend', event);
       },
       onPtrRefresh(event) {
-        this.$emit('ptr:refresh', event.detail);
+        this.$emit('ptr:refresh', event, event.detail);
       },
       onPtrRefreshDone(event) {
         this.$emit('ptr:done', event);
