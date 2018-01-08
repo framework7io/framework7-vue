@@ -167,7 +167,7 @@ const Mixins = {
       'login-screen-open': loginScreenOpen || loginScreenOpen === '',
       'sortable-enable': Utils.isTrueProp(sortableEnable),
       'sortable-disable': Utils.isTrueProp(sortableDisable),
-      'sortable-toggle': Utils.isTrueProp(sortableToggle),
+      'sortable-toggle': sortableToggle === true || sortableToggle.length,
     };
   },
 };
