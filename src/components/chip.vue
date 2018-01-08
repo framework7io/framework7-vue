@@ -18,8 +18,8 @@
       let mediaEl;
       let labelEl;
       let deleteEl;
-      if (self.$slots && self.$slots.media) {
-        mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.$slots.media);
+      if (self.media || (self.$slots && self.$slots.media)) {
+        mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.media || self.$slots.media);
       }
       if (self.text || (self.$slots && self.$slots.text)) {
         labelEl = c('div', { staticClass: 'chip-label' }, [self.text, self.$slots.text]);
