@@ -1,34 +1,31 @@
 <template>
-<f7-page>
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Navbar<span class="subtitle">Subtitle</span></div>
-      <div class="right">
-        <a class="link">Right</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-content">
-    <div class="block">
+  <f7-page>
+    <f7-navbar title="Navbar" subtitle="Subtitle" back-link="Back">
+      <f7-nav-right>
+        <f7-link>Right</f7-link>
+      </f7-nav-right>
+    </f7-navbar>
+    <f7-block>
       <p>Navbar is a fixed (with Fixed and Through layout types) area at the top of a screen that contains Page title and navigation elements.</p>
       <p>Navbar has 3 main parts: Left, Title and Right. Each part may contain any HTML content.</p>
-    </div>
-    <div class="list links-list">
-      <ul>
-        <li><a href="/navbar-hide-scroll/">Hide Navbar On Scroll</a></li>
-      </ul>
-    </div>
-  </div>
-</f7-page>
+    </f7-block>
+    <f7-list>
+      <f7-list-item link="/navbar-hide-scroll/" title="Hide Navbar On Scroll"></f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Block, f7List, f7ListItem, f7NavRight, f7Link } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7Block,
+      f7List,
+      f7ListItem,
+      f7NavRight,
+      f7Link,
+    },
+  };
 </script>

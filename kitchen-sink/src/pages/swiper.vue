@@ -1,16 +1,6 @@
 <template>
-<f7-page>
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back"> <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Swiper Slider</div>
-    </div>
-  </div>
-  <div class="page-content">
+  <f7-page>
+    <f7-navbar title="Swiper Slider" back-link="Back"></f7-navbar>
     <div class="block">
       <p>
         Framework7 comes with powerful and most modern touch slider ever -
@@ -76,11 +66,15 @@
         </li>
       </ul>
     </div>
-  </div>
-</f7-page>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+    },
+  };
 </script>

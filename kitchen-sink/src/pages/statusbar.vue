@@ -1,26 +1,33 @@
 <template>
   <f7-page>
     <f7-navbar title="Statusbar Overlay" back-link="Back"></f7-navbar>
-    <div class="block block-strong">
+    <f7-block strong>
       <p>Framework7 automatically detects if your app in full screen mode, and automatically shows statusbar overlay if app is in full screen mode (or hides statusbar if app is not in full screen mode). Its visibility can be forced using app parameters or using API:</p>
-      <p class="row">
-        <a class="col button button-raised" @click="showStatusbar">Show Statusbar</a>
-        <a class="col button button-raised" @click="hideStatusbar">Hide Statusbar</a>
-      </p>
-    </div>
+      <f7-row tag="p">
+        <f7-button raised class="col" @click="showStatusbar">Show Statusbar</f7-button>
+        <f7-button raised class="col" @click="hideStatusbar">Hide Statusbar</f7-button>
+      </f7-row>
+    </f7-block>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Block, f7Row, f7Button } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7Block,
+      f7Row,
+      f7Button,
+    },
     methods: {
-      showStatusbar: function () {
+      showStatusbar() {
         this.$f7.statusbar.show();
       },
-      hideStatusbar: function () {
+      hideStatusbar() {
         this.$f7.statusbar.hide();
       },
-    }
-  }
+    },
+  };
 </script>

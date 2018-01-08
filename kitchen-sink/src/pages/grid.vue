@@ -1,152 +1,145 @@
 <template>
-<f7-page class="grid-demo">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Grid / Layout</div>
-    </div>
-  </div>
-  <div class="block">
-    <p>Columns within a row are automatically set to have equal width. Otherwise you can define your column with pourcentage of screen you want.</p>
-  </div>
-  <f7-block-title>Columns with gutter</f7-block-title>
-  <div class="block">
-    <div class="row">
-      <div class="col">50% (.col)</div>
-      <div class="col">50% (.col)</div>
-    </div>
-    <div class="row">
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-    </div>
-    <div class="row">
-      <div class="col">33% (.col)</div>
-      <div class="col">33% (.col)</div>
-      <div class="col">33% (.col)</div>
-    </div>
-    <div class="row">
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-    </div>
-    <div class="row">
-      <div class="col-33">33% (.col-33)</div>
-      <div class="col-66">66% (.col-66)</div>
-    </div>
-    <div class="row">
-      <div class="col-25">25% (.col-25)</div>
-      <div class="col-25">25% (.col-25)</div>
-      <div class="col-50">50% (.col-50)</div>
-    </div>
-    <div class="row">
-      <div class="col-75">75% (.col-75)</div>
-      <div class="col-25">25% (.col-25)</div>
-    </div>
-    <div class="row">
-      <div class="col-80">80% (.col-80)</div>
-      <div class="col-20">20% (.col-20)</div>
-    </div>
-  </div>
-  <f7-block-title>No gutter between columns</f7-block-title>
-  <div class="block">
-    <div class="row no-gap">
-      <div class="col">50% (.col)</div>
-      <div class="col">50% (.col)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-      <div class="col">25% (.col)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col">33% (.col)</div>
-      <div class="col">33% (.col)</div>
-      <div class="col">33% (.col)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-      <div class="col">20% (.col)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col-33">33% (.col-33)</div>
-      <div class="col-66">66% (.col-66)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col-25">25% (.col-25)</div>
-      <div class="col-25">25% (.col-25)</div>
-      <div class="col-50">50% (.col-50)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col-75">75% (.col-75)</div>
-      <div class="col-25">25% (.col-25)</div>
-    </div>
-    <div class="row no-gap">
-      <div class="col-80">80% (.col-80)</div>
-      <div class="col-20">20% (.col-20)</div>
-    </div>
-  </div>
+  <f7-page class="grid-demo">
+    <f7-navbar title="Grid / Layout" back-link="Back"></f7-navbar>
+    <f7-block>
+      <p>Columns within a row are automatically set to have equal width. Otherwise you can define your column with pourcentage of screen you want.</p>
+    </f7-block>
+    <f7-block-title>Columns with gap</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>50% (.col)</f7-col>
+        <f7-col>50% (.col)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col>33% (.col)</f7-col>
+        <f7-col>33% (.col)</f7-col>
+        <f7-col>33% (.col)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="33">33% (.col-33)</f7-col>
+        <f7-col width="66">66% (.col-66)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="25">25% (.col-25)</f7-col>
+        <f7-col width="25">25% (.col-25)</f7-col>
+        <f7-col width="50">50% (.col-50)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="75">75% (.col-75)</f7-col>
+        <f7-col width="25">25% (.col-25)</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="80">80% (.col-80)</f7-col>
+        <f7-col width="20">20% (.col-20)</f7-col>
+      </f7-row>
+    </f7-block>
+    <f7-block-title>No gap between columns</f7-block-title>
+    <f7-block>
+      <f7-row no-gap>
+        <f7-col>50% (.col)</f7-col>
+        <f7-col>50% (.col)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+        <f7-col>25% (.col)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col>33% (.col)</f7-col>
+        <f7-col>33% (.col)</f7-col>
+        <f7-col>33% (.col)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+        <f7-col>20% (.col)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col width="33">33% (.col-33)</f7-col>
+        <f7-col width="66">66% (.col-66)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col width="25">25% (.col-25)</f7-col>
+        <f7-col width="25">25% (.col-25)</f7-col>
+        <f7-col width="50">50% (.col-50)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col width="75">75% (.col-75)</f7-col>
+        <f7-col width="25">25% (.col-25)</f7-col>
+      </f7-row>
+      <f7-row no-gap>
+        <f7-col width="80">80% (.col-80)</f7-col>
+        <f7-col width="20">20% (.col-20)</f7-col>
+      </f7-row>
+    </f7-block>
 
-  <f7-block-title>Nested</f7-block-title>
-  <div class="block">
-    <div class="row">
-      <div class="col">50% (.col)
-        <div class="row">
-          <div class="col">50% (.col)</div>
-          <div class="col">50% (.col)</div>
-        </div>
-      </div>
-      <div class="col">50% (.col)
-        <div class="row">
-          <div class="col-33">33% (.col-33)</div>
-          <div class="col-66">66% (.col-66)</div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <f7-block-title>Nested</f7-block-title>
+    <f7-block>
+      <f7-row>
+        <f7-col>50% (.col)
+          <f7-row>
+            <f7-col>50% (.col)</f7-col>
+            <f7-col>50% (.col)</f7-col>
+          </f7-row>
+        </f7-col>
+        <f7-col>50% (.col)
+          <f7-row>
+            <f7-col width="33">33% (.col-33)</f7-col>
+            <f7-col width="66">66% (.col-66)</f7-col>
+          </f7-row>
+        </f7-col>
+      </f7-row>
+    </f7-block>
 
-  <f7-block-title>Responsive Grid</f7-block-title>
-  <div class="block">
-    <p>Grid cells have different size on Phone/Tablet</p>
-    <div class="row">
-      <div class="col-100 tablet-50">.col-100.tablet-50</div>
-      <div class="col-100 tablet-50">.col-100.tablet-50</div>
-    </div>
-    <div class="row">
-      <div class="col-50 tablet-25">.col-50.tablet-25</div>
-      <div class="col-50 tablet-25">.col-50.tablet-25</div>
-      <div class="col-50 tablet-25">.col-50.tablet-25</div>
-      <div class="col-50 tablet-25">.col-50.tablet-25</div>
-    </div>
-    <div class="row">
-      <div class="col-100 tablet-40">.col-100.tablet-40</div>
-      <div class="col-50 tablet-60">.col-50.tablet-60</div>
-      <div class="col-50 tablet-66">.col-50.tablet-66</div>
-      <div class="col-100 tablet-33">.col-100.tablet-33</div>
-    </div>
-  </div>
-</f7-page>
+    <f7-block-title>Responsive Grid</f7-block-title>
+    <f7-block>
+      <p>Grid cells have different size on Phone/Tablet</p>
+      <f7-row>
+        <f7-col width="100" tablet-width="50">.col-100.tablet-50</f7-col>
+        <f7-col width="100" tablet-width="50">.col-100.tablet-50</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="50" tablet-width="25">.col-50.tablet-25</f7-col>
+        <f7-col width="50" tablet-width="25">.col-50.tablet-25</f7-col>
+        <f7-col width="50" tablet-width="25">.col-50.tablet-25</f7-col>
+        <f7-col width="50" tablet-width="25">.col-50.tablet-25</f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col width="100" tablet-width="40">.col-100.tablet-40</f7-col>
+        <f7-col width="50" tablet-width="60">.col-50.tablet-60</f7-col>
+        <f7-col width="50" tablet-width="66">.col-50.tablet-66</f7-col>
+        <f7-col width="100" tablet-width="33">.col-100.tablet-33</f7-col>
+      </f7-row>
+    </f7-block>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Row, f7Col, f7Block } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+      f7Row,
+      f7Col,
+      f7Block,
+    },
+  };
 </script>

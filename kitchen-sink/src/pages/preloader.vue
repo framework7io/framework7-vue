@@ -1,45 +1,49 @@
 <template>
   <f7-page>
     <f7-navbar title="Preloader" back-link="Back"></f7-navbar>
-    <div class="block">
+    <f7-block>
       <p>How about an activity indicator? Framework 7 has a nice one. The F7 Preloader is made with SVG and animated with CSS so it can be easily resized.</p>
-    </div>
+    </f7-block>
+
     <f7-block-title>Default</f7-block-title>
-    <div class="block row demo-preloaders align-items-stretch text-align-center">
-      <div class="col-25">
-        <div class="preloader"></div>
-      </div>
-      <div class="col-25 demo-black-col">
-        <div class="preloader color-white"></div>
-      </div>
-      <div class="col-25">
-        <div class="preloader preloader-big"></div>
-      </div>
-      <div class="col-25 demo-black-col">
-        <div class="preloader preloader-big color-white"></div>
-      </div>
-    </div>
+    <f7-block class="row demo-preloaders align-items-stretch text-align-center">
+      <f7-col>
+        <f7-preloader></f7-preloader>
+      </f7-col>
+      <f7-col style="background: #000">
+        <f7-preloader color="white"></f7-preloader>
+      </f7-col>
+      <f7-col>
+        <f7-preloader :size="42"></f7-preloader>
+      </f7-col>
+      <f7-col style="background: #000">
+        <f7-preloader :size="42" color="white"></f7-preloader>
+      </f7-col>
+    </f7-block>
+
     <f7-block-title>Color Preloaders</f7-block-title>
-    <div class="block row text-align-center">
-      <div class="col-25">
-        <div class="preloader color-red"></div>
-      </div>
-      <div class="col-25">
-        <div class="preloader color-green"></div>
-      </div>
-      <div class="col-25">
-        <div class="preloader color-orange"></div>
-      </div>
-      <div class="col-25">
-        <div class="preloader color-blue"></div>
-      </div>
-    </div>
-    <div class="block-title">Multi-color (MD-theme only)</div>
-    <div class="block text-align-center">
-      <div class="preloader color-multi"></div>
-    </div>
+    <f7-block class="row text-align-center">
+      <f7-col>
+        <f7-preloader color="red"></f7-preloader>
+      </f7-col>
+      <f7-col>
+        <f7-preloader color="green"></f7-preloader>
+      </f7-col>
+      <f7-col>
+        <f7-preloader color="orange"></f7-preloader>
+      </f7-col>
+      <f7-col>
+        <f7-preloader color="blue"></f7-preloader>
+      </f7-col>
+    </f7-block>
+
+    <f7-block-title>Multi-color (MD-theme only)</f7-block-title>
+    <f7-block class="text-align-center">
+      <f7-preloader color="multi"></f7-preloader>
+    </f7-block>
+
     <f7-block-title>Preloader Modals</f7-block-title>
-    <div class="block">
+    <f7-block>
       <p>With <b>app.preloader.show()</b> you can show small overlay with preloader indicator.</p>
       <p>
         <a class="button button-raised" @click="openIndicator">Open Small Indicator</a>
@@ -52,53 +56,43 @@
       <p>
         <a class="button button-raised" @click="openCustomDialog">Open Dialog Preloader</a>
       </p>
-    </div>
+    </f7-block>
   </f7-page>
 </template>
-<style scoped>
-  .preloader-big {
-    width: 42px;
-    height: 42px;
-  }
-  .demo-preloaders .col-25 {
-    padding: 5px;
-    line-height: 42px;
-  }
-  .demo-black-col {
-    background: #000;
-  }
-</style>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Block, f7Preloader, f7Col } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
+      f7Block,
+      f7Preloader,
+      f7Col,
     },
     methods: {
-      openIndicator: function () {
-        var self = this;
+      openIndicator() {
+        const self = this;
         self.$f7.preloader.show();
-        setTimeout(function () {
+        setTimeout(() => {
           self.$f7.preloader.hide();
         }, 2000);
       },
-      openDialog: function () {
-        var self = this;
+      openDialog() {
+        const self = this;
         self.$f7.dialog.preloader();
-        setTimeout(function () {
+        setTimeout(() => {
           self.$f7.dialog.close();
         }, 2000);
       },
-      openCustomDialog: function () {
-        var self = this;
+      openCustomDialog() {
+        const self = this;
         self.$f7.dialog.preloader('My text...');
-        setTimeout(function () {
+        setTimeout(() => {
           self.$f7.dialog.close();
         }, 2000);
       },
-    }
-  }
+    },
+  };
 </script>

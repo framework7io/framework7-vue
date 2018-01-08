@@ -30,46 +30,20 @@
       </f7-link>
     </f7-toolbar>
 
-    <div class="list">
-      <ul>
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="icon icon-f7"></i></div>
-            <div class="item-inner">
-              <div class="item-title">Foo Bar</div>
-              <div class="item-after"><span class="badge">0</span></div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="icon icon-f7"></i></div>
-            <div class="item-inner">
-              <div class="item-title">Ivan Petrov</div>
-              <div class="item-after"><span class="badge color-blue">CEO</span></div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="icon icon-f7"></i></div>
-            <div class="item-inner">
-              <div class="item-title">John Doe</div>
-              <div class="item-after"><span class="badge color-green">5</span></div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="icon icon-f7"></i></div>
-            <div class="item-inner">
-              <div class="item-title">Jane Doe</div>
-              <div class="item-after"><span class="badge color-orange">NEW</span></div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <f7-list>
+      <f7-list-item title="Foo Bar" badge="0">
+        <f7-icon slot="media" icon="icon-f7"></f7-icon>
+      </f7-list-item>
+      <f7-list-item title="Ivan Petrov" badge="CEO" badge-color="blue">
+        <f7-icon slot="media" icon="icon-f7"></f7-icon>
+      </f7-list-item>
+      <f7-list-item title="John Doe" badge="5" badge-color="green">
+        <f7-icon slot="media" icon="icon-f7"></f7-icon>
+      </f7-list-item>
+      <f7-list-item title="Jane Doe" badge="NEW" badge-color="orange">
+        <f7-icon slot="media" icon="icon-f7"></f7-icon>
+      </f7-list-item>
+    </f7-list>
   </f7-page>
 </template>
 <script>

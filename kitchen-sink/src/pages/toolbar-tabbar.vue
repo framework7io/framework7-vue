@@ -1,54 +1,37 @@
 <template>
   <f7-page>
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Toolbar & Tabbar</div>
-      </div>
-    </div>
-    <div class="toolbar">
-      <div class="toolbar-inner">
-        <a class="link">Left Link</a>
-        <a class="link">Right Link</a>
-      </div>
-    </div>
-    <div class="list links-list">
-      <ul>
-        <li>
-          <a href="./tabbar/">Tabbar</a>
-        </li>
-        <li>
-          <a href="./tabbar-labels/">Tabbar With Labels</a>
-        </li>
-        <li>
-          <a href="./tabbar-scrollable/">Tabbar Scrollable</a>
-        </li>
-        <li>
-          <a href="./toolbar-hide-scroll/">Hide Toolbar On Scroll</a>
-        </li>
-      </ul>
-    </div>
-    <div class="block-title md-only">Toolbar Position</div>
-    <div class="block md-only">
+    <f7-navbar title="Toolbar & Tabbar" back-link="Back"></f7-navbar>
+    <f7-toolbar>
+      <f7-link>Left Link</f7-link>
+      <f7-link>Right Link</f7-link>
+    </f7-toolbar>
+    <f7-list>
+      <f7-list-item link="./tabbar/" title="Tabbar"></f7-list-item>
+      <f7-list-item link="./tabbar-labels/" title="Tabbar With Labels"></f7-list-item>
+      <f7-list-item link="./tabbar-scrollable/" title="Tabbar Scrollable"></f7-list-item>
+      <f7-list-item link="./toolbar-hide-scroll/" title="Hide Toolbar On Scroll"></f7-list-item>
+    </f7-list>
+    <f7-block-title v-if="$theme.md">Toolbar Position</f7-block-title>
+    <f7-block v-if="$theme.md">
       <p>Material (MD) theme toolbar supports both top and bottom positions. Click the following button to change its position.</p>
-      <p><a class="button button-raised" @click="toggleToolbarPosition">Toggle Toolbar Position</a></p>
-    </div>
+      <p>
+        <f7-button raised @click="toggleToolbarPosition">Toggle Toolbar Position</f7-button>
+      </p>
+    </f7-block>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Toolbar, f7List, f7ListItem, f7Button, f7Link, f7BlockTitle, f7Block } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar, f7Page, f7Toolbar, f7List, f7ListItem, f7Button, f7Link, f7BlockTitle, f7Block,
+    },
     methods: {
-      toggleToolbarPosition: function () {
+      toggleToolbarPosition() {
         this.$$(this.$el).find('.toolbar, .tabbar').toggleClass('toolbar-bottom-md');
       },
-    }
-  }
+    },
+  };
 </script>
 

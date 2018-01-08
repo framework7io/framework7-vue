@@ -1,28 +1,20 @@
 <template>
   <f7-page>
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Autocomplete</div>
-        <div class="subnavbar">
-          <form class="searchbar" id="searchbar-autocomplete">
-            <div class="searchbar-inner">
-              <div class="searchbar-input-wrap">
-                <input type="search" placeholder="Search"/>
-                <i class="searchbar-icon"></i>
-                <span class="input-clear-button"></span>
-              </div>
-              <span class="searchbar-disable-button">Cancel</span>
+    <f7-navbar title="Autocomplete" back-link="Back">
+      <div class="subnavbar">
+        <form class="searchbar" id="searchbar-autocomplete">
+          <div class="searchbar-inner">
+            <div class="searchbar-input-wrap">
+              <input type="search" placeholder="Search"/>
+              <i class="searchbar-icon"></i>
+              <span class="input-clear-button"></span>
             </div>
-          </form>
-        </div>
+            <span class="searchbar-disable-button">Cancel</span>
+          </div>
+        </form>
       </div>
-    </div>
+    </f7-navbar>
+
     <f7-block-title>Dropdown Autocomplete</f7-block-title>
     <div class="block">
       <p>Dropdown autocomplete is good to use as a quick and simple solution to provide more options in addition to free-type value.</p>
@@ -189,14 +181,14 @@
       f7Navbar,
       f7BlockTitle,
     },
-    data: function () {
+    data() {
       return {
         fruits: 'Apple Apricot Avocado Banana Melon Orange Peach Pear Pineapple'.split(' '),
       };
     },
     on: {
       pageBeforeRemove() {
-        var self = this;
+        const self = this;
         // Destroy all autocompletes
         self.autocompleteDropdownSimple.destroy();
         self.autocompleteDropdownExpand.destroy();
@@ -210,29 +202,29 @@
         self.autocompleteStandaloneMultiple.destroy();
         self.autocompleteStandaloneAjax.destroy();
       },
-      pageInit: function () {
-        var self = this;
-        var app = self.$f7;
-        var fruits = self.fruits;
-        var $ = self.$$;
+      pageInit() {
+        const self = this;
+        const app = self.$f7;
+        const fruits = self.fruits;
+        const $ = self.$$;
 
         // Simple Dropdown
         self.autocompleteDropdownSimple = app.autocomplete.create({
           inputEl: '#autocomplete-dropdown',
           openIn: 'dropdown',
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
+          },
         });
 
         // Dropdown with input expand
@@ -240,34 +232,34 @@
           inputEl: '#autocomplete-dropdown-expand',
           openIn: 'dropdown',
           expandInput: true, // expand input
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
+          },
         });
 
         // Dropdown with all values
         self.autocompleteDropdownAll = app.autocomplete.create({
           inputEl: '#autocomplete-dropdown-all',
           openIn: 'dropdown',
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
+          },
         });
 
         // Dropdown with placeholder
@@ -275,19 +267,19 @@
           inputEl: '#autocomplete-dropdown-placeholder',
           openIn: 'dropdown',
           dropdownPlaceholderText: 'Try to type "Apple"',
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
+          },
         });
 
         // Dropdown with typeahead
@@ -296,34 +288,34 @@
           openIn: 'dropdown',
           dropdownPlaceholderText: 'Try to type "Pineapple"',
           typeahead: true,
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) === 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
+          },
         });
 
         // Dropdown with ajax data
         self.autocompleteDropdownAjax = app.autocomplete.create({
           inputEl: '#autocomplete-dropdown-ajax',
           openIn: 'dropdown',
-          preloader: true, //enable preloader
+          preloader: true, // enable preloader
           /* If we set valueProperty to "id" then input value on select will be set according to this property */
-          valueProperty: 'name', //object's "value" property name
-          textProperty: 'name', //object's "text" property name
-          limit: 20, //limit to 20 results
+          valueProperty: 'name', // object's "value" property name
+          textProperty: 'name', // object's "text" property name
+          limit: 20, // limit to 20 results
           dropdownPlaceholderText: 'Try "JavaScript"',
-          source: function (query, render) {
-            var autocomplete = this;
-            var results = [];
+          source(query, render) {
+            const autocomplete = this;
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
@@ -332,42 +324,42 @@
             autocomplete.preloaderShow();
 
             // Do Ajax request to Autocomplete data
-            $.ajax({
+            app.request({
               url: './js/autocomplete-languages.json',
               method: 'GET',
               dataType: 'json',
-              //send "query" to server. Useful in case you generate response dynamically
+              // send "query" to server. Useful in case you generate response dynamically
               data: {
-                query: query,
+                query,
               },
-              success: function (data) {
-                // Find matched items
-                for (var i = 0; i < data.length; i++) {
+              success(data) {
+              // Find matched items
+                for (let i = 0; i < data.length; i += 1) {
                   if (data[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                 }
                 // Hide Preoloader
                 autocomplete.preloaderHide();
                 // Render items by passing array with result items
                 render(results);
-              }
+              },
             });
-          }
+          },
         });
 
         // Dropdown with ajax data
         self.autocompleteDropdownAjaxTypeahead = app.autocomplete.create({
           inputEl: '#autocomplete-dropdown-ajax-typeahead',
           openIn: 'dropdown',
-          preloader: true, //enable preloader
+          preloader: true, // enable preloader
           /* If we set valueProperty to "id" then input value on select will be set according to this property */
-          valueProperty: 'name', //object's "value" property name
-          textProperty: 'name', //object's "text" property name
-          limit: 20, //limit to 20 results
+          valueProperty: 'name', // object's "value" property name
+          textProperty: 'name', // object's "text" property name
+          limit: 20, // limit to 20 results
           typeahead: true,
           dropdownPlaceholderText: 'Try "JavaScript"',
-          source: function (query, render) {
-            var autocomplete = this;
-            var results = [];
+          source(query, render) {
+            const autocomplete = this;
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
@@ -376,48 +368,48 @@
             autocomplete.preloaderShow();
 
             // Do Ajax request to Autocomplete data
-            $.ajax({
+            app.request({
               url: './js/autocomplete-languages.json',
               method: 'GET',
               dataType: 'json',
-              //send "query" to server. Useful in case you generate response dynamically
+              // send "query" to server. Useful in case you generate response dynamically
               data: {
-                query: query,
+                query,
               },
-              success: function (data) {
-                // Find matched items
-                for (var i = 0; i < data.length; i++) {
+              success(data) {
+              // Find matched items
+                for (let i = 0; i < data.length; i += 1) {
                   if (data[i].name.toLowerCase().indexOf(query.toLowerCase()) === 0) results.push(data[i]);
                 }
                 // Hide Preoloader
                 autocomplete.preloaderHide();
                 // Render items by passing array with result items
                 render(results);
-              }
+              },
             });
-          }
+          },
         });
 
         // Simple Standalone
         self.autocompleteStandaloneSimple = app.autocomplete.create({
-          openIn: 'page', //open in page
-          openerEl: '#autocomplete-standalone', //link that opens autocomplete
-          closeOnSelect: true, //go back after we select something
-          source: function (query, render) {
-            var results = [];
+          openIn: 'page', // open in page
+          openerEl: '#autocomplete-standalone', // link that opens autocomplete
+          closeOnSelect: true, // go back after we select something
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
           },
           on: {
-            change: function (value) {
+            change(value) {
               console.log(value);
               // Add item text value to item-after
               $('#autocomplete-standalone').find('.item-after').text(value[0]);
@@ -429,24 +421,24 @@
 
         // Standalone Popup
         self.autocompleteStandalonePopup = app.autocomplete.create({
-          openIn: 'popup', //open in page
-          openerEl: '#autocomplete-standalone-popup', //link that opens autocomplete
-          closeOnSelect: true, //go back after we select something
-          source: function (query, render) {
-            var results = [];
+          openIn: 'popup', // open in page
+          openerEl: '#autocomplete-standalone-popup', // link that opens autocomplete
+          closeOnSelect: true, // go back after we select something
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
           },
           on: {
-            change: function (value) {
+            change(value) {
               // Add item text value to item-after
               $('#autocomplete-standalone-popup').find('.item-after').text(value[0]);
               // Add item value to input value
@@ -457,45 +449,44 @@
 
         // Multiple Standalone
         self.autocompleteStandaloneMultiple = app.autocomplete.create({
-          openIn: 'page', //open in page
-          openerEl: '#autocomplete-standalone-multiple', //link that opens autocomplete
-          multiple: true, //allow multiple values
-          source: function (query, render) {
-            var autocomplete = this;
-            var results = [];
+          openIn: 'page', // open in page
+          openerEl: '#autocomplete-standalone-multiple', // link that opens autocomplete
+          multiple: true, // allow multiple values
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
           },
           on: {
-            change: function (value) {
+            change(value) {
               // Add item text value to item-after
               $('#autocomplete-standalone-multiple').find('.item-after').text(value.join(', '));
               // Add item value to input value
               $('#autocomplete-standalone-multiple').find('input').val(value.join(', '));
-            }
-          }
+            },
+          },
         });
 
         // Standalone With Ajax
         self.autocompleteStandaloneAjax = app.autocomplete.create({
-          openIn: 'page', //open in page
-          openerEl: '#autocomplete-standalone-ajax', //link that opens autocomplete
-          multiple: true, //allow multiple values
-          valueProperty: 'id', //object's "value" property name
-          textProperty: 'name', //object's "text" property name
+          openIn: 'page', // open in page
+          openerEl: '#autocomplete-standalone-ajax', // link that opens autocomplete
+          multiple: true, // allow multiple values
+          valueProperty: 'id', // object's "value" property name
+          textProperty: 'name', // object's "text" property name
           limit: 50,
-          preloader: true, //enable preloader
-          source: function (query, render) {
-            var autocomplete = this;
-            var results = [];
+          preloader: true, // enable preloader
+          source(query, render) {
+            const autocomplete = this;
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
@@ -503,31 +494,31 @@
             // Show Preloader
             autocomplete.preloaderShow();
             // Do Ajax request to Autocomplete data
-            $.ajax({
+            app.request({
               url: './js/autocomplete-languages.json',
               method: 'GET',
               dataType: 'json',
-              //send "query" to server. Useful in case you generate response dynamically
+              // send "query" to server. Useful in case you generate response dynamically
               data: {
-                query: query
+                query,
               },
-              success: function (data) {
-                // Find matched items
-                for (var i = 0; i < data.length; i++) {
+              success(data) {
+              // Find matched items
+                for (let i = 0; i < data.length; i += 1) {
                   if (data[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                 }
                 // Hide Preoloader
                 autocomplete.preloaderHide();
                 // Render items by passing array with result items
                 render(results);
-              }
+              },
             });
           },
           on: {
-            change: function (value) {
-              var itemText = [],
-                  inputValue = [];
-              for (var i = 0; i < value.length; i++) {
+            change(value) {
+              const itemText = [];
+              const inputValue = [];
+              for (let i = 0; i < value.length; i += 1) {
                 itemText.push(value[i].name);
                 inputValue.push(value[i].id);
               }
@@ -544,30 +535,30 @@
           openIn: 'dropdown',
           inputEl: '#searchbar-autocomplete input[type="search"]',
           dropdownPlaceholderText: 'Type "Apple"',
-          source: function (query, render) {
-            var results = [];
+          source(query, render) {
+            const results = [];
             if (query.length === 0) {
               render(results);
               return;
             }
             // Find matched items
-            for (var i = 0; i < fruits.length; i++) {
+            for (let i = 0; i < fruits.length; i += 1) {
               if (fruits[i].toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(fruits[i]);
             }
             // Render items by passing array with result items
             render(results);
-          }
-        })
+          },
+        });
         self.searchbar = app.searchbar.create({
           el: '#searchbar-autocomplete',
           customSearch: true,
           on: {
-            search: function (query) {
+            search(query) {
               console.log(query);
-            }
-          }
-        })
-      }
-    }
-  }
+            },
+          },
+        });
+      },
+    },
+  };
 </script>

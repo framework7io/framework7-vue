@@ -1,186 +1,54 @@
 <template>
   <f7-page>
     <f7-navbar title="Contacts List" back-link="Back"></f7-navbar>
-    <div class="list contacts-list">
-      <div class="list-group">
-        <ul>
-          <li class="list-group-title">A</li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Aaron </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Abbie</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Adam</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Adele</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Agatha</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Agnes</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Albert</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Alexander</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-group">
-        <ul>
-          <li class="list-group-title">B</li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Bailey</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Barclay</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Bartolo</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Bellamy</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Belle</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Benjamin</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-group">
-        <ul>
-          <li class="list-group-title">C</li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Caiden</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Calvin</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Candy</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Carl</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Cherilyn</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Chester</div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Chloe</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-group">
-        <ul>
-          <li class="list-group-title">V</li>
-          <li>
-            <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Vladimir</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <f7-list contacts-list>
+      <f7-list-group>
+        <f7-list-item title="A" group-title></f7-list-item>
+        <f7-list-item title="Aaron "></f7-list-item>
+        <f7-list-item title="Abbie"></f7-list-item>
+        <f7-list-item title="Adam"></f7-list-item>
+        <f7-list-item title="Adele"></f7-list-item>
+        <f7-list-item title="Agatha"></f7-list-item>
+        <f7-list-item title="Agnes"></f7-list-item>
+        <f7-list-item title="Albert"></f7-list-item>
+        <f7-list-item title="Alexander"></f7-list-item>
+      </f7-list-group>
+      <f7-list-group>
+        <f7-list-item title="B" group-title></f7-list-item>
+        <f7-list-item title="Bailey"></f7-list-item>
+        <f7-list-item title="Barclay"></f7-list-item>
+        <f7-list-item title="Bartolo"></f7-list-item>
+        <f7-list-item title="Bellamy"></f7-list-item>
+        <f7-list-item title="Belle"></f7-list-item>
+        <f7-list-item title="Benjamin"></f7-list-item>
+      </f7-list-group>
+      <f7-list-group>
+        <f7-list-item title="C" group-title></f7-list-item>
+        <f7-list-item title="Caiden"></f7-list-item>
+        <f7-list-item title="Calvin"></f7-list-item>
+        <f7-list-item title="Candy"></f7-list-item>
+        <f7-list-item title="Carl"></f7-list-item>
+        <f7-list-item title="Cherilyn"></f7-list-item>
+        <f7-list-item title="Chester"></f7-list-item>
+        <f7-list-item title="Chloe"></f7-list-item>
+      </f7-list-group>
+      <f7-list-group>
+        <f7-list-item title="V" group-title></f7-list-item>
+        <f7-list-item title="Vladimir"></f7-list-item>
+      </f7-list-group>
+    </f7-list>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7List, f7ListGroup, f7ListItem } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+      f7List,
+      f7ListGroup,
+      f7ListItem,
+    },
+  };
 </script>

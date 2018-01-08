@@ -59,25 +59,25 @@
       f7Col,
       f7Button,
     },
-    data: function () {
+    data() {
       return {
         photos: [
           {
             url: 'img/beach.jpg',
-            caption: 'Amazing beach in Goa, India'
+            caption: 'Amazing beach in Goa, India',
           },
           'http://placekitten.com/1024/1024',
           'img/lock.jpg',
           {
             url: 'img/monkey.jpg',
-            caption: 'I met this monkey in Chinese mountains'
+            caption: 'I met this monkey in Chinese mountains',
           },
           {
             url: 'img/mountains.jpg',
-            caption: 'Beautiful mountains in Zhangjiajie, China'
-          }
+            caption: 'Beautiful mountains in Zhangjiajie, China',
+          },
         ],
       };
-    },
+  },
   };
 </script>

@@ -1,94 +1,72 @@
 <template>
   <f7-page>
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-          </a>
-        </div>
-        <div class="title">Virtual List</div>
-        <div class="subnavbar">
-          <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
-            <div class="searchbar-inner">
-              <div class="searchbar-input-wrap">
-                <input type="search" placeholder="Search"/>
-                <i class="searchbar-icon"></i>
-                <span class="input-clear-button"></span>
-              </div>
-              <span class="searchbar-disable-button">Cancel</span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="searchbar-backdrop"></div>
-    <div class="block">
+    <f7-navbar title="Virtual List" back-link="Back">
+      <f7-subnavbar :inner="false">
+        <f7-searchbar
+          search-container=".virtual-list"
+          search-item="li"
+          search-in=".item-title"
+        ></f7-searchbar>
+      </f7-subnavbar>
+    </f7-navbar>
+    <f7-block>
       <p>Virtual List allows to render lists with huge amount of elements without loss of performance. And it is fully compatible with all Framework7 list components such as Search Bar, Infinite Scroll, Pull To Refresh, Swipeouts (swipe-to-delete) and Sortable.</p>
       <p>Here is the example of virtual list with 10 000 items:</p>
-    </div>
-    <div class="list simple-list searchbar-not-found">
+    </f7-block>
+    <f7-list class="searchbar-not-found">
+      <f7-list-item title="Nothing found"></f7-list-item>
+    </f7-list>
+    <f7-list
+      class="searchbar-found"
+      medial-list
+      virtual-list
+      :virtual-list-params="{ items, searchAll, renderExternal, height: $theme.ios ? 63 : 73}"
+    >
       <ul>
-        <li>Nothing found</li>
+        <f7-list-item
+          v-for="(item, index) in vlData.items"
+          :key="index"
+          media-item
+          link="#"
+          :title="item.title"
+          :subtitle="item.subtitle"
+          :style="`top: ${vlData.topPosition}px`"
+        ></f7-list-item>
       </ul>
-    </div>
-    <div class="list virtual-list media-list searchbar-found"></div>
+    </f7-list>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7List, f7ListItem, f7Subnavbar, f7Searchbar, f7Block } from 'framework7-vue';
 
   export default {
-    data: function() {
-      var items = [];
-      for (var i = 1; i <= 10000; i++) {
+    components: {
+      f7Navbar, f7Page, f7List, f7ListItem, f7Subnavbar, f7Searchbar, f7Block,
+    },
+    data() {
+      const items = [];
+      for (let i = 1; i <= 10000; i += 1) {
         items.push({
-          title: 'Item ' + i,
-          subtitle: 'Subtitle ' + i
+          title: `Item ${i}`,
+          subtitle: `Subtitle ${i}`,
         });
       }
       return {
-        items: items
+        items,
+        vlData: {},
       };
     },
-    on: {
-      pageBeforeRemove: function () {
-        var self = this;
-        self.virtualList.destroy();
+    methods: {
+      searchAll(query, items) {
+        const found = [];
+        for (let i = 0; i < items.length; i += 1) {
+          if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+        }
+        return found; // return array with mathced indexes
       },
-      pageInit: function() {
-        var self = this;
-        var $el = self.$$(self.$el);
-        self.virtualList = self.$f7.virtualList.create({
-          // List Element
-          el: $el.find('.virtual-list'),
-          // Pass array with items
-          items: self.items,
-          // Custom search function for searchbar
-          searchAll: function (query, items) {
-            var found = [];
-            for (var i = 0; i < items.length; i++) {
-              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
-            }
-            return found; //return array with mathced indexes
-          },
-          // List item Template7 template
-          itemTemplate:
-            '<li>' +
-              '<a href="#" class="item-link item-content">' +
-                '<div class="item-inner">' +
-                  '<div class="item-title-row">' +
-                    '<div class="item-title">{{title}}</div>' +
-                  '</div>' +
-                  '<div class="item-subtitle">{{subtitle}}</div>' +
-                '</div>' +
-              '</a>' +
-            '</li>',
-          // Item height
-          height: self.$theme.ios ? 63 : 73,
-        });
-      }
-    }
-  }
+      renderExternal(vl, vlData) {
+        this.vlData = vlData;
+      },
+    },
+  };
 </script>

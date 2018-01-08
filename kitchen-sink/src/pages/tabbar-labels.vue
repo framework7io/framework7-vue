@@ -1,47 +1,22 @@
 <template>
-  <f7-page>
-    <div class="navbar">
-      <div class="navbar-inner sliding">
-        <div class="left">
-            <a href="#" class="link back">
-              <i class="icon icon-back"></i>
-              <span class="ios-only">Back</span>
-            </a>
-          </div>
-        <div class="title">Tabbar Labels</div>
-        <div class="right md-only">
-          <a class="link" @click="toggleToolbarPosition">
-            <i class="icon material-icons rotate-icon">compare_arrows</i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="toolbar tabbar tabbar-labels">
-      <div class="toolbar-inner">
-        <a href="#tab-1" class="tab-link tab-link-active">
-          <i class="icon f7-icons ios-only">email</i>
-          <i class="icon icon-fill f7-icons ios-only">email_fill</i>
-          <i class="icon material-icons md-only">email</i>
-          <span class="tabbar-label">Inbox</span>
-        </a>
-        <a href="#tab-2" class="tab-link">
-          <i class="icon f7-icons ios-only">today<span class="badge color-red">5</span></i>
-          <i class="icon icon-fill f7-icons ios-only">today_fill<span class="badge color-red">5</span></i>
-          <i class="icon material-icons md-only">today<span class="badge color-red">5</span></i>
-          <span class="tabbar-label">Calendar</span>
-        </a>
-        <a href="#tab-3" class="tab-link">
-          <i class="icon f7-icons ios-only">cloud</i>
-          <i class="icon icon-fill f7-icons ios-only">cloud_fill</i>
-          <i class="icon material-icons md-only">file_upload</i>
-          <span class="tabbar-label">Upload</span>
-        </a>
-      </div>
-    </div>
-    <div class="tabs">
-      <div id="tab-1" class="page-content tab tab-active">
-        <div class="block">
-          <p><b>Tab 1 content</b></p>
+  <f7-page :page-content="false">
+    <f7-navbar title="Tabbar Labels" back-link="Back">
+      <f7-nav-right v-if="$theme.md">
+        <f7-link icon="material:compare_arrows" @click="toggleToolbarPosition">
+          <i class="icon material-icons rotate-icon">compare_arrows</i>
+        </f7-link>
+      </f7-nav-right>
+    </f7-navbar>
+    <f7-toolbar tabbar labels>
+      <f7-link tab-link="#tab-1" tab-link-active text="Tab 1" icon-if-ios="f7:email_fill" icon-if-md="material:email"></f7-link>
+      <f7-link tab-link="#tab-2" text="Tab 2" icon-if-ios="f7:today_fill" icon-if-md="material:today"></f7-link>
+      <f7-link tab-link="#tab-3" text="Tab 3" icon-if-ios="f7:cloud_fill" icon-if-md="material:file_upload"></f7-link>
+    </f7-toolbar>
+
+    <f7-tabs>
+      <f7-tab id="tab-1" class="page-content" tab-active>
+        <f7-block>
+          <p>Tab 1 content</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam enim quia molestiae facilis laudantium voluptates obcaecati officia cum, sit libero commodi. Ratione illo suscipit temporibus sequi iure ad laboriosam accusamus?</p>
           <p>Saepe explicabo voluptas ducimus provident, doloremque quo totam molestias! Suscipit blanditiis eaque exercitationem praesentium reprehenderit, fuga accusamus possimus sed, sint facilis ratione quod, qui dignissimos voluptas! Aliquam rerum consequuntur deleniti.</p>
           <p>Totam reprehenderit amet commodi ipsum nam provident doloremque possimus odio itaque, est animi culpa modi consequatur reiciendis corporis libero laudantium sed eveniet unde delectus a maiores nihil dolores? Natus, perferendis.</p>
@@ -49,11 +24,11 @@
           <p>Suscipit, facere quasi atque totam. Repudiandae facilis at optio atque, rem nam, natus ratione cum enim voluptatem suscipit veniam! Repellat, est debitis. Modi nam mollitia explicabo, unde aliquid impedit! Adipisci!</p>
           <p>Deserunt adipisci tempora asperiores, quo, nisi ex delectus vitae consectetur iste fugiat iusto dolorem autem. Itaque, ipsa voluptas, a assumenda rem, dolorum porro accusantium, officiis veniam nostrum cum cumque impedit.</p>
           <p>Laborum illum ipsa voluptatibus possimus nesciunt ex consequatur rem, natus ad praesentium rerum libero consectetur temporibus cupiditate atque aspernatur, eaque provident eligendi quaerat ea soluta doloremque. Iure fugit, minima facere.</p>
-        </div>
-      </div>
-      <div id="tab-2" class="page-content tab">
-        <div class="block">
-          <p><b>Tab 2 content</b></p>
+        </f7-block>
+      </f7-tab>
+      <f7-tab id="tab-2" class="page-content">
+        <f7-block>
+          <p>Tab 2 content</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam enim quia molestiae facilis laudantium voluptates obcaecati officia cum, sit libero commodi. Ratione illo suscipit temporibus sequi iure ad laboriosam accusamus?</p>
           <p>Saepe explicabo voluptas ducimus provident, doloremque quo totam molestias! Suscipit blanditiis eaque exercitationem praesentium reprehenderit, fuga accusamus possimus sed, sint facilis ratione quod, qui dignissimos voluptas! Aliquam rerum consequuntur deleniti.</p>
           <p>Totam reprehenderit amet commodi ipsum nam provident doloremque possimus odio itaque, est animi culpa modi consequatur reiciendis corporis libero laudantium sed eveniet unde delectus a maiores nihil dolores? Natus, perferendis.</p>
@@ -61,11 +36,11 @@
           <p>Suscipit, facere quasi atque totam. Repudiandae facilis at optio atque, rem nam, natus ratione cum enim voluptatem suscipit veniam! Repellat, est debitis. Modi nam mollitia explicabo, unde aliquid impedit! Adipisci!</p>
           <p>Deserunt adipisci tempora asperiores, quo, nisi ex delectus vitae consectetur iste fugiat iusto dolorem autem. Itaque, ipsa voluptas, a assumenda rem, dolorum porro accusantium, officiis veniam nostrum cum cumque impedit.</p>
           <p>Laborum illum ipsa voluptatibus possimus nesciunt ex consequatur rem, natus ad praesentium rerum libero consectetur temporibus cupiditate atque aspernatur, eaque provident eligendi quaerat ea soluta doloremque. Iure fugit, minima facere.</p>
-        </div>
-      </div>
-      <div id="tab-3" class="page-content tab">
-        <div class="block">
-          <p><b>Tab 3 content</b></p>
+        </f7-block>
+      </f7-tab>
+      <f7-tab id="tab-3" class="page-content">
+        <f7-block>
+          <p>Tab 3 content</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam enim quia molestiae facilis laudantium voluptates obcaecati officia cum, sit libero commodi. Ratione illo suscipit temporibus sequi iure ad laboriosam accusamus?</p>
           <p>Saepe explicabo voluptas ducimus provident, doloremque quo totam molestias! Suscipit blanditiis eaque exercitationem praesentium reprehenderit, fuga accusamus possimus sed, sint facilis ratione quod, qui dignissimos voluptas! Aliquam rerum consequuntur deleniti.</p>
           <p>Totam reprehenderit amet commodi ipsum nam provident doloremque possimus odio itaque, est animi culpa modi consequatur reiciendis corporis libero laudantium sed eveniet unde delectus a maiores nihil dolores? Natus, perferendis.</p>
@@ -73,24 +48,22 @@
           <p>Suscipit, facere quasi atque totam. Repudiandae facilis at optio atque, rem nam, natus ratione cum enim voluptatem suscipit veniam! Repellat, est debitis. Modi nam mollitia explicabo, unde aliquid impedit! Adipisci!</p>
           <p>Deserunt adipisci tempora asperiores, quo, nisi ex delectus vitae consectetur iste fugiat iusto dolorem autem. Itaque, ipsa voluptas, a assumenda rem, dolorum porro accusantium, officiis veniam nostrum cum cumque impedit.</p>
           <p>Laborum illum ipsa voluptatibus possimus nesciunt ex consequatur rem, natus ad praesentium rerum libero consectetur temporibus cupiditate atque aspernatur, eaque provident eligendi quaerat ea soluta doloremque. Iure fugit, minima facere.</p>
-        </div>
-      </div>
-    </div>
+        </f7-block>
+      </f7-tab>
+    </f7-tabs>
   </f7-page>
 </template>
-<style scoped>
-  .rotate-icon {
-    transform: rotate(90deg);
-  }
-</style>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Block, f7Tabs, f7Tab, f7Link, f7Toolbar, f7NavRight } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar, f7Page, f7Block, f7Tabs, f7Tab, f7Link, f7Toolbar, f7NavRight,
+    },
     methods: {
-      toggleToolbarPosition: function () {
+      toggleToolbarPosition() {
         this.$$(this.$el).find('.toolbar, .tabbar').toggleClass('toolbar-bottom-md');
       },
-    }
-  }
+    },
+  };
 </script>

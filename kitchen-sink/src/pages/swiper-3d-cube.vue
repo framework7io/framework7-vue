@@ -1,7 +1,6 @@
 <template>
-<f7-page>
-  <f7-navbar title="3D Cube" back-link="Back"></f7-navbar>
-  <div class="page-content">
+  <f7-page>
+    <f7-navbar title="3D Cube" back-link="Back"></f7-navbar>
     <div data-effect="cube" class="swiper-container swiper-init demo-swiper demo-swiper-cube">
       <div class="swiper-wrapper">
         <div style="background-image:url(http://lorempixel.com/800/800/people/1/)" class="swiper-slide">Slide 1</div>
@@ -15,11 +14,15 @@
         <div style="background-image:url(http://lorempixel.com/800/800/people/9/)" class="swiper-slide">Slide 9</div>
       </div>
     </div>
-  </div>
-</f7-page>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+    },
+  };
 </script>

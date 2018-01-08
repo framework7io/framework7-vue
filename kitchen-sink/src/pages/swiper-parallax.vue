@@ -1,7 +1,6 @@
 <template>
-<f7-page>
-  <f7-navbar title="Parallax" back-link="Back"></f7-navbar>
-  <div class="page-content">
+  <f7-page>
+    <f7-navbar title="Parallax" back-link="Back"></f7-navbar>
     <div data-pagination='{"el": ".swiper-pagination"}' data-navigation='{"nextEl": ".swiper-button-next", "prevEl": ".swiper-button-prev"}' data-parallax="true" data-speed="600" class="swiper-container swiper-init demo-swiper-parallax">
       <div data-swiper-parallax="-23%" style="background-image:url(http://lorempixel.com/900/600/nightlife/2/)" class="swiper-parallax-bg"></div>
       <div class="swiper-pagination color-white"></div>
@@ -31,11 +30,15 @@
         </div>
       </div>
     </div>
-  </div>
-</f7-page>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar,
+      f7Page,
+    },
+  };
 </script>

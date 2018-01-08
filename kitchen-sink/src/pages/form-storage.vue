@@ -1,8 +1,6 @@
 <template>
-<f7-page>
-  <f7-navbar title="About Framework7" back-link="Back"></f7-navbar>
-  <div class="page-content">
-    <f7-block-title>Welcome to Framework7</f7-block-title>
+  <f7-page>
+    <f7-navbar title="About Framework7" back-link="Back"></f7-navbar>
     <div class="block block-strong">
       <p>With forms storage it is easy to store and parse form data, especially on Ajax loaded pages. All you need to make it work is to add "form-store-data" class to your &lt;form&gt; and Framework7 will store form data with every input change. And the most awesome part is that when you load this page again Framework7 will parse this data and fill all form fields automatically!</p>
       <p>Just try to fill the form below and then go to any other page, or even you may close this site, and when you return here form fields will have kept your data.</p>
@@ -101,8 +99,7 @@
         </li>
       </ul>
     </form>
-  </div>
-</f7-page>
+  </f7-page>
 </template>
 <script>
   import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
@@ -112,6 +109,6 @@
       f7Navbar,
       f7Page,
       f7BlockTitle,
-    }
-  }
+    },
+  };
 </script>

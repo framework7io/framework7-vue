@@ -1,39 +1,28 @@
 <template>
-<f7-page>
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="ios-only">Back</span>
-        </a>
-      </div>
-      <div class="title">Subnavbar</div>
-      <div class="subnavbar">
-        <div class="subnavbar-inner">
-          <div class="segmented segmented-raised">
-            <button class="button">Link 1</button>
-            <button class="button">Link 2</button>
-            <button class="button">Link 3</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="page-content">
-    <div class="block">
+  <f7-page>
+    <f7-navbar title="Subnavbar" back-link="Back">
+      <f7-subnavbar>
+        <f7-segmented raised>
+          <f7-button>Link 1</f7-button>
+          <f7-button>Link 2</f7-button>
+          <f7-button>Link 3</f7-button>
+        </f7-segmented>
+      </f7-subnavbar>
+    </f7-navbar>
+    <f7-block>
       <p>Subnavbar is useful when you need to put any additional elements into Navbar, like Tab Links or Search Bar. It also remains visible when Navbar hidden.</p>
-    </div>
-    <div class="list links-list">
-      <ul>
-        <li><a href="/subnavbar-title/">Subnavbar Title</a></li>
-      </ul>
-    </div>
-  </div>
-</f7-page>
+    </f7-block>
+    <f7-list>
+      <f7-list-item link="/subnavbar-title/" title="Subnavbar Title"></f7-list-item>
+    </f7-list>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Subnavbar, f7Segmented, f7Button, f7Block, f7List, f7ListItem } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar, f7Page, f7Subnavbar, f7Segmented, f7Button, f7Block, f7List, f7ListItem,
+    },
+  };
 </script>

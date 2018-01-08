@@ -194,7 +194,7 @@
         </tbody>
       </table>
     </div>
-    <div class="block-title">Tablet-only columns</div>
+    <f7-block-title>Tablet-only columns</f7-block-title>
     <div class="block-header">
       <p>"Comments" column will be visible only on large screen devices (tablets)</p>
     </div>
@@ -213,7 +213,7 @@
             <th class="numeric-cell">Fat (g)</th>
             <th class="numeric-cell">Carbs</th>
             <th class="numeric-cell">Protein (g)</th>
-            <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
+            <th class="tablet-only"><f7-icon if-ios="f7:chat_fill" if-md="material:message"></f7-icon> Comments</th>
           </tr>
         </thead>
         <tbody>
@@ -281,8 +281,8 @@
       <div class="card-header">
         <div class="data-table-title">Nutrition</div>
         <div class="data-table-actions">
-          <a class="link icon-only" v-html="sortIcon"></a>
-          <a class="link icon-only" v-html="moreIcon"></a>
+          <f7-link icon-if-ios="f7:sort" icon-if-md="material:sort"></f7-link>
+          <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
         </div>
       </div>
       <div class="card-content">
@@ -300,7 +300,7 @@
               <th class="numeric-cell">Fat (g)</th>
               <th class="numeric-cell">Carbs</th>
               <th class="numeric-cell">Protein (g)</th>
-              <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
+              <th class="tablet-only"><f7-icon if-ios="f7:chat_fill" if-md="material:message"></f7-icon> Comments</th>
             </tr>
           </thead>
           <tbody>
@@ -369,8 +369,8 @@
       <div class="card-header">
         <div class="data-table-title">Nutrition</div>
         <div class="data-table-actions">
-          <a class="link icon-only" v-html="sortIcon"></a>
-          <a class="link icon-only" v-html="moreIcon"></a>
+          <f7-link icon-if-ios="f7:sort" icon-if-md="material:sort"></f7-link>
+          <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
         </div>
       </div>
       <div class="card-content">
@@ -388,7 +388,7 @@
               <th class="numeric-cell sortable-cell">Fat (g)</th>
               <th class="numeric-cell sortable-cell">Carbs</th>
               <th class="numeric-cell sortable-cell">Protein (g)</th>
-              <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
+              <th class="tablet-only"><f7-icon if-ios="f7:chat_fill" if-md="material:message"></f7-icon> Comments</th>
             </tr>
           </thead>
           <tbody>
@@ -458,15 +458,15 @@
         <div class="data-table-header">
           <div class="data-table-title">Nutrition</div>
           <div class="data-table-actions">
-            <a class="link icon-only" v-html="sortIcon"></a>
-            <a class="link icon-only" v-html="moreIcon"></a>
+            <f7-link icon-if-ios="f7:sort" icon-if-md="material:sort"></f7-link>
+            <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
           </div>
         </div>
         <div class="data-table-header-selected">
           <div class="data-table-title-selected"><span class="data-table-selected-count"></span> items selected</div>
           <div class="data-table-actions">
-            <a class="link icon-only" v-html="trashIcon"></a>
-            <a class="link icon-only" v-html="moreIcon"></a>
+            <f7-link icon-if-ios="f7:trash" icon-if-md="material:delete"></f7-link>
+            <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
           </div>
         </div>
       </div>
@@ -485,7 +485,7 @@
               <th class="numeric-cell">Fat (g)</th>
               <th class="numeric-cell">Carbs</th>
               <th class="numeric-cell">Protein (g)</th>
-              <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
+              <th class="tablet-only"><f7-icon if-ios="f7:chat_fill" if-md="material:message"></f7-icon> Comments</th>
             </tr>
           </thead>
           <tbody>
@@ -554,8 +554,8 @@
       <div class="card-header">
         <div class="data-table-links"><a class="link">Add</a><a class="link">Remove</a></div>
         <div class="data-table-actions">
-          <a class="link icon-only" v-html="sortIcon"></a>
-          <a class="link icon-only" v-html="moreIcon"></a>
+          <f7-link icon-if-ios="f7:sort" icon-if-md="material:sort"></f7-link>
+          <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
         </div>
       </div>
       <div class="card-content">
@@ -573,7 +573,7 @@
               <th class="numeric-cell">Fat (g)</th>
               <th class="numeric-cell">Carbs</th>
               <th class="numeric-cell">Protein (g)</th>
-              <th class="tablet-only"><span v-html="commentsIcon"></span> Comments</th>
+              <th class="tablet-only"><f7-icon if-ios="f7:chat_fill" if-md="material:message"></f7-icon> Comments</th>
               <th></th>
             </tr>
           </thead>
@@ -592,8 +592,8 @@
               <td class="numeric-cell">4.0</td>
               <td class="tablet-only">I like frozen yogurt</td>
               <td class="actions-cell">
-                <a class="link icon-only" v-html="composeIcon"></a>
-                <a class="link icon-only" v-html="trashIcon"></a>
+                <f7-link icon-if-ios="f7:compose" icon-if-md="material:edit"></f7-link>
+                <f7-link icon-if-ios="f7:trash" icon-if-md="material:delete"></f7-link>
               </td>
             </tr>
             <tr>
@@ -610,8 +610,8 @@
               <td class="numeric-cell">4.4</td>
               <td class="tablet-only">But like ice cream more</td>
               <td class="actions-cell">
-                <a class="link icon-only" v-html="composeIcon"></a>
-                <a class="link icon-only" v-html="trashIcon"></a>
+                <f7-link icon-if-ios="f7:compose" icon-if-md="material:edit"></f7-link>
+                <f7-link icon-if-ios="f7:trash" icon-if-md="material:delete"></f7-link>
               </td>
             </tr>
             <tr>
@@ -628,8 +628,8 @@
               <td class="numeric-cell">6.0</td>
               <td class="tablet-only">Super tasty</td>
               <td class="actions-cell">
-                <a class="link icon-only" v-html="composeIcon"></a>
-                <a class="link icon-only" v-html="trashIcon"></a>
+                <f7-link icon-if-ios="f7:compose" icon-if-md="material:edit"></f7-link>
+                <f7-link icon-if-ios="f7:trash" icon-if-md="material:delete"></f7-link>
               </td>
             </tr>
             <tr>
@@ -646,8 +646,8 @@
               <td class="numeric-cell">4.3</td>
               <td class="tablet-only">Don't like it</td>
               <td class="actions-cell">
-                <a class="link icon-only" v-html="composeIcon"></a>
-                <a class="link icon-only" v-html="trashIcon"></a>
+                <f7-link icon-if-ios="f7:compose" icon-if-md="material:edit"></f7-link>
+                <f7-link icon-if-ios="f7:trash" icon-if-md="material:delete"></f7-link>
               </td>
             </tr>
           </tbody>
@@ -662,8 +662,8 @@
       <div class="card-header">
         <div class="data-table-title">Nutrition</div>
         <div class="data-table-actions">
-          <a class="link icon-only" v-html="sortIcon"></a>
-          <a class="link icon-only" v-html="moreIcon"></a>
+          <f7-link icon-if-ios="f7:sort" icon-if-md="material:sort"></f7-link>
+          <f7-link icon-if-ios="f7:more_vertical_round" icon-if-md="material:more_vert"></f7-link>
         </div>
       </div>
       <div class="card-content">
@@ -713,23 +713,15 @@
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Link, f7Icon } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
+      f7Link,
+      f7Icon,
     },
-    data() {
-      var ios = this.$theme.ios;
-      return {
-        commentsIcon: ios ? '<i class="icon f7-icons">chat_fill</i>' : '<i class="icon material-icons">message</i>',
-        sortIcon: ios ? '<i class="icon f7-icons">sort</i>' : '<i class="icon material-icons">sort</i>',
-        moreIcon: ios ? '<i class="icon f7-icons">more_vertical_round</i>' : '<i class="icon material-icons">more_vert</i>',
-        trashIcon: ios ? '<i class="icon f7-icons">trash</i>' : '<i class="icon material-icons">delete</i>',
-        composeIcon: ios ? '<i class="icon f7-icons">compose</i>' : '<i class="icon material-icons">edit</i>'
-      }
-    }
-  }
+  };
 </script>

@@ -7,7 +7,7 @@
     <f7-panel right reveal>
       <f7-view url="/panel-right/"></f7-view>
     </f7-panel>
-    <f7-view url="/" :main="true"></f7-view>
+    <f7-view url="/" :main="true" class="ios-edges"></f7-view>
   </div>
 </template>
 <script>

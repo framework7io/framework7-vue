@@ -1,17 +1,14 @@
 <template>
-<f7-page>
-  <f7-navbar title="Hide Toolbar On Scroll" back-link="Back"></f7-navbar>
-  <div class="toolbar toolbar-bottom-md">
-    <div class="toolbar-inner">
-      <a class="link">Left Link</a>
-      <a class="link">Right Link</a>
-    </div>
-  </div>
-  <div class="page-content hide-toolbar-on-scroll">
-    <div class="block block-strong">
+  <f7-page hide-toolbar-on-scroll>
+    <f7-navbar title="Hide Toolbar On Scroll" back-link="Back"></f7-navbar>
+    <f7-toolbar bottom-md>
+      <f7-link>Left Link</f7-link>
+      <f7-link>Right Link</f7-link>
+    </f7-toolbar>
+    <f7-block strong>
       <p>Toolbar will be hidden if you scroll bottom</p>
-    </div>
-    <div class="block">
+    </f7-block>
+    <f7-block>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos maxime incidunt id ab culpa ipsa omnis eos, vel excepturi officiis neque illum perferendis dolorum magnam rerum natus dolore nulla ex.</p>
       <p>Eum dolore, amet enim quaerat omnis. Modi minus voluptatum quam veritatis assumenda, eligendi minima dolore in autem delectus sequi accusantium? Cupiditate praesentium autem eius, esse ratione consequuntur dolor minus error.</p>
       <p>Repellendus ipsa sint quisquam delectus dolore quidem odio, praesentium, sequi temporibus amet architecto? Commodi molestiae, in repellat fugit! Laudantium, fuga quia officiis error. Provident inventore iusto quas iure, expedita optio.</p>
@@ -42,12 +39,15 @@
       <p>Aperiam velit sed sit quaerat, expedita tempore aspernatur iusto nobis ipsam error ut sapiente delectus in minima recusandae dolore alias, cumque labore. Doloribus veritatis magni nisi odio voluptatum perferendis placeat!</p>
       <p>Eaque laboriosam iusto corporis iure nemo ab deleniti ut facere laborum, blanditiis neque nihil dignissimos fuga praesentium illo facilis eos beatae accusamus cumque molestiae asperiores cupiditate? Provident laborum officiis suscipit!</p>
       <p>Exercitationem odio nulla rerum soluta aspernatur fugit, illo iusto ullam similique. Recusandae consectetur rem, odio autem voluptate similique atque, alias possimus quis vitae in, officiis labore deserunt aspernatur rerum sunt?</p>
-    </div>
-  </div>
-</f7-page>
+    </f7-block>
+  </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7Toolbar, f7Link, f7Block } from 'framework7-vue';
 
-  export default {}
+  export default {
+    components: {
+      f7Navbar, f7Page, f7Toolbar, f7Link, f7Block,
+    },
+  };
 </script>

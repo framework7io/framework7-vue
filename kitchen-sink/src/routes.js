@@ -8,6 +8,8 @@ import ActionSheet from './pages/action-sheet.vue';
 import Autocomplete from './pages/autocomplete.vue';
 import Badge from './pages/badge.vue';
 import Buttons from './pages/buttons.vue';
+import Calendar from './pages/calendar.vue';
+import CalendarPage from './pages/calendar-page.vue';
 import Cards from './pages/cards.vue';
 import Checkbox from './pages/checkbox.vue';
 import Chips from './pages/chips.vue';
@@ -32,6 +34,7 @@ import NavbarHideScroll from './pages/navbar-hide-scroll.vue';
 import Notifications from './pages/notifications.vue';
 import Panel from './pages/panel.vue';
 import PhotoBrowser from './pages/photo-browser.vue';
+import Picker from './pages/picker.vue';
 import Popup from './pages/popup.vue';
 import Popover from './pages/popover.vue';
 import Preloader from './pages/preloader.vue';
@@ -180,6 +183,14 @@ export default [
     component: Buttons,
   },
   {
+    path: '/calendar/',
+    component: Calendar,
+  },
+  {
+    path: '/calendar-page/',
+    component: CalendarPage,
+  },
+  {
     path: '/cards/',
     component: Cards,
   },
@@ -274,6 +285,10 @@ export default [
   {
     path: '/photo-browser/',
     component: PhotoBrowser,
+  },
+  {
+    path: '/picker/',
+    component: Picker,
   },
   {
     path: '/popup/',

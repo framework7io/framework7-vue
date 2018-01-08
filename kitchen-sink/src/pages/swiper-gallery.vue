@@ -41,34 +41,38 @@
   import { f7Navbar, f7Page } from 'framework7-vue';
 
   export default {
+    components: {
+      f7Navbar,
+      f7Page,
+    },
     on: {
       pageBeforeRemove() {
-        var self = this;
+        const self = this;
         self.swiperTop.destroy();
         self.swiperThumbs.destroy();
       },
       pageInit() {
-        var self = this;
-        var swiperTop = self.$f7.swiper.create('.demo-swiper-gallery-top', {
-            spaceBetween: 10,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            },
+        const self = this;
+        const swiperTop = self.$f7.swiper.create('.demo-swiper-gallery-top', {
+          spaceBetween: 10,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
         });
-        var swiperThumbs = self.$f7.swiper.create('.demo-swiper-gallery-thumbs', {
-            slidesPerView: 'auto',
-            spaceBetween: 10,
-            centeredSlides: true,
-            touchRatio: 0.2,
-            slideToClickedSlide: true
+        const swiperThumbs = self.$f7.swiper.create('.demo-swiper-gallery-thumbs', {
+          slidesPerView: 'auto',
+          spaceBetween: 10,
+          centeredSlides: true,
+          touchRatio: 0.2,
+          slideToClickedSlide: true,
         });
         swiperTop.controller.control = swiperThumbs;
         swiperThumbs.controller.control = swiperTop;
 
         self.swiperTop = swiperTop;
         self.swiperThumbs = swiperThumbs;
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

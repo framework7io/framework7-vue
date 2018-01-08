@@ -2,137 +2,84 @@
   <f7-page>
     <f7-navbar title="Chips" back-link="Back"></f7-navbar>
     <f7-block-title>Chips With Text</f7-block-title>
-    <div class="block block-strong">
-      <div class="chip">
-        <div class="chip-label">Example Chip</div>
-      </div>
-      <div class="chip">
-        <div class="chip-label">Another Chip</div>
-      </div>
-      <div class="chip">
-        <div class="chip-label">One More Chip</div>
-      </div>
-      <div class="chip">
-        <div class="chip-label">Fourth Chip</div>
-      </div>
-      <div class="chip">
-        <div class="chip-label">Last One</div>
-      </div>
-    </div>
+    <f7-block strong>
+      <f7-chip text="Example Chip"></f7-chip>
+      <f7-chip text="Another Chip"></f7-chip>
+      <f7-chip text="One More Chip"></f7-chip>
+      <f7-chip text="Fourth Chip"></f7-chip>
+      <f7-chip text="Last One"></f7-chip>
+    </f7-block>
     <f7-block-title>Icon Chips</f7-block-title>
-    <div class="block block-strong">
-      <div class="chip">
-        <div :class="{ 'bg-color-blue' : $theme.md }" class="chip-media">
-          <i class="icon f7-icons ios-only">add_round</i>
-          <i class="icon material-icons md-only">add_circle</i>
-        </div>
-        <div class="chip-label">Add Contact</div>
-      </div>
-      <div class="chip">
-        <div :class="{ 'bg-color-purple' : $theme.md }" class="chip-media">
-          <i class="icon f7-icons ios-only">compass</i>
-          <i class="icon material-icons md-only">location_on</i>
-        </div>
-        <div class="chip-label">London</div>
-      </div>
-      <div class="chip">
-        <div :class="{ 'bg-color-red' : $theme.md }" class="chip-media">
-          <i class="icon f7-icons ios-only">person</i>
-          <i class="icon material-icons md-only">person</i>
-        </div>
-        <div class="chip-label">John Doe</div>
-      </div>
-    </div>
+    <f7-block strong>
+      <f7-chip text="Add Contact" :media-bg-color="$theme.md ? 'blue' : undefined">
+        <f7-icon slot="media" if-ios="f7:add_round" if-md="material:add_circle"></f7-icon>
+      </f7-chip>
+      <f7-chip text="London" :media-bg-color="$theme.md ? 'green' : undefined">
+        <f7-icon slot="media" if-ios="f7:compass" if-md="material:location_on"></f7-icon>
+      </f7-chip>
+      <f7-chip text="John Doe" :media-bg-color="$theme.md ? 'red' : undefined">
+        <f7-icon slot="media" if-ios="f7:person" if-md="material:person"></f7-icon>
+      </f7-chip>
+    </f7-block>
     <f7-block-title>Contact Chips</f7-block-title>
-    <div class="block block-strong">
-      <div class="chip">
-        <div class="chip-media"><img src="http://lorempixel.com/100/100/people/9/"/></div>
-        <div class="chip-label">Jane Doe</div>
-      </div>
-      <div class="chip">
-        <div class="chip-media"><img src="http://lorempixel.com/100/100/people/3/"/></div>
-        <div class="chip-label">John Doe</div>
-      </div>
-      <div class="chip">
-        <div class="chip-media"><img src="http://lorempixel.com/100/100/people/7/"/></div>
-        <div class="chip-label">Adam Smith</div>
-      </div>
-      <div class="chip">
-        <div class="chip-media bg-color-pink">J</div>
-        <div class="chip-label">Jennifer</div>
-      </div>
-      <div class="chip">
-        <div class="chip-media bg-color-yellow text-color-black">C</div>
-        <div class="chip-label">Chris</div>
-      </div>
-      <div class="chip">
-        <div class="chip-media bg-color-red">K</div>
-        <div class="chip-label">Kate</div>
-      </div>
-    </div>
-    <div class="block-title">Deletable Chips / Tags</div>
-    <div class="block block-strong">
-      <div class="chip">
-        <div class="chip-label">Example Chip</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-      <div class="chip">
-        <div class="chip-media bg-color-orange text-color-black">C</div>
-        <div class="chip-label">Chris</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-      <div class="chip">
-        <div class="chip-media"><img src="http://lorempixel.com/100/100/people/9/"/></div>
-        <div class="chip-label">Jane Doe</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-      <div class="chip">
-        <div class="chip-label">One More Chip</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-      <div class="chip">
-        <div class="chip-media bg-color-pink">J</div>
-        <div class="chip-label">Jennifer</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-      <div class="chip">
-        <div class="chip-media"><img src="http://lorempixel.com/100/100/people/7/"/></div>
-        <div class="chip-label">Adam Smith</div><a href="#" class="chip-delete" @click="deleteChip"></a>
-      </div>
-    </div>
+    <f7-block strong>
+      <f7-chip text="Jane Doe">
+        <img slot="media" src="http://lorempixel.com/100/100/people/9/"/>
+      </f7-chip>
+      <f7-chip text="John Doe">
+        <img slot="media" src="http://lorempixel.com/100/100/people/3/"/>
+      </f7-chip>
+      <f7-chip text="Adam Smith">
+        <img slot="media" src="http://lorempixel.com/100/100/people/7/"/>
+      </f7-chip>
+      <f7-chip text="Jennifer" media-bg-color="pink" media="J"></f7-chip>
+      <f7-chip text="Chris" media-bg-color="yellow" media-text-color="black" media="C"></f7-chip>
+      <f7-chip text="Kate" media-bg-color="red" media="K"></f7-chip>
+    </f7-block>
+    <f7-block-title>Deletable Chips / Tags</f7-block-title>
+    <f7-block strong>
+      <f7-chip text="Example Chip" deleteable @click="deleteChip"></f7-chip>
+      <f7-chip text="Chris" media="C" media-bg-color="orange" text-color="black" deleteable @click="deleteChip"></f7-chip>
+      <f7-chip text="Jane Doe" deleteable @click="deleteChip">
+        <img slot="media" src="http://lorempixel.com/100/100/people/9/"/>
+      </f7-chip>
+      <f7-chip text="One More Chip" deleteable @click="deleteChip"></f7-chip>
+      <f7-chip text="Jennifer" media-bg-color="pink" media="J" deleteable @click="deleteChip"></f7-chip>
+      <f7-chip text="Adam Smith" deleteable @click="deleteChip">
+        <img slot="media" src="http://lorempixel.com/100/100/people/7/"/>
+      </f7-chip>
+    </f7-block>
     <f7-block-title>Color Chips</f7-block-title>
-    <div class="block block-strong">
-      <div class="chip color-red">
-        <div class="chip-label">Red Chip</div>
-      </div>
-      <div class="chip color-green">
-        <div class="chip-label">Green Chip</div>
-      </div>
-      <div class="chip color-blue">
-        <div class="chip-label">Blue Chip</div>
-      </div>
-      <div class="chip color-orange">
-        <div class="chip-label">Orange Chip</div>
-      </div>
-      <div class="chip color-pink">
-        <div class="chip-label">Pink Chip</div>
-      </div>
+    <f7-block strong>
+      <f7-chip text="Red Chip" color="red"></f7-chip>
+      <f7-chip text="Green Chip" color="green"></f7-chip>
+      <f7-chip text="Blue Chip" color="blue"></f7-chip>
+      <f7-chip text="Orange Chip" color="orange"></f7-chip>
+      <f7-chip text="Pink Chip" color="pink"></f7-chip>
     </div>
   </f7-page>
 </template>
 <script>
-  import { f7Navbar, f7Page, f7BlockTitle } from 'framework7-vue';
+  import { f7Navbar, f7Page, f7BlockTitle, f7Chip, f7Block, f7Icon } from 'framework7-vue';
 
   export default {
     components: {
       f7Navbar,
       f7Page,
       f7BlockTitle,
+      f7Chip,
+      f7Block,
+      f7Icon,
     },
     methods: {
       deleteChip(e) {
-        var $ = this.$;
-        var app = this.$f7;
-        app.dialog.confirm('Do you want to delete this tiny demo Chip?', function () {
-          $(e.target).parents('.chip').remove();
+        const $$ = this.$$;
+        const app = this.$f7;
+        app.dialog.confirm('Do you want to delete this tiny demo Chip?', () => {
+          $$(e.target).parents('.chip').remove();
         });
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
 
