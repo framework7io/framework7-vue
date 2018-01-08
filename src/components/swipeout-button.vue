@@ -1,5 +1,5 @@
 <template>
-  <a @click="onClick" :class="classes"><slot>{{text}}</slot></a>
+  <a @click="onClick" :data-confirm="confirmText || undefined" :class="classes"><slot>{{text}}</slot></a>
 </template>
 <script>
   import Utils from '../utils/utils';
@@ -7,6 +7,7 @@
 
   const SwipeoutButtonProps = Utils.extend({
     text: String,
+    confirmText: String,
     overswipe: Boolean,
     close: Boolean,
     delete: Boolean,
