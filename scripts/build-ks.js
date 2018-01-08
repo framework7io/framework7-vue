@@ -7,6 +7,7 @@ const buble = require('rollup-plugin-buble');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
+const commonjs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
 const vue = require('rollup-plugin-vue');
 const getComponents = require('./get-components.js');
@@ -25,9 +26,10 @@ function build(cb) {
   const IMPORT_COMPONENTS = components.map(c => `import ${c.name} from './components/${c.file}';`).join('\n');
   const EXPORT = `
 export {
-  VuePlugin as Framework7Vue,
   ${components.map(c => `${c.name},`).join('\n  ')}
-}
+};
+export default VuePlugin;
+
   `.trim();
   rollup({
     input: './kitchen-sink/src/app.js',
@@ -43,6 +45,7 @@ export {
         REGISTER_COMPONENTS_BUNDLE: '',
       }),
       resolve({ jsnext: true }),
+      commonjs(),
       vue(),
       buble(),
     ],

@@ -25,9 +25,9 @@ function es(cb) {
   const REGISTER_COMPONENTS_BUNDLE = components.map(c => `${c.name},`).join('\n        ');
   const EXPORT = `
 export {
-  VuePlugin as Framework7Vue,
   ${components.map(c => `${c.name},`).join('\n  ')}
-}
+};
+export default VuePlugin;
   `.trim();
 
   let cbs = 0;
