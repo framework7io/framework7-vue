@@ -1,5 +1,18 @@
 # Change Log
 
+## Framework7 Vue v2.0.0-beta.6 - Released on January 8, 2018
+  * New Searchbar component
+  * New Popup component
+  * New Action Sheet component
+  * New Sheet component
+  * New Login Screen component
+  * New Photo Browser component
+  * Improved lookup for `$f7router` component prop
+  * New `f7RouteChange` and `f7RouteChanged` components methods support to watch for route change(d) events
+  * Main esm module now exports `Framework7Vue` plugin with default export and all components as named exports
+  * Lot of new/v2-reworked Kitchen Sink demos
+  * Lots of minor fixes
+
 ## Framework7 Vue v2.0.0-beta.5 - Released on November 8, 2017
   * **f7-panel** now also triggers `panel:breakpoint` event when panel visibility changes based on breakpoint
 

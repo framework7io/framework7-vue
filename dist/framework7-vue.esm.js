@@ -1,13 +1,13 @@
 /**
- * Framework7 Vue 2.0.0-beta.5
+ * Framework7 Vue 2.0.0-beta.6
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
- * Copyright 2014-2017 Vladimir Kharlampidi
+ * Copyright 2014-2018 Vladimir Kharlampidi
  *
  * Released under the MIT License
  *
- * Released on: November 8, 2017
+ * Released on: January 8, 2018
  */
 
 const Utils = {
@@ -169,7 +169,7 @@ var VueRouter = {
 
       tabVue.$nextTick(() => {
         const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { pageEvents });
+        resolve(tabContentEl, { on: pageEvents });
       });
     },
     removeTabContent(tabEl) {
@@ -181,7 +181,7 @@ var VueRouter = {
         return;
       }
 
-      tabVue.tabContent = null;
+      tabVue.$set(tabVue, 'tabContent', null);
     },
   },
 };
@@ -190,7 +190,7 @@ var VueRouter = {
 // eslint-disable-next-line
 
 
-var vuePlugin = {
+var VuePlugin$1 = {
   install(Vue, Framework7) {
     // Event Hub
     const eventHub = new Vue();
@@ -229,8 +229,19 @@ var vuePlugin = {
       eventHub.$emit('f7Ready', f7Instance);
     }
 
-    // Extend Router
-    Framework7.Router.use(VueRouter);
+    // Extend F7 Router
+    Framework7.Router
+      .use(VueRouter)
+      .use({
+        on: {
+          routeChange(to, from, router) {
+            eventHub.$emit('f7RouteChange', to, from, router);
+          },
+          routeChanged(to, from, router) {
+            eventHub.$emit('f7RouteChanged', to, from, router);
+          },
+        },
+      });
 
     // Mixin
     Vue.mixin({
@@ -259,19 +270,63 @@ var vuePlugin = {
           if (parent.$f7router) $router = parent.$f7router;
           else if (parent.f7View) {
             $router = parent.f7View.router;
+          } else if (parent.$el && parent.$el.f7View) {
+            $router = parent.$el.f7View.router;
           }
           parent = parent.$parent;
         }
+        if ($route && $router) {
+          self.$f7route = $route;
+          self.$f7router = $router;
+          self.$f7Route = $route;
+          self.$f7Router = $router;
+        }
+      },
+      beforeDestroy() {
+        const self = this;
+        if (self.$f7RouteChangeCallback) eventHub.$off('f7RouteChange', self.$f7RouteChangeCallback);
+        if (self.$f7RouteChangedCallback) eventHub.$off('f7RouteChanged', self.$f7RouteChangedCallback);
+      },
+      created() {
+        const self = this;
 
-        self.$f7route = $route;
-        self.$f7router = $router;
+        const routeChangeCallback = self.onF7RouteChange || self.F7RouteChange || self.f7RouteChange || self.f7routeChange;
+        const routeChangedCallback = self.onF7RouteChanged || self.F7RouteChanged || self.f7RouteChanged || self.f7routeChanged;
+        if (!routeChangeCallback && !routeChangedCallback) return;
+
+        function hasRouter(router) {
+          return (self.$f7router && router === self.$f7router) ||
+                 (!self.$f7router && self.$f7 && self.$f7.router);
+        }
+
+        function addRoutesCallbacks() {
+          if (routeChangeCallback) {
+            self.$f7RouteChangeCallback = function onRouteChange(to, from, router) {
+              if (hasRouter(router)) {
+                routeChangeCallback(to, from, router);
+              }
+            };
+            eventHub.$on('f7RouteChange', self.$f7RouteChangeCallback);
+          }
+          if (routeChangedCallback) {
+            self.$f7RouteChangedCallback = function onRouteChanged(to, from, router) {
+              if (hasRouter(router)) {
+                routeChangedCallback(to, from, router);
+              }
+            };
+            eventHub.$on('f7RouteChanged', self.$f7RouteChangedCallback);
+          }
+        }
+
+        if (!self.$f7) eventHub.$on('f7Ready', addRoutesCallbacks);
+        else addRoutesCallbacks();
       },
       mounted() {
         const self = this;
         if (self === self.$root) {
           initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
         }
-        const callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init;
+        const callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init || self.f7ready || self.f7init;
         if (!callback) return;
         if (f7Ready) callback(f7Instance);
         else {
@@ -451,7 +506,7 @@ const Mixins = {
       'login-screen-open': loginScreenOpen || loginScreenOpen === '',
       'sortable-enable': Utils.isTrueProp(sortableEnable),
       'sortable-disable': Utils.isTrueProp(sortableDisable),
-      'sortable-toggle': Utils.isTrueProp(sortableToggle),
+      'sortable-toggle': sortableToggle === true || sortableToggle.length,
     };
   },
 };
@@ -534,6 +589,190 @@ staticRenderFns: [],
     },
   };
 
+const ActionsButtonProps = Utils.extend(
+    {
+      bold: Boolean,
+      close: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  var actionsButton = {
+    name: 'f7-actions-button',
+    render(c) {
+      const self = this;
+      let mediaEl;
+      if (self.$slots.media && self.$slots.media.length) {
+        mediaEl = c('div', {
+          staticClass: 'actions-button-media',
+        }, self.$slots.media);
+      }
+      const textEl = c('div', {
+        staticClass: 'actions-button-text',
+      }, self.$slots.default);
+
+      return c('div', {
+        staticClass: 'actions-button',
+        classes: self.classes,
+        on: {
+          click: self.onClick,
+        },
+      }, [mediaEl, textEl]);
+    },
+    props: ActionsButtonProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'actions-button-bold': self.bold,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    methods: {
+      onClick(event) {
+        const self = this;
+        const $$ = self.$$;
+        if (self.close && self.$f7) {
+          self.$f7.actions.close($$(self.$el).parents('.actions-modal'));
+        }
+        self.$emit('click', event);
+      },
+    },
+  };
+
+var actionsGroup = {
+    name: 'f7-actions-group',
+    render(c) {
+      const self = this;
+      return c('div', { staticClass: 'actions-group' }, self.$slots.default);
+    },
+  };
+
+const ActionsLabelProps = Utils.extend(
+    {
+      bold: Boolean,
+    },
+    Mixins.colorProps
+  );
+  var actionsLabel = {
+    name: 'f7-actions-label',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'actions-label',
+        class: self.classes,
+        on: {
+          click: self.onClick,
+        },
+      }, self.$slots.default);
+    },
+    props: ActionsLabelProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'actions-button-bold': self.bold,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    methods: {
+      onClick(event) {
+        this.$emit('click', event);
+      },
+    },
+  };
+
+const ActionsProps = Utils.extend(
+    {
+      opened: Boolean,
+      grid: Boolean,
+      convertToPopover: Boolean,
+      forceToPopover: Boolean,
+      target: [String, Object],
+    },
+    Mixins.colorProps
+  );
+
+  var actions = {
+    name: 'f7-actions',
+    render(c) {
+      const self = this;
+
+      return c('div', {
+        staticClass: 'actions-modal',
+        class: self.classes,
+      }, self.$slots.default);
+    },
+    watch: {
+      opened(opened) {
+        const self = this;
+        if (!self.f7Actions) return;
+        if (opened) {
+          self.f7Actions.open();
+        } else {
+          self.f7Actions.close();
+        }
+      },
+    },
+    props: ActionsProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'actions-grid': self.grid,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Actions) self.f7Actions.destroy();
+    },
+    methods: {
+      onOpen(event) {
+        this.$emit('actions:open', event);
+      },
+      onOpened(event) {
+        this.$emit('actions:opened', event);
+      },
+      onClose(event) {
+        this.$emit('actions:close', event);
+      },
+      onClosed(event) {
+        this.$emit('actions:closed', event);
+      },
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.actions.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.actions.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+
+        const actionsParams = {
+          el: self.$el,
+          grid: self.grid,
+        };
+        if (self.target) actionsParams.targetEl = self.target;
+        if (typeof self.$options.propsData.convertToPopover !== 'undefined') actionsParams.convertToPopover = self.convertToPopover;
+        if (typeof self.$options.propsData.forceToPopover !== 'undefined') actionsParams.forceToPopover = self.forceToPopover;
+
+        self.f7Actions = self.$f7.actions.create(actionsParams);
+
+        if (self.opened) {
+          self.f7Actions.open(false);
+        }
+      },
+    },
+  };
+
 var f7Badge = {
 render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"badge",class:_vm.classes},[_vm._t("default")],2)},
 staticRenderFns: [],
@@ -550,8 +789,8 @@ staticRenderFns: [],
 var blockFooter = {
 render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-footer",class:_vm.classes},[_vm._t("default")],2)},
 staticRenderFns: [],
-    props: Mixins.colorProps,
     name: 'f7-block-footer',
+    props: Mixins.colorProps,
     computed: {
       classes() {
         const self = this;
@@ -1029,8 +1268,8 @@ const ChipProps = Utils.extend({
       let mediaEl;
       let labelEl;
       let deleteEl;
-      if (self.$slots && self.$slots.media) {
-        mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.$slots.media);
+      if (self.media || (self.$slots && self.$slots.media)) {
+        mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.media || self.$slots.media);
       }
       if (self.text || (self.$slots && self.$slots.text)) {
         labelEl = c('div', { staticClass: 'chip-label' }, [self.text, self.$slots.text]);
@@ -1049,6 +1288,9 @@ const ChipProps = Utils.extend({
       return c('div', {
         staticClass: 'chip',
         class: self.classes,
+        on: {
+          click: self.onClick,
+        },
       }, [mediaEl, labelEl, deleteEl]);
     },
     computed: {
@@ -1251,6 +1493,7 @@ const ToggleProps = Utils.extend({
     checked: Boolean,
     disabled: Boolean,
     readonly: Boolean,
+    name: String,
     value: [String, Number, Array],
   }, Mixins.colorProps);
 
@@ -1271,11 +1514,16 @@ const ToggleProps = Utils.extend({
         c('input', {
           attrs: {
             type: 'checkbox',
+            name: self.name,
           },
           domProps: {
             disabled: self.disabled,
             readonly: self.readonly,
             checked: self.checked,
+            value: self.value,
+          },
+          on: {
+            change: self.onChange,
           },
         }),
         c('span', { staticClass: 'toggle-icon' }),
@@ -1297,6 +1545,10 @@ const ToggleProps = Utils.extend({
       toggle() {
         const self = this;
         if (self.f7Toggle && self.f7Toggle.setValue) self.f7Toggle.toggle();
+      },
+      onChange(e) {
+        const self = this;
+        self.$emit('change', e);
       },
       onF7Ready(f7) {
         const self = this;
@@ -1481,26 +1733,6 @@ const InputProps = Utils.extend(
         blur: self.onBlur,
         input: self.onInput,
         change: self.onChange,
-        click: self.onClick,
-        keypress: self.onKeyPress,
-        keyup: self.onKeyUp,
-        keydown: self.onKeyDown,
-        beforeinput: self.onBeforeInput,
-        compositionstart: self.onCompositionStart,
-        compositionupdate: self.onCompositionUpdate,
-        compositionend: self.onCompositionEnd,
-        focusin: self.onFocusIn,
-        focusout: self.onFocusOut,
-        dblclick: self.onDblClick,
-        mousedown: self.onMouseDown,
-        mouseenter: self.onMouseEnter,
-        mouseleave: self.onMouseLeave,
-        mousemove: self.onMouseMove,
-        mouseout: self.onMouseOut,
-        mouseover: self.onMouseOver,
-        mouseup: self.onMouseUp,
-        wheel: self.onWheel,
-        select: self.onSelect,
         'textarea:resize': self.onTextareaResize,
         'input:notempty': self.onInputNotEmpty,
         'input:empty': self.onInputEmpty,
@@ -1624,66 +1856,6 @@ const InputProps = Utils.extend(
         const self = this;
         self.$emit('change', event);
       },
-      onClick(event) {
-        this.$emit('click', event);
-      },
-      onKeyPress(event) {
-        this.$emit('keypress', event);
-      },
-      onKeyUp(event) {
-        this.$emit('keyup', event);
-      },
-      onKeyDown(event) {
-        this.$emit('keydown', event);
-      },
-      onBeforeInput(event) {
-        this.$emit('beforeinput', event);
-      },
-      onCompositionStart(event) {
-        this.$emit('compositionstart', event);
-      },
-      onCompositionUpdate(event) {
-        this.$emit('compositionupdate', event);
-      },
-      onCompositionEnd(event) {
-        this.$emit('compositionend', event);
-      },
-      onFocusIn(event) {
-        this.$emit('focusin', event);
-      },
-      onFocusOut(event) {
-        this.$emit('focusout', event);
-      },
-      onDblClick(event) {
-        this.$emit('dblclick', event);
-      },
-      onMouseDown(event) {
-        this.$emit('mousedown', event);
-      },
-      onMouseEnter(event) {
-        this.$emit('mouseenter', event);
-      },
-      onMouseLeave(event) {
-        this.$emit('mouseleave', event);
-      },
-      onMouseMove(event) {
-        this.$emit('mousemove', event);
-      },
-      onMouseOut(event) {
-        this.$emit('mouseout', event);
-      },
-      onMouseOver(event) {
-        this.$emit('mouseover', event);
-      },
-      onMouseUp(event) {
-        this.$emit('mouseup', event);
-      },
-      onWheel(event) {
-        this.$emit('wheel', event);
-      },
-      onSelect(event) {
-        this.$emit('select', event);
-      },
     },
   };
 
@@ -1744,6 +1916,7 @@ const LinkProps = Utils.extend(
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
+      routeTabId: String,
       iconOnly: Boolean,
       badge: [String, Number],
       badgeColor: [String],
@@ -1820,6 +1993,7 @@ const LinkProps = Utils.extend(
           {
             href,
             target,
+            'data-route-tab-id': self.routeTabId,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
@@ -2130,6 +2304,13 @@ const ListItemContentProps = Utils.extend(
         },
       }, [slotsContentStart, inputEl, inputIconEl, mediaEl, innerEl, slotsContent, slotsContentEnd]);
     },
+    data() {
+      return {
+        itemInputForced: false,
+        inlineLabelForced: false,
+        itemInputWithInfoForced: false,
+      };
+    },
     methods: {
       onClick(event) {
         this.$emit('click', event);
@@ -2346,6 +2527,13 @@ const ListItemProps = Utils.extend(
         liChildren
       );
     },
+    data() {
+      return {
+        itemInputForced: false,
+        inlineLabelForced: false,
+        itemInputWithInfoForced: false,
+      };
+    },
     computed: {
       sortableComputed() {
         return this.sortable || this.$parent.sortable || this.$parent.sortableComputed;
@@ -2464,14 +2652,6 @@ const ListProps = Utils.extend(
       if (!(self.virtualList && self.f7VirtualList)) return;
       if (self.f7VirtualList.destroy) self.f7VirtualList.destroy();
     },
-    watch: {
-      'virtualListParams.items': function onItemsChange() {
-        // Items Updated
-        const self = this;
-        if (!(self.virtualList && self.f7VirtualList)) return;
-        self.f7VirtualList.replaceAllItems(self.virtualListParams.items);
-      },
-    },
     render(c) {
       const self = this;
 
@@ -2501,7 +2681,7 @@ const ListProps = Utils.extend(
               'links-list': self.linksList,
               sortable: self.sortable,
               'accordion-list': self.accordionList,
-              'contacts-block': self.contactsList,
+              'contacts-list': self.contactsList,
               'virtual-list': self.virtualList,
               tab: self.tab,
               'tab-active': self.tabActive,
@@ -2601,6 +2781,85 @@ staticRenderFns: [],
       classes() {
         const self = this;
         return Mixins.colorClasses(self);
+      },
+    },
+  };
+
+const LoginScreenProps = Utils.extend(
+    {
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
+  var loginScreen = {
+    name: 'f7-login-screen',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'login-screen',
+        class: self.classes,
+        on: {
+          'loginscreen:open': self.onOpen,
+          'loginscreen:opened': self.onOpened,
+          'loginscreen:close': self.onClose,
+          'loginscreen:closed': self.onClosed,
+        },
+      }, self.$slots.default);
+    },
+    watch: {
+      opened(opened) {
+        const self = this;
+        if (!self.f7LoginScreen) return;
+        if (opened) {
+          self.f7LoginScreen.open();
+        } else {
+          self.f7LoginScreen.close();
+        }
+      },
+    },
+    props: LoginScreenProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7LoginScreen) self.f7LoginScreen.destroy();
+    },
+    methods: {
+      onOpen(event) {
+        this.$emit('loginscreen:open', event);
+      },
+      onOpened(event) {
+        this.$emit('loginscreen:opened', event);
+      },
+      onClose(event) {
+        this.$emit('loginscreen:close', event);
+      },
+      onClosed(event) {
+        this.$emit('loginscreen:closed', event);
+      },
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.loginScreen.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.loginScreen.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        self.f7LoginScreen = self.$f7.loginScreen.create({
+          el: self.$el,
+        });
+        if (self.opened) {
+          self.f7LoginScreen.open(false);
+        }
       },
     },
   };
@@ -3234,11 +3493,12 @@ staticRenderFns: [],
 
 const NavTitleProps = Utils.extend({
     title: String,
+    subtitle: String,
     sliding: Boolean,
   }, Mixins.colorProps);
 
   var f7NavTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title",class:_vm.classes},[_vm._t("default",[_vm._v(_vm._s(_vm.title))])],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title",class:_vm.classes},[_vm._t("default",[_vm._v(_vm._s(_vm.title)),(_vm.subtitle)?_c('span',{staticClass:"subtitle"},[_vm._v(_vm._s(_vm.subtitle))]):_vm._e()])],2)},
 staticRenderFns: [],
     name: 'f7-nav-title',
     props: NavTitleProps,
@@ -3259,6 +3519,7 @@ const NavbarProps = Utils.extend({
       default: true,
     },
     title: String,
+    subtitle: String,
     hidden: Boolean,
     noShadow: Boolean,
     inner: {
@@ -3290,10 +3551,11 @@ const NavbarProps = Utils.extend({
             },
           });
         }
-        if (self.title) {
+        if (self.title || self.subtitle) {
           titleEl = c('f7-nav-title', {
             props: {
               title: self.title,
+              subtitle: self.subtitle,
             },
           });
         }
@@ -3434,7 +3696,7 @@ staticRenderFns: [],
         this.$emit('ptr:pullend', event);
       },
       onPtrRefresh(event) {
-        this.$emit('ptr:refresh', event.detail);
+        this.$emit('ptr:refresh', event, event.detail);
       },
       onPtrRefreshDone(event) {
         this.$emit('ptr:done', event);
@@ -3617,7 +3879,7 @@ const PageProps = Utils.extend({
         this.$emit('ptr:pullend', event);
       },
       onPtrRefresh(event) {
-        this.$emit('ptr:refresh', event.detail);
+        this.$emit('ptr:refresh', event, event.detail);
       },
       onPtrRefreshDone(event) {
         this.$emit('ptr:done', event);
@@ -3754,6 +4016,258 @@ staticRenderFns: [],
         const self = this;
         if (!self.$f7) return;
         self.$f7.panel.close(animate);
+      },
+    },
+  };
+
+var photoBrowser = {
+    name: 'f7-photo-browser',
+    render() {},
+    beforeDestroy() {
+      const self = this;
+      if (self.f7PhotoBrowser && self.f7PhotoBrowser.destroy) self.f7PhotoBrowser.destroy();
+    },
+    watch: {
+      photos(newValue) {
+        const self = this;
+        const pb = self.f7PhotoBrowser;
+        if (!pb) return;
+        self.f7PhotoBrowser.photos = newValue;
+        if (pb.opened && pb.swiper) {
+          pb.swiper.update();
+        }
+      },
+    },
+    props: {
+      init: {
+        type: Boolean,
+        default: true,
+      },
+      params: Object,
+      photos: Array,
+      exposition: Boolean,
+      expositionHideCaptions: Boolean,
+      type: String,
+      navbar: Boolean,
+      toolbar: Boolean,
+      theme: String,
+      captionsTheme: String,
+      swipeToClose: Boolean,
+      backLinkText: String,
+      navbarOfText: String,
+      iconsColor: String,
+      swiper: Object,
+      url: String,
+      view: [String, Object],
+      routableModals: Boolean,
+    },
+    methods: {
+      open(index) {
+        return this.f7PhotoBrowser.open(index);
+      },
+      close() {
+        return this.f7PhotoBrowser.close();
+      },
+      expositionToggle() {
+        return this.f7PhotoBrowser.expositionToggle();
+      },
+      expositionEnable() {
+        return this.f7PhotoBrowser.expositionEnable();
+      },
+      expositionDisable() {
+        return this.f7PhotoBrowser.expositionDisable();
+      },
+      onF7Init(f7) {
+        const self = this;
+        // Init Virtual List
+        if (!self.init) return;
+        const params = Utils.extend({}, self.$options.propsData, {
+          on: {
+            open() {
+              self.$emit('photobrowser:open');
+            },
+            close() {
+              self.$emit('photobrowser:close');
+            },
+            opened() {
+              self.$emit('photobrowser:opened');
+            },
+            closed() {
+              self.$emit('photobrowser:closed');
+            },
+            swipeToClose() {
+              self.$emit('photobrowser:swipetoclose');
+            },
+          },
+        });
+
+        self.f7PhotoBrowser = f7.photoBrowser.create(params);
+      },
+    },
+  };
+
+const PopoverProps = Utils.extend(
+    {
+      opened: Boolean,
+      target: [String, Object],
+    },
+    Mixins.colorProps
+  );
+
+  var popover = {
+    name: 'f7-popover',
+    render(c) {
+      const self = this;
+      const angleEl = c('div', { staticClass: 'popover-angle' });
+      const innerEl = c('div', { staticClass: 'popover-inner' }, self.$slots.default);
+      return c('div', {
+        class: self.classes,
+        staticClass: 'popover',
+        on: {
+          'popover:open': self.onOpen,
+          'popover:opened': self.onOpened,
+          'popover:close': self.onClose,
+          'popover:closed': self.onClosed,
+        },
+      }, [angleEl, innerEl]);
+    },
+    watch: {
+      opened(opened) {
+        const self = this;
+        if (!self.f7Popover) return;
+        if (opened) {
+          self.f7Popover.open();
+        } else {
+          self.f7Popover.close();
+        }
+      },
+    },
+    props: PopoverProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Popover) self.f7Popover.destroy();
+    },
+    methods: {
+      onOpen(event) {
+        this.$emit('popover:open', event);
+      },
+      onOpened(event) {
+        this.$emit('popover:opened', event);
+      },
+      onClose(event) {
+        this.$emit('popover:close', event);
+      },
+      onClosed(event) {
+        this.$emit('popover:closed', event);
+      },
+      open(target, animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.popover.open(self.$el, target, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.sheet.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        const popoverParams = {
+          el: self.$el,
+        };
+        if (self.target) popoverParams.targetEl = self.target;
+        self.f7Popover = self.$f7.popover.create(popoverParams);
+        if (self.opened && self.target) {
+          self.f7Popover.open(self.target, false);
+        }
+      },
+    },
+  };
+
+const PopupProps = Utils.extend(
+    {
+      'tablet-fullscreen': Boolean,
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
+  var popup = {
+    name: 'f7-popup',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'popup',
+        class: self.classes,
+        on: {
+          'popup:open': self.onOpen,
+          'popup:opened': self.onOpened,
+          'popup:close': self.onClose,
+          'popup:closed': self.onClosed,
+        },
+      }, self.$slots.default);
+    },
+    watch: {
+      opened(opened) {
+        const self = this;
+        if (!self.f7Popup) return;
+        if (opened) {
+          self.f7Popup.open();
+        } else {
+          self.f7Popup.close();
+        }
+      },
+    },
+    props: PopupProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'popup-tablet-fullscreen': self.tabletFullscreen,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Popup) self.f7Popup.destroy();
+    },
+    methods: {
+      onOpen(event) {
+        this.$emit('popup:open', event);
+      },
+      onOpened(event) {
+        this.$emit('popup:opened', event);
+      },
+      onClose(event) {
+        this.$emit('popup:close', event);
+      },
+      onClosed(event) {
+        this.$emit('popup:closed', event);
+      },
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.popup.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.popup.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        self.f7Popup = self.$f7.popup.create({
+          el: self.$el,
+        });
+        if (self.opened) {
+          self.f7Popup.open(false);
+        }
       },
     },
   };
@@ -3912,6 +4426,241 @@ const RowProps = Utils.extend(
     },
   };
 
+const SearchbarProps = Utils.extend(
+    {
+      noShadow: Boolean,
+      noHairline: Boolean,
+      form: {
+        type: Boolean,
+        default: true,
+      },
+      placeholder: {
+        type: String,
+        default: 'Search',
+      },
+      disableButton: {
+        type: Boolean,
+        default: true,
+      },
+      disableButtonText: {
+        type: String,
+        default: 'Cancel',
+      },
+      clearButton: {
+        type: Boolean,
+        default: true,
+      },
+
+      // SB Params
+      params: Object,
+      expandable: Boolean,
+      searchContainer: [String, Object],
+      searchIn: {
+        type: String,
+        default: '.item-title',
+      },
+      searchItem: {
+        type: String,
+        default: 'li',
+      },
+      foundEl: {
+        type: [String, Object],
+        default: '.searchbar-found',
+      },
+      notFoundEl: {
+        type: [String, Object],
+        default: '.searchbar-not-found',
+      },
+      backdrop: {
+        type: Boolean,
+        default: true,
+      },
+      backdropEl: [String, Object],
+      hideOnEnableEl: {
+        type: [String, Object],
+        default: '.searchbar-hide-on-enable',
+      },
+      hideOnSearchEl: {
+        type: [String, Object],
+        default: '.searchbar-hide-on-search',
+      },
+      ignore: {
+        type: String,
+        default: '.searchbar-ignore',
+      },
+      customSearch: {
+        type: Boolean,
+        default: false,
+      },
+      removeDiacritics: {
+        type: Boolean,
+        default: false,
+      },
+      hideDividers: {
+        type: Boolean,
+        default: true,
+      },
+      hideGroups: {
+        type: Boolean,
+        default: true,
+      },
+      init: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  var searchbar = {
+    name: 'f7-searchbar',
+    render(c) {
+      const self = this;
+      let clearEl;
+      let disableEl;
+
+      const inputEl = c('input', {
+        attrs: {
+          placeholder: self.placeholder,
+          type: 'search',
+        },
+        on: {
+          input: self.onInput,
+          change: self.onChange,
+          focus: self.onFocus,
+          blur: self.onBlur,
+        },
+      });
+      if (self.clearButton) {
+        clearEl = c('span', {
+          staticClass: 'input-clear-button',
+          on: {
+            click: self.onClearButtonClick,
+          },
+        });
+      }
+      if (self.disableButton) {
+        disableEl = c('span', {
+          staticClass: 'searchbar-disable-button',
+          on: {
+            click: self.onDisableButtonClick,
+          },
+        }, [self.disableButtonText]);
+      }
+      const iconEl = c('i', {
+        staticClass: 'searchbar-icon',
+      });
+
+      const inputWrapEl = c('div', { staticClass: 'searchbar-input-wrap' }, [self.$slots['input-wrap-start'], inputEl, iconEl, clearEl, self.$slots['input-wrap-end']]);
+
+      const innerEl = c('div', {
+        staticClass: 'searchbar-inner',
+      }, [self.$slots['inner-start'], inputWrapEl, disableEl, self.$slots['inner-end'], self.$slots.default]);
+
+      return c(self.form ? 'form' : 'div', {
+        staticClass: 'searchbar',
+        class: Utils.extend({
+          'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
+          'searchbar-expandable': self.expandable,
+        }, Mixins.colorClasses(self)),
+        on: {
+          submit: self.onSubmit,
+        },
+      }, [self.$slots['before-inner'], innerEl, self.$slots['after-inner']]);
+    },
+    beforeDestroy() {
+      if (this.f7Searchbar && this.f7Searchbar.destroy) this.f7Searchbar.destroy();
+    },
+    props: SearchbarProps,
+    methods: {
+      search(query) {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.search(query);
+      },
+      enable() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.enable();
+      },
+      disable() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.disable();
+      },
+      toggle() {
+        if (!this.f7Searchbar) return undefined;
+        return this.toggle.disable();
+      },
+      clear() {
+        if (!this.f7Searchbar) return undefined;
+        return this.f7Searchbar.clear();
+      },
+      onChange(event) {
+        this.$emit('change', event);
+      },
+      onInput(event) {
+        this.$emit('input', event);
+      },
+      onFocus(event) {
+        this.$emit('focus', event);
+      },
+      onBlur(event) {
+        this.$emit('blur', event);
+      },
+      onSubmit(event) {
+        this.$emit('submit', event);
+      },
+      onClearButtonClick(event) {
+        this.$emit('click:clear', event);
+      },
+      onDisableButtonClick(event) {
+        this.$emit('click:disable', event);
+      },
+
+      onF7Ready() {
+        const self = this;
+        if (!self.init) return;
+        const params = {
+          el: self.$el,
+          searchContainer: self.searchContainer,
+          searchIn: self.searchIn,
+          searchItem: self.searchItem,
+          hideOnEnableEl: self.hideOnEnableEl,
+          hideOnSearchEl: self.hideOnSearchEl,
+          foundEl: self.foundEl,
+          notFoundEl: self.notFoundEl,
+          backdrop: self.backdrop,
+          backdropEl: self.backdropEl,
+          disableButton: self.disableButton,
+          ignore: self.ignore,
+          customSearch: self.customSearch,
+          removeDiacritics: self.removeDiacritics,
+          hideDividers: self.hideDividers,
+          hideGroups: self.hideGroups,
+          on: {
+            search(searchbar, query, previousQuery) {
+              self.$emit('searchbar:search', searchbar, query, previousQuery);
+            },
+            clear(searchbar, previousQuery) {
+              self.$emit('searchbar:clear', searchbar, previousQuery);
+            },
+            enable(searchbar) {
+              self.$emit('searchbar:enable', searchbar);
+            },
+            disable(searchbar) {
+              self.$emit('searchbar:disable', searchbar);
+            },
+          },
+        };
+        Object.keys(params).forEach((key) => {
+          if (typeof params[key] === 'undefined' || params[key] === '') {
+            delete params[key];
+          }
+        });
+        self.f7Searchbar = self.$f7.searchbar.create(params);
+      },
+    },
+  };
+
 const SegmentedProps = Utils.extend({
     raised: Boolean,
     round: Boolean,
@@ -3936,6 +4685,121 @@ const SegmentedProps = Utils.extend({
     },
   };
 
+const SheetProps = Utils.extend(
+    {
+      opened: Boolean,
+      backdrop: Boolean,
+    },
+    Mixins.colorProps
+  );
+
+  var sheet = {
+    name: 'f7-sheet',
+    render(c) {
+      const self = this;
+      const fixedList = [];
+      const staticList = [];
+      const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab').split(' ');
+
+      let tag;
+      let child;
+
+      if (self.$slots.default) {
+        for (let i = 0; i < self.$slots.default.length; i += 1) {
+          child = self.$slots.default[i];
+          tag = child.tag;
+          if (!tag) {
+            staticList.push(child);
+            continue; // eslint-disable-line
+          }
+          let isFixed = false;
+          for (let j = 0; j < fixedTags.length; j += 1) {
+            if (tag.indexOf(fixedTags[j]) >= 0) {
+              isFixed = true;
+            }
+          }
+          if (isFixed) fixedList.push(child);
+          else staticList.push(child);
+        }
+      }
+
+      const innerEl = c('div', {
+        staticClass: 'sheet-modal-inner',
+      }, staticList);
+
+      return c('div', {
+        class: self.classes,
+        staticClass: 'sheet-modal',
+        on: {
+          'sheet:open': self.onOpen,
+          'sheet:opened': self.onOpened,
+          'sheet:close': self.onClose,
+          'sheet:closed': self.onClosed,
+        },
+      }, [fixedList, innerEl]);
+    },
+    watch: {
+      opened(opened) {
+        const self = this;
+        if (!self.f7Sheet) return;
+        if (opened) {
+          self.f7Sheet.open();
+        } else {
+          self.f7Sheet.close();
+        }
+      },
+    },
+    props: SheetProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Sheet) self.f7Sheet.destroy();
+    },
+    methods: {
+      onOpen(event) {
+        this.$emit('sheet:open', event);
+      },
+      onOpened(event) {
+        this.$emit('sheet:opened', event);
+      },
+      onClose(event) {
+        this.$emit('sheet:close', event);
+      },
+      onClosed(event) {
+        this.$emit('sheet:closed', event);
+      },
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.sheet.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.sheet.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        let backdrop = self.backdrop;
+        if (typeof self.$options.propsData.backdrop === 'undefined') {
+          backdrop = self.$theme.md;
+        }
+        self.f7Sheet = self.$f7.sheet.create({
+          el: self.$el,
+          backdrop,
+        });
+        if (self.opened) {
+          self.f7Sheet.open(false);
+        }
+      },
+    },
+  };
+
 var statusbar = {
 render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar",class:_vm.classes})},
 staticRenderFns: [],
@@ -3951,6 +4815,7 @@ staticRenderFns: [],
 
 const SubnavbarProps = Utils.extend({
     sliding: Boolean,
+    title: String,
     inner: {
       type: Boolean,
       default: true,
@@ -3958,7 +4823,7 @@ const SubnavbarProps = Utils.extend({
   }, Mixins.colorProps);
 
   var subnavbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"subnavbar",class:_vm.classes},[(_vm.inner)?_c('div',{staticClass:"subnavbar-inner"},[_vm._t("default")],2):_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"subnavbar",class:_vm.classes},[(_vm.inner)?_c('div',{staticClass:"subnavbar-inner"},[(_vm.title)?_c('div',{staticClass:"title"},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._v(" "),_vm._t("default")],2):_vm._t("default")],2)},
 staticRenderFns: [],
     name: 'f7-subnavbar',
     props: SubnavbarProps,
@@ -4004,13 +4869,14 @@ staticRenderFns: [],
 
 const SwipeoutButtonProps = Utils.extend({
     text: String,
+    confirmText: String,
     overswipe: Boolean,
     close: Boolean,
     delete: Boolean,
   }, Mixins.colorProps);
 
   var swipeoutButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))])],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,attrs:{"data-confirm":_vm.confirmText || undefined},on:{"click":_vm.onClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))])],2)},
 staticRenderFns: [],
     name: 'f7-swipeout-button',
     props: SwipeoutButtonProps,
@@ -4171,6 +5037,7 @@ const TabProps = Utils.extend({
 const TabsProps = Utils.extend({
     animated: Boolean,
     swipeable: Boolean,
+    routable: Boolean,
   }, Mixins.colorProps);
 
   var tabs = {
@@ -4187,6 +5054,7 @@ const TabsProps = Utils.extend({
         return Utils.extend({
           'tabs-animated-wrap': this.animated,
           'tabs-swipeable-wrap': this.swipeable,
+          'tabs-routable': this.routable,
         }, Mixins.colorClasses(this));
       },
     },
@@ -4210,7 +5078,7 @@ staticRenderFns: [],
       const self = this;
       if (self.tabbar && self.$f7) {
         self.$nextTick(() => {
-          self.$f7.toolbar.init(self.$el);
+          self.$f7.toolbar.setHighlight(self.$el);
         });
       }
     },
@@ -4237,6 +5105,10 @@ staticRenderFns: [],
         const self = this;
         if (!self.$f7) return;
         self.$f7.toolbar.show(this.$el, animate);
+      },
+      onF7Ready(f7) {
+        const self = this;
+        if (self.tabbar) f7.toolbar.setHighlight(self.$el);
       },
     },
   };
@@ -4404,4 +5276,5 @@ staticRenderFns: [],
     },
   };
 
-export { vuePlugin as Framework7Vue, accordionContent as f7AccordionContent, accordionItem as f7AccordionItem, accordionToggle as f7AccordionToggle, accordion as f7Accordion, f7Badge, blockFooter as f7BlockFooter, blockHeader as f7BlockHeader, blockTitle as f7BlockTitle, block as f7Block, button as f7Button, f7CardContent, f7CardFooter, f7CardHeader, card as f7Card, checkbox as f7Checkbox, chip as f7Chip, col as f7Col, fabButton as f7FabButton, fabButtons as f7FabButtons, fab as f7Fab, f7Icon, f7Input, label as f7Label, f7Link, listButton as f7ListButton, listGroup as f7ListGroup, listItemCell as f7ListItemCell, f7ListItemContent, listItemRow as f7ListItemRow, listItem as f7ListItem, list as f7List, loginScreenTitle as f7LoginScreenTitle, message as f7Message, messagebarAttachment as f7MessagebarAttachment, messagebarAttachments as f7MessagebarAttachments, messagebarSheetImage as f7MessagebarSheetImage, messagebarSheetItem as f7MessagebarSheetItem, messagebarSheet as f7MessagebarSheet, messagebar as f7Messagebar, messagesTitle as f7MessagesTitle, messages as f7Messages, f7NavLeft, navRight as f7NavRight, f7NavTitle, navbar as f7Navbar, f7PageContent, page as f7Page, panel as f7Panel, preloader as f7Preloader, progressbar as f7Progressbar, radio as f7Radio, f7Range, row as f7Row, segmented as f7Segmented, statusbar as f7Statusbar, subnavbar as f7Subnavbar, swipeoutActions as f7SwipeoutActions, swipeoutButton as f7SwipeoutButton, swiperSlide as f7SwiperSlide, swiper as f7Swiper, tab as f7Tab, tabs as f7Tabs, f7Toggle, toolbar as f7Toolbar, view as f7View, views as f7Views };
+export { accordionContent as f7AccordionContent, accordionItem as f7AccordionItem, accordionToggle as f7AccordionToggle, accordion as f7Accordion, actionsButton as f7ActionsButton, actionsGroup as f7ActionsGroup, actionsLabel as f7ActionsLabel, actions as f7Actions, f7Badge, blockFooter as f7BlockFooter, blockHeader as f7BlockHeader, blockTitle as f7BlockTitle, block as f7Block, button as f7Button, f7CardContent, f7CardFooter, f7CardHeader, card as f7Card, checkbox as f7Checkbox, chip as f7Chip, col as f7Col, fabButton as f7FabButton, fabButtons as f7FabButtons, fab as f7Fab, f7Icon, f7Input, label as f7Label, f7Link, listButton as f7ListButton, listGroup as f7ListGroup, listItemCell as f7ListItemCell, f7ListItemContent, listItemRow as f7ListItemRow, listItem as f7ListItem, list as f7List, loginScreenTitle as f7LoginScreenTitle, loginScreen as f7LoginScreen, message as f7Message, messagebarAttachment as f7MessagebarAttachment, messagebarAttachments as f7MessagebarAttachments, messagebarSheetImage as f7MessagebarSheetImage, messagebarSheetItem as f7MessagebarSheetItem, messagebarSheet as f7MessagebarSheet, messagebar as f7Messagebar, messagesTitle as f7MessagesTitle, messages as f7Messages, f7NavLeft, navRight as f7NavRight, f7NavTitle, navbar as f7Navbar, f7PageContent, page as f7Page, panel as f7Panel, photoBrowser as f7PhotoBrowser, popover as f7Popover, popup as f7Popup, preloader as f7Preloader, progressbar as f7Progressbar, radio as f7Radio, f7Range, row as f7Row, searchbar as f7Searchbar, segmented as f7Segmented, sheet as f7Sheet, statusbar as f7Statusbar, subnavbar as f7Subnavbar, swipeoutActions as f7SwipeoutActions, swipeoutButton as f7SwipeoutButton, swiperSlide as f7SwiperSlide, swiper as f7Swiper, tab as f7Tab, tabs as f7Tabs, f7Toggle, toolbar as f7Toolbar, view as f7View, views as f7Views };
+export default VuePlugin$1;
