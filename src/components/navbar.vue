@@ -13,6 +13,7 @@
       default: true,
     },
     title: String,
+    subtitle: String,
     hidden: Boolean,
     noShadow: Boolean,
     inner: {
@@ -44,10 +45,11 @@
             },
           });
         }
-        if (self.title) {
+        if (self.title || self.subtitle) {
           titleEl = c('f7-nav-title', {
             props: {
               title: self.title,
+              subtitle: self.subtitle,
             },
           });
         }

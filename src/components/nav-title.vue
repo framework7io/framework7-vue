@@ -1,5 +1,5 @@
 <template>
-  <div class="title" :class="classes"><slot>{{title}}</slot></div>
+  <div class="title" :class="classes"><slot>{{title}}<span class="subtitle" v-if="subtitle">{{subtitle}}</span></slot></div>
 </template>
 <script>
   import Utils from '../utils/utils';
@@ -7,6 +7,7 @@
 
   const NavTitleProps = Utils.extend({
     title: String,
+    subtitle: String,
     sliding: Boolean,
   }, Mixins.colorProps);
 
