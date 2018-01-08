@@ -45,14 +45,6 @@
       if (!(self.virtualList && self.f7VirtualList)) return;
       if (self.f7VirtualList.destroy) self.f7VirtualList.destroy();
     },
-    watch: {
-      'virtualListParams.items': function onItemsChange() {
-        // Items Updated
-        const self = this;
-        if (!(self.virtualList && self.f7VirtualList)) return;
-        self.f7VirtualList.replaceAllItems(self.virtualListParams.items);
-      },
-    },
     render(c) {
       const self = this;
 
@@ -82,7 +74,7 @@
               'links-list': self.linksList,
               sortable: self.sortable,
               'accordion-list': self.accordionList,
-              'contacts-block': self.contactsList,
+              'contacts-list': self.contactsList,
               'virtual-list': self.virtualList,
               tab: self.tab,
               'tab-active': self.tabActive,
