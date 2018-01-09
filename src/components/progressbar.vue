@@ -22,6 +22,7 @@
         c('span', {
           style: {
             transform: progress ? `translate3d(${-100 + progress}%, 0, 0)` : '',
+            '-webkit-transform': progress ? `translate3d(${-100 + progress}%, 0, 0)` : '',
           },
         }),
       ]);
