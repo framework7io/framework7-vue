@@ -37,13 +37,5 @@ jspm_packages
 .node_repl_history
 
 kitchen-sink/js/
-
 kitchen-sink/js/app.js
-
 bundle.css
-
-kitchen-sink/pages/messages.vue
-
-dist/framework7-vue.js.map
-
-kitchen-sink/pages/modals.vue
