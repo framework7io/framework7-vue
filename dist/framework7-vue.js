@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0-beta.6
+ * Framework7 Vue 2.0.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 8, 2018
+ * Released on: January 10, 2018
  */
 
 (function (global, factory) {
@@ -4225,6 +4225,7 @@ var ProgressbarProps = Utils.extend({
         c('span', {
           style: {
             transform: progress ? ("translate3d(" + (-100 + progress) + "%, 0, 0)") : '',
+            '-webkit-transform': progress ? ("translate3d(" + (-100 + progress) + "%, 0, 0)") : '',
           },
         }) ]);
     },
@@ -5188,6 +5189,12 @@ staticRenderFns: [],
 // eslint-disable-next-line
 var vuePlugin = {
   install: function install(Vue, Framework7) {
+    if ( Framework7 === void 0 ) Framework7 = window.Framework7;
+
+    // Check for F7
+    if (typeof Framework7 === 'undefined') {
+      throw new Error('Framework7 is undefined, make sure you have passed it as an argument: Vue.use(Framework7Vue, Framework7)');
+    }
     // Event Hub
     var eventHub = new Vue();
 

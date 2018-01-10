@@ -1,6 +1,6 @@
 {
   "name": "framework7-vue",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
   "main": "dist/framework7-vue.js",
   "jsnext:main": "dist/framework7-vue.esm.js",
@@ -40,7 +40,7 @@
     "test": "npm run build:prod && npm run lint"
   },
   "bugs": {
-    "url": "https://github.com/nolimits4web/Framework7-Vue/issues"
+    "url": "https://github.com/framework7io/framework7-vue/issues"
   },
   "homepage": "http://framework7.io/vue/",
   "engines": {
@@ -52,7 +52,7 @@
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "^2.7.0",
-    "framework7": "^2.0.5",
+    "framework7": "^2.0.6",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-header": "^1.8.9",

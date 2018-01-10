@@ -1,6 +1,8 @@
 # Change Log
 
-## Framework7 Vue v2.0.0-beta.6 - Released on January 8, 2018
+## [v2.0.0](https://github.com/framework7io/framework7-vue/compare/v0.9.4...v2.0.0) - on January 10, 2018 🎉
+
+## [v2.0.0-beta.6](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.5...v2.0.0-beta.6) - on January 8, 2018
   * New Searchbar component
   * New Popup component
   * New Action Sheet component
@@ -13,18 +15,18 @@
   * Lot of new/v2-reworked Kitchen Sink demos
   * Lots of minor fixes
 
-## Framework7 Vue v2.0.0-beta.5 - Released on November 8, 2017
+## [v2.0.0-beta.5](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.4...v2.0.0-beta.5) - on November 8, 2017
   * **f7-panel** now also triggers `panel:breakpoint` event when panel visibility changes based on breakpoint
 
-## Framework7 Vue v2.0.0-beta.4 - Released on October 26, 2017
+## [v2.0.0-beta.4](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.3...v2.0.0-beta.4) - on October 26, 2017
   * New Messagebar component with the new following components: **f7-messagebar**, **f7-messagebar-attachments**, **f7-messagebar-attachment**, **f7-messagebar-sheet**, **f7-messagebar-sheet-item**, **f7-messagebar-sheet-image**
   * New Messages component with the new following components: **f7-messages**, **f7-message**, **f7-messages-title**
   * Lots of minor fixes
 
-## Framework7 Vue v2.0.0-beta.3 - Released on October 13, 2017
+## [v2.0.0-beta.3](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.2...v2.0.0-beta.3) - on October 13, 2017
   * Minor fixes
 
-## Framework7 Vue v2.0.0-beta.2 - Released on October 11, 2017
+## [v2.0.0-beta.2](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.1...v2.0.0-beta.2) - on October 11, 2017
   * Included ES module bundle build (with all components registered) in `framework7-vue.esm.bundle.js`
   * UMD build now also is a bundle version wit all components registered
   * All components now accept color props `color`, `color-theme`, `text-color`, `bg-color`, `border-color`
@@ -34,5 +36,5 @@
   * Added *f7-panel* component
   * Minor fixes
 
-## Framework7 Vue v2.0.0-beta.1 - Released on October 9, 2017
+## v2.0.0-beta.1 - on October 9, 2017
   * Initial v2 beta release
