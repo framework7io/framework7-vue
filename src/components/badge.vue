@@ -1,10 +1,17 @@
 <template>
-  <span class="badge" :class="color ? 'color-' + color : ''"><slot></slot></span>
+  <span class="badge" :class="classes"><slot></slot></span>
 </template>
 <script>
+  import Mixins from '../utils/mixins';
+
   export default {
-    props: {
-      'color': String
-    }
-  }
+    props: Mixins.colorProps,
+    name: 'f7-badge',
+    computed: {
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+  };
 </script>

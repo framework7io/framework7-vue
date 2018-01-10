@@ -1,9 +1,8 @@
 <template>
-  <span class="preloader"
-    :class="(color ? ('color-' + color + ' preloader-' + color) : '')"
-    :style="{'width': (sizeComputed ? sizeComputed + 'px' : ''), 'height': (sizeComputed ? sizeComputed + 'px' : '')}"
+  <span class="preloader" :class="classes"
+    :style="{'width': (sizeComputed ? `${sizeComputed}px` : ''), 'height': (sizeComputed ? `${sizeComputed}px` : '')}"
   >
-    <span class="preloader-inner" v-if="$theme.material">
+    <span class="preloader-inner" v-if="$theme.md">
       <span class="preloader-inner-gap"></span>
       <span class="preloader-inner-left">
         <span class="preloader-inner-half-circle"></span>
@@ -15,19 +14,27 @@
   </span>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const PreloaderProps = Utils.extend({
+    size: [Number, String],
+  }, Mixins.colorProps);
+
   export default {
-    props: {
-      'color': String,
-      'size': [Number, String]
-    },
+    name: 'f7-preloader',
+    props: PreloaderProps,
     computed: {
-      sizeComputed: function () {
-        var s = this.size;
+      classes() {
+        return Mixins.colorClasses(this);
+      },
+      sizeComputed() {
+        let s = this.size;
         if (s && typeof s === 'string' && s.indexOf('px') >= 0) {
           s = s.replace('px', '');
         }
         return s;
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

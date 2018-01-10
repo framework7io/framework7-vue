@@ -1,84 +1,86 @@
-<template>
-  <div class="popup"
-    :class="classesObject"
-    @popup:open="onOpen"
-    @popup:opened="onOpened"
-    @popup:close="onClose"
-    @popup:closed="onClosed"
-  >
-    <slot></slot>
-  </div>
-</template>
 <script>
+  import Mixins from '../utils/mixins';
+  import Utils from '../utils/utils';
+
+  const PopupProps = Utils.extend(
+    {
+      'tablet-fullscreen': Boolean,
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    mounted: function () {
-      var self = this;
-      if (self.opened) {
-        self.$el.style.display = 'block';
-      }
+    name: 'f7-popup',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'popup',
+        class: self.classes,
+        on: {
+          'popup:open': self.onOpen,
+          'popup:opened': self.onOpened,
+          'popup:close': self.onClose,
+          'popup:closed': self.onClosed,
+        },
+      }, self.$slots.default);
     },
     watch: {
-      opened: function (opened) {
-        var self = this;
-        if (!self.$f7) return;
-        var $$ = self.$$;
+      opened(opened) {
+        const self = this;
+        if (!self.f7Popup) return;
         if (opened) {
-          self.$f7.popup(self.$el)
+          self.f7Popup.open();
+        } else {
+          self.f7Popup.close();
         }
-        else {
-          if (!$$(self.$el).hasClass('modal-in')) return;
-          self.$f7.closeModal(self.$el)
-        }
-      }
+      },
     },
-    props: {
-      'tablet-fullscreen': Boolean,
-      'theme': String,
-      'layout': String,
-      'opened': Boolean
-    },
+    props: PopupProps,
     computed: {
-      classesObject: function () {
-        var co = {
-          'tablet-fullscreen': this.tabletFullscreen,
-          'modal-in': this.opened,
-          'modal-out': !this.opened
-        };
-        if (this.theme) co['theme-' + this.theme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
-        return co;
-      }
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'popup-tablet-fullscreen': self.tabletFullscreen,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Popup) self.f7Popup.destroy();
     },
     methods: {
-      onOpen: function (event) {
+      onOpen(event) {
         this.$emit('popup:open', event);
       },
-      onOpened: function (event) {
+      onOpened(event) {
         this.$emit('popup:opened', event);
       },
-      onClose: function (event) {
+      onClose(event) {
         this.$emit('popup:close', event);
       },
-      onClosed: function (event) {
+      onClosed(event) {
         this.$emit('popup:closed', event);
       },
-      onF7Init: function () {
-        var $$ = this.$$;
-        if (!$$) return;
-        if ($$('.popup-overlay').length === 0) {
-          $$(this.$root.$el).append('<div class="popup-overlay ' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.popup.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.popup.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        self.f7Popup = self.$f7.popup.create({
+          el: self.$el,
+        });
+        if (self.opened) {
+          self.f7Popup.open(false);
         }
       },
-      open: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.popup(self.$el, undefined, animated);
-      },
-      close: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el, animated);
-      }
-    }
-  }
+    },
+  };
 </script>

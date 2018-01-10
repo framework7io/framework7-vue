@@ -1,23 +1,77 @@
 <script>
-  export default {
-    render: function (c) {
-      var hasNavbar, hasPages, pagesEl, navbarEl, self = this;
-      if (self.$slots.default) {
-        for (var i = 0; i < self.$slots.default.length; i++) {
-          var child = self.$slots.default[i];
-          if (child.tag && child.tag.indexOf('navbar') >= 0) hasNavbar = true;
-          if (child.tag && child.tag.indexOf('pages') >= 0) hasPages = true;
-        }
-      }
-      if (!hasPages) pagesEl = c('f7-pages');
-      if (!hasNavbar && self.$theme.ios && (self.dynamicNavbar || self.navbarThrough || (self.params && self.params.dynamicNavbar))) {
-        navbarEl = c('f7-navbar', {props: {inner: false}});
-      }
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
 
+  const ViewProps = Utils.extend(
+    {
+      tab: Boolean,
+      tabActive: Boolean,
+
+      name: String,
+      linksView: [Object, String],
+      url: String,
+      main: Boolean,
+      stackPages: String,
+      xhrCache: String,
+      xhrCacheIgnore: Array,
+      xhrCacheIgnoreGetParameters: Boolean,
+      xhrCacheDuration: Number,
+      preloadPreviousPage: Boolean,
+      uniqueHistory: Boolean,
+      uniqueHistoryIgnoreGetParameters: Boolean,
+      allowDuplicateUrls: Boolean,
+      reloadPages: Boolean,
+      removeElements: Boolean,
+      removeElementsWithTimeout: Boolean,
+      removeElementsTimeout: Number,
+      restoreScrollTopOnBack: Boolean,
+      // Swipe Back
+      iosSwipeBack: Boolean,
+      iosSwipeBackAnimateShadow: Boolean,
+      iosSwipeBackAnimateOpacity: Boolean,
+      iosSwipeBackActiveArea: Number,
+      iosSwipeBackThreshold: Number,
+      // Push State
+      pushState: Boolean,
+      pushStateRoot: String,
+      pushStateAnimate: Boolean,
+      pushStateAnimateOnLoad: Boolean,
+      pushStateSeparator: String,
+      pushStateOnLoad: Boolean,
+      // Animate Pages
+      animate: Boolean,
+      // iOS Dynamic Navbar
+      iosDynamicNavbar: Boolean,
+      iosSeparateDynamicNavbar: Boolean,
+      // Animate iOS Navbar Back Icon
+      iosAnimateNavbarBackIcon: Boolean,
+      // MD Theme delay
+      materialPageLoadDelay: Number,
+
+      init: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  export default {
+    name: 'f7-view',
+    props: ViewProps,
+    render(c) {
+      const self = this;
+      const pages = self.pages.map(page => c(page.component, {
+        tag: 'component',
+        props: page.params ? page.params || {} : {},
+        key: page.id,
+      }));
       return c(
         'div',
         {
-          class: self.classesObject,
+          staticClass: 'view',
+          ref: 'view',
+          class: self.classes,
           on: {
             'swipeback:move': self.onSwipeBackMove,
             'swipeback:beforechange': self.onSwipeBackBeforeChange,
@@ -25,165 +79,65 @@
             'swipeback:beforereset': self.onSwipeBackBeforeReset,
             'swipeback:afterreset': self.onSwipeBackAfterReset,
             'tab:show': self.onTabShow,
-            'tab:hide': self.onTabHide
-          }
+            'tab:hide': self.onTabHide,
+          },
         },
-        [navbarEl, pagesEl, self.$slots.default]
+        [
+          self.$slots.default,
+          pages,
+        ]
       );
     },
-    beforeDestroy: function () {
-      var self = this;
+    beforeDestroy() {
+      const self = this;
       if (self.f7View && self.f7View.destroy) self.f7View.destroy();
     },
-    props: {
-      'main': Boolean,
-      'navbar-fixed': Boolean,
-      'navbar-through': Boolean,
-      'toolbar-fixed': Boolean,
-      'toolbar-through': Boolean,
-      'tabbar-fixed': Boolean,
-      'tabbar-through': Boolean,
-      'tabbar-labels-fixed': Boolean,
-      'tabbar-labels-through': Boolean,
-
-      'tab': Boolean,
-      'active': Boolean,
-
-      'dynamic-navbar': Boolean,
-      'dom-cache': Boolean,
-      'links-view': [String, Object],
-      'reload-pages': Boolean,
-      'unique-history': Boolean,
-      'unique-history-ignore-get-parameters': Boolean,
-      'allow-duplicate-urls': Boolean,
-      'swipe-back-page': Boolean,
-      'swipe-back-page-animate-shadow': Boolean,
-      'swipe-back-page-animate-opacity': Boolean,
-      'swipe-back-page-active-area': Boolean,
-      'swipe-back-page-threshold': Boolean,
-      'animate-pages': Boolean,
-      'preload-previous-page': Boolean,
-      'name': String,
-
-      'params': Object,
-
-      'url': String,
-      'init': {
-        type: Boolean,
-        default: true
-      },
-
-      'theme': String,
-      'layout': String
+    data() {
+      return {
+        pages: [],
+      };
     },
     computed: {
-      classesObject: function () {
-        var co = {
-          'view': true,
-          'view-main': this.main,
-          'active': this.active,
-          'tab': this.tab,
-          'navbar-fixed': this.navbarFixed || this.navbarThrough && this.$theme.material,
-          'navbar-through': this.navbarThrough,
-          'toolbar-fixed': this.toolbarFixed,
-          'toolbar-through': this.toolbarThrough,
-          'tabbar-fixed': this.tabbarFixed,
-          'tabbar-through': this.tabbarThrough,
-          'tabbar-labels-fixed': this.tabbarLabelsFixed,
-          'tabbar-labels-through': this.tabbarLabesThrough,
-        }
-        if (this.theme) co['theme-' + this.theme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
-        return co;
+      classes() {
+        return Utils.extend(
+          {
+            'view-main': this.main,
+            'tab-active': this.tabActive,
+            tab: this.tab,
+          },
+          Mixins.colorClasses(this)
+        );
       },
-
     },
     methods: {
-      onF7Init: function (f7) {
-        var self = this;
+      onF7Ready(f7) {
+        const self = this;
         if (!self.init) return;
-        var propsData = self.$options.propsData;
-        var params = self.params || {
-          name: self.name,
-          url: self.url,
-          dynamicNavbar: propsData.dynamicNavbar,
-          domCache: typeof propsData.domCache === 'undefined' ? true : propsData.domCache,
-          linksView: propsData.linksView,
-          reloadPages: propsData.reloadPages,
-          uniqueHistory: propsData.uniqueHistory,
-          uniqueHistoryIgnoreGetParameters: propsData.uniqueHistoryIgnoreGetParameters,
-          allowDuplicateUrls: propsData.allowDuplicateUrls,
-          swipeBackPage: propsData.swipeBackPage,
-          swipeBackPageAnimateShadow: propsData.swipeBackPageAnimateShadow,
-          swipeBackPageAnimateOpacity: propsData.swipeBackPageAnimateOpacity,
-          swipeBackPageActiveArea: propsData.swipeBackPageActiveArea,
-          swipeBackPageThreshold: propsData.swipeBackPageThreshold,
-          animatePages: propsData.animatePages,
-          preloadPreviousPage: propsData.preloadPreviousPage,
-        }
 
-        var $$ = self.$$;
-        var pagesContainer = $$(self.$el).find('.pages')[0];
-
-        // Include page by route
-        if (pagesContainer.querySelectorAll('.page').length === 0 && params.url) {
-          // Find Matching Route
-          const matchingRoute = self.$f7Router.findMatchingRoute(params.url);
-          if (!matchingRoute) return;
-          // Find Pages Vue Component
-          var pagesVue = pagesContainer.__vue__;
-          // Generate Page Id
-          const id = new Date().getTime();
-          // Push New Page component
-          self.$set(pagesVue.pages, id, {component: matchingRoute.route.component});
-
-          self.$nextTick(function () {
-            // Page element
-            var newPage = pagesContainer.querySelector('.page:first-child');
-            pagesVue.pages[id].pageElement = newPage;
-
-            // Move Navbar
-            var newNavbar;
-            var dynamicNavbar = self.$theme.ios && params.dynamicNavbar;
-
-            if (dynamicNavbar) {
-              newNavbar = $$(newPage).find('.navbar-inner:first-child');
-              $$(self.$el).children('.navbar').append(newNavbar);
-              $$(newPage).find('.navbar').remove();
-            }
-
-            // Init Page and Navbar Callbacks
-            f7.initPageWithCallback(newPage);
-            if (dynamicNavbar && newNavbar) {
-              f7.initNavbarWithCallback(newNavbar);
-
-            }
-          });
-        }
         // Init View
-        self.f7View = f7.addView(self.$el, params);
+        self.f7View = f7.views.create(self.$el, self.$options.propsData);
       },
-      onSwipeBackMove: function (event) {
+      onSwipeBackMove(event) {
         this.$emit('swipeback:move', event, event.detail);
       },
-      onSwipeBackBeforeChange: function (event) {
+      onSwipeBackBeforeChange(event) {
         this.$emit('swipeback:beforechange', event, event.detail);
       },
-      onSwipeBackAfterChange: function (event) {
+      onSwipeBackAfterChange(event) {
         this.$emit('swipeback:afterchange', event, event.detail);
       },
-      onSwipeBackBeforeReset: function (event) {
+      onSwipeBackBeforeReset(event) {
         this.$emit('swipeback:beforereset', event, event.detail);
       },
-      onSwipeBackAfterReset: function (event) {
+      onSwipeBackAfterReset(event) {
         this.$emit('swipeback:afterreset', event, event.detail);
       },
-      onTabShow: function (e) {
+      onTabShow(e) {
         this.$emit('tab:show', e);
       },
-      onTabHide: function (e) {
+      onTabHide(e) {
         this.$emit('tab:hide', e);
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

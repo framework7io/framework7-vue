@@ -1,75 +1,83 @@
-<template>
-  <div class="login-screen"
-    :class="classesObject"
-    @loginscreen:open="onOpen"
-    @loginscreen:opened="onOpened"
-    @loginscreen:close="onClose"
-    @loginscreen:closed="onClosed"
-  >
-    <slot></slot>
-  </div>
-</template>
 <script>
+  import Mixins from '../utils/mixins';
+  import Utils from '../utils/utils';
+
+  const LoginScreenProps = Utils.extend(
+    {
+      opened: Boolean,
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    mounted: function () {
-      var self = this;
-      if (self.opened) {
-        self.$el.style.display = 'block';
-      }
+    name: 'f7-login-screen',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'login-screen',
+        class: self.classes,
+        on: {
+          'loginscreen:open': self.onOpen,
+          'loginscreen:opened': self.onOpened,
+          'loginscreen:close': self.onClose,
+          'loginscreen:closed': self.onClosed,
+        },
+      }, self.$slots.default);
     },
     watch: {
-      opened: function (opened) {
-        var self = this;
-        if (!self.$f7) return;
-        var $$ = self.$$;
+      opened(opened) {
+        const self = this;
+        if (!self.f7LoginScreen) return;
         if (opened) {
-          self.$f7.loginScreen(self.$el)
+          self.f7LoginScreen.open();
+        } else {
+          self.f7LoginScreen.close();
         }
-        else {
-          if (!$$(self.$el).hasClass('modal-in')) return;
-          self.$f7.closeModal(self.$el)
-        }
-      }
+      },
     },
-    props: {
-      theme: String,
-      layout: String,
-      opened: Boolean
-    },
+    props: LoginScreenProps,
     computed: {
-      classesObject: function () {
-        var co = {
-          'modal-in': this.opened,
-          'modal-out': !this.opened
-        };
-        if (this.theme) co['theme-' + this.theme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
-        return co;
-      }
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7LoginScreen) self.f7LoginScreen.destroy();
     },
     methods: {
-      onOpen: function (event) {
+      onOpen(event) {
         this.$emit('loginscreen:open', event);
       },
-      onOpened: function (event) {
+      onOpened(event) {
         this.$emit('loginscreen:opened', event);
       },
-      onClose: function (event) {
+      onClose(event) {
         this.$emit('loginscreen:close', event);
       },
-      onClosed: function (event) {
+      onClosed(event) {
         this.$emit('loginscreen:closed', event);
       },
-      open: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.loginScreen(self.$el, animated);
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.loginScreen.open(self.$el, animate);
       },
-      close: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el, animated);
-      }
-    }
-  }
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.loginScreen.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+        self.f7LoginScreen = self.$f7.loginScreen.create({
+          el: self.$el,
+        });
+        if (self.opened) {
+          self.f7LoginScreen.open(false);
+        }
+      },
+    },
+  };
 </script>

@@ -1,63 +1,51 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const TabProps = Utils.extend({
+    tabActive: Boolean,
+    id: String,
+  }, Mixins.colorProps);
+
   export default {
-    props: {
-      'active': Boolean,
-      'id': String
-    },
-    data: function () {
+    name: 'f7-tab',
+    props: TabProps,
+    data() {
       return {
-        routeInfo: {
-          activeTab: this.$route && this.$route.route.tab
-        }
+        tabContent: null,
       };
     },
-    render: function (c) {
-      var self = this;
+    render(c) {
+      const self = this;
 
-      const activeTab = self.routeInfo.activeTab;
-
-      return c('div', {
-        staticClass: 'tab',
-        attrs: {
-          id: self.id
+      return c(
+        'div', {
+          staticClass: 'tab',
+          attrs: {
+            id: self.id,
+          },
+          class: Utils.extend({
+            'tab-active': self.tabActive,
+          }, Mixins.colorClasses(self)),
+          on: {
+            'tab:show': self.onTabShow,
+            'tab:hide': self.onTabHide,
+          },
         },
-        class: {
-          'active': (activeTab) ? activeTab.tabId === self.id : self.active
-        },
-        on: {
-          'tab:show': self.onTabShow,
-          'tab:hide': self.onTabHide
-        }
-      },
-        [activeTab && activeTab.tabId === self.id ? c(activeTab.component, {tag: 'component', props: self.$route.params}) : self.$slots.default]
+        [self.tabContent ? c(self.tabContent.component, { tag: 'component', props: self.tabContent.params, key: self.tabContent.id }) : self.$slots.default]
       );
     },
     methods: {
-      show: function (animated) {
+      show(animated) {
         if (!this.$f7) return;
-        this.$f7.showTab(this.$el, animated);
+        this.$f7.tab.show(this.$el, animated);
       },
-      onTabShow: function (e) {
+      onTabShow(e) {
         this.$emit('tab:show', e);
       },
-      onTabHide: function (e) {
+      onTabHide(e) {
         this.$emit('tab:hide', e);
       },
-      onRouteChange: function (e) {
-        if (e.route.tab) {
-          const currentlyActiveTabId = this.routeInfo.activeTab && this.routeInfo.activeTab.tabId;
-          const nextActiveTabId = e.route.tab.tabId;
-          const thisTabId = this.id;
-
-          if (thisTabId === currentlyActiveTabId && nextActiveTabId !== thisTabId) {
-            this.$$(this.$el).trigger('tab:hide');
-          } else if (thisTabId !== currentlyActiveTabId && nextActiveTabId === thisTabId) {
-            this.$$(this.$el).trigger('tab:show');
-          }
-
-          this.$set(this.routeInfo, 'activeTab', e.route.tab);
-        }
-      }
-    }
-  }
+    },
+  };
 </script>

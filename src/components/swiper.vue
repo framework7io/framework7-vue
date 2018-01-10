@@ -1,90 +1,95 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" :class="classes">
     <div class="swiper-wrapper">
       <slot></slot>
     </div>
     <div class="swiper-pagination" v-if="paginationComputed === true"></div>
     <div class="swiper-scrollbar" v-if="scrollbarComputed === true"></div>
-    <div class="swiper-button-next" v-if="nextButtonComputed === true"></div>
-    <div class="swiper-button-prev" v-if="prevButtonComputed === true"></div>
+    <div class="swiper-button-next" v-if="navigationComputed === true"></div>
+    <div class="swiper-button-prev" v-if="navigationComputed === true"></div>
   </div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const SwiperProps = Utils.extend({
+    params: Object,
+    pagination: Boolean,
+    scrollbar: Boolean,
+    navigation: Boolean,
+    init: {
+      type: Boolean,
+      default: true,
+    },
+  }, Mixins.colorProps);
+
   export default {
-    beforeDestroy: function () {
-      var self = this;
+    name: 'f7-swiper',
+    beforeDestroy() {
+      const self = this;
       if (!self.init) return;
       if (self.swiper && self.swiper.destroy) self.swiper.destroy();
     },
-    props: {
-      'params': Object,
-      'pagination': [Boolean, String, Object],
-      'scrollbar': [Boolean, String, Object],
-      'next-button': [Boolean, String, Object],
-      'prev-button': [Boolean, String, Object],
-      init: {
-        type: Boolean,
-        default: true
-      }
+    data() {
+      return {
+        initialUpdate: false,
+      };
     },
-    computed: {
-      paramsComputed: function () {
-        return this.params || {};
-      },
-      paginationComputed: function () {
-        var self = this;
-        if (self.pagination === true || self.pagination === '') {
-          self.paramsComputed.pagination = '.swiper-pagination';
-          return true;
-        }
-        else if (typeof self.pagination === 'object' || typeof self.pagination === 'string') {
-          self.paramsComputed.pagination = self.pagination;
-          return true;
-        }
-        return false;
-      },
-      scrollbarComputed: function () {
-        var self = this;
-        if (self.scrollbar || self.scrollbar === '') {
-          self.paramsComputed.scrollbar = '.swiper-scrollbar';
-          return true;
-        }
-        else if (typeof self.scrollbar === 'object' || typeof self.scrollbar === 'string') {
-          self.paramsComputed.scrollbar = self.scrollbar;
-          return true;
-        }
-        return false;
-      },
-      nextButtonComputed: function () {
-        var self = this;
-        if (self.nextButton || self.nextButton === '') {
-          self.paramsComputed.nextButton = '.swiper-button-next';
-          return true;
-        }
-        else if (typeof self.nextButton === 'object' || typeof self.nextButton === 'string') {
-          self.paramsComputed.nextButton = self.nextButton;
-          return true;
-        }
-        return false;
-      },
-      prevButtonComputed: function () {
-        var self = this;
-        if (self.prevButton || self.prevButton === '') {
-          self.paramsComputed.prevButton = '.swiper-button-prev';
-          return true;
-        }
-        else if (typeof self.prevButton === 'object' || typeof self.prevButton === 'string') {
-          self.paramsComputed.prevButton = self.prevButton;
-          return true;
-        }
-        return false;
+    updated() {
+      const self = this;
+      if (!self.initialUpdate) {
+        self.initialUpdate = true;
+        return;
       }
+      if (self.swiper && self.swiper.update) self.swiper.update();
+    },
+    props: SwiperProps,
+    computed: {
+      classes() {
+        return Mixins.colorClasses(this);
+      },
+      paginationComputed() {
+        const self = this;
+        if (self.pagination === true || (self.params && self.params.pagination && !self.params.pagination.el)) {
+          return true;
+        }
+        return false;
+      },
+      scrollbarComputed() {
+        const self = this;
+        if (self.scrollbar === true || (self.params && self.params.scrollbar && !self.params.scrollbar.el)) {
+          return true;
+        }
+        return false;
+      },
+      navigationComputed() {
+        const self = this;
+        if (self.navigation === true || (self.params && self.params.navigation && !self.params.navigation.nextEl && !self.params.navigation.prevEl)) {
+          return true;
+        }
+        return false;
+      },
     },
     methods: {
-      onF7Init: function () {
-        if (!this.init) return;
-        this.swiper = new window.Swiper(this.$el, this.paramsComputed);
-      }
-    }
-  }
+      onF7Ready(f7) {
+        const self = this;
+        if (!self.init) return;
+        const params = {
+          pagination: {},
+          navigation: {},
+          scrollbar: {},
+        };
+        if (self.params) Utils.extend(params, self.params);
+        if (self.pagination && !params.pagination.el) params.pagination.el = '.swiper-pagination';
+        if (self.navigation && !params.navigation.nextEl && !params.navigation.prevEl) {
+          params.navigation.nextEl = '.swiper-button-next';
+          params.navigation.prevEl = '.swiper-button-prev';
+        }
+        if (self.scrollbar && !params.scrollbar.el) params.scrollbar.el = '.swiper-scrollbar';
+
+        self.swiper = f7.swiper.create(this.$el, params);
+      },
+    },
+  };
 </script>

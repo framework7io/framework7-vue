@@ -1,38 +1,56 @@
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const ProgressbarProps = Utils.extend({
+    progress: Number,
+    infinite: Boolean,
+  }, Mixins.colorProps);
+
   export default {
-    render: function (c) {
-      var self = this;
-      var color = self.color;
-      var progress = self.progress;
-      var infinite = self.infinite;
+    name: 'f7-progressbar',
+    render(c) {
+      const self = this;
+      const { progress } = self;
       return c('span', {
         staticClass: 'progressbar',
-        class: [(color ? ('color-' + color + ' progressbar-' + color) : ''), (infinite ? 'progressbar-infinite' : '')].join(' ')
+        class: self.classes,
+        attrs: {
+          'data-progress': progress,
+        },
       }, [
         c('span', {
           style: {
-            'transform': progress ? 'translate3d(' + (-100 + progress) + '%,0,0)' : '',
-            '-webkit-transform': progress ? 'translate3d(' + (-100 + progress) + '%,0,0)' : ''
-          }
-        })
+            transform: progress ? `translate3d(${-100 + progress}%, 0, 0)` : '',
+            '-webkit-transform': progress ? `translate3d(${-100 + progress}%, 0, 0)` : '',
+          },
+        }),
       ]);
     },
-    props: {
-      'color': String,
-      'progress': Number,
-      'infinite': Boolean
+    props: ProgressbarProps,
+    computed: {
+      classes() {
+        return Utils.extend({
+          'progressbar-infinite': this.infinite,
+        }, Mixins.colorClasses(this));
+      },
     },
     methods: {
-      set: function (progress, speed) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.setProgressbar(self.$el, progress, speed);
+      set(progress, speed) {
+        const self = this;
+        if (self.$f7) return;
+        self.$f7.progressbar.set(self.$el, progress, speed);
       },
-      show: function (container, progress, color) {
-        var self = this;
+      show(progress, color) {
+        const self = this;
         if (!self.$f7) return;
-        return self.$f7.showProgressbar(container, progress, color);
-      }
-    }
-  }
+        self.$f7.progressbar.show(self.$el, progress, color);
+      },
+      hide() {
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.progressbar.hide(self.$el);
+      },
+    },
+  };
 </script>

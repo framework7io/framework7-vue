@@ -1,42 +1,67 @@
-<template>
-  <span class="chip" :class="chipClassObject" @click="onClick">
-    <span v-if="media" class="chip-media" :class="mediaClassObject" v-html="media"></span>
-    <span class="chip-label" v-if="text" v-html="text"></span>
-    <a href="#" class="chip-delete" v-if="deleteable" @click="onDeleteClick"></a>
-  </span>
-</template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const ChipProps = Utils.extend({
+    media: String,
+    text: [String, Number],
+    deleteable: Boolean,
+    mediaBgColor: String,
+    mediaTextColor: String,
+  }, Mixins.colorProps);
+
   export default {
-    props: {
-      media: String,
-      text: [String, Number],
-      deleteable: Boolean,
-      color: String,
-      bg: String,
-      mediaBg: String,
-      mediaColor: String
+    name: 'f7-chip',
+    props: ChipProps,
+    render(c) {
+      const self = this;
+      let mediaEl;
+      let labelEl;
+      let deleteEl;
+      if (self.media || (self.$slots && self.$slots.media)) {
+        mediaEl = c('div', { staticClass: 'chip-media', class: self.mediaClasses }, self.media || self.$slots.media);
+      }
+      if (self.text || (self.$slots && self.$slots.text)) {
+        labelEl = c('div', { staticClass: 'chip-label' }, [self.text, self.$slots.text]);
+      }
+      if (self.deleteable) {
+        deleteEl = c('a', {
+          staticClass: 'chip-delete',
+          attrs: {
+            href: '#',
+          },
+          on: {
+            click: self.onDeleteClick,
+          },
+        });
+      }
+      return c('div', {
+        staticClass: 'chip',
+        class: self.classes,
+        on: {
+          click: self.onClick,
+        },
+      }, [mediaEl, labelEl, deleteEl]);
     },
     computed: {
-      mediaClassObject: function () {
-        var c = {};
-        if (this.mediaColor) c['color-' + this.mediaColor] = true;
-        if (this.mediaBg) c['bg-' + this.mediaBg] = true;
+      classes() {
+        const self = this;
+        return Mixins.colorClasses(self);
+      },
+      mediaClasses() {
+        const c = {};
+        if (this.mediaTextColor) c[`text-color-${this.mediaTextColor}`] = true;
+        if (this.mediaBgColor) c[`bg-color-${this.mediaBgColor}`] = true;
         return c;
       },
-      chipClassObject: function () {
-        var c = {};
-        if (this.color) c['color-' + this.color] = true;
-        if (this.bg) c['bg-' + this.bg] = true;
-        return c;
-      }
     },
     methods: {
-      onClick: function (event) {
+      onClick(event) {
         this.$emit('click', event);
       },
-      onDeleteClick: function (event) {
+      onDeleteClick(event) {
         this.$emit('delete', event);
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

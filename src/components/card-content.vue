@@ -1,18 +1,35 @@
 <template>
-  <div class="card-content">
-    <div class="card-content-inner" v-if="inner">
-      <slot></slot>
-    </div>
-    <slot v-else></slot>
+  <div class="card-content" :class="classes">
+    <slot></slot>
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      inner: {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const CardContentProps = Utils.extend(
+    {
+      padding: {
         type: Boolean,
-        default: true
-      }
-    }
-  }
+        default: true,
+      },
+    },
+    Mixins.colorProps
+  );
+
+  export default {
+    name: 'f7-card-content',
+    props: CardContentProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend(
+          {
+            'card-content-padding': self.padding,
+          },
+          Mixins.colorClasses(self)
+        );
+      },
+    },
+  };
 </script>

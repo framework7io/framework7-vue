@@ -3,97 +3,137 @@
 </template>
 <script>
   export default {
-    beforeDestroy: function () {
+    name: 'f7-messages',
+    beforeDestroy() {
       if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
     },
-    beforeUpdate: function (a,b) {
-      var self = this;
+    beforeUpdate() {
+      const self = this;
       if (!self.init) return;
-      self.$children.forEach(function (el) {
+      self.$children.forEach((el) => {
         self.$$(el.$el).addClass('message-appeared');
       });
     },
-    updated: function (a,b) {
-      var self = this;
+    updated() {
+      const self = this;
       if (!self.init) return;
-      self.$children.forEach(function (el) {
-        var $el = self.$$(el.$el);
+      self.$children.forEach((el) => {
+        const $el = self.$$(el.$el);
         if (!$el.hasClass('message-appeared')) {
           $el.addClass('message-appear-from-bottom');
         }
       });
-      if (this.f7Messages && this.f7Messages.layout && this.autoLayout) {
-        this.f7Messages.layout();
+      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
+        self.f7Messages.layout();
       }
-      if (this.f7Messages && this.f7Messages.scrollMessages && this.scrollMessages) {
-        this.f7Messages.scrollMessages();
+      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
+        self.f7Messages.scroll();
       }
     },
     props: {
       autoLayout: {
         type: Boolean,
-        default: true
+        default: false,
       },
-      newMessagesFirst: Boolean,
-      messages: Array,
+      messages: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      newMessagesFirst: {
+        type: Boolean,
+        default: false,
+      },
       scrollMessages: {
         type: Boolean,
-        default: true
+        default: true,
       },
-      scrollMessagesOnlyOnEdge: Boolean,
+      scrollMessagesOnEdge: {
+        type: Boolean,
+        default: true,
+      },
+      firstMessageRule: Function,
+      lastMessageRule: Function,
+      tailMessageRule: Function,
+      sameNameMessageRule: Function,
+      sameHeaderMessageRule: Function,
+      sameFooterMessageRule: Function,
+      sameAvatarMessageRule: Function,
+      customClassMessageRule: Function,
+      renderMessage: Function,
+
       init: {
         type: Boolean,
-        default: true
-      }
+        default: true,
+      },
     },
     methods: {
-      addMessage: function (messageParameters, method, animate) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.addMessage(messageParameters, method, animate)
+      renderMessages(messagesToRender, method) {
+        if (!this.f7Messages) return undefined;
+        return this.renderMessages(messagesToRender, method);
       },
-      appendMessage: function (messageParameters, animate) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.appendMessage(messageParameters, animate)
+      layout() {
+        if (!this.f7Messages) return undefined;
+        return this.layout();
       },
-      prependMessage: function (messageParameters, animate) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.prependMessage(messageParameters, animate)
+      scroll(duration, scrollTop) {
+        if (!this.f7Messages) return undefined;
+        return this.scroll(duration, scrollTop);
       },
-      addMessages: function (messages, method, animate) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.addMessages(messages, method, animate)
+      clear() {
+        if (!this.f7Messages) return undefined;
+        return this.clear();
       },
-      removeMessage: function (message) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.removeMessage(message)
+      removeMessage(messageToRemove, layout) {
+        if (!this.f7Messages) return undefined;
+        return this.removeMessage(messageToRemove, layout);
       },
-      removeMessages: function (messages) {
-        if (!this.f7Messages) return;
-        return this.f7Messages.removeMessages(messages)
+      removeMessages(messagesToRemove, layout) {
+        if (!this.f7Messages) return undefined;
+        return this.removeMessages(messagesToRemove, layout);
       },
-      scroll: function () {
-        if (!this.f7Messages) return;
-        return this.f7Messages.scrollMessages()
+      addMessage(...args) {
+        if (!this.f7Messages) return undefined;
+        return this.addMessage(...args);
       },
-      layout: function () {
-        if (!this.f7Messages) return;
-        return this.f7Messages.layout()
+      addMessages(...args) {
+        if (!this.f7Messages) return undefined;
+        return this.addMessages(...args);
       },
-      clean: function () {
-        if (!this.f7Messages) return;
-        return this.f7Messages.clean()
+      showTyping(message) {
+        if (!this.f7Messages) return undefined;
+        return this.showTyping(message);
       },
-      onF7Init: function (f7) {
-        var self = this;
+      hideTyping() {
+        if (!this.f7Messages) return undefined;
+        return this.hideTyping();
+      },
+      destroy() {
+        if (!this.f7Messages) return undefined;
+        return this.destroy();
+      },
+      onF7Ready(f7) {
+        const self = this;
         if (!self.init) return;
-        self.f7Messages = f7.messages(self.$el, {
-          autoLayout:  self.autoLayout,
-          newMessagesFirst: self.newMessagesFirst,
+        self.f7Messages = f7.messages.create({
+          el: self.$el,
+          autoLayout: self.autoLayout,
           messages: self.messages,
+          newMessagesFirst: self.newMessagesFirst,
           scrollMessages: self.scrollMessages,
-          scrollMessagesOnlyOnEdge: self.scrollMessagesOnlyOnEdge,
-        })
-      }
-    }
-  }
+          scrollMessagesOnEdge: self.scrollMessagesOnEdge,
+          firstMessageRule: self.firstMessageRule,
+          lastMessageRule: self.lastMessageRule,
+          tailMessageRule: self.tailMessageRule,
+          sameNameMessageRule: self.sameNameMessageRule,
+          sameHeaderMessageRule: self.sameHeaderMessageRule,
+          sameFooterMessageRule: self.sameFooterMessageRule,
+          sameAvatarMessageRule: self.sameAvatarMessageRule,
+          customClassMessageRule: self.customClassMessageRule,
+          renderMessage: self.renderMessage,
+        });
+      },
+    },
+  };
 </script>

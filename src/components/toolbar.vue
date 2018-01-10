@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar" :class="classesObject">
+  <div class="toolbar" :class="classes">
     <slot name="before-inner"></slot>
     <div class="toolbar-inner">
       <slot></slot>
@@ -8,41 +8,57 @@
   </div>
 </template>
 <script>
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const ToolbarProps = Utils.extend({
+    bottomMd: Boolean,
+    tabbar: Boolean,
+    labels: Boolean,
+    scrollable: Boolean,
+    hidden: Boolean,
+    noShadow: Boolean,
+  }, Mixins.colorProps);
+
   export default {
-    props: {
-        bottom: Boolean,
-        tabbar: Boolean,
-        labels: Boolean,
-        scrollable: Boolean,
-        theme: String,
-        layout: String,
-        hidden: Boolean,
-        noShadow: Boolean
+    name: 'f7-toolbar',
+    props: ToolbarProps,
+    updated() {
+      const self = this;
+      if (self.tabbar && self.$f7) {
+        self.$nextTick(() => {
+          self.$f7.toolbar.setHighlight(self.$el);
+        });
+      }
     },
     computed: {
-      classesObject: function () {
-        var co = {
-          'toolbar-bottom': this.bottom,
-          'tabbar': this.tabbar,
-          'tabbar-labels': this.labels,
-          'tabbar-scrollable': this.scrollable,
-          'toolbar-hidden': this.hidden
-        }
-        if (this.theme) co['theme-' + this.theme] = true;
-        if (this.layout) co['layout-' + this.layout] = true;
-        if (this.noShadow) co['no-shadow'] = true;
-        return co;
-      }
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'toolbar-bottom-md': self.bottomMd,
+          tabbar: self.tabbar,
+          'tabbar-labels': self.labels,
+          'tabbar-scrollable': self.scrollable,
+          'toolbar-hidden': self.hidden,
+          'no-shadow': self.noShadow,
+        }, Mixins.colorClasses(self));
+      },
     },
     methods: {
-      hide: function (animated) {
-        if (!this.$f7) return;
-        return this.$f7.hideToolbar(this.$el, animated);
+      hide(animate) {
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.toolbar.hide(this.$el, animate);
       },
-      show: function (animated) {
-        if (!this.$f7) return;
-        return this.$f7.showToolbar(this.$el, animated);
-      }
-    }
-  }
+      show(animate) {
+        const self = this;
+        if (!self.$f7) return;
+        self.$f7.toolbar.show(this.$el, animate);
+      },
+      onF7Ready(f7) {
+        const self = this;
+        if (self.tabbar) f7.toolbar.setHighlight(self.$el);
+      },
+    },
+  };
 </script>

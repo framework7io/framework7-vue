@@ -1,72 +1,92 @@
-<template>
-  <div class="actions-modal keep-on-close"
-    :class="{'modal-in': opened}"
-    @actions:open="onOpen"
-    @actions:opened="onOpened"
-    @actions:close="onClose"
-    @actions:closed="onClosed"
-  >
-    <slot></slot>
-  </div>
-</template>
 <script>
+  import Mixins from '../utils/mixins';
+  import Utils from '../utils/utils';
+
+  const ActionsProps = Utils.extend(
+    {
+      opened: Boolean,
+      grid: Boolean,
+      convertToPopover: Boolean,
+      forceToPopover: Boolean,
+      target: [String, Object],
+    },
+    Mixins.colorProps
+  );
+
   export default {
-    mounted: function () {
-      var self = this;
-      if (self.opened) {
-        self.$el.style.display = 'block';
-      }
-      else {
-        self.$el.style.display = 'none';
-      }
+    name: 'f7-actions',
+    render(c) {
+      const self = this;
+
+      return c('div', {
+        staticClass: 'actions-modal',
+        class: self.classes,
+      }, self.$slots.default);
     },
     watch: {
-      opened: function (opened) {
-        var self = this;
-        if (!self.$f7) return;
+      opened(opened) {
+        const self = this;
+        if (!self.f7Actions) return;
         if (opened) {
-          self.$el.style.display = 'block';
-          self.$f7.openModal(self.$el);
+          self.f7Actions.open();
+        } else {
+          self.f7Actions.close();
         }
-        else {
-          self.$el.style.display = 'none';
-          self.$f7.closeModal(self.$el);
-        }
-      }
+      },
     },
-    props: {
-        opened: Boolean
+    props: ActionsProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'actions-grid': self.grid,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    beforeDestroy() {
+      const self = this;
+      if (self.f7Actions) self.f7Actions.destroy();
     },
     methods: {
-      onOpen: function (event) {
+      onOpen(event) {
         this.$emit('actions:open', event);
       },
-      onOpened: function (event) {
+      onOpened(event) {
         this.$emit('actions:opened', event);
       },
-      onClose: function (event) {
+      onClose(event) {
         this.$emit('actions:close', event);
       },
-      onClosed: function (event) {
+      onClosed(event) {
         this.$emit('actions:closed', event);
       },
-      onF7Init: function () {
-        var $$ = this.$$;
-        if (!$$) return;
-        if ($$('.modal-overlay').length === 0) {
-          $$(this.$root.$el).append('<div class="modal-overlay' + (this.opened ? ' modal-overlay-visible' : '') + '"></div>');
+      open(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.actions.open(self.$el, animate);
+      },
+      close(animate) {
+        const self = this;
+        if (!self.$f7) return undefined;
+        return self.$f7.actions.close(self.$el, animate);
+      },
+      onF7Ready() {
+        const self = this;
+
+        const actionsParams = {
+          el: self.$el,
+          grid: self.grid,
+        };
+        if (self.target) actionsParams.targetEl = self.target;
+        if (typeof self.$options.propsData.convertToPopover !== 'undefined') actionsParams.convertToPopover = self.convertToPopover;
+        if (typeof self.$options.propsData.forceToPopover !== 'undefined') actionsParams.forceToPopover = self.forceToPopover;
+
+        self.f7Actions = self.$f7.actions.create(actionsParams);
+
+        if (self.opened) {
+          self.f7Actions.open(false);
         }
       },
-      open: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.openModal(self.$el, animated);
-      },
-      close: function (animated) {
-        var self = this;
-        if (!self.$f7) return;
-        return self.$f7.closeModal(self.$el, animated);
-      }
-    }
-  }
+    },
+  };
 </script>

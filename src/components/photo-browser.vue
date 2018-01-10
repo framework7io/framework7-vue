@@ -1,23 +1,31 @@
 <script>
+  import Utils from '../utils/utils';
+
   export default {
-    render: function () {},
-    beforeDestroy: function () {
-      var self = this;
+    name: 'f7-photo-browser',
+    render() {},
+    beforeDestroy() {
+      const self = this;
       if (self.f7PhotoBrowser && self.f7PhotoBrowser.destroy) self.f7PhotoBrowser.destroy();
+    },
+    watch: {
+      photos(newValue) {
+        const self = this;
+        const pb = self.f7PhotoBrowser;
+        if (!pb) return;
+        self.f7PhotoBrowser.photos = newValue;
+        if (pb.opened && pb.swiper) {
+          pb.swiper.update();
+        }
+      },
     },
     props: {
       init: {
         type: Boolean,
-        default: true
+        default: true,
       },
       params: Object,
       photos: Array,
-      initialSlide: Number,
-      spaceBetween: Number,
-      speed: Number,
-      zoom: Boolean,
-      zoomMax: Number,
-      zoomMin: Number,
       exposition: Boolean,
       expositionHideCaptions: Boolean,
       type: String,
@@ -27,96 +35,55 @@
       captionsTheme: String,
       swipeToClose: Boolean,
       backLinkText: String,
-      ofText: String,
-      loop: Boolean,
-      lazyLoading: Boolean,
-      lazyLoadingInPrevNext: Boolean,
-      lazyLoadingOnTransitionStart: Boolean,
+      navbarOfText: String,
+      iconsColor: String,
+      swiper: Object,
+      url: String,
+      view: [String, Object],
+      routableModals: Boolean,
     },
     methods: {
-      open: function (index) {
-        return this.f7PhotoBrowser.open(index)
+      open(index) {
+        return this.f7PhotoBrowser.open(index);
       },
-      close: function () {
-        return this.f7PhotoBrowser.close()
+      close() {
+        return this.f7PhotoBrowser.close();
       },
-      toggleZoom: function () {
-        return this.f7PhotoBrowser.toggleZoom()
+      expositionToggle() {
+        return this.f7PhotoBrowser.expositionToggle();
       },
-      toggleExposition: function () {
-        return this.f7PhotoBrowser.toggleExposition()
+      expositionEnable() {
+        return this.f7PhotoBrowser.expositionEnable();
       },
-      enableExposition: function () {
-        return this.f7PhotoBrowser.enableExposition()
+      expositionDisable() {
+        return this.f7PhotoBrowser.expositionDisable();
       },
-      disableExposition: function () {
-        return this.f7PhotoBrowser.disableExposition()
-      },
-      onF7Init: function (f7) {
-        var self = this;
+      onF7Init(f7) {
+        const self = this;
         // Init Virtual List
         if (!self.init) return;
-        var params = self.$options.propsData;
-        self.f7PhotoBrowser = f7.photoBrowser(self.params || {
-          photos: params.photos,
-          initialSlide: params.initialSlide,
-          spaceBetween: params.spaceBetween,
-          speed: params.speed,
-          zoom: params.zoom,
-          zoomMax: params.zoomMax,
-          zoomMin: params.zoomMin,
-          exposition: params.exposition,
-          expositionHideCaptions: params.expositionHideCaptions,
-          type: params.type,
-          navbar: params.navbar,
-          toolbar: params.toolbar,
-          theme: params.theme,
-          captionsTheme: params.captionsTheme,
-          swipeToClose: params.swipeToClose,
-          backLinkText: params.backLinkText,
-          ofText: params.ofText,
-          loop: params.loop,
-          lazyLoading: params.lazyLoading,
-          lazyLoadingInPrevNext: params.lazyLoadingInPrevNext,
-          lazyLoadingOnTransitionStart: params.lazyLoadingOnTransitionStart,
-          onOpen: function (pb) {
-            self.$emit('open', pb)
+        const params = Utils.extend({}, self.$options.propsData, {
+          on: {
+            open() {
+              self.$emit('photobrowser:open');
+            },
+            close() {
+              self.$emit('photobrowser:close');
+            },
+            opened() {
+              self.$emit('photobrowser:opened');
+            },
+            closed() {
+              self.$emit('photobrowser:closed');
+            },
+            swipeToClose() {
+              self.$emit('photobrowser:swipetoclose');
+            },
           },
-          onClose: function (pb) {
-            self.$emit('close', pb)
-          },
-          onSwipeToClose: function (pb) {
-            self.$emit('swipeToClose', pb)
-          },
-          onSlideChangeStart: function (swiper) {
-            self.$emit('slideChangeStart', swiper)
-          },
-          onSlideChangeEnd: function (swiper) {
-            self.$emit('slideChangeEnd', swiper)
-          },
-          onTransitionStart: function (swiper) {
-            self.$emit('transitionStart', swiper)
-          },
-          onTransitionEnd: function (swiper) {
-            self.$emit('transitionEnd', swiper)
-          },
-          onClick: function (swiper, event) {
-            self.$emit('click', swiper, event)
-          },
-          onTap: function (swiper, event) {
-            self.$emit('tap', swiper, event)
-          },
-          onDoubleTap: function (swiper, event) {
-            self.$emit('doubleTap', swiper, event)
-          },
-          onLazyImageLoad: function (swiper, event) {
-            self.$emit('lazyImageLoad', swiper, event)
-          },
-          onLazyImageReady: function (swiper, event) {
-            self.$emit('lazyImageReady', swiper, event)
-          }
         });
-      }
-    }
-  }
+
+        self.f7PhotoBrowser = f7.photoBrowser.create(params);
+      },
+    },
+  };
 </script>

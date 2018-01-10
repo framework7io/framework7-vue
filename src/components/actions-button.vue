@@ -1,35 +1,58 @@
-<template>
-  <div class="actions-modal-button" :class="classesObject" @click="onClick">
-    <slot></slot>
-  </div>
-</template>
 <script>
-  export default {
-    props: {
-      'color': String,
-      'bold': Boolean,
-      'close': {
+  import Mixins from '../utils/mixins';
+  import Utils from '../utils/utils';
+
+  const ActionsButtonProps = Utils.extend(
+    {
+      bold: Boolean,
+      close: {
         type: Boolean,
-        default: true
-      }
+        default: true,
+      },
     },
-    computed: {
-      classesObject: function () {
-        var self = this;
-        var co = {
-          'actions-modal-button-bold': self.bold
-        }
-        if (self.color) co['color-' + self.color] = true;
-        return co;
+    Mixins.colorProps
+  );
+
+  export default {
+    name: 'f7-actions-button',
+    render(c) {
+      const self = this;
+      let mediaEl;
+      if (self.$slots.media && self.$slots.media.length) {
+        mediaEl = c('div', {
+          staticClass: 'actions-button-media',
+        }, self.$slots.media);
       }
+      const textEl = c('div', {
+        staticClass: 'actions-button-text',
+      }, self.$slots.default);
+
+      return c('div', {
+        staticClass: 'actions-button',
+        classes: self.classes,
+        on: {
+          click: self.onClick,
+        },
+      }, [mediaEl, textEl]);
+    },
+    props: ActionsButtonProps,
+    computed: {
+      classes() {
+        const self = this;
+        return Utils.extend({
+          'actions-button-bold': self.bold,
+        }, Mixins.colorClasses(self));
+      },
     },
     methods: {
-      onClick: function (event) {
-        if (this.close && this.$f7) {
-          this.$f7.closeModal(this.$parent.$parent.$el);
+      onClick(event) {
+        const self = this;
+        const $$ = self.$$;
+        if (self.close && self.$f7) {
+          self.$f7.actions.close($$(self.$el).parents('.actions-modal'));
         }
-        this.$emit('click', event);
-      }
-    }
-  }
+        self.$emit('click', event);
+      },
+    },
+  };
 </script>
