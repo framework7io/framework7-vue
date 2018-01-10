@@ -7,7 +7,11 @@ import VueRouter from './utils/vue-router';
 IMPORT_COMPONENTS_BUNDLE
 
 export default {
-  install(Vue, Framework7) {
+  install(Vue, Framework7 = window.Framework7) {
+    // Check for F7
+    if (typeof Framework7 === 'undefined') {
+      throw new Error('Framework7 is undefined, make sure you have passed it as an argument: Vue.use(Framework7Vue, Framework7)');
+    }
     // Event Hub
     const eventHub = new Vue();
 
