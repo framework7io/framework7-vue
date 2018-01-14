@@ -56,7 +56,7 @@
       <f7-chip text="Blue Chip" color="blue"></f7-chip>
       <f7-chip text="Orange Chip" color="orange"></f7-chip>
       <f7-chip text="Pink Chip" color="pink"></f7-chip>
-    </div>
+    </f7-block>
   </f7-page>
 </template>
 <script>
