@@ -108,7 +108,7 @@
       }
       // Media
       if (self.media || slotsMediaStart.length || slotsMedia.length || slotsMediaEnd.length) {
-        mediaEl = c('div', { staticClass: 'item-media' }, [slotsMediaStart, slotsMedia, slotsMediaEnd]);
+        mediaEl = c('div', { staticClass: 'item-media' }, [self.media, slotsMediaStart, slotsMedia, slotsMediaEnd]);
       }
       // Inner Elements
       if (self.header || slotsHeader.length) {
