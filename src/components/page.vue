@@ -135,7 +135,7 @@
           'page:init': self.onPageInit,
           'page:reinit': self.onPageReinit,
           'page:beforein': self.onPageBeforeIn,
-          'page:afterain': self.onPageAfterIn,
+          'page:afterin': self.onPageAfterIn,
           'page:beforeout': self.onPageBeforeOut,
           'page:afterout': self.onPageAfterOut,
           'page:beforeremove': self.onPageBeforeRemove,
@@ -195,7 +195,7 @@
         this.$emit('page:afterout', event, event.detail);
       },
       onPageAfterIn(event) {
-        this.$emit('page:afteranimation', event, event.detail);
+        this.$emit('page:afterin', event, event.detail);
       },
       onPageBeforeRemove(event) {
         this.$emit('page:beforeremove', event, event.detail);
