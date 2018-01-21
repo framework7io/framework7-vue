@@ -55,7 +55,7 @@
     "framework7": "^2.0.6",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
-    "gulp-header": "^1.8.9",
+    "gulp-header": "^2.0.1",
     "gulp-open": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.3",
