@@ -17,11 +17,8 @@
       tabActive: Boolean,
       accordionList: Boolean,
       noHairlines: Boolean,
-      noHairlinesBetween: Boolean,
       noHairlinesMd: Boolean,
-      noHairlinesBetweenMd: Boolean,
       noHairlinesIos: Boolean,
-      noHairlinesBetweenIos: Boolean,
     },
     Mixins.colorProps
   );
@@ -42,11 +39,8 @@
             tab: self.tab,
             'tab-active': self.tabActive,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween,
             'no-hairlines-md': self.noHairlinesMd,
-            'no-hairlines-between-md': self.noHairlinesBetweenMd,
             'no-hairlines-ios': self.noHairlinesIos,
-            'no-hairlines-between-ios': self.noHairlinesBetweenIos,
           },
           Mixins.colorClasses(self)
         );
