@@ -55,7 +55,7 @@ export default VuePlugin;
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.log(err);
     })
     .pipe(source('framework7-vue.js', './src'))
     .pipe(buffer())
@@ -86,7 +86,7 @@ export default VuePlugin;
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.log(err);
     })
     .pipe(source('vue-plugin.js', './src'))
     .pipe(buffer())
@@ -126,7 +126,7 @@ function umd(cb) {
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.log(err);
     })
     .pipe(source('vue-plugin.js', './src'))
     .pipe(buffer())

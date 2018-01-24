@@ -57,7 +57,7 @@ export default VuePlugin;
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.log(err);
     })
     .on('bundle', (bundle) => {
       cache = bundle;
