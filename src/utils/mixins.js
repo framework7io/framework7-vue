@@ -20,14 +20,15 @@ const Mixins = {
       rippleColor,
       themeDark,
     } = self;
+
     return {
+      'theme-dark': themeDark,
       [`color-${color}`]: color,
       [`color-theme-${colorTheme}`]: colorTheme,
       [`text-color-${textColor}`]: textColor,
       [`bg-color-${bgColor}`]: bgColor,
       [`border-color-${borderColor}`]: borderColor,
       [`ripple-color-${rippleColor}`]: rippleColor,
-      'theme-dark': themeDark,
     };
   },
   linkIconProps: {
