@@ -8,6 +8,7 @@
     @panel:closed="onClosed"
     @panel:backdrop-click="onBackdropClick"
     @panel:swipe="onPanelSwipe"
+    @panel:swipeopen="onPanelSwipeOpen"
     @panel:breakpoint="onBreakpoint"
   >
     <slot></slot>
@@ -94,6 +95,9 @@
       },
       onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
+      },
+      onPanelSwipeOpen(event) {
+        this.$emit('panel:swipeopen', event);
       },
       onBreakpoint(event) {
         this.$emit('panel:breakpoint', event);
