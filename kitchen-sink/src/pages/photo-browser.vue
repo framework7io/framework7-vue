@@ -15,15 +15,15 @@
       <f7-row>
         <f7-col>
           <f7-photo-browser :photos="photos" ref="standalone"></f7-photo-browser>
-          <f7-button raised @click="$refs.standalone.f7PhotoBrowser.open()">Standalone</f7-button>
+          <f7-button raised @click="$refs.standalone.open()">Standalone</f7-button>
         </f7-col>
         <f7-col>
           <f7-photo-browser :photos="photos" type="popup" ref="popup"></f7-photo-browser>
-          <f7-button raised @click="$refs.popup.f7PhotoBrowser.open()">Popup</f7-button>
+          <f7-button raised @click="$refs.popup.open()">Popup</f7-button>
         </f7-col>
         <f7-col>
           <f7-photo-browser :photos="photos" type="page" back-link-text="Back" ref="page"></f7-photo-browser>
-          <f7-button raised @click="$refs.page.f7PhotoBrowser.open()">Page</f7-button>
+          <f7-button raised @click="$refs.page.open()">Page</f7-button>
         </f7-col>
       </f7-row>
     </f7-block>
@@ -32,15 +32,15 @@
       <f7-row>
         <f7-col>
           <f7-photo-browser :photos="photos" theme="dark" ref="standaloneDark"></f7-photo-browser>
-          <f7-button raised @click="$refs.standaloneDark.f7PhotoBrowser.open()">Standalone</f7-button>
+          <f7-button raised @click="$refs.standaloneDark.open()">Standalone</f7-button>
         </f7-col>
         <f7-col>
           <f7-photo-browser :photos="photos" theme="dark" type="popup" ref="popupDark"></f7-photo-browser>
-          <f7-button raised @click="$refs.popupDark.f7PhotoBrowser.open()">Popup</f7-button>
+          <f7-button raised @click="$refs.popupDark.open()">Popup</f7-button>
         </f7-col>
         <f7-col>
           <f7-photo-browser :photos="photos" theme="dark" type="page" back-link-text="Back" ref="pageDark"></f7-photo-browser>
-          <f7-button raised @click="$refs.pageDark.f7PhotoBrowser.open()">Page</f7-button>
+          <f7-button raised @click="$refs.pageDark.open()">Page</f7-button>
         </f7-col>
       </f7-row>
     </f7-block>
@@ -60,6 +60,7 @@
       f7Button,
     },
     data() {
+      console.log('aha?!');
       return {
         photos: [
           {
@@ -78,6 +79,6 @@
           },
         ],
       };
-  },
+    },
   };
 </script>
