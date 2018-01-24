@@ -8,6 +8,7 @@ const Mixins = {
     bgColor: String,
     borderColor: String,
     rippleColor: String,
+    themeDark: Boolean,
   },
   colorClasses(self) {
     const {
@@ -17,6 +18,7 @@ const Mixins = {
       bgColor,
       borderColor,
       rippleColor,
+      themeDark,
     } = self;
     return {
       [`color-${color}`]: color,
@@ -25,6 +27,7 @@ const Mixins = {
       [`bg-color-${bgColor}`]: bgColor,
       [`border-color-${borderColor}`]: borderColor,
       [`ripple-color-${rippleColor}`]: rippleColor,
+      'theme-dark': themeDark,
     };
   },
   linkIconProps: {
