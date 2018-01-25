@@ -48,10 +48,10 @@
         const self = this;
         if (self.f7Range && self.f7Range.setValue) self.f7Range.setValue(newValue);
       },
-      getValue(newValue) {
+      getValue() {
         const self = this;
         if (self.f7Range && self.f7Range.getValue) {
-          return self.f7Range.getValue(newValue);
+          return self.f7Range.getValue();
         }
         return undefined;
       },
