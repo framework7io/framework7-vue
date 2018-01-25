@@ -9,7 +9,7 @@
       </f7-list-item>
       <f7-list-item>
         <span>Aquaman</span>
-        <f7-toggle checked color="cyan"></f7-toggle>
+        <f7-toggle checked color="blue"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Superman</span>
@@ -17,7 +17,7 @@
       </f7-list-item>
       <f7-list-item>
         <span>Hulk</span>
-        <f7-toggle color="light-green"></f7-toggle>
+        <f7-toggle color="green"></f7-toggle>
       </f7-list-item>
       <f7-list-item>
         <span>Spiderman (Disabled)</span>
