@@ -41,16 +41,6 @@
         if (self.$f7) return;
         self.$f7.progressbar.set(self.$el, progress, speed);
       },
-      show(progress, color) {
-        const self = this;
-        if (!self.$f7) return;
-        self.$f7.progressbar.show(self.$el, progress, color);
-      },
-      hide() {
-        const self = this;
-        if (!self.$f7) return;
-        self.$f7.progressbar.hide(self.$el);
-      },
     },
   };
 </script>
