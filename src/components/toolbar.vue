@@ -18,6 +18,7 @@
     scrollable: Boolean,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
   }, Mixins.colorProps);
 
   export default {
@@ -41,6 +42,7 @@
           'tabbar-scrollable': self.scrollable,
           'toolbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },

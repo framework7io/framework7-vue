@@ -16,6 +16,7 @@
     subtitle: String,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
     inner: {
       type: Boolean,
       default: true,
@@ -74,6 +75,7 @@
         return Utils.extend({
           'navbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },
