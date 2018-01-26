@@ -46,12 +46,13 @@ const Mixins = {
     back: Boolean,
     external: Boolean,
     force: Boolean,
-    reload: Boolean,
     animate: Boolean,
     ignoreCache: Boolean,
+    pageName: String,
     reloadCurrent: Boolean,
     reloadAll: Boolean,
     reloadPrevious: Boolean,
+    routeTabId: String,
     view: String,
   },
   linkRouterAttrs(self) {
@@ -62,6 +63,7 @@ const Mixins = {
       reloadAll,
       animate,
       ignoreCache,
+      routeTabId,
       view,
     } = self;
 
@@ -72,6 +74,7 @@ const Mixins = {
       'data-reload-previous': reloadPrevious,
       'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
       'data-ignore-cache': ignoreCache,
+      'data-route-tab-id': routeTabId,
       'data-view': Utils.isStringProp(view) ? view : false,
     };
   },
