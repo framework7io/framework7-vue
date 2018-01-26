@@ -1,9 +1,10 @@
 <template>
   <div class="toolbar" :class="classes">
     <slot name="before-inner"></slot>
-    <div class="toolbar-inner">
+    <div class="toolbar-inner" v-if="inner">
       <slot></slot>
     </div>
+    <slot v-else></slot>
     <slot name="after-inner"></slot>
   </div>
 </template>
@@ -19,6 +20,10 @@
     hidden: Boolean,
     noShadow: Boolean,
     noHairline: Boolean,
+    inner: {
+      type: Boolean,
+      default: true,
+    },
   }, Mixins.colorProps);
 
   export default {
