@@ -8,6 +8,7 @@
       tabActive: Boolean,
 
       name: String,
+      router: Boolean,
       linksView: [Object, String],
       url: String,
       main: Boolean,
@@ -47,6 +48,11 @@
       iosAnimateNavbarBackIcon: Boolean,
       // MD Theme delay
       materialPageLoadDelay: Number,
+
+      passRouteQueryToRequest: Boolean,
+      passRouteParamsToRequest: Boolean,
+      routes: Array,
+      routesAdd: Array,
 
       init: {
         type: Boolean,
