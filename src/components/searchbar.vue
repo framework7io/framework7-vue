@@ -28,7 +28,6 @@
       },
 
       // SB Params
-      params: Object,
       expandable: Boolean,
       searchContainer: [String, Object],
       searchIn: {
