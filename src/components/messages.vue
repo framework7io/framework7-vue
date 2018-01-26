@@ -1,36 +1,9 @@
-<template>
-  <div class="messages"><slot></slot></div>
-</template>
 <script>
-  export default {
-    name: 'f7-messages',
-    beforeDestroy() {
-      if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
-    },
-    beforeUpdate() {
-      const self = this;
-      if (!self.init) return;
-      self.$children.forEach((el) => {
-        self.$$(el.$el).addClass('message-appeared');
-      });
-    },
-    updated() {
-      const self = this;
-      if (!self.init) return;
-      self.$children.forEach((el) => {
-        const $el = self.$$(el.$el);
-        if (!$el.hasClass('message-appeared')) {
-          $el.addClass('message-appear-from-bottom');
-        }
-      });
-      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
-        self.f7Messages.layout();
-      }
-      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
-        self.f7Messages.scroll();
-      }
-    },
-    props: {
+  import Utils from '../utils/utils';
+  import Mixins from '../utils/mixins';
+
+  const MessagesProps = Utils.extend(
+    {
       autoLayout: {
         type: Boolean,
         default: false,
@@ -68,6 +41,45 @@
         default: true,
       },
     },
+    Mixins.colorProps
+  );
+  export default {
+    name: 'f7-messages',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'messages',
+        class: Mixins.colorClasses(self),
+      }, self.$slots.default);
+    },
+    props: MessagesProps,
+    beforeDestroy() {
+      if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
+    },
+    beforeUpdate() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        self.$$(el.$el).addClass('message-appeared');
+      });
+    },
+    updated() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        const $el = self.$$(el.$el);
+        if (!$el.hasClass('message-appeared')) {
+          $el.addClass('message-appear-from-bottom');
+        }
+      });
+      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
+        self.f7Messages.layout();
+      }
+      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
+        self.f7Messages.scroll();
+      }
+    },
+
     methods: {
       renderMessages(messagesToRender, method) {
         if (!this.f7Messages) return undefined;
