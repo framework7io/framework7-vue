@@ -10,7 +10,7 @@
         <slot name="bubble-start"></slot>
         <div class="message-image" v-if="image || $slots.image"><slot name="image"><img :src="image"></slot></div>
         <div class="message-text-header" v-if="textHeader || $slots['text-header']"><slot name="text-header">{{textHeader}}</slot></div>
-        <div class="message-text" v-if="text || $slots.text" @click="onTextClick">{{text}}</div>
+        <div class="message-text" v-if="text || $slots.text" @click="onTextClick"><slot name="text">{{text}}</slot></div>
         <div class="message-text-footer" v-if="textFooter || $slots['text-footer']"><slot name="text-footer">{{textFooter}}</slot></div>
         <slot name="bubble-end"></slot>
         <slot></slot>
