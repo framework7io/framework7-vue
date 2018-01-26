@@ -10,7 +10,7 @@
     >
       <f7-link
         icon-if-ios="f7:camera_fill"
-        icon-if-md="f7:camera_alt"
+        icon-if-md="material:camera_alt"
         slot="inner-start"
         @click="sheetToggle"
       ></f7-link>
