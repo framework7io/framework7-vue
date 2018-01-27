@@ -38,6 +38,8 @@ export default {
     Vue.prototype.Dom7 = Framework7.$;
     Vue.prototype.$$ = Framework7.$;
     Vue.prototype.$device = Framework7.device;
+    Vue.prototype.$request = Framework7.request;
+    Vue.prototype.$utils = Framework7.utils;
 
     // Init F7
     function initFramework7(rootEl, params, routes) {
