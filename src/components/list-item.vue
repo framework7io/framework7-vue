@@ -16,6 +16,7 @@
       link: [Boolean, String],
       target: String,
       noFastclick: Boolean,
+      noFastClick: Boolean,
 
       after: [String, Number],
       badge: [String, Number],
@@ -98,9 +99,7 @@
           self.$slots['content-start'],
           self.$slots.content,
           self.$slots['content-end'],
-          self.$slots['media-start'],
           self.$slots.media,
-          self.$slots['media-end'],
           self.$slots['inner-start'],
           self.$slots.inner,
           self.$slots['inner-end'],
@@ -129,7 +128,7 @@
             class: Utils.extend(
               {
                 'item-link': true,
-                'no-fastclick': self.noFastclick,
+                'no-fastclick': self.noFastclick || self.noFastClick,
                 'smart-select': self.smartSelect,
               },
               Mixins.linkRouterClasses(self),
@@ -161,6 +160,7 @@
         }
         liChildren.unshift(self.$slots['root-start']);
         liChildren.push(self.$slots.root);
+        liChildren.push(self.$slots['root-end']);
       }
 
       return c(

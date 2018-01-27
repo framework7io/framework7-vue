@@ -49,9 +49,7 @@
       const slotsAfterStart = [];
       const slotsAfter = [];
       const slotsAfterEnd = [];
-      const slotsMediaStart = [];
       const slotsMedia = [];
-      const slotsMediaEnd = [];
       const slotsTitle = [];
       const slotsSubtitle = [];
       const slotsText = [];
@@ -70,9 +68,7 @@
           if (slotName === 'after-start') slotsAfterStart.push(self.$slots.default[i]);
           if (slotName === 'after') slotsAfter.push(self.$slots.default[i]);
           if (slotName === 'after-end') slotsAfterEnd.push(self.$slots.default[i]);
-          if (slotName === 'media-start') slotsMediaStart.push(self.$slots.default[i]);
           if (slotName === 'media') slotsMedia.push(self.$slots.default[i]);
-          if (slotName === 'media-end') slotsMediaEnd.push(self.$slots.default[i]);
           if (slotName === 'inner-start') slotsInnerStart.push(self.$slots.default[i]);
           if (slotName === 'inner-end') slotsInnerEnd.push(self.$slots.default[i]);
           if (slotName === 'title') slotsTitle.push(self.$slots.default[i]);
@@ -107,8 +103,12 @@
         inputIconEl = c('i', { staticClass: `icon icon-${self.radio ? 'radio' : 'checkbox'}` });
       }
       // Media
-      if (self.media || slotsMediaStart.length || slotsMedia.length || slotsMediaEnd.length) {
-        mediaEl = c('div', { staticClass: 'item-media' }, [self.media, slotsMediaStart, slotsMedia, slotsMediaEnd]);
+      if (self.media || slotsMedia.length) {
+        let mediaImgEl;
+        if (self.media) {
+          mediaImgEl = c('img', { attrs: { src: self.media } });
+        }
+        mediaEl = c('div', { staticClass: 'item-media' }, [mediaImgEl, slotsMedia]);
       }
       // Inner Elements
       if (self.header || slotsHeader.length) {
