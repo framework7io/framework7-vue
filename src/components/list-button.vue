@@ -11,7 +11,7 @@
       tabLinkActive: Boolean,
       link: [Boolean, String],
       href: [Boolean, String],
-      tabindex: [Number, String],
+      target: String,
     },
     Mixins.colorProps,
     Mixins.linkRouterProps,
@@ -29,7 +29,7 @@
         on: {
           click: self.onClick,
         },
-      }, [self.title, self.$slots.default]);
+      }, [self.title || self.text, self.$slots.default]);
       return c('li', {}, [linkEl]);
     },
     props: ListButtonProps,
