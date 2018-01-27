@@ -7,7 +7,6 @@
       inset: Boolean,
       tabletInset: Boolean,
       mediaList: Boolean,
-      grouped: Boolean,
       sortable: Boolean,
       sortableEnabled: Boolean,
       accordionList: Boolean,
