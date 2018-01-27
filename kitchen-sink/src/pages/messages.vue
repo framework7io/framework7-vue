@@ -12,7 +12,7 @@
         icon-if-ios="f7:camera_fill"
         icon-if-md="material:camera_alt"
         slot="inner-start"
-        @click="sheetToggle"
+        @click="sheetVisible = !sheetVisible"
       ></f7-link>
       <f7-link
         icon-if-ios="f7:arrow_up_fill"
@@ -169,21 +169,6 @@
         responseInProgress: false,
       };
     },
-    // Resize page when attachments or sheet become visible
-    watch: {
-      attachmentsVisible() {
-        const self = this;
-        self.$nextTick(() => {
-          self.messagebar.resizePage();
-        });
-      },
-      sheetVisible() {
-        const self = this;
-        self.$nextTick(() => {
-          self.messagebar.resizePage();
-        });
-      },
-    },
     computed: {
       attachmentsVisible() {
         const self = this;
@@ -215,10 +200,6 @@
         if (message.isTitle) return false;
         if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
         return false;
-      },
-      sheetToggle() {
-        const self = this;
-        self.sheetVisible = !self.sheetVisible;
       },
       deleteAttachment(image) {
         const self = this;
