@@ -6,10 +6,6 @@
     {
       floating: Boolean,
       inline: Boolean,
-      wrap: {
-        type: Boolean,
-        default: true,
-      },
     },
     Mixins.colorProps
   );
