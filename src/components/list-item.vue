@@ -14,6 +14,7 @@
 
       // Link Props
       link: [Boolean, String],
+      target: String,
       noFastclick: Boolean,
 
       after: [String, Number],
@@ -92,7 +93,7 @@
             itemInputWithInfo: self.itemInputWithInfo || self.itemInputWithInfoForced,
             inlineLabel: self.inlineLabel || self.inlineLabelForced,
           },
-          on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
+          on: (self.link || self.href || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
         }, [
           self.$slots['content-start'],
           self.$slots.content,
@@ -115,11 +116,11 @@
         ]);
 
         // Link
-        if (self.link || self.accordionItem || self.smartSelect) {
+        if (self.link || self.href || self.accordionItem || self.smartSelect) {
           linkEl = c('a', {
             attrs: Utils.extend(
               {
-                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link || self.href,
                 target: self.target,
               },
               Mixins.linkRouterAttrs(self),
@@ -146,7 +147,7 @@
       } else if (self.simpleListComputed) {
         liChildren = [self.title, self.$slots.default];
       } else {
-        const linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
+        const linkItemEl = (self.link || self.href || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
         if (self.swipeout) {
           liChildren = [c('div', { class: { 'swipeout-content': true } }, [linkItemEl])];
         } else {
