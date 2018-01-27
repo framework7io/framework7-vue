@@ -167,6 +167,26 @@
         }, Mixins.colorClasses);
       },
     },
+    watch: {
+      sheetVisible() {
+        const self = this;
+        if (!self.resizable) return;
+        self.$nextTick(() => {
+          if (!self.f7Messagebar) return;
+          self.f7Messagebar.sheetVisible = self.sheetVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+      attachmentsVisible() {
+        const self = this;
+        if (!self.resizable) return;
+        self.$nextTick(() => {
+          if (!self.f7Messagebar) return;
+          self.f7Messagebar.attachmentsVisible = self.attachmentsVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+    },
     beforeDestroy() {
       if (this.f7Messagebar && this.f7Messagebar.destroy) this.f7Messagebar.destroy();
     },
