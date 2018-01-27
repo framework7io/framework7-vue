@@ -8,6 +8,7 @@
     {
       noLinkClass: Boolean,
       noFastClick: Boolean,
+      noFastclick: Boolean,
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
@@ -97,6 +98,7 @@
         const self = this;
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
         } = self;
@@ -105,7 +107,7 @@
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),

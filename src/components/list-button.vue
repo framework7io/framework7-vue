@@ -5,6 +5,7 @@
   const ListButtonProps = Utils.extend(
     {
       noFastclick: Boolean,
+      noFastClick: Boolean,
       title: [String, Number],
       text: [String, Number],
       tabLink: [Boolean, String],
@@ -59,6 +60,7 @@
 
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
         } = self;
@@ -67,7 +69,7 @@
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),

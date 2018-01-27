@@ -5,6 +5,7 @@
 
   const ButtonProps = Utils.extend(
     {
+      noFastclick: Boolean,
       noFastClick: Boolean,
       text: String,
       tabLink: [Boolean, String],
@@ -93,6 +94,7 @@
         const self = this;
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
           round,
@@ -116,7 +118,7 @@
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
 
             'button-round': round,
             'button-round-ios': roundIos,
