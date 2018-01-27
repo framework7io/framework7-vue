@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0
+ * Framework7 Vue 2.0.7
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 10, 2018
+ * Released on: January 27, 2018
  */
 
 (function (global, factory) {
@@ -206,6 +206,7 @@ var Mixins = {
     bgColor: String,
     borderColor: String,
     rippleColor: String,
+    themeDark: Boolean,
   },
   colorClasses: function colorClasses(self) {
     var obj;
@@ -216,7 +217,11 @@ var Mixins = {
     var bgColor = self.bgColor;
     var borderColor = self.borderColor;
     var rippleColor = self.rippleColor;
-    return ( obj = {}, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj );
+    var themeDark = self.themeDark;
+
+    return ( obj = {
+      'theme-dark': themeDark
+    }, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj );
   },
   linkIconProps: {
     icon: String,
@@ -233,12 +238,13 @@ var Mixins = {
     back: Boolean,
     external: Boolean,
     force: Boolean,
-    reload: Boolean,
     animate: Boolean,
     ignoreCache: Boolean,
+    pageName: String,
     reloadCurrent: Boolean,
     reloadAll: Boolean,
     reloadPrevious: Boolean,
+    routeTabId: String,
     view: String,
   },
   linkRouterAttrs: function linkRouterAttrs(self) {
@@ -248,6 +254,7 @@ var Mixins = {
     var reloadAll = self.reloadAll;
     var animate = self.animate;
     var ignoreCache = self.ignoreCache;
+    var routeTabId = self.routeTabId;
     var view = self.view;
 
     return {
@@ -257,6 +264,7 @@ var Mixins = {
       'data-reload-previous': reloadPrevious,
       'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
       'data-ignore-cache': ignoreCache,
+      'data-route-tab-id': routeTabId,
       'data-view': Utils.isStringProp(view) ? view : false,
     };
   },
@@ -683,11 +691,8 @@ var BlockProps = Utils.extend(
       tabActive: Boolean,
       accordionList: Boolean,
       noHairlines: Boolean,
-      noHairlinesBetween: Boolean,
       noHairlinesMd: Boolean,
-      noHairlinesBetweenMd: Boolean,
       noHairlinesIos: Boolean,
-      noHairlinesBetweenIos: Boolean,
     },
     Mixins.colorProps
   );
@@ -710,11 +715,8 @@ staticRenderFns: [],
             tab: self.tab,
             'tab-active': self.tabActive,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween,
             'no-hairlines-md': self.noHairlinesMd,
-            'no-hairlines-between-md': self.noHairlinesBetweenMd,
             'no-hairlines-ios': self.noHairlinesIos,
-            'no-hairlines-between-ios': self.noHairlinesBetweenIos,
           },
           Mixins.colorClasses(self)
         );
@@ -803,6 +805,7 @@ staticRenderFns: [],
 
 var ButtonProps = Utils.extend(
     {
+      noFastclick: Boolean,
       noFastClick: Boolean,
       text: String,
       tabLink: [Boolean, String],
@@ -892,6 +895,7 @@ var ButtonProps = Utils.extend(
       classes: function classes() {
         var self = this;
         var noFastclick = self.noFastclick;
+        var noFastClick = self.noFastClick;
         var tabLink = self.tabLink;
         var tabLinkActive = self.tabLinkActive;
         var round = self.round;
@@ -914,7 +918,7 @@ var ButtonProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
 
             'button-round': round,
             'button-round-ios': roundIos,
@@ -1460,10 +1464,10 @@ var RangeProps = Utils.extend({
         var self = this;
         if (self.f7Range && self.f7Range.setValue) { self.f7Range.setValue(newValue); }
       },
-      getValue: function getValue(newValue) {
+      getValue: function getValue() {
         var self = this;
         if (self.f7Range && self.f7Range.getValue) {
-          return self.f7Range.getValue(newValue);
+          return self.f7Range.getValue();
         }
         return undefined;
       },
@@ -1710,10 +1714,6 @@ var LabelProps = Utils.extend(
     {
       floating: Boolean,
       inline: Boolean,
-      wrap: {
-        type: Boolean,
-        default: true,
-      },
     },
     Mixins.colorProps
   );
@@ -1760,10 +1760,10 @@ var LinkProps = Utils.extend(
     {
       noLinkClass: Boolean,
       noFastClick: Boolean,
+      noFastclick: Boolean,
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
-      routeTabId: String,
       iconOnly: Boolean,
       badge: [String, Number],
       badgeColor: [String],
@@ -1842,7 +1842,6 @@ var LinkProps = Utils.extend(
           {
             href: href,
             target: target,
-            'data-route-tab-id': self.routeTabId,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
@@ -1852,6 +1851,7 @@ var LinkProps = Utils.extend(
       classes: function classes() {
         var self = this;
         var noFastclick = self.noFastclick;
+        var noFastClick = self.noFastClick;
         var tabLink = self.tabLink;
         var tabLinkActive = self.tabLinkActive;
 
@@ -1859,7 +1859,7 @@ var LinkProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
@@ -1877,13 +1877,14 @@ var LinkProps = Utils.extend(
 var ListButtonProps = Utils.extend(
     {
       noFastclick: Boolean,
+      noFastClick: Boolean,
       title: [String, Number],
       text: [String, Number],
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
       link: [Boolean, String],
       href: [Boolean, String],
-      tabindex: [Number, String],
+      target: String,
     },
     Mixins.colorProps,
     Mixins.linkRouterProps,
@@ -1901,7 +1902,7 @@ var ListButtonProps = Utils.extend(
         on: {
           click: self.onClick,
         },
-      }, [self.title, self.$slots.default]);
+      }, [self.title || self.text, self.$slots.default]);
       return c('li', {}, [linkEl]);
     },
     props: ListButtonProps,
@@ -1928,6 +1929,7 @@ var ListButtonProps = Utils.extend(
         var self = this;
 
         var noFastclick = self.noFastclick;
+        var noFastClick = self.noFastClick;
         var tabLink = self.tabLink;
         var tabLinkActive = self.tabLinkActive;
 
@@ -1935,7 +1937,7 @@ var ListButtonProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
@@ -2038,9 +2040,7 @@ var ListItemContentProps = Utils.extend(
       var slotsAfterStart = [];
       var slotsAfter = [];
       var slotsAfterEnd = [];
-      var slotsMediaStart = [];
       var slotsMedia = [];
-      var slotsMediaEnd = [];
       var slotsTitle = [];
       var slotsSubtitle = [];
       var slotsText = [];
@@ -2072,9 +2072,7 @@ var ListItemContentProps = Utils.extend(
           if (slotName === 'after-start') { slotsAfterStart.push(self.$slots.default[i]); }
           if (slotName === 'after') { slotsAfter.push(self.$slots.default[i]); }
           if (slotName === 'after-end') { slotsAfterEnd.push(self.$slots.default[i]); }
-          if (slotName === 'media-start') { slotsMediaStart.push(self.$slots.default[i]); }
           if (slotName === 'media') { slotsMedia.push(self.$slots.default[i]); }
-          if (slotName === 'media-end') { slotsMediaEnd.push(self.$slots.default[i]); }
           if (slotName === 'inner-start') { slotsInnerStart.push(self.$slots.default[i]); }
           if (slotName === 'inner-end') { slotsInnerEnd.push(self.$slots.default[i]); }
           if (slotName === 'title') { slotsTitle.push(self.$slots.default[i]); }
@@ -2109,8 +2107,12 @@ var ListItemContentProps = Utils.extend(
         inputIconEl = c('i', { staticClass: ("icon icon-" + (self.radio ? 'radio' : 'checkbox')) });
       }
       // Media
-      if (self.media || slotsMediaStart.length || slotsMedia.length || slotsMediaEnd.length) {
-        mediaEl = c('div', { staticClass: 'item-media' }, [slotsMediaStart, slotsMedia, slotsMediaEnd]);
+      if (self.media || slotsMedia.length) {
+        var mediaImgEl;
+        if (self.media) {
+          mediaImgEl = c('img', { attrs: { src: self.media } });
+        }
+        mediaEl = c('div', { staticClass: 'item-media' }, [mediaImgEl, slotsMedia]);
       }
       // Inner Elements
       if (self.header || slotsHeader.length) {
@@ -2204,7 +2206,9 @@ var ListItemProps = Utils.extend(
 
       // Link Props
       link: [Boolean, String],
+      target: String,
       noFastclick: Boolean,
+      noFastClick: Boolean,
 
       after: [String, Number],
       badge: [String, Number],
@@ -2282,14 +2286,12 @@ var ListItemProps = Utils.extend(
             itemInputWithInfo: self.itemInputWithInfo || self.itemInputWithInfoForced,
             inlineLabel: self.inlineLabel || self.inlineLabelForced,
           },
-          on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
+          on: (self.link || self.href || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
         }, [
           self.$slots['content-start'],
           self.$slots.content,
           self.$slots['content-end'],
-          self.$slots['media-start'],
           self.$slots.media,
-          self.$slots['media-end'],
           self.$slots['inner-start'],
           self.$slots.inner,
           self.$slots['inner-end'],
@@ -2304,11 +2306,11 @@ var ListItemProps = Utils.extend(
           (self.swipeout || self.accordionItem ? [] : self.$slots.default) ]);
 
         // Link
-        if (self.link || self.accordionItem || self.smartSelect) {
+        if (self.link || self.href || self.accordionItem || self.smartSelect) {
           linkEl = c('a', {
             attrs: Utils.extend(
               {
-                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link || self.href,
                 target: self.target,
               },
               Mixins.linkRouterAttrs(self),
@@ -2317,7 +2319,7 @@ var ListItemProps = Utils.extend(
             class: Utils.extend(
               {
                 'item-link': true,
-                'no-fastclick': self.noFastclick,
+                'no-fastclick': self.noFastclick || self.noFastClick,
                 'smart-select': self.smartSelect,
               },
               Mixins.linkRouterClasses(self),
@@ -2335,7 +2337,7 @@ var ListItemProps = Utils.extend(
       } else if (self.simpleListComputed) {
         liChildren = [self.title, self.$slots.default];
       } else {
-        var linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
+        var linkItemEl = (self.link || self.href || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
         if (self.swipeout) {
           liChildren = [c('div', { class: { 'swipeout-content': true } }, [linkItemEl])];
         } else {
@@ -2349,6 +2351,7 @@ var ListItemProps = Utils.extend(
         }
         liChildren.unshift(self.$slots['root-start']);
         liChildren.push(self.$slots.root);
+        liChildren.push(self.$slots['root-end']);
       }
 
       return c(
@@ -2469,8 +2472,8 @@ var ListProps = Utils.extend(
       inset: Boolean,
       tabletInset: Boolean,
       mediaList: Boolean,
-      grouped: Boolean,
       sortable: Boolean,
+      sortableEnabled: Boolean,
       accordionList: Boolean,
       contactsList: Boolean,
       simpleList: Boolean,
@@ -2538,6 +2541,7 @@ var ListProps = Utils.extend(
               'accordion-list': self.accordionList,
               'contacts-list': self.contactsList,
               'virtual-list': self.virtualList,
+              'sortable-enabled': self.sortableEnabled,
               tab: self.tab,
               'tab-active': self.tabActive,
               'no-hairlines': self.noHairlines,
@@ -2743,7 +2747,7 @@ var MessageProps = Utils.extend(
     Mixins.colorProps
   );
   var f7Message = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._v(_vm._s(_vm.text))]):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))])],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
 staticRenderFns: [],
     name: 'f7-message',
     props: MessageProps,
@@ -3046,6 +3050,26 @@ var MessagebarProps = Utils.extend(
         }, Mixins.colorClasses);
       },
     },
+    watch: {
+      sheetVisible: function sheetVisible() {
+        var self = this;
+        if (!self.resizable) { return; }
+        self.$nextTick(function () {
+          if (!self.f7Messagebar) { return; }
+          self.f7Messagebar.sheetVisible = self.sheetVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+      attachmentsVisible: function attachmentsVisible() {
+        var self = this;
+        if (!self.resizable) { return; }
+        self.$nextTick(function () {
+          if (!self.f7Messagebar) { return; }
+          self.f7Messagebar.attachmentsVisible = self.attachmentsVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+    },
     beforeDestroy: function beforeDestroy() {
       if (this.f7Messagebar && this.f7Messagebar.destroy) { this.f7Messagebar.destroy(); }
     },
@@ -3210,37 +3234,8 @@ staticRenderFns: [],
     },
   };
 
-var f7Messages = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages"},[_vm._t("default")],2)},
-staticRenderFns: [],
-    name: 'f7-messages',
-    beforeDestroy: function beforeDestroy() {
-      if (this.f7Messages && this.f7Messages.destroy) { this.f7Messages.destroy(); }
-    },
-    beforeUpdate: function beforeUpdate() {
-      var self = this;
-      if (!self.init) { return; }
-      self.$children.forEach(function (el) {
-        self.$$(el.$el).addClass('message-appeared');
-      });
-    },
-    updated: function updated() {
-      var self = this;
-      if (!self.init) { return; }
-      self.$children.forEach(function (el) {
-        var $el = self.$$(el.$el);
-        if (!$el.hasClass('message-appeared')) {
-          $el.addClass('message-appear-from-bottom');
-        }
-      });
-      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
-        self.f7Messages.layout();
-      }
-      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
-        self.f7Messages.scroll();
-      }
-    },
-    props: {
+var MessagesProps = Utils.extend(
+    {
       autoLayout: {
         type: Boolean,
         default: false,
@@ -3278,6 +3273,45 @@ staticRenderFns: [],
         default: true,
       },
     },
+    Mixins.colorProps
+  );
+  var f7Messages = {
+    name: 'f7-messages',
+    render: function render(c) {
+      var self = this;
+      return c('div', {
+        staticClass: 'messages',
+        class: Mixins.colorClasses(self),
+      }, self.$slots.default);
+    },
+    props: MessagesProps,
+    beforeDestroy: function beforeDestroy() {
+      if (this.f7Messages && this.f7Messages.destroy) { this.f7Messages.destroy(); }
+    },
+    beforeUpdate: function beforeUpdate() {
+      var self = this;
+      if (!self.init) { return; }
+      self.$children.forEach(function (el) {
+        self.$$(el.$el).addClass('message-appeared');
+      });
+    },
+    updated: function updated() {
+      var self = this;
+      if (!self.init) { return; }
+      self.$children.forEach(function (el) {
+        var $el = self.$$(el.$el);
+        if (!$el.hasClass('message-appeared')) {
+          $el.addClass('message-appear-from-bottom');
+        }
+      });
+      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
+        self.f7Messages.layout();
+      }
+      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
+        self.f7Messages.scroll();
+      }
+    },
+
     methods: {
       renderMessages: function renderMessages(messagesToRender, method) {
         if (!this.f7Messages) { return undefined; }
@@ -3433,6 +3467,7 @@ var NavbarProps = Utils.extend({
     subtitle: String,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
     inner: {
       type: Boolean,
       default: true,
@@ -3491,6 +3526,7 @@ var NavbarProps = Utils.extend({
         return Utils.extend({
           'navbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },
@@ -3756,7 +3792,7 @@ var PageProps = Utils.extend({
           'page:init': self.onPageInit,
           'page:reinit': self.onPageReinit,
           'page:beforein': self.onPageBeforeIn,
-          'page:afterain': self.onPageAfterIn,
+          'page:afterin': self.onPageAfterIn,
           'page:beforeout': self.onPageBeforeOut,
           'page:afterout': self.onPageAfterOut,
           'page:beforeremove': self.onPageBeforeRemove,
@@ -3816,7 +3852,7 @@ var PageProps = Utils.extend({
         this.$emit('page:afterout', event, event.detail);
       },
       onPageAfterIn: function onPageAfterIn(event) {
-        this.$emit('page:afteranimation', event, event.detail);
+        this.$emit('page:afterin', event, event.detail);
       },
       onPageBeforeRemove: function onPageBeforeRemove(event) {
         this.$emit('page:beforeremove', event, event.detail);
@@ -3838,7 +3874,7 @@ var PanelProps = Utils.extend(
   );
 
   var f7Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:swipeopen":_vm.onPanelSwipeOpen,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: PanelProps,
     computed: {
@@ -3903,6 +3939,9 @@ staticRenderFns: [],
       },
       onPanelSwipe: function onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
+      },
+      onPanelSwipeOpen: function onPanelSwipeOpen(event) {
+        this.$emit('panel:swipeopen', event);
       },
       onBreakpoint: function onBreakpoint(event) {
         this.$emit('panel:breakpoint', event);
@@ -4243,16 +4282,6 @@ var ProgressbarProps = Utils.extend({
         if (self.$f7) { return; }
         self.$f7.progressbar.set(self.$el, progress, speed);
       },
-      show: function show(progress, color) {
-        var self = this;
-        if (!self.$f7) { return; }
-        self.$f7.progressbar.show(self.$el, progress, color);
-      },
-      hide: function hide() {
-        var self = this;
-        if (!self.$f7) { return; }
-        self.$f7.progressbar.hide(self.$el);
-      },
     },
   };
 
@@ -4362,7 +4391,6 @@ var SearchbarProps = Utils.extend(
       },
 
       // SB Params
-      params: Object,
       expandable: Boolean,
       searchContainer: [String, Object],
       searchIn: {
@@ -4931,9 +4959,9 @@ var TabProps = Utils.extend({
       );
     },
     methods: {
-      show: function show(animated) {
+      show: function show(animate) {
         if (!this.$f7) { return; }
-        this.$f7.tab.show(this.$el, animated);
+        this.$f7.tab.show(this.$el, animate);
       },
       onTabShow: function onTabShow(e) {
         this.$emit('tab:show', e);
@@ -4977,10 +5005,15 @@ var ToolbarProps = Utils.extend({
     scrollable: Boolean,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
+    inner: {
+      type: Boolean,
+      default: true,
+    },
   }, Mixins.colorProps);
 
   var f7Toolbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),(_vm.inner)?_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2):_vm._t("default"),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     name: 'f7-toolbar',
     props: ToolbarProps,
@@ -5002,6 +5035,7 @@ staticRenderFns: [],
           'tabbar-scrollable': self.scrollable,
           'toolbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },
@@ -5029,6 +5063,7 @@ var ViewProps = Utils.extend(
       tabActive: Boolean,
 
       name: String,
+      router: Boolean,
       linksView: [Object, String],
       url: String,
       main: Boolean,
@@ -5068,6 +5103,11 @@ var ViewProps = Utils.extend(
       iosAnimateNavbarBackIcon: Boolean,
       // MD Theme delay
       materialPageLoadDelay: Number,
+
+      passRouteQueryToRequest: Boolean,
+      passRouteParamsToRequest: Boolean,
+      routes: Array,
+      routesAdd: Array,
 
       init: {
         type: Boolean,
@@ -5221,6 +5261,8 @@ var vuePlugin = {
     Vue.prototype.Dom7 = Framework7.$;
     Vue.prototype.$$ = Framework7.$;
     Vue.prototype.$device = Framework7.device;
+    Vue.prototype.$request = Framework7.request;
+    Vue.prototype.$utils = Framework7.utils;
 
     // Init F7
     function initFramework7(rootEl, params, routes) {

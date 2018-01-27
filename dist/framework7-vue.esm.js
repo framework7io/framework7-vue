@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.0
+ * Framework7 Vue 2.0.7
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 10, 2018
+ * Released on: January 27, 2018
  */
 
 const Utils = {
@@ -222,6 +222,8 @@ var VuePlugin$1 = {
     Vue.prototype.Dom7 = Framework7.$;
     Vue.prototype.$$ = Framework7.$;
     Vue.prototype.$device = Framework7.device;
+    Vue.prototype.$request = Framework7.request;
+    Vue.prototype.$utils = Framework7.utils;
 
     // Init F7
     function initFramework7(rootEl, params, routes) {
@@ -351,6 +353,7 @@ const Mixins = {
     bgColor: String,
     borderColor: String,
     rippleColor: String,
+    themeDark: Boolean,
   },
   colorClasses(self) {
     const {
@@ -360,8 +363,11 @@ const Mixins = {
       bgColor,
       borderColor,
       rippleColor,
+      themeDark,
     } = self;
+
     return {
+      'theme-dark': themeDark,
       [`color-${color}`]: color,
       [`color-theme-${colorTheme}`]: colorTheme,
       [`text-color-${textColor}`]: textColor,
@@ -385,12 +391,13 @@ const Mixins = {
     back: Boolean,
     external: Boolean,
     force: Boolean,
-    reload: Boolean,
     animate: Boolean,
     ignoreCache: Boolean,
+    pageName: String,
     reloadCurrent: Boolean,
     reloadAll: Boolean,
     reloadPrevious: Boolean,
+    routeTabId: String,
     view: String,
   },
   linkRouterAttrs(self) {
@@ -401,6 +408,7 @@ const Mixins = {
       reloadAll,
       animate,
       ignoreCache,
+      routeTabId,
       view,
     } = self;
 
@@ -411,6 +419,7 @@ const Mixins = {
       'data-reload-previous': reloadPrevious,
       'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
       'data-ignore-cache': ignoreCache,
+      'data-route-tab-id': routeTabId,
       'data-view': Utils.isStringProp(view) ? view : false,
     };
   },
@@ -839,11 +848,8 @@ const BlockProps = Utils.extend(
       tabActive: Boolean,
       accordionList: Boolean,
       noHairlines: Boolean,
-      noHairlinesBetween: Boolean,
       noHairlinesMd: Boolean,
-      noHairlinesBetweenMd: Boolean,
       noHairlinesIos: Boolean,
-      noHairlinesBetweenIos: Boolean,
     },
     Mixins.colorProps
   );
@@ -866,11 +872,8 @@ staticRenderFns: [],
             tab: self.tab,
             'tab-active': self.tabActive,
             'no-hairlines': self.noHairlines,
-            'no-hairlines-between': self.noHairlinesBetween,
             'no-hairlines-md': self.noHairlinesMd,
-            'no-hairlines-between-md': self.noHairlinesBetweenMd,
             'no-hairlines-ios': self.noHairlinesIos,
-            'no-hairlines-between-ios': self.noHairlinesBetweenIos,
           },
           Mixins.colorClasses(self)
         );
@@ -959,6 +962,7 @@ staticRenderFns: [],
 
 const ButtonProps = Utils.extend(
     {
+      noFastclick: Boolean,
       noFastClick: Boolean,
       text: String,
       tabLink: [Boolean, String],
@@ -1047,6 +1051,7 @@ const ButtonProps = Utils.extend(
         const self = this;
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
           round,
@@ -1070,7 +1075,7 @@ const ButtonProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
 
             'button-round': round,
             'button-round-ios': roundIos,
@@ -1617,10 +1622,10 @@ const RangeProps = Utils.extend({
         const self = this;
         if (self.f7Range && self.f7Range.setValue) self.f7Range.setValue(newValue);
       },
-      getValue(newValue) {
+      getValue() {
         const self = this;
         if (self.f7Range && self.f7Range.getValue) {
-          return self.f7Range.getValue(newValue);
+          return self.f7Range.getValue();
         }
         return undefined;
       },
@@ -1867,10 +1872,6 @@ const LabelProps = Utils.extend(
     {
       floating: Boolean,
       inline: Boolean,
-      wrap: {
-        type: Boolean,
-        default: true,
-      },
     },
     Mixins.colorProps
   );
@@ -1917,10 +1918,10 @@ const LinkProps = Utils.extend(
     {
       noLinkClass: Boolean,
       noFastClick: Boolean,
+      noFastclick: Boolean,
       text: String,
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
-      routeTabId: String,
       iconOnly: Boolean,
       badge: [String, Number],
       badgeColor: [String],
@@ -1997,7 +1998,6 @@ const LinkProps = Utils.extend(
           {
             href,
             target,
-            'data-route-tab-id': self.routeTabId,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
           Mixins.linkRouterAttrs(self),
@@ -2008,6 +2008,7 @@ const LinkProps = Utils.extend(
         const self = this;
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
         } = self;
@@ -2016,7 +2017,7 @@ const LinkProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
@@ -2034,13 +2035,14 @@ const LinkProps = Utils.extend(
 const ListButtonProps = Utils.extend(
     {
       noFastclick: Boolean,
+      noFastClick: Boolean,
       title: [String, Number],
       text: [String, Number],
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
       link: [Boolean, String],
       href: [Boolean, String],
-      tabindex: [Number, String],
+      target: String,
     },
     Mixins.colorProps,
     Mixins.linkRouterProps,
@@ -2058,7 +2060,7 @@ const ListButtonProps = Utils.extend(
         on: {
           click: self.onClick,
         },
-      }, [self.title, self.$slots.default]);
+      }, [self.title || self.text, self.$slots.default]);
       return c('li', {}, [linkEl]);
     },
     props: ListButtonProps,
@@ -2088,6 +2090,7 @@ const ListButtonProps = Utils.extend(
 
         const {
           noFastclick,
+          noFastClick,
           tabLink,
           tabLinkActive,
         } = self;
@@ -2096,7 +2099,7 @@ const ListButtonProps = Utils.extend(
           {
             'tab-link': tabLink || tabLink === '',
             'tab-link-active': tabLinkActive,
-            'no-fastclick': noFastclick,
+            'no-fastclick': noFastclick || noFastClick,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
@@ -2199,9 +2202,7 @@ const ListItemContentProps = Utils.extend(
       const slotsAfterStart = [];
       const slotsAfter = [];
       const slotsAfterEnd = [];
-      const slotsMediaStart = [];
       const slotsMedia = [];
-      const slotsMediaEnd = [];
       const slotsTitle = [];
       const slotsSubtitle = [];
       const slotsText = [];
@@ -2220,9 +2221,7 @@ const ListItemContentProps = Utils.extend(
           if (slotName === 'after-start') slotsAfterStart.push(self.$slots.default[i]);
           if (slotName === 'after') slotsAfter.push(self.$slots.default[i]);
           if (slotName === 'after-end') slotsAfterEnd.push(self.$slots.default[i]);
-          if (slotName === 'media-start') slotsMediaStart.push(self.$slots.default[i]);
           if (slotName === 'media') slotsMedia.push(self.$slots.default[i]);
-          if (slotName === 'media-end') slotsMediaEnd.push(self.$slots.default[i]);
           if (slotName === 'inner-start') slotsInnerStart.push(self.$slots.default[i]);
           if (slotName === 'inner-end') slotsInnerEnd.push(self.$slots.default[i]);
           if (slotName === 'title') slotsTitle.push(self.$slots.default[i]);
@@ -2257,8 +2256,12 @@ const ListItemContentProps = Utils.extend(
         inputIconEl = c('i', { staticClass: `icon icon-${self.radio ? 'radio' : 'checkbox'}` });
       }
       // Media
-      if (self.media || slotsMediaStart.length || slotsMedia.length || slotsMediaEnd.length) {
-        mediaEl = c('div', { staticClass: 'item-media' }, [slotsMediaStart, slotsMedia, slotsMediaEnd]);
+      if (self.media || slotsMedia.length) {
+        let mediaImgEl;
+        if (self.media) {
+          mediaImgEl = c('img', { attrs: { src: self.media } });
+        }
+        mediaEl = c('div', { staticClass: 'item-media' }, [mediaImgEl, slotsMedia]);
       }
       // Inner Elements
       if (self.header || slotsHeader.length) {
@@ -2352,7 +2355,9 @@ const ListItemProps = Utils.extend(
 
       // Link Props
       link: [Boolean, String],
+      target: String,
       noFastclick: Boolean,
+      noFastClick: Boolean,
 
       after: [String, Number],
       badge: [String, Number],
@@ -2430,14 +2435,12 @@ const ListItemProps = Utils.extend(
             itemInputWithInfo: self.itemInputWithInfo || self.itemInputWithInfoForced,
             inlineLabel: self.inlineLabel || self.inlineLabelForced,
           },
-          on: (self.link || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
+          on: (self.link || self.href || self.accordionItem || self.smartSelect) ? {} : { click: self.onClick, change: self.onChange },
         }, [
           self.$slots['content-start'],
           self.$slots.content,
           self.$slots['content-end'],
-          self.$slots['media-start'],
           self.$slots.media,
-          self.$slots['media-end'],
           self.$slots['inner-start'],
           self.$slots.inner,
           self.$slots['inner-end'],
@@ -2453,11 +2456,11 @@ const ListItemProps = Utils.extend(
         ]);
 
         // Link
-        if (self.link || self.accordionItem || self.smartSelect) {
+        if (self.link || self.href || self.accordionItem || self.smartSelect) {
           linkEl = c('a', {
             attrs: Utils.extend(
               {
-                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link,
+                href: self.link === true || self.accordionItem || self.smartSelect ? '#' : self.link || self.href,
                 target: self.target,
               },
               Mixins.linkRouterAttrs(self),
@@ -2466,7 +2469,7 @@ const ListItemProps = Utils.extend(
             class: Utils.extend(
               {
                 'item-link': true,
-                'no-fastclick': self.noFastclick,
+                'no-fastclick': self.noFastclick || self.noFastClick,
                 'smart-select': self.smartSelect,
               },
               Mixins.linkRouterClasses(self),
@@ -2484,7 +2487,7 @@ const ListItemProps = Utils.extend(
       } else if (self.simpleListComputed) {
         liChildren = [self.title, self.$slots.default];
       } else {
-        const linkItemEl = (self.link || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
+        const linkItemEl = (self.link || self.href || self.smartSelect || self.accordionItem) ? linkEl : itemContentEl;
         if (self.swipeout) {
           liChildren = [c('div', { class: { 'swipeout-content': true } }, [linkItemEl])];
         } else {
@@ -2498,6 +2501,7 @@ const ListItemProps = Utils.extend(
         }
         liChildren.unshift(self.$slots['root-start']);
         liChildren.push(self.$slots.root);
+        liChildren.push(self.$slots['root-end']);
       }
 
       return c(
@@ -2618,8 +2622,8 @@ const ListProps = Utils.extend(
       inset: Boolean,
       tabletInset: Boolean,
       mediaList: Boolean,
-      grouped: Boolean,
       sortable: Boolean,
+      sortableEnabled: Boolean,
       accordionList: Boolean,
       contactsList: Boolean,
       simpleList: Boolean,
@@ -2687,6 +2691,7 @@ const ListProps = Utils.extend(
               'accordion-list': self.accordionList,
               'contacts-list': self.contactsList,
               'virtual-list': self.virtualList,
+              'sortable-enabled': self.sortableEnabled,
               tab: self.tab,
               'tab-active': self.tabActive,
               'no-hairlines': self.noHairlines,
@@ -2893,7 +2898,7 @@ const MessageProps = Utils.extend(
     Mixins.colorProps
   );
   var message = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._v(_vm._s(_vm.text))]):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))])],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
 staticRenderFns: [],
     name: 'f7-message',
     props: MessageProps,
@@ -3199,6 +3204,26 @@ const MessagebarProps = Utils.extend(
         }, Mixins.colorClasses);
       },
     },
+    watch: {
+      sheetVisible() {
+        const self = this;
+        if (!self.resizable) return;
+        self.$nextTick(() => {
+          if (!self.f7Messagebar) return;
+          self.f7Messagebar.sheetVisible = self.sheetVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+      attachmentsVisible() {
+        const self = this;
+        if (!self.resizable) return;
+        self.$nextTick(() => {
+          if (!self.f7Messagebar) return;
+          self.f7Messagebar.attachmentsVisible = self.attachmentsVisible;
+          self.f7Messagebar.resizePage();
+        });
+      },
+    },
     beforeDestroy() {
       if (this.f7Messagebar && this.f7Messagebar.destroy) this.f7Messagebar.destroy();
     },
@@ -3311,37 +3336,8 @@ staticRenderFns: [],
     },
   };
 
-var messages = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages"},[_vm._t("default")],2)},
-staticRenderFns: [],
-    name: 'f7-messages',
-    beforeDestroy() {
-      if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
-    },
-    beforeUpdate() {
-      const self = this;
-      if (!self.init) return;
-      self.$children.forEach((el) => {
-        self.$$(el.$el).addClass('message-appeared');
-      });
-    },
-    updated() {
-      const self = this;
-      if (!self.init) return;
-      self.$children.forEach((el) => {
-        const $el = self.$$(el.$el);
-        if (!$el.hasClass('message-appeared')) {
-          $el.addClass('message-appear-from-bottom');
-        }
-      });
-      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
-        self.f7Messages.layout();
-      }
-      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
-        self.f7Messages.scroll();
-      }
-    },
-    props: {
+const MessagesProps = Utils.extend(
+    {
       autoLayout: {
         type: Boolean,
         default: false,
@@ -3379,6 +3375,45 @@ staticRenderFns: [],
         default: true,
       },
     },
+    Mixins.colorProps
+  );
+  var messages = {
+    name: 'f7-messages',
+    render(c) {
+      const self = this;
+      return c('div', {
+        staticClass: 'messages',
+        class: Mixins.colorClasses(self),
+      }, self.$slots.default);
+    },
+    props: MessagesProps,
+    beforeDestroy() {
+      if (this.f7Messages && this.f7Messages.destroy) this.f7Messages.destroy();
+    },
+    beforeUpdate() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        self.$$(el.$el).addClass('message-appeared');
+      });
+    },
+    updated() {
+      const self = this;
+      if (!self.init) return;
+      self.$children.forEach((el) => {
+        const $el = self.$$(el.$el);
+        if (!$el.hasClass('message-appeared')) {
+          $el.addClass('message-appear-from-bottom');
+        }
+      });
+      if (self.f7Messages && self.f7Messages.layout && self.autoLayout) {
+        self.f7Messages.layout();
+      }
+      if (self.f7Messages && self.f7Messages.scroll && self.scrollMessages) {
+        self.f7Messages.scroll();
+      }
+    },
+
     methods: {
       renderMessages(messagesToRender, method) {
         if (!this.f7Messages) return undefined;
@@ -3526,6 +3561,7 @@ const NavbarProps = Utils.extend({
     subtitle: String,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
     inner: {
       type: Boolean,
       default: true,
@@ -3584,6 +3620,7 @@ const NavbarProps = Utils.extend({
         return Utils.extend({
           'navbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },
@@ -3850,7 +3887,7 @@ const PageProps = Utils.extend({
           'page:init': self.onPageInit,
           'page:reinit': self.onPageReinit,
           'page:beforein': self.onPageBeforeIn,
-          'page:afterain': self.onPageAfterIn,
+          'page:afterin': self.onPageAfterIn,
           'page:beforeout': self.onPageBeforeOut,
           'page:afterout': self.onPageAfterOut,
           'page:beforeremove': self.onPageBeforeRemove,
@@ -3910,7 +3947,7 @@ const PageProps = Utils.extend({
         this.$emit('page:afterout', event, event.detail);
       },
       onPageAfterIn(event) {
-        this.$emit('page:afteranimation', event, event.detail);
+        this.$emit('page:afterin', event, event.detail);
       },
       onPageBeforeRemove(event) {
         this.$emit('page:beforeremove', event, event.detail);
@@ -3932,7 +3969,7 @@ const PanelProps = Utils.extend(
   );
 
   var panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:swipeopen":_vm.onPanelSwipeOpen,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
 staticRenderFns: [],
     props: PanelProps,
     computed: {
@@ -3997,6 +4034,9 @@ staticRenderFns: [],
       },
       onPanelSwipe(event) {
         this.$emit('panel:swipe', event);
+      },
+      onPanelSwipeOpen(event) {
+        this.$emit('panel:swipeopen', event);
       },
       onBreakpoint(event) {
         this.$emit('panel:breakpoint', event);
@@ -4338,16 +4378,6 @@ const ProgressbarProps = Utils.extend({
         if (self.$f7) return;
         self.$f7.progressbar.set(self.$el, progress, speed);
       },
-      show(progress, color) {
-        const self = this;
-        if (!self.$f7) return;
-        self.$f7.progressbar.show(self.$el, progress, color);
-      },
-      hide() {
-        const self = this;
-        if (!self.$f7) return;
-        self.$f7.progressbar.hide(self.$el);
-      },
     },
   };
 
@@ -4457,7 +4487,6 @@ const SearchbarProps = Utils.extend(
       },
 
       // SB Params
-      params: Object,
       expandable: Boolean,
       searchContainer: [String, Object],
       searchIn: {
@@ -5026,9 +5055,9 @@ const TabProps = Utils.extend({
       );
     },
     methods: {
-      show(animated) {
+      show(animate) {
         if (!this.$f7) return;
-        this.$f7.tab.show(this.$el, animated);
+        this.$f7.tab.show(this.$el, animate);
       },
       onTabShow(e) {
         this.$emit('tab:show', e);
@@ -5072,10 +5101,15 @@ const ToolbarProps = Utils.extend({
     scrollable: Boolean,
     hidden: Boolean,
     noShadow: Boolean,
+    noHairline: Boolean,
+    inner: {
+      type: Boolean,
+      default: true,
+    },
   }, Mixins.colorProps);
 
   var toolbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2),_vm._v(" "),_vm._t("after-inner")],2)},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),(_vm.inner)?_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2):_vm._t("default"),_vm._v(" "),_vm._t("after-inner")],2)},
 staticRenderFns: [],
     name: 'f7-toolbar',
     props: ToolbarProps,
@@ -5097,6 +5131,7 @@ staticRenderFns: [],
           'tabbar-scrollable': self.scrollable,
           'toolbar-hidden': self.hidden,
           'no-shadow': self.noShadow,
+          'no-hairline': self.noHairline,
         }, Mixins.colorClasses(self));
       },
     },
@@ -5124,6 +5159,7 @@ const ViewProps = Utils.extend(
       tabActive: Boolean,
 
       name: String,
+      router: Boolean,
       linksView: [Object, String],
       url: String,
       main: Boolean,
@@ -5163,6 +5199,11 @@ const ViewProps = Utils.extend(
       iosAnimateNavbarBackIcon: Boolean,
       // MD Theme delay
       materialPageLoadDelay: Number,
+
+      passRouteQueryToRequest: Boolean,
+      passRouteParamsToRequest: Boolean,
+      routes: Array,
+      routesAdd: Array,
 
       init: {
         type: Boolean,

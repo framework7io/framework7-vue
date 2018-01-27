@@ -1,5 +1,22 @@
 # Change Log
 
+## [v2.0.7](https://github.com/framework7io/framework7-vue/compare/v2.0.0...v2.0.7) - on January 27, 2018
+  * Panel
+    * Added `panel:swipeopen` event support
+  * Sortable
+    * New `sortable-enabled` prop on **f7-list** to enable/disable sortable
+  * Navbar
+    * New `no-hairline` prop to disable visual Navbar hairline
+  * Toolbar
+    * Added `no-hairline` prop to disable visual Toolbar hairline
+    * Added `inner` prop to enable/disable additional inner `toolbar-inner` element
+  * List
+    * `media` prop of *f7-list-item* now means media image URL
+  * Messages
+    * Added `text` slot for *f7-message*
+  * Vue component prototype extended with `$request` and `$utils` Framework7 helpers
+  * Minor fixes
+
 ## [v2.0.0](https://github.com/framework7io/framework7-vue/compare/v0.9.4...v2.0.0) - on January 10, 2018 🎉
 
 ## [v2.0.0-beta.6](https://github.com/framework7io/framework7-vue/compare/v2.0.0-beta.5...v2.0.0-beta.6) - on January 8, 2018
