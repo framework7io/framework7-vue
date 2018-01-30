@@ -6,9 +6,30 @@ export default {
     pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
       const router = this;
       const el = router.$el[0];
-      const routerVue = el.__vue__;
+      let routerVue;
+
+      function findRouterVue(vueComponent) {
+        if (routerVue) return;
+        if (
+          vueComponent.$vnode &&
+          vueComponent.$vnode.tag &&
+          vueComponent.$vnode.tag.indexOf('f7-view') >= 0 &&
+          vueComponent.pages
+        ) {
+          routerVue = vueComponent;
+          return;
+        }
+        if (!vueComponent.$children || vueComponent.$children.length === 0) return;
+        vueComponent.$children.forEach((childComponent) => {
+          findRouterVue(childComponent);
+        });
+      }
+
+      findRouterVue(el.__vue__);
+
       if (!routerVue || !routerVue.pages) {
         reject();
+        return;
       }
       const id = Utils.now();
       const pageData = {
