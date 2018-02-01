@@ -119,6 +119,7 @@
           resizable: self.resizable,
           value: self.value,
         },
+        ref: 'area',
         on: {
           input: self.onInput,
           change: self.onChange,
@@ -256,8 +257,9 @@
         this.$emit('blur', event);
       },
       onClick(event) {
-        const value = this.$refs.area.value;
-        const clear = this.f7Messagebar ? this.f7Messagebar.clear : () => {};
+        const self = this;
+        const value = self.$refs.area.$el.value;
+        const clear = self.f7Messagebar ? self.f7Messagebar.clear : () => {};
         this.$emit('submit', value, clear);
         this.$emit('send', value, clear);
         this.$emit('click', event);
