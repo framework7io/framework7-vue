@@ -12,7 +12,7 @@
       linksView: [Object, String],
       url: String,
       main: Boolean,
-      stackPages: String,
+      stackPages: Boolean,
       xhrCache: String,
       xhrCacheIgnore: Array,
       xhrCacheIgnoreGetParameters: Boolean,
