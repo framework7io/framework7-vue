@@ -54,7 +54,7 @@
             },
           });
         }
-        innerEl = c('div', { staticClass: 'navbar-inner', class: { sliding: self.sliding } }, [leftEl, titleEl, self.$slots.default]);
+        innerEl = c('div', { ref: 'inner', staticClass: 'navbar-inner', class: { sliding: self.sliding } }, [leftEl, titleEl, self.$slots.default]);
       }
       return c('div', {
         staticClass: 'navbar',
@@ -65,7 +65,11 @@
       const self = this;
       if (!self.$f7) return;
       self.$nextTick(() => {
-        self.$f7.navbar.size(self.$el);
+        if (self.$el && self.$el.children && self.$el.children.length) {
+          self.$f7.navbar.size(self.$el);
+        } else if (self.$refs.inner) {
+          self.$f7.navbar.size(self.$refs.inner);
+        }
       });
     },
     props: NavbarProps,
