@@ -1,5 +1,6 @@
 <template>
   <div class="swiper-container" :class="classes">
+    <slot name="before-wrapper"></slot>
     <div class="swiper-wrapper">
       <slot></slot>
     </div>
@@ -7,6 +8,7 @@
     <div class="swiper-scrollbar" v-if="scrollbarComputed === true"></div>
     <div class="swiper-button-next" v-if="navigationComputed === true"></div>
     <div class="swiper-button-prev" v-if="navigationComputed === true"></div>
+    <slot name="after-wrapper"></slot>
   </div>
 </template>
 <script>
