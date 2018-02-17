@@ -50,7 +50,9 @@
       const slotsAfter = [];
       const slotsAfterEnd = [];
       const slotsMedia = [];
+      const slotsBeforeTitle = [];
       const slotsTitle = [];
+      const slotsAfterTitle = [];
       const slotsSubtitle = [];
       const slotsText = [];
       const slotsHeader = [];
@@ -71,7 +73,9 @@
           if (slotName === 'media') slotsMedia.push(self.$slots.default[i]);
           if (slotName === 'inner-start') slotsInnerStart.push(self.$slots.default[i]);
           if (slotName === 'inner-end') slotsInnerEnd.push(self.$slots.default[i]);
+          if (slotName === 'before-title') slotsBeforeTitle.push(self.$slots.default[i]);
           if (slotName === 'title') slotsTitle.push(self.$slots.default[i]);
+          if (slotName === 'after-title') slotsAfterTitle.push(self.$slots.default[i]);
           if (slotName === 'subtitle') slotsSubtitle.push(self.$slots.default[i]);
           if (slotName === 'text') slotsText.push(self.$slots.default[i]);
           if (slotName === 'header') slotsHeader.push(self.$slots.default[i]);
@@ -136,9 +140,9 @@
         afterWrapEl = c('div', { staticClass: 'item-after' }, [slotsAfterStart, afterEl, badgeEl, slotsAfter, slotsAfterEnd]);
       }
       if (self.mediaList) {
-        titleRowEl = c('div', { staticClass: 'item-title-row' }, [titleEl, afterWrapEl]);
+        titleRowEl = c('div', { staticClass: 'item-title-row' }, [slotsBeforeTitle, titleEl, slotsAfterTitle, afterWrapEl]);
       }
-      innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner, slotsInnerEnd]);
+      innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, slotsBeforeTitle, titleEl, slotsAfterTitle, afterWrapEl, slotsInner, slotsInnerEnd]);
 
       // Finalize
       return c((self.checkbox || self.radio) ? 'label' : 'div', {
