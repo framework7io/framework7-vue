@@ -17,7 +17,7 @@
       badgeColor: [String],
       iconBadge: [String, Number],
       href: {
-        type: String,
+        type: [String, Boolean],
         default: '#',
       },
     },
@@ -84,9 +84,12 @@
       attrs() {
         const self = this;
         const { href, target, tabLink } = self;
+        let hrefComputed = href;
+        if (href === true) hrefComputed = '#';
+        if (href === false) hrefComputed = undefined; // no href attribute
         return Utils.extend(
           {
-            href,
+            href: hrefComputed,
             target,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
