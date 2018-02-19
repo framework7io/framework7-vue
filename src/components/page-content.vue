@@ -1,6 +1,3 @@
-<template>
-  <div class="page-content" :class="classes" @tab:show="onTabShow" @tab:hide="onTabHide"><slot></slot></div>
-</template>
 <script>
   import Utils from '../utils/utils';
   import Mixins from '../utils/mixins';
