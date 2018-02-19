@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.7
+ * Framework7 Vue 2.0.10
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 27, 2018
+ * Released on: February 19, 2018
  */
 
 const Utils = {
@@ -83,9 +83,30 @@ var VueRouter = {
     pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
       const router = this;
       const el = router.$el[0];
-      const routerVue = el.__vue__;
+      let routerVue;
+
+      function findRouterVue(vueComponent) {
+        if (routerVue) return;
+        if (
+          vueComponent.$vnode &&
+          vueComponent.$vnode.tag &&
+          vueComponent.$vnode.tag.indexOf('f7-view') >= 0 &&
+          vueComponent.pages
+        ) {
+          routerVue = vueComponent;
+          return;
+        }
+        if (!vueComponent.$children || vueComponent.$children.length === 0) return;
+        vueComponent.$children.forEach((childComponent) => {
+          findRouterVue(childComponent);
+        });
+      }
+
+      findRouterVue(el.__vue__);
+
       if (!routerVue || !routerVue.pages) {
         reject();
+        return;
       }
       const id = Utils.now();
       const pageData = {
@@ -968,7 +989,7 @@ const ButtonProps = Utils.extend(
       tabLink: [Boolean, String],
       tabLinkActive: Boolean,
       href: {
-        type: String,
+        type: [String, Boolean],
         default: '#',
       },
 
@@ -1037,9 +1058,12 @@ const ButtonProps = Utils.extend(
       attrs() {
         const self = this;
         const { href, target, tabLink } = self;
+        let hrefComputed = href;
+        if (href === true) hrefComputed = '#';
+        if (href === false) hrefComputed = undefined; // no href attribute
         return Utils.extend(
           {
-            href,
+            href: hrefComputed,
             target,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
@@ -1430,6 +1454,7 @@ staticRenderFns: [],
 const FabProps = Utils.extend(
     {
       morphTo: String,
+      href: [Boolean, String],
       position: {
         type: String,
         default: 'right-bottom',
@@ -1443,6 +1468,10 @@ const FabProps = Utils.extend(
     props: FabProps,
     render(c) {
       const self = this;
+
+      let href = self.href;
+      if (href === true) href = '#';
+      if (href === false) href = undefined; // no href attribute
 
       const linkChildren = [];
       const fabChildren = [];
@@ -1460,6 +1489,7 @@ const FabProps = Utils.extend(
 
       const linkEl = c('a', {
         on: {
+          href,
           click: self.onClick,
         },
       }, linkChildren);
@@ -1927,7 +1957,7 @@ const LinkProps = Utils.extend(
       badgeColor: [String],
       iconBadge: [String, Number],
       href: {
-        type: String,
+        type: [String, Boolean],
         default: '#',
       },
     },
@@ -1994,9 +2024,12 @@ const LinkProps = Utils.extend(
       attrs() {
         const self = this;
         const { href, target, tabLink } = self;
+        let hrefComputed = href;
+        if (href === true) hrefComputed = '#';
+        if (href === false) hrefComputed = undefined; // no href attribute
         return Utils.extend(
           {
-            href,
+            href: hrefComputed,
             target,
             'data-tab': Utils.isStringProp(tabLink) && tabLink,
           },
@@ -2203,7 +2236,9 @@ const ListItemContentProps = Utils.extend(
       const slotsAfter = [];
       const slotsAfterEnd = [];
       const slotsMedia = [];
+      const slotsBeforeTitle = [];
       const slotsTitle = [];
+      const slotsAfterTitle = [];
       const slotsSubtitle = [];
       const slotsText = [];
       const slotsHeader = [];
@@ -2224,7 +2259,9 @@ const ListItemContentProps = Utils.extend(
           if (slotName === 'media') slotsMedia.push(self.$slots.default[i]);
           if (slotName === 'inner-start') slotsInnerStart.push(self.$slots.default[i]);
           if (slotName === 'inner-end') slotsInnerEnd.push(self.$slots.default[i]);
+          if (slotName === 'before-title') slotsBeforeTitle.push(self.$slots.default[i]);
           if (slotName === 'title') slotsTitle.push(self.$slots.default[i]);
+          if (slotName === 'after-title') slotsAfterTitle.push(self.$slots.default[i]);
           if (slotName === 'subtitle') slotsSubtitle.push(self.$slots.default[i]);
           if (slotName === 'text') slotsText.push(self.$slots.default[i]);
           if (slotName === 'header') slotsHeader.push(self.$slots.default[i]);
@@ -2289,9 +2326,9 @@ const ListItemContentProps = Utils.extend(
         afterWrapEl = c('div', { staticClass: 'item-after' }, [slotsAfterStart, afterEl, badgeEl, slotsAfter, slotsAfterEnd]);
       }
       if (self.mediaList) {
-        titleRowEl = c('div', { staticClass: 'item-title-row' }, [titleEl, afterWrapEl]);
+        titleRowEl = c('div', { staticClass: 'item-title-row' }, [slotsBeforeTitle, titleEl, slotsAfterTitle, afterWrapEl]);
       }
-      innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, titleEl, afterWrapEl, slotsInner, slotsInnerEnd]);
+      innerEl = c('div', { staticClass: 'item-inner' }, self.mediaList ? [slotsInnerStart, headerEl, titleRowEl, subtitleEl, textEl, slotsInner, footerEl, slotsInnerEnd] : [slotsInnerStart, slotsBeforeTitle, titleEl, slotsAfterTitle, afterWrapEl, slotsInner, slotsInnerEnd]);
 
       // Finalize
       return c((self.checkbox || self.radio) ? 'label' : 'div', {
@@ -2449,7 +2486,9 @@ const ListItemProps = Utils.extend(
           self.$slots['after-end'],
           self.$slots.header,
           self.$slots.footer,
+          self.$slots['before-title'],
           self.$slots.title,
+          self.$slots['after-title'],
           self.$slots.subtitle,
           self.$slots.text,
           (self.swipeout || self.accordionItem ? [] : self.$slots.default),
@@ -3156,6 +3195,7 @@ const MessagebarProps = Utils.extend(
           resizable: self.resizable,
           value: self.value,
         },
+        ref: 'area',
         on: {
           input: self.onInput,
           change: self.onChange,
@@ -3293,8 +3333,9 @@ const MessagebarProps = Utils.extend(
         this.$emit('blur', event);
       },
       onClick(event) {
-        const value = this.$refs.area.value;
-        const clear = this.f7Messagebar ? this.f7Messagebar.clear : () => {};
+        const self = this;
+        const value = self.$refs.area.$el.value;
+        const clear = self.f7Messagebar ? self.f7Messagebar.clear : () => {};
         this.$emit('submit', value, clear);
         this.$emit('send', value, clear);
         this.$emit('click', event);
@@ -3599,7 +3640,7 @@ const NavbarProps = Utils.extend({
             },
           });
         }
-        innerEl = c('div', { staticClass: 'navbar-inner', class: { sliding: self.sliding } }, [leftEl, titleEl, self.$slots.default]);
+        innerEl = c('div', { ref: 'inner', staticClass: 'navbar-inner', class: { sliding: self.sliding } }, [leftEl, titleEl, self.$slots.default]);
       }
       return c('div', {
         staticClass: 'navbar',
@@ -3610,7 +3651,11 @@ const NavbarProps = Utils.extend({
       const self = this;
       if (!self.$f7) return;
       self.$nextTick(() => {
-        self.$f7.navbar.size(self.$el);
+        if (self.$el && self.$el.children && self.$el.children.length) {
+          self.$f7.navbar.size(self.$el);
+        } else if (self.$refs.inner) {
+          self.$f7.navbar.size(self.$refs.inner);
+        }
       });
     },
     props: NavbarProps,
@@ -3671,8 +3716,6 @@ const PageContentProps = Utils.extend({
   }, Mixins.colorProps);
 
   var f7PageContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-content",class:_vm.classes,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
-staticRenderFns: [],
     name: 'f7-page-content',
     render(c) {
       const self = this;
@@ -4951,7 +4994,7 @@ const SwiperProps = Utils.extend({
   }, Mixins.colorProps);
 
   var swiper = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-container",class:_vm.classes},[_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],2),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e()])},
+render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-container",class:_vm.classes},[_vm._t("before-wrapper"),_vm._v(" "),_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],2),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e(),_vm._v(" "),_vm._t("after-wrapper")],2)},
 staticRenderFns: [],
     name: 'f7-swiper',
     beforeDestroy() {
@@ -5163,7 +5206,7 @@ const ViewProps = Utils.extend(
       linksView: [Object, String],
       url: String,
       main: Boolean,
-      stackPages: String,
+      stackPages: Boolean,
       xhrCache: String,
       xhrCacheIgnore: Array,
       xhrCacheIgnoreGetParameters: Boolean,

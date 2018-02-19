@@ -1,6 +1,6 @@
 {
   "name": "framework7-vue",
-  "version": "2.0.7",
+  "version": "2.0.10",
   "description": "Build full featured iOS & Android apps using Framework7 & Vue",
   "main": "dist/framework7-vue.js",
   "jsnext:main": "dist/framework7-vue.esm.js",
@@ -52,7 +52,7 @@
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-html": "^4.0.1",
     "eslint-plugin-import": "^2.7.0",
-    "framework7": "^2.0.8",
+    "framework7": "^2.0.10",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-header": "^2.0.1",

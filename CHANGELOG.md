@@ -1,5 +1,22 @@
 # Change Log
 
+## [v2.0.10](https://github.com/framework7io/framework7-vue/compare/v2.0.7...v2.0.10) - on February 19, 2018
+  * Messagebar
+    * Fixed issue with textarea reference
+  * Navbar
+    * Improved auto size recalculation on update
+  * Swiper
+    * New `before-wrapper` and `after-wrapper` slots on **f7-swiper**
+  * Button
+    * `href` attribute now accepts boolean `false` to remove `href` attribute
+  * Link
+    * `href` attribute now accepts boolean `false` to remove `href` attribute
+  * List
+    * New `before-title` and `after-title` slots on **f7-list-item**
+  * Fab
+    * Added `href` prop for **f7-fab** to set href attribute on main fab link
+  * Minor fixes
+
 ## [v2.0.7](https://github.com/framework7io/framework7-vue/compare/v2.0.0...v2.0.7) - on January 27, 2018
   * Panel
     * Added `panel:swipeopen` event support
