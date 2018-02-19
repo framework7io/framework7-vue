@@ -5,6 +5,7 @@
   const FabProps = Utils.extend(
     {
       morphTo: String,
+      href: [Boolean, String],
       position: {
         type: String,
         default: 'right-bottom',
@@ -18,6 +19,10 @@
     props: FabProps,
     render(c) {
       const self = this;
+
+      let href = self.href;
+      if (href === true) href = '#';
+      if (href === false) href = undefined; // no href attribute
 
       const linkChildren = [];
       const fabChildren = [];
@@ -35,6 +40,7 @@
 
       const linkEl = c('a', {
         on: {
+          href,
           click: self.onClick,
         },
       }, linkChildren);
