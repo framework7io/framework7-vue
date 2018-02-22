@@ -30,7 +30,7 @@
       if (self.$slots.default) {
         for (let i = 0; i < self.$slots.default.length; i += 1) {
           const child = self.$slots.default[i];
-          if (child.tag.indexOf('fab-buttons') >= 0) {
+          if (child.tag && child.tag.indexOf('fab-buttons') >= 0) {
             fabChildren.push(child);
           } else {
             linkChildren.push(child);
@@ -39,8 +39,10 @@
       }
 
       const linkEl = c('a', {
-        on: {
+        attrs: {
           href,
+        },
+        on: {
           click: self.onClick,
         },
       }, linkChildren);
