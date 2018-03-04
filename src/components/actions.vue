@@ -21,6 +21,12 @@
       return c('div', {
         staticClass: 'actions-modal',
         class: self.classes,
+        on: {
+          'actions:open': self.onOpen,
+          'actions:opened': self.onOpened,
+          'actions:close': self.onClose,
+          'actions:closed': self.onClosed,
+        },
       }, self.$slots.default);
     },
     watch: {
