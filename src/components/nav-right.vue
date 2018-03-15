@@ -15,7 +15,7 @@
     computed: {
       classes() {
         return Utils.extend({
-          slidng: this.slidng,
+          sliding: this.slidng,
         }, Mixins.colorClasses(this));
       },
     },
