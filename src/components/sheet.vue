@@ -103,8 +103,9 @@
       onF7Ready() {
         const self = this;
         let backdrop = self.backdrop;
-        if (typeof self.$options.propsData.backdrop === 'undefined') {
-          backdrop = self.$theme.md;
+        if (self.$options.propsData.backdrop === undefined) {
+          const app = self.$f7;
+          backdrop = app.params.sheet && app.params.sheet.backdrop !== undefined ? app.params.sheet.backdrop : self.$theme.md;
         }
         self.f7Sheet = self.$f7.sheet.create({
           el: self.$el,
