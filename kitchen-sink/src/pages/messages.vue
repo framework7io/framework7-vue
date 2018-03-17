@@ -220,6 +220,7 @@
       },
       sendMessage() {
         const self = this;
+        const $$ = self.$$;
         const text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
         const messagesToSend = [];
         self.attachments.forEach((attachment) => {
@@ -260,7 +261,7 @@
               name: person.name,
               avatar: person.avatar,
             });
-            self.messages.hideTyping();
+            $$('.message-typing').remove();
             self.responseInProgress = false;
           }, 4000);
         }, 1000);
