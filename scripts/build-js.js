@@ -1,16 +1,14 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 const gulp = require('gulp');
-const rollup = require('rollup-stream');
+const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
 const header = require('gulp-header');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
-const vue = require('rollup-plugin-vue2');
+const vue = require('rollup-plugin-vue');
 const banner = require('./banner.js');
 const getComponents = require('./get-components.js');
 
@@ -33,7 +31,7 @@ export default VuePlugin;
   let cbs = 0;
 
   // Modular
-  rollup({
+  rollup.rollup({
     input: './src/framework7-vue.js',
     plugins: [
       replace({
@@ -47,27 +45,23 @@ export default VuePlugin;
       }),
       vue(),
     ],
+  }).then(bundle => bundle.write({
     format: 'es',
     name: 'Framework7Vue',
     strict: true,
     sourcemap: false,
     banner,
-  })
-    .on('error', (err) => {
-      if (cb) cb();
-      console.log(err);
-    })
-    .pipe(source('framework7-vue.js', './src'))
-    .pipe(buffer())
-    .pipe(rename('framework7-vue.esm.js'))
-    .pipe(gulp.dest('./dist/'))
-    .on('end', () => {
-      cbs += 1;
-      if (cbs === 2 && cb) cb();
-    });
+    file: './dist/framework7-vue.esm.js',
+  })).then(() => {
+    cbs += 1;
+    if (cbs === 2 && cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.log(err.toString());
+  });
 
   // Bundle Build
-  rollup({
+  rollup.rollup({
     input: './src/vue-plugin.js',
     plugins: [
       replace({
@@ -78,24 +72,21 @@ export default VuePlugin;
       }),
       vue(),
     ],
+
+  }).then(bundle => bundle.write({
     format: 'es',
     name: 'Framework7Vue',
     strict: true,
     sourcemap: false,
     banner,
-  })
-    .on('error', (err) => {
-      if (cb) cb();
-      console.log(err);
-    })
-    .pipe(source('vue-plugin.js', './src'))
-    .pipe(buffer())
-    .pipe(rename('framework7-vue.esm.bundle.js'))
-    .pipe(gulp.dest('./dist/'))
-    .on('end', () => {
-      cbs += 1;
-      if (cbs === 2 && cb) cb();
-    });
+    file: './dist/framework7-vue.esm.bundle.js',
+  })).then(() => {
+    cbs += 1;
+    if (cbs === 2 && cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.log(err.toString());
+  });
 }
 function umd(cb) {
   const env = process.env.NODE_ENV || 'development';
@@ -105,8 +96,7 @@ function umd(cb) {
 
   const IMPORT_COMPONENTS = components.map(c => `import ${c.name} from './components/${c.file}';`).join('\n');
   const REGISTER_COMPONENTS_BUNDLE = components.map(c => `${c.name},`).join('\n        ');
-
-  rollup({
+  rollup.rollup({
     input: './src/vue-plugin.js',
     plugins: [
       replace({
@@ -118,43 +108,37 @@ function umd(cb) {
       vue(),
       buble(),
     ],
+  }).then(bundle => bundle.write({
     format: 'umd',
     name: 'Framework7Vue',
     strict: true,
     sourcemap: env === 'development',
+    sourcemapFile: './dist/framework7-vue.js.map',
     banner,
-  })
-    .on('error', (err) => {
+    file: './dist/framework7-vue.js',
+  })).then(() => {
+    if (env === 'development') {
       if (cb) cb();
-      console.log(err);
-    })
-    .pipe(source('vue-plugin.js', './src'))
-    .pipe(buffer())
-    .pipe(rename((filePath) => {
-      /* eslint no-param-reassign: ["error", { "props": false }] */
-      filePath.basename = 'framework7-vue';
-    }))
-    .pipe(gulp.dest('./dist/'))
-    .on('end', () => {
-      if (env === 'development') {
-        if (cb) cb();
-        return;
-      }
-      // Minified version
-      gulp.src('./dist/framework7-vue.js')
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(header(banner))
-        .pipe(rename((filePath) => {
-          /* eslint no-param-reassign: ["error", { "props": false }] */
-          filePath.basename += '.min';
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'))
-        .on('end', () => {
-          cb();
-        });
-    });
+      return;
+    }
+    // Minified version
+    gulp.src('./dist/framework7-vue.js')
+      .pipe(sourcemaps.init())
+      .pipe(uglify())
+      .pipe(header(banner))
+      .pipe(rename((filePath) => {
+        /* eslint no-param-reassign: ["error", { "props": false }] */
+        filePath.basename += '.min';
+      }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist/'))
+      .on('end', () => {
+        cb();
+      });
+  }).catch((err) => {
+    if (cb) cb();
+    console.log(err.toString());
+  });
 }
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';

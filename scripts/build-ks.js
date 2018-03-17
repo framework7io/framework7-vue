@@ -1,11 +1,8 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 const path = require('path');
-const gulp = require('gulp');
-const rollup = require('rollup-stream');
+const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
@@ -31,8 +28,10 @@ export {
 export default VuePlugin;
 
   `.trim();
-  rollup({
+
+  rollup.rollup({
     input: './kitchen-sink/src/app.js',
+    cache,
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
@@ -49,27 +48,22 @@ export default VuePlugin;
       vue(),
       buble(),
     ],
-    format: 'umd',
-    name: 'app',
-    strict: true,
-    sourcemap: false,
-    cache,
-  })
-    .on('error', (err) => {
-      if (cb) cb();
-      console.log(err);
-    })
-    .on('bundle', (bundle) => {
-      cache = bundle;
-    })
-    .pipe(source('app.js', './kitchen-sink'))
-    .pipe(buffer())
-    // .pipe(sourcemaps.init({ loadMaps: true }))
-    // .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./kitchen-sink/js/'))
-    .on('end', () => {
-      if (cb) cb();
+  }).then((bundle) => {
+    cache = bundle;
+    return bundle.write({
+      format: 'umd',
+      name: 'app',
+      strict: true,
+      sourcemap: false,
+      cache,
+      file: './kitchen-sink/js/app.js',
     });
+  }).then(() => {
+    if (cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.log(err.toString());
+  });
 }
 
 module.exports = build;
