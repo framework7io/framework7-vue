@@ -30,6 +30,7 @@
       raised: Boolean,
       outline: Boolean,
       active: Boolean,
+      disabled: Boolean,
     },
     Mixins.colorProps,
     Mixins.linkIconProps,
@@ -115,6 +116,7 @@
           raised,
           active,
           outline,
+          disabled,
         } = self;
 
         return Utils.extend(
@@ -138,6 +140,8 @@
             'button-raised': raised,
             'button-active': active,
             'button-outline': outline,
+
+            disabled,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
