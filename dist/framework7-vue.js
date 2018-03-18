@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.0.10
+ * Framework7 Vue 2.1.1
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,389 +7,388 @@
  *
  * Released under the MIT License
  *
- * Released on: February 19, 2018
+ * Released on: March 18, 2018
  */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Framework7Vue = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Framework7Vue = factory());
 }(this, (function () { 'use strict';
 
-var Utils = {
-  isTrueProp: function isTrueProp(val) {
-    return val === true || val === '';
-  },
-  isStringProp: function isStringProp(val) {
-    return typeof val === 'string' && val !== '';
-  },
-  isObject: function isObject(o) {
-    return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
-  },
-  now: function now() {
-    return Date.now();
-  },
-  extend: function extend() {
-    var assign, assign$1;
+  var Utils = {
+    isTrueProp: function isTrueProp(val) {
+      return val === true || val === '';
+    },
+    isStringProp: function isStringProp(val) {
+      return typeof val === 'string' && val !== '';
+    },
+    isObject: function isObject(o) {
+      return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
+    },
+    now: function now() {
+      return Date.now();
+    },
+    extend: function extend() {
+      var assign, assign$1;
 
-    var args = [], len$1 = arguments.length;
-    while ( len$1-- ) args[ len$1 ] = arguments[ len$1 ];
-    var deep = true;
-    var to;
-    var from;
-    if (typeof args[0] === 'boolean') {
-      (assign = args, deep = assign[0], to = assign[1]);
-      args.splice(0, 2);
-      from = args;
-    } else {
-      (assign$1 = args, to = assign$1[0]);
-      args.splice(0, 1);
-      from = args;
-    }
-    for (var i = 0; i < from.length; i += 1) {
-      var nextSource = args[i];
-      if (nextSource !== undefined && nextSource !== null) {
-        var keysArray = Object.keys(Object(nextSource));
-        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
-          var nextKey = keysArray[nextIndex];
-          var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-          if (desc !== undefined && desc.enumerable) {
-            if (!deep) {
-              to[nextKey] = nextSource[nextKey];
-            } else if (Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
-              Utils.extend(to[nextKey], nextSource[nextKey]);
-            } else if (!Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
-              to[nextKey] = {};
-              Utils.extend(to[nextKey], nextSource[nextKey]);
-            } else {
-              to[nextKey] = nextSource[nextKey];
+      var args = [], len$1 = arguments.length;
+      while ( len$1-- ) args[ len$1 ] = arguments[ len$1 ];
+      var deep = true;
+      var to;
+      var from;
+      if (typeof args[0] === 'boolean') {
+        (assign = args, deep = assign[0], to = assign[1]);
+        args.splice(0, 2);
+        from = args;
+      } else {
+        (assign$1 = args, to = assign$1[0]);
+        args.splice(0, 1);
+        from = args;
+      }
+      for (var i = 0; i < from.length; i += 1) {
+        var nextSource = args[i];
+        if (nextSource !== undefined && nextSource !== null) {
+          var keysArray = Object.keys(Object(nextSource));
+          for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
+            var nextKey = keysArray[nextIndex];
+            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+            if (desc !== undefined && desc.enumerable) {
+              if (!deep) {
+                to[nextKey] = nextSource[nextKey];
+              } else if (Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
+                Utils.extend(to[nextKey], nextSource[nextKey]);
+              } else if (!Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
+                to[nextKey] = {};
+                Utils.extend(to[nextKey], nextSource[nextKey]);
+              } else {
+                to[nextKey] = nextSource[nextKey];
+              }
             }
           }
         }
       }
-    }
-    return to;
-  },
-};
-
-var Directives = {};
-['color', 'color-theme', 'text-color', 'bg-color', 'border-color', 'ripple-color'].forEach(function (name) {
-  Directives[("f7-" + name)] = function f7ColorDirective(el, binding) {
-    var value = binding.value;
-    var oldValue = binding.oldValue;
-    if (value === oldValue) { return; }
-    if (!value && !oldValue) { return; }
-    if (oldValue) {
-      el.classList.remove((name + "-" + oldValue));
-    }
-    if (value) {
-      el.classList.add((name + "-" + value));
-    }
+      return to;
+    },
   };
-});
 
-/* eslint no-underscore-dangle: "off" */
-var VueRouter = {
-  proto: {
-    pageComponentLoader: function pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
-      var router = this;
-      var el = router.$el[0];
-      var routerVue;
+  var Directives = {};
+  ['color', 'color-theme', 'text-color', 'bg-color', 'border-color', 'ripple-color'].forEach(function (name) {
+    Directives[("f7-" + name)] = function f7ColorDirective(el, binding) {
+      var value = binding.value;
+      var oldValue = binding.oldValue;
+      if (value === oldValue) { return; }
+      if (!value && !oldValue) { return; }
+      if (oldValue) {
+        el.classList.remove((name + "-" + oldValue));
+      }
+      if (value) {
+        el.classList.add((name + "-" + value));
+      }
+    };
+  });
 
-      function findRouterVue(vueComponent) {
-        if (routerVue) { return; }
-        if (
-          vueComponent.$vnode &&
-          vueComponent.$vnode.tag &&
-          vueComponent.$vnode.tag.indexOf('f7-view') >= 0 &&
-          vueComponent.pages
-        ) {
-          routerVue = vueComponent;
+  /* eslint no-underscore-dangle: "off" */
+
+  var VueRouter = {
+    proto: {
+      pageComponentLoader: function pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
+        var router = this;
+        var el = router.$el[0];
+        var routerVue;
+
+        function findRouterVue(vueComponent) {
+          if (routerVue) { return; }
+          if (
+            vueComponent.$vnode &&
+            vueComponent.$vnode.tag &&
+            vueComponent.$vnode.tag.indexOf('f7-view') >= 0 &&
+            vueComponent.pages
+          ) {
+            routerVue = vueComponent;
+            return;
+          }
+          if (!vueComponent.$children || vueComponent.$children.length === 0) { return; }
+          vueComponent.$children.forEach(function (childComponent) {
+            findRouterVue(childComponent);
+          });
+        }
+
+        findRouterVue(el.__vue__);
+
+        if (!routerVue || !routerVue.pages) {
+          reject();
           return;
         }
-        if (!vueComponent.$children || vueComponent.$children.length === 0) { return; }
-        vueComponent.$children.forEach(function (childComponent) {
-          findRouterVue(childComponent);
+        var id = Utils.now();
+        var pageData = {
+          component: component,
+          id: id,
+          params: Utils.extend({}, options.route.params),
+        };
+        routerVue.$f7route = options.route;
+        routerVue.pages.push(pageData);
+        routerVue.$nextTick(function () {
+          var pageEl = el.children[el.children.length - 1];
+          pageData.el = pageEl;
+
+          var pageEvents;
+          if (component.on) {
+            var pageVueFound;
+            var pageVue = pageEl.__vue__;
+            while (pageVue.$parent && !pageVueFound) {
+              if (pageVue.$parent.$el === pageEl) {
+                pageVue = pageVue.$parent;
+              } else {
+                pageVueFound = true;
+              }
+            }
+            if (pageVue) {
+              pageEvents = Utils.extend({}, component.on);
+              Object.keys(pageEvents).forEach(function (pageEvent) {
+                pageEvents[pageEvent] = pageEvents[pageEvent].bind(pageVue);
+              });
+            }
+          }
+
+          resolve(pageEl, { on: pageEvents });
         });
-      }
+      },
+      removePage: function removePage($pageEl) {
+        if (!$pageEl) { return; }
+        var router = this;
+        var routerVue = router.$el[0].__vue__;
 
-      findRouterVue(el.__vue__);
+        var pageEl;
+        if ('length' in $pageEl) {
+          // Dom7
+          if ($pageEl.length === 0) { return; }
+          pageEl = $pageEl[0];
+        } else {
+          pageEl = $pageEl;
+        }
+        if (!pageEl) { return; }
+        var pageVueFound;
+        routerVue.pages.forEach(function (page, index) {
+          if (page.el === pageEl) {
+            pageVueFound = true;
+            routerVue.pages.splice(index, 1);
+          }
+        });
+        if (!pageVueFound) {
+          pageEl.parentNode.removeChild(pageEl);
+        }
+      },
+      tabComponentLoader: function tabComponentLoader(tabEl, component, componentUrl, options, resolve, reject) {
+        if (!tabEl) { reject(); }
 
-      if (!routerVue || !routerVue.pages) {
-        reject();
-        return;
-      }
-      var id = Utils.now();
-      var pageData = {
-        component: component,
-        id: id,
-        params: Utils.extend({}, options.route.params),
-      };
-      routerVue.$f7route = options.route;
-      routerVue.pages.push(pageData);
-      routerVue.$nextTick(function () {
-        var pageEl = el.children[el.children.length - 1];
-        pageData.el = pageEl;
+        var tabVue = tabEl.__vue__;
+        if (!tabVue) { reject(); }
+
+        var id = Utils.now();
+        tabVue.$set(tabVue, 'tabContent', {
+          id: id,
+          component: component,
+          params: Utils.extend({}, options.route.params),
+        });
 
         var pageEvents;
         if (component.on) {
-          var pageVueFound;
-          var pageVue = pageEl.__vue__;
-          while (pageVue.$parent && !pageVueFound) {
-            if (pageVue.$parent.$el === pageEl) {
-              pageVue = pageVue.$parent;
-            } else {
-              pageVueFound = true;
-            }
-          }
-          if (pageVue) {
-            pageEvents = Utils.extend({}, component.on);
-            Object.keys(pageEvents).forEach(function (pageEvent) {
-              pageEvents[pageEvent] = pageEvents[pageEvent].bind(pageVue);
-            });
-          }
+          pageEvents = Utils.extend({}, component.on);
+          Object.keys(pageEvents).forEach(function (pageEvent) {
+            pageEvents[pageEvent] = pageEvents[pageEvent].bind(tabVue);
+          });
         }
 
-        resolve(pageEl, { on: pageEvents });
-      });
-    },
-    removePage: function removePage($pageEl) {
-      if (!$pageEl) { return; }
-      var router = this;
-      var routerVue = router.$el[0].__vue__;
-
-      var pageEl;
-      if ('length' in $pageEl) {
-        // Dom7
-        if ($pageEl.length === 0) { return; }
-        pageEl = $pageEl[0];
-      } else {
-        pageEl = $pageEl;
-      }
-      if (!pageEl) { return; }
-      var pageVueFound;
-      routerVue.pages.forEach(function (page, index) {
-        if (page.el === pageEl) {
-          pageVueFound = true;
-          routerVue.pages.splice(index, 1);
-        }
-      });
-      if (!pageVueFound) {
-        pageEl.parentNode.removeChild(pageEl);
-      }
-    },
-    tabComponentLoader: function tabComponentLoader(tabEl, component, componentUrl, options, resolve, reject) {
-      if (!tabEl) { reject(); }
-
-      var tabVue = tabEl.__vue__;
-      if (!tabVue) { reject(); }
-
-      var id = Utils.now();
-      tabVue.$set(tabVue, 'tabContent', {
-        id: id,
-        component: component,
-        params: Utils.extend({}, options.route.params),
-      });
-
-      var pageEvents;
-      if (component.on) {
-        pageEvents = Utils.extend({}, component.on);
-        Object.keys(pageEvents).forEach(function (pageEvent) {
-          pageEvents[pageEvent] = pageEvents[pageEvent].bind(tabVue);
+        tabVue.$nextTick(function () {
+          var tabContentEl = tabEl.children[0];
+          resolve(tabContentEl, { on: pageEvents });
         });
-      }
+      },
+      removeTabContent: function removeTabContent(tabEl) {
+        if (!tabEl) { return; }
 
-      tabVue.$nextTick(function () {
-        var tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { on: pageEvents });
-      });
+        var tabVue = tabEl.__vue__;
+        if (!tabVue) {
+          tabEl.innerHTML = ''; // eslint-disable-line
+          return;
+        }
+
+        tabVue.$set(tabVue, 'tabContent', null);
+      },
     },
-    removeTabContent: function removeTabContent(tabEl) {
-      if (!tabEl) { return; }
+  };
 
-      var tabVue = tabEl.__vue__;
-      if (!tabVue) {
-        tabEl.innerHTML = ''; // eslint-disable-line
-        return;
-      }
-
-      tabVue.$set(tabVue, 'tabContent', null);
+  var Mixins = {
+    colorProps: {
+      color: String,
+      colorTheme: String,
+      textColor: String,
+      bgColor: String,
+      borderColor: String,
+      rippleColor: String,
+      themeDark: Boolean,
     },
-  },
-};
+    colorClasses: function colorClasses(self) {
+      var obj;
 
-var Mixins = {
-  colorProps: {
-    color: String,
-    colorTheme: String,
-    textColor: String,
-    bgColor: String,
-    borderColor: String,
-    rippleColor: String,
-    themeDark: Boolean,
-  },
-  colorClasses: function colorClasses(self) {
-    var obj;
+      var color = self.color;
+      var colorTheme = self.colorTheme;
+      var textColor = self.textColor;
+      var bgColor = self.bgColor;
+      var borderColor = self.borderColor;
+      var rippleColor = self.rippleColor;
+      var themeDark = self.themeDark;
 
-    var color = self.color;
-    var colorTheme = self.colorTheme;
-    var textColor = self.textColor;
-    var bgColor = self.bgColor;
-    var borderColor = self.borderColor;
-    var rippleColor = self.rippleColor;
-    var themeDark = self.themeDark;
+      return ( obj = {
+        'theme-dark': themeDark
+      }, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj);
+    },
+    linkIconProps: {
+      icon: String,
+      iconMaterial: String,
+      iconIon: String,
+      iconFa: String,
+      iconF7: String,
+      iconIfMd: String,
+      iconIfIos: String,
+      iconColor: String,
+      iconSize: [String, Number],
+    },
+    linkRouterProps: {
+      back: Boolean,
+      external: Boolean,
+      force: Boolean,
+      animate: Boolean,
+      ignoreCache: Boolean,
+      pageName: String,
+      reloadCurrent: Boolean,
+      reloadAll: Boolean,
+      reloadPrevious: Boolean,
+      routeTabId: String,
+      view: String,
+    },
+    linkRouterAttrs: function linkRouterAttrs(self) {
+      var force = self.force;
+      var reloadCurrent = self.reloadCurrent;
+      var reloadPrevious = self.reloadPrevious;
+      var reloadAll = self.reloadAll;
+      var animate = self.animate;
+      var ignoreCache = self.ignoreCache;
+      var routeTabId = self.routeTabId;
+      var view = self.view;
 
-    return ( obj = {
-      'theme-dark': themeDark
-    }, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj );
-  },
-  linkIconProps: {
-    icon: String,
-    iconMaterial: String,
-    iconIon: String,
-    iconFa: String,
-    iconF7: String,
-    iconIfMd: String,
-    iconIfIos: String,
-    iconColor: String,
-    iconSize: [String, Number],
-  },
-  linkRouterProps: {
-    back: Boolean,
-    external: Boolean,
-    force: Boolean,
-    animate: Boolean,
-    ignoreCache: Boolean,
-    pageName: String,
-    reloadCurrent: Boolean,
-    reloadAll: Boolean,
-    reloadPrevious: Boolean,
-    routeTabId: String,
-    view: String,
-  },
-  linkRouterAttrs: function linkRouterAttrs(self) {
-    var force = self.force;
-    var reloadCurrent = self.reloadCurrent;
-    var reloadPrevious = self.reloadPrevious;
-    var reloadAll = self.reloadAll;
-    var animate = self.animate;
-    var ignoreCache = self.ignoreCache;
-    var routeTabId = self.routeTabId;
-    var view = self.view;
+      return {
+        'data-force': force,
+        'data-reload-current': reloadCurrent,
+        'data-reload-all': reloadAll,
+        'data-reload-previous': reloadPrevious,
+        'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
+        'data-ignore-cache': ignoreCache,
+        'data-route-tab-id': routeTabId,
+        'data-view': Utils.isStringProp(view) ? view : false,
+      };
+    },
+    linkRouterClasses: function linkRouterClasses(self) {
+      var back = self.back;
+      var linkBack = self.linkBack;
+      var external = self.external;
 
-    return {
-      'data-force': force,
-      'data-reload-current': reloadCurrent,
-      'data-reload-all': reloadAll,
-      'data-reload-previous': reloadPrevious,
-      'data-animate': ('animate' in self.$options.propsData) ? animate.toString() : undefined,
-      'data-ignore-cache': ignoreCache,
-      'data-route-tab-id': routeTabId,
-      'data-view': Utils.isStringProp(view) ? view : false,
-    };
-  },
-  linkRouterClasses: function linkRouterClasses(self) {
-    var back = self.back;
-    var linkBack = self.linkBack;
-    var external = self.external;
+      return {
+        back: back || linkBack,
+        external: external,
+      };
+    },
+    linkActionsProps: {
+      // Panel
+      panelOpen: [Boolean, String],
+      panelClose: [Boolean, String],
 
-    return {
-      back: back || linkBack,
-      external: external,
-    };
-  },
-  linkActionsProps: {
-    // Panel
-    panelOpen: [Boolean, String],
-    panelClose: [Boolean, String],
+      // Popup
+      popupOpen: [Boolean, String],
+      popupClose: [Boolean, String],
 
-    // Popup
-    popupOpen: [Boolean, String],
-    popupClose: [Boolean, String],
+      // Popover
+      popoverOpen: [Boolean, String],
+      popoverClose: [Boolean, String],
 
-    // Popover
-    popoverOpen: [Boolean, String],
-    popoverClose: [Boolean, String],
+      // Login Screen
+      loginScreenOpen: [Boolean, String],
+      loginScreenClose: [Boolean, String],
 
-    // Login Screen
-    loginScreenOpen: [Boolean, String],
-    loginScreenClose: [Boolean, String],
+      // Picker
+      sheetOpen: [Boolean, String],
+      sheetClose: [Boolean, String],
 
-    // Picker
-    sheetOpen: [Boolean, String],
-    sheetClose: [Boolean, String],
+      // Sortable
+      sortableEnable: [Boolean, String],
+      sortableDisable: [Boolean, String],
+      sortableToggle: [Boolean, String],
+    },
+    linkActionsAttrs: function linkActionsAttrs(self) {
+      var panelOpen = self.panelOpen;
+      var panelClose = self.panelClose;
+      var popupOpen = self.popupOpen;
+      var popupClose = self.popupClose;
+      var popoverOpen = self.popoverOpen;
+      var popoverClose = self.popoverClose;
+      var loginScreenOpen = self.loginScreenOpen;
+      var loginScreenClose = self.loginScreenClose;
+      var sheetOpen = self.sheetOpen;
+      var sheetClose = self.sheetClose;
+      var sortableEnable = self.sortableEnable;
+      var sortableDisable = self.sortableDisable;
+      var sortableToggle = self.sortableToggle;
 
-    // Sortable
-    sortableEnable: [Boolean, String],
-    sortableDisable: [Boolean, String],
-    sortableToggle: [Boolean, String],
-  },
-  linkActionsAttrs: function linkActionsAttrs(self) {
-    var panelOpen = self.panelOpen;
-    var panelClose = self.panelClose;
-    var popupOpen = self.popupOpen;
-    var popupClose = self.popupClose;
-    var popoverOpen = self.popoverOpen;
-    var popoverClose = self.popoverClose;
-    var loginScreenOpen = self.loginScreenOpen;
-    var loginScreenClose = self.loginScreenClose;
-    var sheetOpen = self.sheetOpen;
-    var sheetClose = self.sheetClose;
-    var sortableEnable = self.sortableEnable;
-    var sortableDisable = self.sortableDisable;
-    var sortableToggle = self.sortableToggle;
+      return {
+        'data-panel': (Utils.isStringProp(panelOpen) && panelOpen) ||
+                      (Utils.isStringProp(panelClose) && panelClose),
+        'data-popup': (Utils.isStringProp(popupOpen) && popupOpen) ||
+                      (Utils.isStringProp(popupClose) && popupClose),
+        'data-popover': (Utils.isStringProp(popoverOpen) && popoverOpen) ||
+                        (Utils.isStringProp(popoverClose) && popoverClose),
+        'data-sheet': (Utils.isStringProp(sheetOpen) && sheetOpen) ||
+                      (Utils.isStringProp(sheetClose) && sheetClose),
+        'data-login-screen': (Utils.isStringProp(loginScreenOpen) && loginScreenOpen) ||
+                             (Utils.isStringProp(loginScreenClose) && loginScreenClose),
+        'data-sortable': (Utils.isStringProp(sortableEnable) && sortableEnable) ||
+                         (Utils.isStringProp(sortableDisable) && sortableDisable) ||
+                         (Utils.isStringProp(sortableToggle) && sortableToggle),
+      };
+    },
+    linkActionsClasses: function linkActionsClasses(self) {
+      var panelOpen = self.panelOpen;
+      var panelClose = self.panelClose;
+      var popupOpen = self.popupOpen;
+      var popupClose = self.popupClose;
+      var popoverOpen = self.popoverOpen;
+      var popoverClose = self.popoverClose;
+      var loginScreenOpen = self.loginScreenOpen;
+      var loginScreenClose = self.loginScreenClose;
+      var sheetOpen = self.sheetOpen;
+      var sheetClose = self.sheetClose;
+      var sortableEnable = self.sortableEnable;
+      var sortableDisable = self.sortableDisable;
+      var sortableToggle = self.sortableToggle;
+      return {
+        'panel-close': Utils.isTrueProp(panelClose),
+        'panel-open': panelOpen || panelOpen === '',
+        'popup-close': Utils.isTrueProp(popupClose),
+        'popup-open': popupOpen || popupOpen === '',
+        'popover-close': Utils.isTrueProp(popoverClose),
+        'popover-open': popoverOpen || popoverOpen === '',
+        'sheet-close': Utils.isTrueProp(sheetClose),
+        'sheet-open': sheetOpen || sheetOpen === '',
+        'login-screen-close': Utils.isTrueProp(loginScreenClose),
+        'login-screen-open': loginScreenOpen || loginScreenOpen === '',
+        'sortable-enable': Utils.isTrueProp(sortableEnable),
+        'sortable-disable': Utils.isTrueProp(sortableDisable),
+        'sortable-toggle': sortableToggle === true || sortableToggle.length,
+      };
+    },
+  };
 
-    return {
-      'data-panel': (Utils.isStringProp(panelOpen) && panelOpen) ||
-                    (Utils.isStringProp(panelClose) && panelClose),
-      'data-popup': (Utils.isStringProp(popupOpen) && popupOpen) ||
-                    (Utils.isStringProp(popupClose) && popupClose),
-      'data-popover': (Utils.isStringProp(popoverOpen) && popoverOpen) ||
-                      (Utils.isStringProp(popoverClose) && popoverClose),
-      'data-sheet': (Utils.isStringProp(sheetOpen) && sheetOpen) ||
-                    (Utils.isStringProp(sheetClose) && sheetClose),
-      'data-login-screen': (Utils.isStringProp(loginScreenOpen) && loginScreenOpen) ||
-                           (Utils.isStringProp(loginScreenClose) && loginScreenClose),
-      'data-sortable': (Utils.isStringProp(sortableEnable) && sortableEnable) ||
-                       (Utils.isStringProp(sortableDisable) && sortableDisable) ||
-                       (Utils.isStringProp(sortableToggle) && sortableToggle),
-    };
-  },
-  linkActionsClasses: function linkActionsClasses(self) {
-    var panelOpen = self.panelOpen;
-    var panelClose = self.panelClose;
-    var popupOpen = self.popupOpen;
-    var popupClose = self.popupClose;
-    var popoverOpen = self.popoverOpen;
-    var popoverClose = self.popoverClose;
-    var loginScreenOpen = self.loginScreenOpen;
-    var loginScreenClose = self.loginScreenClose;
-    var sheetOpen = self.sheetOpen;
-    var sheetClose = self.sheetClose;
-    var sortableEnable = self.sortableEnable;
-    var sortableDisable = self.sortableDisable;
-    var sortableToggle = self.sortableToggle;
-    return {
-      'panel-close': Utils.isTrueProp(panelClose),
-      'panel-open': panelOpen || panelOpen === '',
-      'popup-close': Utils.isTrueProp(popupClose),
-      'popup-open': popupOpen || popupOpen === '',
-      'popover-close': Utils.isTrueProp(popoverClose),
-      'popover-open': popoverOpen || popoverOpen === '',
-      'sheet-close': Utils.isTrueProp(sheetClose),
-      'sheet-open': sheetOpen || sheetOpen === '',
-      'login-screen-close': Utils.isTrueProp(loginScreenClose),
-      'login-screen-open': loginScreenOpen || loginScreenOpen === '',
-      'sortable-enable': Utils.isTrueProp(sortableEnable),
-      'sortable-disable': Utils.isTrueProp(sortableDisable),
-      'sortable-toggle': sortableToggle === true || sortableToggle.length,
-    };
-  },
-};
-
-var f7AccordionContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item-content",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7AccordionContent = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item-content",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-accordion-content',
     computed: {
@@ -400,16 +399,14 @@ staticRenderFns: [],
     },
   };
 
-var AccordionItemProps = Utils.extend(
+  var AccordionItemProps = Utils.extend(
     {
       opened: Boolean,
     },
     Mixins.colorProps
   );
 
-  var f7AccordionItem = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item",class:_vm.classes,on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7AccordionItem = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item",class:_vm.classes,on:{"accordion:open":_vm.onOpen,"accordion:opened":_vm.onOpened,"accordion:close":_vm.onClose,"accordion:closed":_vm.onClosed}},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-accordion-item',
     props: AccordionItemProps,
     computed: {
@@ -439,9 +436,7 @@ staticRenderFns: [],
     },
   };
 
-var f7AccordionToggle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item-toggle",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7AccordionToggle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-item-toggle",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-accordion-toggle',
     computed: {
@@ -452,9 +447,7 @@ staticRenderFns: [],
     },
   };
 
-var f7Accordion = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-list",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Accordion = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"accordion-list",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-accordion',
     computed: {
@@ -465,7 +458,7 @@ staticRenderFns: [],
     },
   };
 
-var ActionsButtonProps = Utils.extend(
+  var ActionsButtonProps = Utils.extend(
     {
       bold: Boolean,
       close: {
@@ -519,7 +512,7 @@ var ActionsButtonProps = Utils.extend(
     },
   };
 
-var f7ActionsGroup = {
+  var f7ActionsGroup = {
     name: 'f7-actions-group',
     render: function render(c) {
       var self = this;
@@ -527,7 +520,7 @@ var f7ActionsGroup = {
     },
   };
 
-var ActionsLabelProps = Utils.extend(
+  var ActionsLabelProps = Utils.extend(
     {
       bold: Boolean,
     },
@@ -561,7 +554,7 @@ var ActionsLabelProps = Utils.extend(
     },
   };
 
-var ActionsProps = Utils.extend(
+  var ActionsProps = Utils.extend(
     {
       opened: Boolean,
       grid: Boolean,
@@ -580,6 +573,12 @@ var ActionsProps = Utils.extend(
       return c('div', {
         staticClass: 'actions-modal',
         class: self.classes,
+        on: {
+          'actions:open': self.onOpen,
+          'actions:opened': self.onOpened,
+          'actions:close': self.onClose,
+          'actions:closed': self.onClosed,
+        },
       }, self.$slots.default);
     },
     watch: {
@@ -649,9 +648,7 @@ var ActionsProps = Utils.extend(
     },
   };
 
-var f7Badge = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"badge",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Badge = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"badge",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-badge',
     computed: {
@@ -662,9 +659,7 @@ staticRenderFns: [],
     },
   };
 
-var f7BlockFooter = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-footer",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7BlockFooter = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-footer",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-block-footer',
     props: Mixins.colorProps,
     computed: {
@@ -675,9 +670,7 @@ staticRenderFns: [],
     },
   };
 
-var f7BlockHeader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-header",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7BlockHeader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-header",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-block-header',
     computed: {
@@ -688,9 +681,7 @@ staticRenderFns: [],
     },
   };
 
-var f7BlockTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-title",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7BlockTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block-title",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-block-title',
     computed: {
@@ -701,7 +692,7 @@ staticRenderFns: [],
     },
   };
 
-var BlockProps = Utils.extend(
+  var BlockProps = Utils.extend(
     {
       inset: Boolean,
       tabletInset: Boolean,
@@ -717,9 +708,7 @@ var BlockProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7Block = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block",class:_vm.classes,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Block = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"block",class:_vm.classes,on:{"tab:show":_vm.onTabShow,"tab:hide":_vm.onTabHide}},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-block',
     props: BlockProps,
     computed: {
@@ -752,7 +741,7 @@ staticRenderFns: [],
     },
   };
 
-var IconProps = Utils.extend(
+  var IconProps = Utils.extend(
     {
       material: String, // Material Icons
       f7: String, // Framework7 Icons
@@ -766,9 +755,7 @@ var IconProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7Icon = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('i',{staticClass:"icon",class:_vm.classes,style:({'font-size':_vm.sizeComputed})},[_vm._v(_vm._s(_vm.iconTextComputed)),_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Icon = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('i',{staticClass:"icon",class:_vm.classes,style:({'font-size':_vm.sizeComputed})},[_vm._v(_vm._s(_vm.iconTextComputed)),_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-icon',
     props: IconProps,
     computed: {
@@ -823,7 +810,7 @@ staticRenderFns: [],
     },
   };
 
-var ButtonProps = Utils.extend(
+  var ButtonProps = Utils.extend(
     {
       noFastclick: Boolean,
       noFastClick: Boolean,
@@ -850,6 +837,7 @@ var ButtonProps = Utils.extend(
       raised: Boolean,
       outline: Boolean,
       active: Boolean,
+      disabled: Boolean,
     },
     Mixins.colorProps,
     Mixins.linkIconProps,
@@ -936,6 +924,7 @@ var ButtonProps = Utils.extend(
         var raised = self.raised;
         var active = self.active;
         var outline = self.outline;
+        var disabled = self.disabled;
 
         return Utils.extend(
           {
@@ -958,6 +947,8 @@ var ButtonProps = Utils.extend(
             'button-raised': raised,
             'button-active': active,
             'button-outline': outline,
+
+            disabled: disabled,
           },
           Mixins.colorClasses(self),
           Mixins.linkRouterClasses(self),
@@ -972,7 +963,7 @@ var ButtonProps = Utils.extend(
     },
   };
 
-var CardContentProps = Utils.extend(
+  var CardContentProps = Utils.extend(
     {
       padding: {
         type: Boolean,
@@ -982,9 +973,7 @@ var CardContentProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7CardContent = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-content",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7CardContent = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-content",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-card-content',
     props: CardContentProps,
     computed: {
@@ -1000,9 +989,7 @@ staticRenderFns: [],
     },
   };
 
-var f7CardFooter = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-footer",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7CardFooter = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-footer",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-card-footer',
     computed: {
@@ -1013,9 +1000,7 @@ staticRenderFns: [],
     },
   };
 
-var f7CardHeader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-header",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7CardHeader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"card-header",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-card-header',
     computed: {
@@ -1026,7 +1011,7 @@ staticRenderFns: [],
     },
   };
 
-var CardProps = Utils.extend(
+  var CardProps = Utils.extend(
     {
       title: [String, Number],
       content: [String, Number],
@@ -1072,7 +1057,7 @@ var CardProps = Utils.extend(
     },
   };
 
-var CheckboxProps = Utils.extend({
+  var CheckboxProps = Utils.extend({
     checked: Boolean,
     name: [Number, String],
     value: [Number, String, Boolean],
@@ -1127,7 +1112,7 @@ var CheckboxProps = Utils.extend({
     },
   };
 
-var ChipProps = Utils.extend({
+  var ChipProps = Utils.extend({
     media: String,
     text: [String, Number],
     deleteable: Boolean,
@@ -1190,7 +1175,7 @@ var ChipProps = Utils.extend({
     },
   };
 
-var ColProps = Utils.extend(
+  var ColProps = Utils.extend(
     {
       tag: {
         type: String,
@@ -1227,23 +1212,21 @@ var ColProps = Utils.extend(
         return Utils.extend(
           ( obj = {
             col: self.width === 'auto'
-          }, obj[("col-" + (self.width))] = self.width !== 'auto', obj[("tablet-" + (self.tabletWidth))] = self.tabletWidth, obj[("desktop-" + (self.desktopWidth))] = self.desktopWidth, obj ),
+          }, obj[("col-" + (self.width))] = self.width !== 'auto', obj[("tablet-" + (self.tabletWidth))] = self.tabletWidth, obj[("desktop-" + (self.desktopWidth))] = self.desktopWidth, obj),
           Mixins.colorClasses(self)
         );
       },
     },
   };
 
-var FabButtonProps = Utils.extend(
+  var FabButtonProps = Utils.extend(
     {
       fabClose: Boolean,
     },
     Mixins.colorProps
   );
 
-  var f7FabButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7FabButton = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-fab-button',
     props: FabButtonProps,
     computed: {
@@ -1264,7 +1247,7 @@ staticRenderFns: [],
     },
   };
 
-var FabButtonsProps = Utils.extend(
+  var FabButtonsProps = Utils.extend(
     {
       position: {
         type: String,
@@ -1274,9 +1257,7 @@ var FabButtonsProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7FabButtons = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"fab-buttons",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7FabButtons = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"fab-buttons",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-fab-buttons',
     props: FabButtonsProps,
     computed: {
@@ -1285,14 +1266,14 @@ staticRenderFns: [],
 
         var self = this;
         return Utils.extend(
-          ( obj = {}, obj[("fab-buttons-" + (self.position))] = true, obj ),
+          ( obj = {}, obj[("fab-buttons-" + (self.position))] = true, obj),
           Mixins.colorClasses(self)
         );
       },
     },
   };
 
-var FabProps = Utils.extend(
+  var FabProps = Utils.extend(
     {
       morphTo: String,
       href: [Boolean, String],
@@ -1320,7 +1301,7 @@ var FabProps = Utils.extend(
       if (self.$slots.default) {
         for (var i = 0; i < self.$slots.default.length; i += 1) {
           var child = self.$slots.default[i];
-          if (child.tag.indexOf('fab-buttons') >= 0) {
+          if (child.tag && child.tag.indexOf('fab-buttons') >= 0) {
             fabChildren.push(child);
           } else {
             linkChildren.push(child);
@@ -1329,8 +1310,10 @@ var FabProps = Utils.extend(
       }
 
       var linkEl = c('a', {
-        on: {
+        attrs: {
           href: href,
+        },
+        on: {
           click: self.onClick,
         },
       }, linkChildren);
@@ -1353,7 +1336,7 @@ var FabProps = Utils.extend(
         return Utils.extend(
           ( obj = {
             'fab-morph': self.morphTo
-          }, obj[("fab-" + (self.position))] = true, obj ),
+          }, obj[("fab-" + (self.position))] = true, obj),
           Mixins.colorClasses(self)
         );
       },
@@ -1366,7 +1349,7 @@ var FabProps = Utils.extend(
     },
   };
 
-var ToggleProps = Utils.extend({
+  var ToggleProps = Utils.extend({
     init: {
       type: Boolean,
       default: true,
@@ -1447,7 +1430,7 @@ var ToggleProps = Utils.extend({
     },
   };
 
-var RangeProps = Utils.extend({
+  var RangeProps = Utils.extend({
     init: {
       type: Boolean,
       default: true,
@@ -1523,7 +1506,7 @@ var RangeProps = Utils.extend({
     },
   };
 
-var InputProps = Utils.extend(
+  var InputProps = Utils.extend(
     {
       // Inputs
       type: String,
@@ -1739,7 +1722,7 @@ var InputProps = Utils.extend(
     },
   };
 
-var LabelProps = Utils.extend(
+  var LabelProps = Utils.extend(
     {
       floating: Boolean,
       inline: Boolean,
@@ -1785,7 +1768,7 @@ var LabelProps = Utils.extend(
     },
   };
 
-var LinkProps = Utils.extend(
+  var LinkProps = Utils.extend(
     {
       noLinkClass: Boolean,
       noFastClick: Boolean,
@@ -1906,7 +1889,7 @@ var LinkProps = Utils.extend(
     },
   };
 
-var ListButtonProps = Utils.extend(
+  var ListButtonProps = Utils.extend(
     {
       noFastclick: Boolean,
       noFastClick: Boolean,
@@ -1984,7 +1967,7 @@ var ListButtonProps = Utils.extend(
     },
   };
 
-var ListGroupProps = Utils.extend(
+  var ListGroupProps = Utils.extend(
     {
       mediaList: Boolean,
       sortable: Boolean,
@@ -1992,9 +1975,7 @@ var ListGroupProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7ListGroup = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"list-group",class:_vm.classes},[_c('ul',[_vm._t("default")],2)])},
-staticRenderFns: [],
+  var f7ListGroup = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"list-group",class:_vm.classes},[_c('ul',[_vm._t("default")],2)])},staticRenderFns: [],
     name: 'f7-list-group',
     props: ListGroupProps,
     computed: {
@@ -2014,9 +1995,7 @@ staticRenderFns: [],
     },
   };
 
-var f7ListItemCell = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"item-cell",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7ListItemCell = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"item-cell",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-list-item-cell',
     props: Mixins.colorProps,
     computed: {
@@ -2027,7 +2006,7 @@ staticRenderFns: [],
     },
   };
 
-var ListItemContentProps = Utils.extend(
+  var ListItemContentProps = Utils.extend(
     {
       title: [String, Number],
       text: [String, Number],
@@ -2218,9 +2197,7 @@ var ListItemContentProps = Utils.extend(
     },
   };
 
-var f7ListItemRow = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"item-row",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7ListItemRow = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"item-row",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-list-item-row',
     props: Mixins.colorProps,
     computed: {
@@ -2231,7 +2208,7 @@ staticRenderFns: [],
     },
   };
 
-var ListItemProps = Utils.extend(
+  var ListItemProps = Utils.extend(
     {
       title: [String, Number],
       text: [String, Number],
@@ -2505,7 +2482,7 @@ var ListItemProps = Utils.extend(
     },
   };
 
-var ListProps = Utils.extend(
+  var ListProps = Utils.extend(
     {
       inset: Boolean,
       tabletInset: Boolean,
@@ -2668,9 +2645,7 @@ var ListProps = Utils.extend(
     },
   };
 
-var f7LoginScreenTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"login-screen-title",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7LoginScreenTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"login-screen-title",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-login-screen-title',
     props: Mixins.colorProps,
     computed: {
@@ -2681,7 +2656,7 @@ staticRenderFns: [],
     },
   };
 
-var LoginScreenProps = Utils.extend(
+  var LoginScreenProps = Utils.extend(
     {
       opened: Boolean,
     },
@@ -2760,7 +2735,7 @@ var LoginScreenProps = Utils.extend(
     },
   };
 
-var MessageProps = Utils.extend(
+  var MessageProps = Utils.extend(
     {
       text: String,
       name: String,
@@ -2784,9 +2759,7 @@ var MessageProps = Utils.extend(
     },
     Mixins.colorProps
   );
-  var f7Message = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))])],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},
-staticRenderFns: [],
+  var f7Message = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))])],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},staticRenderFns: [],
     name: 'f7-message',
     props: MessageProps,
     computed: {
@@ -2830,7 +2803,7 @@ staticRenderFns: [],
     },
   };
 
-var MessagebarAttachmentProps = Utils.extend(
+  var MessagebarAttachmentProps = Utils.extend(
     {
       image: String,
       deletable: {
@@ -2841,9 +2814,7 @@ var MessagebarAttachmentProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7MessagebarAttachment = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachment",class:_vm.classes,on:{"click":_vm.onClick}},[(_vm.image)?_c('img',{attrs:{"src":_vm.image}}):_vm._e(),_vm._v(" "),(_vm.deletable)?_c('span',{staticClass:"messagebar-attachment-delete",on:{"click":_vm.onDeleteClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagebarAttachment = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachment",class:_vm.classes,on:{"click":_vm.onClick}},[(_vm.image)?_c('img',{attrs:{"src":_vm.image}}):_vm._e(),_vm._v(" "),(_vm.deletable)?_c('span',{staticClass:"messagebar-attachment-delete",on:{"click":_vm.onDeleteClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},staticRenderFns: [],
     props: MessagebarAttachmentProps,
     name: 'f7-messagebar-attachment',
     computed: {
@@ -2862,9 +2833,7 @@ staticRenderFns: [],
     },
   };
 
-var f7MessagebarAttachments = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachments",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagebarAttachments = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-attachments",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-messagebar-attachments',
     computed: {
@@ -2875,7 +2844,7 @@ staticRenderFns: [],
     },
   };
 
-var MessagebarSheetItemProps = Utils.extend(
+  var MessagebarSheetItemProps = Utils.extend(
     {
       image: String,
       checked: Boolean,
@@ -2883,9 +2852,7 @@ var MessagebarSheetItemProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7MessagebarSheetImage = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"messagebar-sheet-image checkbox",class:_vm.classes,style:({ 'background-image': _vm.image && ("url(" + _vm.image + ")")})},[_c('input',{attrs:{"type":"checkbox"},domProps:{"checked":_vm.checked},on:{"change":_vm.onChange}}),_vm._v(" "),_c('i',{staticClass:"icon icon-checkbox"}),_vm._v(" "),_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagebarSheetImage = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"messagebar-sheet-image checkbox",class:_vm.classes,style:({ 'background-image': _vm.image && ("url(" + (_vm.image) + ")")})},[_c('input',{attrs:{"type":"checkbox"},domProps:{"checked":_vm.checked},on:{"change":_vm.onChange}}),_vm._v(" "),_c('i',{staticClass:"icon icon-checkbox"}),_vm._v(" "),_vm._t("default")],2)},staticRenderFns: [],
     props: MessagebarSheetItemProps,
     name: 'f7-messagebar-sheet-image',
     computed: {
@@ -2903,9 +2870,7 @@ staticRenderFns: [],
     },
   };
 
-var f7MessagebarSheetItem = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet-item",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagebarSheetItem = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet-item",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-messagebar-sheet-item',
     computed: {
@@ -2916,9 +2881,7 @@ staticRenderFns: [],
     },
   };
 
-var f7MessagebarSheet = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagebarSheet = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messagebar-sheet",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-messagebar-sheet',
     computed: {
@@ -2929,7 +2892,7 @@ staticRenderFns: [],
     },
   };
 
-var MessagebarProps = Utils.extend(
+  var MessagebarProps = Utils.extend(
     {
       sheetVisible: Boolean,
       attachmentsVisible: Boolean,
@@ -3261,9 +3224,7 @@ var MessagebarProps = Utils.extend(
     },
   };
 
-var f7MessagesTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages-title",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7MessagesTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"messages-title",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     props: Mixins.colorProps,
     name: 'f7-messages-title',
     computed: {
@@ -3274,7 +3235,7 @@ staticRenderFns: [],
     },
   };
 
-var MessagesProps = Utils.extend(
+  var MessagesProps = Utils.extend(
     {
       autoLayout: {
         type: Boolean,
@@ -3429,15 +3390,13 @@ var MessagesProps = Utils.extend(
     },
   };
 
-var NavLeftProps = Utils.extend({
+  var NavLeftProps = Utils.extend({
     backLink: [Boolean, String],
     backLinkUrl: String,
     sliding: Boolean,
   }, Mixins.colorProps);
 
-  var f7NavLeft = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"left",class:_vm.classes},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.md)},attrs:{"href":_vm.backLinkUrl || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.md ? _vm.backLink : undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7NavLeft = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"left",class:_vm.classes},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.md)},attrs:{"href":_vm.backLinkUrl || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.md ? _vm.backLink : undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-nav-left',
     components: {
       f7Link: f7Link,
@@ -3446,7 +3405,7 @@ staticRenderFns: [],
     computed: {
       classes: function classes() {
         return Utils.extend({
-          slidng: this.slidng,
+          sliding: this.slidng,
         }, Mixins.colorClasses(this));
       },
     },
@@ -3458,45 +3417,41 @@ staticRenderFns: [],
     },
   };
 
-var NavRightProps = Utils.extend({
+  var NavRightProps = Utils.extend({
     sliding: Boolean,
   }, Mixins.colorProps);
 
-  var f7NavRight = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"right",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7NavRight = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"right",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-nav-right',
     props: NavRightProps,
     computed: {
       classes: function classes() {
         return Utils.extend({
-          slidng: this.slidng,
+          sliding: this.slidng,
         }, Mixins.colorClasses(this));
       },
     },
   };
 
-var NavTitleProps = Utils.extend({
+  var NavTitleProps = Utils.extend({
     title: String,
     subtitle: String,
     sliding: Boolean,
   }, Mixins.colorProps);
 
-  var f7NavTitle = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title",class:_vm.classes},[_vm._t("default",[_vm._v(_vm._s(_vm.title)),(_vm.subtitle)?_c('span',{staticClass:"subtitle"},[_vm._v(_vm._s(_vm.subtitle))]):_vm._e()])],2)},
-staticRenderFns: [],
+  var f7NavTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title",class:_vm.classes},[_vm._t("default",[_vm._v(_vm._s(_vm.title)),(_vm.subtitle)?_c('span',{staticClass:"subtitle"},[_vm._v(_vm._s(_vm.subtitle))]):_vm._e()])],2)},staticRenderFns: [],
     name: 'f7-nav-title',
     props: NavTitleProps,
     computed: {
       classes: function classes() {
         return Utils.extend({
-          slidng: this.slidng,
+          sliding: this.slidng,
         }, Mixins.colorClasses(this));
       },
     },
   };
 
-var NavbarProps = Utils.extend({
+  var NavbarProps = Utils.extend({
     backLink: [Boolean, String],
     backLinkUrl: String,
     sliding: {
@@ -3597,7 +3552,7 @@ var NavbarProps = Utils.extend({
     },
   };
 
-var PageContentProps = Utils.extend({
+  var PageContentProps = Utils.extend({
     tab: Boolean,
     tabActive: Boolean,
     ptr: Boolean,
@@ -3703,7 +3658,7 @@ var PageContentProps = Utils.extend({
     },
   };
 
-var PageProps = Utils.extend({
+  var PageProps = Utils.extend({
     name: String,
     stacked: Boolean,
     withSubnavbar: Boolean,
@@ -3902,7 +3857,7 @@ var PageProps = Utils.extend({
     },
   };
 
-var PanelProps = Utils.extend(
+  var PanelProps = Utils.extend(
     {
       side: String,
       effect: String,
@@ -3915,9 +3870,7 @@ var PanelProps = Utils.extend(
     Mixins.colorProps
   );
 
-  var f7Panel = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:swipeopen":_vm.onPanelSwipeOpen,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Panel = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"panel",class:_vm.classes,on:{"panel:open":_vm.onOpen,"panel:opened":_vm.onOpened,"panel:close":_vm.onClose,"panel:closed":_vm.onClosed,"panel:backdrop-click":_vm.onBackdropClick,"panel:swipe":_vm.onPanelSwipe,"panel:swipeopen":_vm.onPanelSwipeOpen,"panel:breakpoint":_vm.onBreakpoint}},[_vm._t("default")],2)},staticRenderFns: [],
     props: PanelProps,
     computed: {
       classes: function classes() {
@@ -3929,7 +3882,7 @@ staticRenderFns: [],
         return Utils.extend(
           ( obj = {
             'panel-active': self.opened
-          }, obj[("panel-" + side)] = side, obj[("panel-" + effect)] = effect, obj ),
+          }, obj[("panel-" + side)] = side, obj[("panel-" + effect)] = effect, obj),
           Mixins.colorClasses(self)
         );
       },
@@ -4011,7 +3964,7 @@ staticRenderFns: [],
     },
   };
 
-var f7PhotoBrowser = {
+  var f7PhotoBrowser = {
     name: 'f7-photo-browser',
     render: function render() {},
     beforeDestroy: function beforeDestroy() {
@@ -4097,7 +4050,7 @@ var f7PhotoBrowser = {
     },
   };
 
-var PopoverProps = Utils.extend(
+  var PopoverProps = Utils.extend(
     {
       opened: Boolean,
       target: [String, Object],
@@ -4181,7 +4134,7 @@ var PopoverProps = Utils.extend(
     },
   };
 
-var PopupProps = Utils.extend(
+  var PopupProps = Utils.extend(
     {
       'tablet-fullscreen': Boolean,
       opened: Boolean,
@@ -4263,13 +4216,11 @@ var PopupProps = Utils.extend(
     },
   };
 
-var PreloaderProps = Utils.extend({
+  var PreloaderProps = Utils.extend({
     size: [Number, String],
   }, Mixins.colorProps);
 
-  var f7Preloader = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader",class:_vm.classes,style:({'width': (_vm.sizeComputed ? (_vm.sizeComputed + "px") : ''), 'height': (_vm.sizeComputed ? (_vm.sizeComputed + "px") : '')})},[(_vm.$theme.md)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._v(" "),_vm._m(1)]):_vm._e()])},
-staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-left"},[_c('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-right"},[_c('span',{staticClass:"preloader-inner-half-circle"})])}],
+  var f7Preloader = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader",class:_vm.classes,style:({'width': (_vm.sizeComputed ? ((_vm.sizeComputed) + "px") : ''), 'height': (_vm.sizeComputed ? ((_vm.sizeComputed) + "px") : '')})},[(_vm.$theme.md)?_c('span',{staticClass:"preloader-inner"},[_c('span',{staticClass:"preloader-inner-gap"}),_vm._v(" "),_vm._m(0),_vm._v(" "),_vm._m(1)]):_vm._e()])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-left"},[_c('span',{staticClass:"preloader-inner-half-circle"})])},function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"preloader-inner-right"},[_c('span',{staticClass:"preloader-inner-half-circle"})])}],
     name: 'f7-preloader',
     props: PreloaderProps,
     computed: {
@@ -4286,7 +4237,7 @@ staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._
     },
   };
 
-var ProgressbarProps = Utils.extend({
+  var ProgressbarProps = Utils.extend({
     progress: Number,
     infinite: Boolean,
   }, Mixins.colorProps);
@@ -4327,7 +4278,7 @@ var ProgressbarProps = Utils.extend({
     },
   };
 
-var RadioProps = Utils.extend({
+  var RadioProps = Utils.extend({
     checked: Boolean,
     name: [Number, String],
     value: [Number, String, Boolean],
@@ -4373,7 +4324,7 @@ var RadioProps = Utils.extend({
     },
   };
 
-var RowProps = Utils.extend(
+  var RowProps = Utils.extend(
     {
       noGap: Boolean,
       tag: {
@@ -4407,7 +4358,7 @@ var RowProps = Utils.extend(
     },
   };
 
-var SearchbarProps = Utils.extend(
+  var SearchbarProps = Utils.extend(
     {
       noShadow: Boolean,
       noHairline: Boolean,
@@ -4641,7 +4592,7 @@ var SearchbarProps = Utils.extend(
     },
   };
 
-var SegmentedProps = Utils.extend({
+  var SegmentedProps = Utils.extend({
     raised: Boolean,
     round: Boolean,
     tag: {
@@ -4665,7 +4616,7 @@ var SegmentedProps = Utils.extend({
     },
   };
 
-var SheetProps = Utils.extend(
+  var SheetProps = Utils.extend(
     {
       opened: Boolean,
       backdrop: Boolean,
@@ -4766,8 +4717,9 @@ var SheetProps = Utils.extend(
       onF7Ready: function onF7Ready() {
         var self = this;
         var backdrop = self.backdrop;
-        if (typeof self.$options.propsData.backdrop === 'undefined') {
-          backdrop = self.$theme.md;
+        if (self.$options.propsData.backdrop === undefined) {
+          var app = self.$f7;
+          backdrop = app.params.sheet && app.params.sheet.backdrop !== undefined ? app.params.sheet.backdrop : self.$theme.md;
         }
         self.f7Sheet = self.$f7.sheet.create({
           el: self.$el,
@@ -4780,9 +4732,7 @@ var SheetProps = Utils.extend(
     },
   };
 
-var f7Statusbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar",class:_vm.classes})},
-staticRenderFns: [],
+  var f7Statusbar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"statusbar",class:_vm.classes})},staticRenderFns: [],
     name: 'f7-statusbar',
     props: Mixins.colorProps,
     computed: {
@@ -4793,7 +4743,114 @@ staticRenderFns: [],
     },
   };
 
-var SubnavbarProps = Utils.extend({
+  var StepperProps = Utils.extend({
+    init: {
+      type: Boolean,
+      default: true,
+    },
+    value: {
+      type: Number,
+      default: 0,
+    },
+    min: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 100,
+    },
+    step: {
+      type: Number,
+      default: 1,
+    },
+    formatValue: Function,
+    input: {
+      type: Boolean,
+      default: true,
+    },
+    inputType: {
+      type: String,
+      default: 'text',
+    },
+    inputReadonly: {
+      type: Boolean,
+      default: true,
+    },
+    disabled: Boolean,
+    buttonsOnly: Boolean,
+
+    round: Boolean,
+    fill: Boolean,
+    big: Boolean,
+    small: Boolean,
+    raised: Boolean,
+  }, Mixins.colorProps);
+
+  var f7Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"stepper",class:_vm.classes},[_c('div',{staticClass:"stepper-button-minus",on:{"click":_vm.onMinusClick}}),_vm._v(" "),(_vm.input && !_vm.buttonsOnly)?_c('div',{staticClass:"stepper-input-wrap"},[_c('input',{attrs:{"type":_vm.inputType,"min":_vm.inputType === 'number' ? _vm.min : undefined,"max":_vm.inputType === 'number' ? _vm.max : undefined,"step":_vm.inputType === 'number' ? _vm.step : undefined,"readonly":_vm.inputReadonly},domProps:{"value":_vm.value},on:{"input":_vm.onInput}})]):_vm._e(),_vm._v(" "),(!_vm.input && !_vm.buttonsOnly)?_c('div',{staticClass:"stepper-value"},[_vm._v(_vm._s(_vm.value))]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"stepper-button-plus",on:{"click":_vm.onPlusClick}})])},staticRenderFns: [],
+    props: StepperProps,
+    computed: {
+      classes: function classes() {
+        var self = this;
+        var round = self.round;
+        var fill = self.fill;
+        var small = self.small;
+        var big = self.big;
+        var raised = self.raised;
+
+        return Utils.extend({
+          disabled: self.disabled,
+          'stepper-round': round,
+          'stepper-fill': fill,
+          'stepper-small': small,
+          'stepper-big': big,
+          'stepper-raised': raised,
+        }, Mixins.colorClasses(self));
+      },
+    },
+    beforeDestroy: function beforeDestroy() {
+      if (!this.init) { return; }
+      if (this.f7Stepper && this.f7Stepper.destroy) {
+        this.f7Stepper.destroy();
+      }
+    },
+    methods: {
+      onInput: function onInput(e) {
+        this.$emit('input', e, this.f7Stepper);
+      },
+      onMinusClick: function onMinusClick(e) {
+        this.$emit('stepper:minusclick', e, this.f7Stepper);
+      },
+      onPlusClick: function onPlusClick(e) {
+        this.$emit('stepper:plusclick', e, this.f7Stepper);
+      },
+      onF7Ready: function onF7Ready(f7) {
+        var self = this;
+        if (!self.init) { return; }
+        var min = self.min;
+        var max = self.max;
+        var value = self.value;
+        var step = self.step;
+        var formatValue = self.formatValue;
+        var $el = self.$el;
+        self.f7Stepper = f7.stepper.create({
+          el: $el,
+          min: min,
+          max: max,
+          value: value,
+          step: step,
+          formatValue: formatValue,
+          on: {
+            change: function change(stepper, newValue) {
+              self.$emit('stepper:change', newValue);
+            },
+          },
+        });
+      },
+    },
+  }
+
+  var SubnavbarProps = Utils.extend({
     sliding: Boolean,
     title: String,
     inner: {
@@ -4802,9 +4859,7 @@ var SubnavbarProps = Utils.extend({
     },
   }, Mixins.colorProps);
 
-  var f7Subnavbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"subnavbar",class:_vm.classes},[(_vm.inner)?_c('div',{staticClass:"subnavbar-inner"},[(_vm.title)?_c('div',{staticClass:"title"},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._v(" "),_vm._t("default")],2):_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Subnavbar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"subnavbar",class:_vm.classes},[(_vm.inner)?_c('div',{staticClass:"subnavbar-inner"},[(_vm.title)?_c('div',{staticClass:"title"},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._v(" "),_vm._t("default")],2):_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-subnavbar',
     props: SubnavbarProps,
     computed: {
@@ -4816,22 +4871,20 @@ staticRenderFns: [],
     },
   };
 
-var SwipeoutActionsProps = Utils.extend({
+  var SwipeoutActionsProps = Utils.extend({
     left: Boolean,
     right: Boolean,
     side: String,
   }, Mixins.colorProps);
 
-  var f7SwipeoutActions = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7SwipeoutActions = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-swipeout-actions',
     props: SwipeoutActionsProps,
     computed: {
       classes: function classes() {
         var obj;
 
-        return Utils.extend(( obj = {}, obj[("swipeout-actions-" + (this.sideComputed))] = true, obj ), Mixins.colorClasses(this));
+        return Utils.extend(( obj = {}, obj[("swipeout-actions-" + (this.sideComputed))] = true, obj), Mixins.colorClasses(this));
       },
       sideComputed: function sideComputed() {
         if (!this.side) {
@@ -4847,7 +4900,7 @@ staticRenderFns: [],
     },
   };
 
-var SwipeoutButtonProps = Utils.extend({
+  var SwipeoutButtonProps = Utils.extend({
     text: String,
     confirmText: String,
     overswipe: Boolean,
@@ -4855,9 +4908,7 @@ var SwipeoutButtonProps = Utils.extend({
     delete: Boolean,
   }, Mixins.colorProps);
 
-  var f7SwipeoutButton = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,attrs:{"data-confirm":_vm.confirmText || undefined},on:{"click":_vm.onClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))])],2)},
-staticRenderFns: [],
+  var f7SwipeoutButton = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:_vm.classes,attrs:{"data-confirm":_vm.confirmText || undefined},on:{"click":_vm.onClick}},[_vm._t("default",[_vm._v(_vm._s(_vm.text))])],2)},staticRenderFns: [],
     name: 'f7-swipeout-button',
     props: SwipeoutButtonProps,
     computed: {
@@ -4876,16 +4927,14 @@ staticRenderFns: [],
     },
   };
 
-var f7SwiperSlide = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-slide"},[(_vm.zoom)?_c('div',{staticClass:"swiper-zoom-container"},[_vm._t("default")],2):_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7SwiperSlide = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-slide"},[(_vm.zoom)?_c('div',{staticClass:"swiper-zoom-container"},[_vm._t("default")],2):_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-swiper-slide',
     props: {
       zoom: Boolean,
     },
   };
 
-var SwiperProps = Utils.extend({
+  var SwiperProps = Utils.extend({
     params: Object,
     pagination: Boolean,
     scrollbar: Boolean,
@@ -4896,9 +4945,7 @@ var SwiperProps = Utils.extend({
     },
   }, Mixins.colorProps);
 
-  var f7Swiper = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-container",class:_vm.classes},[_vm._t("before-wrapper"),_vm._v(" "),_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],2),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e(),_vm._v(" "),_vm._t("after-wrapper")],2)},
-staticRenderFns: [],
+  var f7Swiper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"swiper-container",class:_vm.classes},[_vm._t("before-wrapper"),_vm._v(" "),_c('div',{staticClass:"swiper-wrapper"},[_vm._t("default")],2),_vm._v(" "),(_vm.paginationComputed === true)?_c('div',{staticClass:"swiper-pagination"}):_vm._e(),_vm._v(" "),(_vm.scrollbarComputed === true)?_c('div',{staticClass:"swiper-scrollbar"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-next"}):_vm._e(),_vm._v(" "),(_vm.navigationComputed === true)?_c('div',{staticClass:"swiper-button-prev"}):_vm._e(),_vm._v(" "),_vm._t("after-wrapper")],2)},staticRenderFns: [],
     name: 'f7-swiper',
     beforeDestroy: function beforeDestroy() {
       var self = this;
@@ -4967,7 +5014,7 @@ staticRenderFns: [],
     },
   };
 
-var TabProps = Utils.extend({
+  var TabProps = Utils.extend({
     tabActive: Boolean,
     id: String,
   }, Mixins.colorProps);
@@ -5014,7 +5061,7 @@ var TabProps = Utils.extend({
     },
   };
 
-var TabsProps = Utils.extend({
+  var TabsProps = Utils.extend({
     animated: Boolean,
     swipeable: Boolean,
     routable: Boolean,
@@ -5040,7 +5087,7 @@ var TabsProps = Utils.extend({
     },
   };
 
-var ToolbarProps = Utils.extend({
+  var ToolbarProps = Utils.extend({
     bottomMd: Boolean,
     tabbar: Boolean,
     labels: Boolean,
@@ -5054,9 +5101,7 @@ var ToolbarProps = Utils.extend({
     },
   }, Mixins.colorProps);
 
-  var f7Toolbar = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),(_vm.inner)?_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2):_vm._t("default"),_vm._v(" "),_vm._t("after-inner")],2)},
-staticRenderFns: [],
+  var f7Toolbar = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"toolbar",class:_vm.classes},[_vm._t("before-inner"),_vm._v(" "),(_vm.inner)?_c('div',{staticClass:"toolbar-inner"},[_vm._t("default")],2):_vm._t("default"),_vm._v(" "),_vm._t("after-inner")],2)},staticRenderFns: [],
     name: 'f7-toolbar',
     props: ToolbarProps,
     updated: function updated() {
@@ -5099,7 +5144,7 @@ staticRenderFns: [],
     },
   };
 
-var ViewProps = Utils.extend(
+  var ViewProps = Utils.extend(
     {
       tab: Boolean,
       tabActive: Boolean,
@@ -5243,16 +5288,14 @@ var ViewProps = Utils.extend(
     },
   };
 
-var ViewsProps = Utils.extend(
+  var ViewsProps = Utils.extend(
     {
       tabs: Boolean,
     },
     Mixins.colorProps
   );
 
-  var f7Views = {
-render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"views",class:_vm.classes},[_vm._t("default")],2)},
-staticRenderFns: [],
+  var f7Views = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"views",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
     name: 'f7-views',
     props: ViewsProps,
     computed: {
@@ -5267,241 +5310,242 @@ staticRenderFns: [],
     },
   };
 
-/* eslint no-param-reassign: "off" */
-// eslint-disable-next-line
-var vuePlugin = {
-  install: function install(Vue, Framework7) {
-    if ( Framework7 === void 0 ) Framework7 = window.Framework7;
+  /* eslint no-param-reassign: "off" */
 
-    // Check for F7
-    if (typeof Framework7 === 'undefined') {
-      throw new Error('Framework7 is undefined, make sure you have passed it as an argument: Vue.use(Framework7Vue, Framework7)');
-    }
-    // Event Hub
-    var eventHub = new Vue();
+  var vuePlugin = {
+    install: function install(Vue, Framework7) {
+      if ( Framework7 === void 0 ) Framework7 = window.Framework7;
 
-    // Flags
-    var f7Ready = false;
-    var f7Instance;
+      // Check for F7
+      if (typeof Framework7 === 'undefined') {
+        throw new Error('Framework7 is undefined, make sure you have passed it as an argument: Vue.use(Framework7Vue, Framework7)');
+      }
+      // Event Hub
+      var eventHub = new Vue();
 
-    // Define protos
-    Object.defineProperty(Vue.prototype, '$f7', {
-      get: function get() {
-        return f7Instance;
-      },
-    });
+      // Flags
+      var f7Ready = false;
+      var f7Instance;
 
-    var $theme = {};
-    Object.defineProperty(Vue.prototype, '$theme', {
-      get: function get() {
-        return {
-          ios: f7Instance ? f7Instance.theme === 'ios' : $theme.ios,
-          md: f7Instance ? f7Instance.theme === 'md' : $theme.md,
-        };
-      },
-    });
-    Vue.prototype.Dom7 = Framework7.$;
-    Vue.prototype.$$ = Framework7.$;
-    Vue.prototype.$device = Framework7.device;
-    Vue.prototype.$request = Framework7.request;
-    Vue.prototype.$utils = Framework7.utils;
-
-    // Init F7
-    function initFramework7(rootEl, params, routes) {
-      var f7Params = Utils.extend({}, (params || {}), { root: rootEl });
-      if (routes && routes.length && !f7Params.routes) { f7Params.routes = routes; }
-
-      f7Instance = new Framework7(f7Params);
-      f7Ready = true;
-      eventHub.$emit('f7Ready', f7Instance);
-    }
-
-    // Extend F7 Router
-    Framework7.Router
-      .use(VueRouter)
-      .use({
-        on: {
-          routeChange: function routeChange(to, from, router) {
-            eventHub.$emit('f7RouteChange', to, from, router);
-          },
-          routeChanged: function routeChanged(to, from, router) {
-            eventHub.$emit('f7RouteChanged', to, from, router);
-          },
+      // Define protos
+      Object.defineProperty(Vue.prototype, '$f7', {
+        get: function get() {
+          return f7Instance;
         },
       });
 
-    // Mixin
-    Vue.mixin({
-      directives: Directives,
-      components: {
-        // eslint-disable-next-line
-        f7AccordionContent: f7AccordionContent,
-        f7AccordionItem: f7AccordionItem,
-        f7AccordionToggle: f7AccordionToggle,
-        f7Accordion: f7Accordion,
-        f7ActionsButton: f7ActionsButton,
-        f7ActionsGroup: f7ActionsGroup,
-        f7ActionsLabel: f7ActionsLabel,
-        f7Actions: f7Actions,
-        f7Badge: f7Badge,
-        f7BlockFooter: f7BlockFooter,
-        f7BlockHeader: f7BlockHeader,
-        f7BlockTitle: f7BlockTitle,
-        f7Block: f7Block,
-        f7Button: f7Button,
-        f7CardContent: f7CardContent,
-        f7CardFooter: f7CardFooter,
-        f7CardHeader: f7CardHeader,
-        f7Card: f7Card,
-        f7Checkbox: f7Checkbox,
-        f7Chip: f7Chip,
-        f7Col: f7Col,
-        f7FabButton: f7FabButton,
-        f7FabButtons: f7FabButtons,
-        f7Fab: f7Fab,
-        f7Icon: f7Icon,
-        f7Input: f7Input,
-        f7Label: f7Label,
-        f7Link: f7Link,
-        f7ListButton: f7ListButton,
-        f7ListGroup: f7ListGroup,
-        f7ListItemCell: f7ListItemCell,
-        f7ListItemContent: f7ListItemContent,
-        f7ListItemRow: f7ListItemRow,
-        f7ListItem: f7ListItem,
-        f7List: f7List,
-        f7LoginScreenTitle: f7LoginScreenTitle,
-        f7LoginScreen: f7LoginScreen,
-        f7Message: f7Message,
-        f7MessagebarAttachment: f7MessagebarAttachment,
-        f7MessagebarAttachments: f7MessagebarAttachments,
-        f7MessagebarSheetImage: f7MessagebarSheetImage,
-        f7MessagebarSheetItem: f7MessagebarSheetItem,
-        f7MessagebarSheet: f7MessagebarSheet,
-        f7Messagebar: f7Messagebar,
-        f7MessagesTitle: f7MessagesTitle,
-        f7Messages: f7Messages,
-        f7NavLeft: f7NavLeft,
-        f7NavRight: f7NavRight,
-        f7NavTitle: f7NavTitle,
-        f7Navbar: f7Navbar,
-        f7PageContent: f7PageContent,
-        f7Page: f7Page,
-        f7Panel: f7Panel,
-        f7PhotoBrowser: f7PhotoBrowser,
-        f7Popover: f7Popover,
-        f7Popup: f7Popup,
-        f7Preloader: f7Preloader,
-        f7Progressbar: f7Progressbar,
-        f7Radio: f7Radio,
-        f7Range: f7Range,
-        f7Row: f7Row,
-        f7Searchbar: f7Searchbar,
-        f7Segmented: f7Segmented,
-        f7Sheet: f7Sheet,
-        f7Statusbar: f7Statusbar,
-        f7Subnavbar: f7Subnavbar,
-        f7SwipeoutActions: f7SwipeoutActions,
-        f7SwipeoutButton: f7SwipeoutButton,
-        f7SwiperSlide: f7SwiperSlide,
-        f7Swiper: f7Swiper,
-        f7Tab: f7Tab,
-        f7Tabs: f7Tabs,
-        f7Toggle: f7Toggle,
-        f7Toolbar: f7Toolbar,
-        f7View: f7View,
-        f7Views: f7Views,
-      },
-      beforeCreate: function beforeCreate() {
-        var self = this;
-        if (self === self.$root) {
-          var ref = (self.$options.framework7 || {});
-          var theme = ref.theme;
-          if (theme === 'md') { $theme.md = true; }
-          if (theme === 'ios') { $theme.ios = true; }
-          if (!theme || theme === 'auto') {
-            $theme.ios = !!(Framework7.Device || Framework7.device).ios;
-            $theme.md = !(Framework7.Device || Framework7.device).ios;
+      var $theme = {};
+      Object.defineProperty(Vue.prototype, '$theme', {
+        get: function get() {
+          return {
+            ios: f7Instance ? f7Instance.theme === 'ios' : $theme.ios,
+            md: f7Instance ? f7Instance.theme === 'md' : $theme.md,
+          };
+        },
+      });
+      Vue.prototype.Dom7 = Framework7.$;
+      Vue.prototype.$$ = Framework7.$;
+      Vue.prototype.$device = Framework7.device;
+      Vue.prototype.$request = Framework7.request;
+      Vue.prototype.$utils = Framework7.utils;
+
+      // Init F7
+      function initFramework7(rootEl, params, routes) {
+        var f7Params = Utils.extend({}, (params || {}), { root: rootEl });
+        if (routes && routes.length && !f7Params.routes) { f7Params.routes = routes; }
+
+        f7Instance = new Framework7(f7Params);
+        f7Ready = true;
+        eventHub.$emit('f7Ready', f7Instance);
+      }
+
+      // Extend F7 Router
+      Framework7.Router
+        .use(VueRouter)
+        .use({
+          on: {
+            routeChange: function routeChange(to, from, router) {
+              eventHub.$emit('f7RouteChange', to, from, router);
+            },
+            routeChanged: function routeChanged(to, from, router) {
+              eventHub.$emit('f7RouteChanged', to, from, router);
+            },
+          },
+        });
+
+      // Mixin
+      Vue.mixin({
+        directives: Directives,
+        components: {
+          // eslint-disable-next-line
+          f7AccordionContent: f7AccordionContent,
+          f7AccordionItem: f7AccordionItem,
+          f7AccordionToggle: f7AccordionToggle,
+          f7Accordion: f7Accordion,
+          f7ActionsButton: f7ActionsButton,
+          f7ActionsGroup: f7ActionsGroup,
+          f7ActionsLabel: f7ActionsLabel,
+          f7Actions: f7Actions,
+          f7Badge: f7Badge,
+          f7BlockFooter: f7BlockFooter,
+          f7BlockHeader: f7BlockHeader,
+          f7BlockTitle: f7BlockTitle,
+          f7Block: f7Block,
+          f7Button: f7Button,
+          f7CardContent: f7CardContent,
+          f7CardFooter: f7CardFooter,
+          f7CardHeader: f7CardHeader,
+          f7Card: f7Card,
+          f7Checkbox: f7Checkbox,
+          f7Chip: f7Chip,
+          f7Col: f7Col,
+          f7FabButton: f7FabButton,
+          f7FabButtons: f7FabButtons,
+          f7Fab: f7Fab,
+          f7Icon: f7Icon,
+          f7Input: f7Input,
+          f7Label: f7Label,
+          f7Link: f7Link,
+          f7ListButton: f7ListButton,
+          f7ListGroup: f7ListGroup,
+          f7ListItemCell: f7ListItemCell,
+          f7ListItemContent: f7ListItemContent,
+          f7ListItemRow: f7ListItemRow,
+          f7ListItem: f7ListItem,
+          f7List: f7List,
+          f7LoginScreenTitle: f7LoginScreenTitle,
+          f7LoginScreen: f7LoginScreen,
+          f7Message: f7Message,
+          f7MessagebarAttachment: f7MessagebarAttachment,
+          f7MessagebarAttachments: f7MessagebarAttachments,
+          f7MessagebarSheetImage: f7MessagebarSheetImage,
+          f7MessagebarSheetItem: f7MessagebarSheetItem,
+          f7MessagebarSheet: f7MessagebarSheet,
+          f7Messagebar: f7Messagebar,
+          f7MessagesTitle: f7MessagesTitle,
+          f7Messages: f7Messages,
+          f7NavLeft: f7NavLeft,
+          f7NavRight: f7NavRight,
+          f7NavTitle: f7NavTitle,
+          f7Navbar: f7Navbar,
+          f7PageContent: f7PageContent,
+          f7Page: f7Page,
+          f7Panel: f7Panel,
+          f7PhotoBrowser: f7PhotoBrowser,
+          f7Popover: f7Popover,
+          f7Popup: f7Popup,
+          f7Preloader: f7Preloader,
+          f7Progressbar: f7Progressbar,
+          f7Radio: f7Radio,
+          f7Range: f7Range,
+          f7Row: f7Row,
+          f7Searchbar: f7Searchbar,
+          f7Segmented: f7Segmented,
+          f7Sheet: f7Sheet,
+          f7Statusbar: f7Statusbar,
+          f7Stepper: f7Stepper,
+          f7Subnavbar: f7Subnavbar,
+          f7SwipeoutActions: f7SwipeoutActions,
+          f7SwipeoutButton: f7SwipeoutButton,
+          f7SwiperSlide: f7SwiperSlide,
+          f7Swiper: f7Swiper,
+          f7Tab: f7Tab,
+          f7Tabs: f7Tabs,
+          f7Toggle: f7Toggle,
+          f7Toolbar: f7Toolbar,
+          f7View: f7View,
+          f7Views: f7Views,
+        },
+        beforeCreate: function beforeCreate() {
+          var self = this;
+          if (self === self.$root) {
+            var ref = (self.$options.framework7 || {});
+            var theme = ref.theme;
+            if (theme === 'md') { $theme.md = true; }
+            if (theme === 'ios') { $theme.ios = true; }
+            if (!theme || theme === 'auto') {
+              $theme.ios = !!(Framework7.Device || Framework7.device).ios;
+              $theme.md = !(Framework7.Device || Framework7.device).ios;
+            }
           }
-        }
 
-        var $route;
-        var $router;
-        var parent = self;
-        while (parent && !$router && !$route) {
-          if (parent.$f7route) { $route = parent.$f7route; }
-          if (parent.$f7router) { $router = parent.$f7router; }
-          else if (parent.f7View) {
-            $router = parent.f7View.router;
-          } else if (parent.$el && parent.$el.f7View) {
-            $router = parent.$el.f7View.router;
+          var $route;
+          var $router;
+          var parent = self;
+          while (parent && !$router && !$route) {
+            if (parent.$f7route) { $route = parent.$f7route; }
+            if (parent.$f7router) { $router = parent.$f7router; }
+            else if (parent.f7View) {
+              $router = parent.f7View.router;
+            } else if (parent.$el && parent.$el.f7View) {
+              $router = parent.$el.f7View.router;
+            }
+            parent = parent.$parent;
           }
-          parent = parent.$parent;
-        }
-        if ($route && $router) {
-          self.$f7route = $route;
-          self.$f7router = $router;
-          self.$f7Route = $route;
-          self.$f7Router = $router;
-        }
-      },
-      beforeDestroy: function beforeDestroy() {
-        var self = this;
-        if (self.$f7RouteChangeCallback) { eventHub.$off('f7RouteChange', self.$f7RouteChangeCallback); }
-        if (self.$f7RouteChangedCallback) { eventHub.$off('f7RouteChanged', self.$f7RouteChangedCallback); }
-      },
-      created: function created() {
-        var self = this;
-
-        var routeChangeCallback = self.onF7RouteChange || self.F7RouteChange || self.f7RouteChange || self.f7routeChange;
-        var routeChangedCallback = self.onF7RouteChanged || self.F7RouteChanged || self.f7RouteChanged || self.f7routeChanged;
-        if (!routeChangeCallback && !routeChangedCallback) { return; }
-
-        function hasRouter(router) {
-          return (self.$f7router && router === self.$f7router) ||
-                 (!self.$f7router && self.$f7 && self.$f7.router);
-        }
-
-        function addRoutesCallbacks() {
-          if (routeChangeCallback) {
-            self.$f7RouteChangeCallback = function onRouteChange(to, from, router) {
-              if (hasRouter(router)) {
-                routeChangeCallback(to, from, router);
-              }
-            };
-            eventHub.$on('f7RouteChange', self.$f7RouteChangeCallback);
+          if ($route && $router) {
+            self.$f7route = $route;
+            self.$f7router = $router;
+            self.$f7Route = $route;
+            self.$f7Router = $router;
           }
-          if (routeChangedCallback) {
-            self.$f7RouteChangedCallback = function onRouteChanged(to, from, router) {
-              if (hasRouter(router)) {
-                routeChangedCallback(to, from, router);
-              }
-            };
-            eventHub.$on('f7RouteChanged', self.$f7RouteChangedCallback);
+        },
+        beforeDestroy: function beforeDestroy() {
+          var self = this;
+          if (self.$f7RouteChangeCallback) { eventHub.$off('f7RouteChange', self.$f7RouteChangeCallback); }
+          if (self.$f7RouteChangedCallback) { eventHub.$off('f7RouteChanged', self.$f7RouteChangedCallback); }
+        },
+        created: function created() {
+          var self = this;
+
+          var routeChangeCallback = self.onF7RouteChange || self.F7RouteChange || self.f7RouteChange || self.f7routeChange;
+          var routeChangedCallback = self.onF7RouteChanged || self.F7RouteChanged || self.f7RouteChanged || self.f7routeChanged;
+          if (!routeChangeCallback && !routeChangedCallback) { return; }
+
+          function hasRouter(router) {
+            return (self.$f7router && router === self.$f7router) ||
+                   (!self.$f7router && self.$f7 && self.$f7.router);
           }
-        }
 
-        if (!self.$f7) { eventHub.$on('f7Ready', addRoutesCallbacks); }
-        else { addRoutesCallbacks(); }
-      },
-      mounted: function mounted() {
-        var self = this;
-        if (self === self.$root) {
-          initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
-        }
-        var callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init || self.f7ready || self.f7init;
-        if (!callback) { return; }
-        if (f7Ready) { callback(f7Instance); }
-        else {
-          eventHub.$on('f7Ready', function (f7) {
-            callback(f7);
-          });
-        }
-      },
-    });
-  },
-};
+          function addRoutesCallbacks() {
+            if (routeChangeCallback) {
+              self.$f7RouteChangeCallback = function onRouteChange(to, from, router) {
+                if (hasRouter(router)) {
+                  routeChangeCallback(to, from, router);
+                }
+              };
+              eventHub.$on('f7RouteChange', self.$f7RouteChangeCallback);
+            }
+            if (routeChangedCallback) {
+              self.$f7RouteChangedCallback = function onRouteChanged(to, from, router) {
+                if (hasRouter(router)) {
+                  routeChangedCallback(to, from, router);
+                }
+              };
+              eventHub.$on('f7RouteChanged', self.$f7RouteChangedCallback);
+            }
+          }
 
-return vuePlugin;
+          if (!self.$f7) { eventHub.$on('f7Ready', addRoutesCallbacks); }
+          else { addRoutesCallbacks(); }
+        },
+        mounted: function mounted() {
+          var self = this;
+          if (self === self.$root) {
+            initFramework7(self.$root.$el, self.$options.framework7, self.$options.routes);
+          }
+          var callback = self.onF7Ready || self.onF7ready || self.onF7Init || self.onF7init || self.f7Ready || self.f7Init || self.f7ready || self.f7init;
+          if (!callback) { return; }
+          if (f7Ready) { callback(f7Instance); }
+          else {
+            eventHub.$on('f7Ready', function (f7) {
+              callback(f7);
+            });
+          }
+        },
+      });
+    },
+  };
+
+  return vuePlugin;
 
 })));
