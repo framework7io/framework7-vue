@@ -48,6 +48,7 @@ import SheetModal from './pages/sheet-modal.vue';
 import SmartSelect from './pages/smart-select.vue';
 import Sortable from './pages/sortable.vue';
 import Statusbar from './pages/statusbar.vue';
+import Stepper from './pages/stepper.vue';
 import Subnavbar from './pages/subnavbar.vue';
 import SubnavbarTitle from './pages/subnavbar-title.vue';
 import Swiper from './pages/swiper.vue';
@@ -341,6 +342,10 @@ export default [
   {
     path: '/statusbar/',
     component: Statusbar,
+  },
+  {
+    path: '/stepper/',
+    component: Stepper,
   },
   {
     path: '/subnavbar/',
