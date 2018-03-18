@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.1.2](https://github.com/framework7io/framework7-vue/compare/v2.0.10...v2.1.2) - on March 18, 2018
+  * New Stepper component  🎉
+  * Fab
+    * Fixed error about wrong `href` prop
+  * Button
+    * Added `disabled` prop
+  * Minor fixes
+
 ## [v2.0.10](https://github.com/framework7io/framework7-vue/compare/v2.0.7...v2.0.10) - on February 19, 2018
   * Messagebar
     * Fixed issue with textarea reference

@@ -4781,9 +4781,17 @@
     buttonsOnly: Boolean,
 
     round: Boolean,
+    roundMd: Boolean,
+    roundIos: Boolean,
     fill: Boolean,
+    fillMd: Boolean,
+    fillIos: Boolean,
     big: Boolean,
+    bigMd: Boolean,
+    bigIos: Boolean,
     small: Boolean,
+    smallMd: Boolean,
+    smallIos: Boolean,
     raised: Boolean,
   }, Mixins.colorProps);
 
@@ -4793,17 +4801,33 @@
       classes: function classes() {
         var self = this;
         var round = self.round;
+        var roundIos = self.roundIos;
+        var roundMd = self.roundMd;
         var fill = self.fill;
-        var small = self.small;
+        var fillIos = self.fillIos;
+        var fillMd = self.fillMd;
         var big = self.big;
+        var bigIos = self.bigIos;
+        var bigMd = self.bigMd;
+        var small = self.small;
+        var smallIos = self.smallIos;
+        var smallMd = self.smallMd;
         var raised = self.raised;
 
         return Utils.extend({
           disabled: self.disabled,
           'stepper-round': round,
+          'stepper-round-ios': roundIos,
+          'stepper-round-md': roundMd,
           'stepper-fill': fill,
-          'stepper-small': small,
+          'stepper-fill-ios': fillIos,
+          'stepper-fill-md': fillMd,
           'stepper-big': big,
+          'stepper-big-ios': bigIos,
+          'stepper-big-md': bigMd,
+          'stepper-small': small,
+          'stepper-small-ios': smallIos,
+          'stepper-small-md': smallMd,
           'stepper-raised': raised,
         }, Mixins.colorClasses(self));
       },
