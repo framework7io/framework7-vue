@@ -53,6 +53,18 @@
       type: Boolean,
       default: true,
     },
+    autorepeat: {
+      type: Boolean,
+      default: false,
+    },
+    autorepeatDynamic: {
+      type: Boolean,
+      default: false,
+    },
+    wraps: {
+      type: Boolean,
+      default: false,
+    },
     disabled: Boolean,
     buttonsOnly: Boolean,
 
@@ -130,7 +142,7 @@
         const self = this;
         if (!self.init) return;
         const {
-          min, max, value, step, formatValue, $el,
+          min, max, value, step, formatValue, $el, autorepeat, autorepeatDynamic, wraps,
         } = self;
         self.f7Stepper = f7.stepper.create({
           el: $el,
@@ -139,6 +151,9 @@
           value,
           step,
           formatValue,
+          autorepeat,
+          autorepeatDynamic,
+          wraps,
           on: {
             change(stepper, newValue) {
               self.$emit('stepper:change', newValue);
