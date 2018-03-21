@@ -122,6 +122,7 @@
       } else if (self.type === 'toggle') {
         inputEl = c('f7-toggle', { props: attrs, on });
       } else if (self.type === 'range') {
+        on['range:change'] = self.onChange;
         inputEl = c('f7-range', { props: attrs, on });
       } else {
         inputEl = c('input', {
