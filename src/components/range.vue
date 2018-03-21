@@ -7,16 +7,35 @@
       type: Boolean,
       default: true,
     },
-    value: [Number, Array, String],
-    min: [Number, String],
-    max: [Number, String],
+    value: {
+      type: [Number, Array, String],
+      default: 0,
+    },
+    min: {
+      type: [Number, String],
+      default: 0,
+    },
+    max: {
+      type: [Number, String],
+      default: 100,
+    },
     step: {
       type: [Number, String],
       default: 1,
     },
-    label: Boolean,
-    dual: Boolean,
+    label: {
+      type: Boolean,
+      default: false,
+    },
+    dual: {
+      type: Boolean,
+      default: false,
+    },
     disabled: Boolean,
+    draggableBar: {
+      type: Boolean,
+      default: true,
+    },
   }, Mixins.colorProps);
 
   export default {
@@ -67,6 +86,7 @@
             step: self.step,
             label: self.label,
             dual: self.dual,
+            draggableBar: self.draggableBar,
             on: {
               change(range, value) {
                 self.$emit('range:change', value);
