@@ -129,6 +129,25 @@
       }
     },
     methods: {
+      increment() {
+        if (!this.f7Stepper) return;
+        this.f7Stepper.increment();
+      },
+      decrement() {
+        if (!this.f7Stepper) return;
+        this.f7Stepper.decrement();
+      },
+      setValue(newValue) {
+        const self = this;
+        if (self.f7Stepper && self.f7Stepper.setValue) self.f7Stepper.setValue(newValue);
+      },
+      getValue() {
+        const self = this;
+        if (self.f7Stepper && self.f7Stepper.getValue) {
+          return self.f7Stepper.getValue();
+        }
+        return undefined;
+      },
       onInput(e) {
         this.$emit('input', e, this.f7Stepper)
       },
