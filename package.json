@@ -37,7 +37,8 @@
     "dev": "cross-env NODE_ENV=development gulp ks && cross-env NODE_ENV=development gulp server",
     "prod": "cross-env NODE_ENV=production gulp ks && cross-env NODE_ENV=production gulp server",
     "lint": "eslint .",
-    "test": "npm run build:prod && npm run lint"
+    "test": "npm run build:prod && npm run lint",
+    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove Framework7 Vue? Support project by donating or pledging on patreon:\\u001b[22m\\u001b[39m\\n > \\u001b[32mhttps://patreon.com/vladimirkharlampidi\\u001b[0m\\n')\""
   },
   "bugs": {
     "url": "https://github.com/framework7io/framework7-vue/issues"
