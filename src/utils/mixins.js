@@ -95,6 +95,10 @@ const Mixins = {
     popupOpen: [Boolean, String],
     popupClose: [Boolean, String],
 
+    // Actions
+    actionsOpen: [Boolean, String],
+    actionsClose: [Boolean, String],
+
     // Popover
     popoverOpen: [Boolean, String],
     popoverClose: [Boolean, String],
@@ -118,6 +122,8 @@ const Mixins = {
       panelClose,
       popupOpen,
       popupClose,
+      actionsOpen,
+      actionsClose,
       popoverOpen,
       popoverClose,
       loginScreenOpen,
@@ -134,6 +140,8 @@ const Mixins = {
                     (Utils.isStringProp(panelClose) && panelClose),
       'data-popup': (Utils.isStringProp(popupOpen) && popupOpen) ||
                     (Utils.isStringProp(popupClose) && popupClose),
+      'data-actions': (Utils.isStringProp(actionsOpen) && actionsOpen) ||
+                    (Utils.isStringProp(actionsClose) && actionsClose),
       'data-popover': (Utils.isStringProp(popoverOpen) && popoverOpen) ||
                       (Utils.isStringProp(popoverClose) && popoverClose),
       'data-sheet': (Utils.isStringProp(sheetOpen) && sheetOpen) ||
@@ -150,6 +158,8 @@ const Mixins = {
       panelOpen,
       panelClose,
       popupOpen,
+      actionsClose,
+      actionsOpen,
       popupClose,
       popoverOpen,
       popoverClose,
@@ -166,6 +176,8 @@ const Mixins = {
       'panel-open': panelOpen || panelOpen === '',
       'popup-close': Utils.isTrueProp(popupClose),
       'popup-open': popupOpen || popupOpen === '',
+      'actions-close': Utils.isTrueProp(actionsClose),
+      'actions-open': actionsOpen || actionsOpen === '',
       'popover-close': Utils.isTrueProp(popoverClose),
       'popover-open': popoverOpen || popoverOpen === '',
       'sheet-close': Utils.isTrueProp(sheetClose),
