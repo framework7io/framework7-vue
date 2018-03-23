@@ -56,7 +56,7 @@
           const tag = self.$slots.default[i].tag;
           if (tag && !(tag === 'li' || tag.indexOf('list-item') >= 0 || tag.indexOf('list-button') >= 0)) {
             listChildren.push(self.$slots.default[i]);
-          } else {
+          } else if (tag) {
             ulChildren.push(self.$slots.default[i]);
           }
         }
