@@ -29,7 +29,7 @@
 
       return c('div', {
         staticClass: 'actions-button',
-        classes: self.classes,
+        class: self.classes,
         on: {
           click: self.onClick,
         },
@@ -39,6 +39,7 @@
     computed: {
       classes() {
         const self = this;
+
         return Utils.extend({
           'actions-button-bold': self.bold,
         }, Mixins.colorClasses(self));
