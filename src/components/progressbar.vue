@@ -38,7 +38,7 @@
     methods: {
       set(progress, speed) {
         const self = this;
-        if (self.$f7) return;
+        if (!self.$f7) return;
         self.$f7.progressbar.set(self.$el, progress, speed);
       },
     },
