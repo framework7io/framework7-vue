@@ -41,6 +41,15 @@
       url: String,
       view: [String, Object],
       routableModals: Boolean,
+      renderNavbar: Function,
+      renderToolbar: Function,
+      renderCaption: Function,
+      renderObject: Function,
+      renderLazyPhoto: Function,
+      renderPhoto: Function,
+      renderPage: Function,
+      renderPopup: Function,
+      renderStandalone: Function,
     },
     methods: {
       open(index) {
@@ -62,7 +71,12 @@
         const self = this;
         // Init Virtual List
         if (!self.init) return;
-        const params = Utils.extend({}, self.$options.propsData, {
+        let params;
+
+        if (typeof self.params !== 'undefined') params = self.params;
+        else params = self.$options.propsData;
+
+        params = Utils.extend({}, params, {
           on: {
             open() {
               self.$emit('photobrowser:open');
