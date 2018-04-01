@@ -26,6 +26,7 @@ import InfiniteScroll from './pages/infinite-scroll.vue';
 import Inputs from './pages/inputs.vue';
 import LazyLoad from './pages/lazy-load.vue';
 import List from './pages/list.vue';
+import ListIndex from './pages/list-index.vue';
 import LoginScreen from './pages/login-screen.vue';
 import LoginScreenPage from './pages/login-screen-page.vue';
 import Messages from './pages/messages.vue';
@@ -254,6 +255,10 @@ export default [
   {
     path: '/list/',
     component: List,
+  },
+  {
+    path: '/list-index/',
+    component: ListIndex,
   },
   {
     path: '/login-screen/',
