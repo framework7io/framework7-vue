@@ -46,7 +46,21 @@
         return Mixins.colorClasses(self);
       },
     },
+    beforeDestroy() {
+      if (!this.init) return;
+      if (this.f7ListIndex && this.f7ListIndex.destroy) {
+        this.f7ListIndex.destroy();
+      }
+    },
     methods: {
+      update() {
+        if (!this.f7ListIndex) return;
+        this.f7ListIndex.update();
+      },
+      scrollListToIndex(itemContent) {
+        if (!this.f7ListIndex) return;
+        this.f7ListIndex.scrollListToIndex(itemContent);
+      },
       onF7Ready(f7) {
         const self = this;
         if (!self.init) return;
