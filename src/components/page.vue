@@ -50,7 +50,7 @@
 
       let pageContentEl;
 
-      const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab').split(' ');
+      const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab list-index').split(' ');
 
       let tag;
       let child;
