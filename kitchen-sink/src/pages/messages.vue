@@ -45,13 +45,23 @@
         v-for="(message, index) in messagesData"
         :key="index"
         :type="message.type"
-        :text="message.text"
         :image="message.image"
         :name="message.name"
         :avatar="message.avatar"
         :first="isFirstMessage(message, index)"
         :last="isLastMessage(message, index)"
         :tail="isTailMessage(message, index)"
+      >
+        <span slot="text" v-if="message.text" v-html="message.text"></span>
+      </f7-message>
+      <f7-message v-if="typingMessage"
+        type="received"
+        :typing="true"
+        :first="true"
+        :last="true"
+        :tail="true"
+        :header="`${typingMessage.name} is typing`"
+        :avatar="typingMessage.avatar"
       ></f7-message>
     </f7-messages>
   </f7-page>
@@ -77,6 +87,7 @@
       return {
         attachments: [],
         sheetVisible: false,
+        typingMessage: null,
         messagesData: [
           {
             type: 'sent',
@@ -220,7 +231,6 @@
       },
       sendMessage() {
         const self = this;
-        const $$ = self.$$;
         const text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
         const messagesToSend = [];
         self.attachments.forEach((attachment) => {
@@ -250,10 +260,10 @@
         setTimeout(() => {
           const answer = self.answers[Math.floor(Math.random() * self.answers.length)];
           const person = self.people[Math.floor(Math.random() * self.people.length)];
-          self.messages.showTyping({
-            header: `${person.name} is typing`,
+          self.typingMessage = {
+            name: person.name,
             avatar: person.avatar,
-          });
+          };
           setTimeout(() => {
             self.messagesData.push({
               text: answer,
@@ -261,7 +271,7 @@
               name: person.name,
               avatar: person.avatar,
             });
-            $$('.message-typing').remove();
+            self.typingMessage = null;
             self.responseInProgress = false;
           }, 4000);
         }, 1000);
