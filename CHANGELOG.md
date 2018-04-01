@@ -1,5 +1,22 @@
 # Change Log
 
+## [v2.2.0](https://github.com/framework7io/framework7-vue/compare/v2.1.2...v2.2.0) - on April 1, 2018
+  * New List Index component **f7-list-index** 🎉
+  * Range Slider
+    * New `draggable-bar` prop (defaults to `true`) that allows to disable value change on range bar click and drag
+  * Stepper
+    * New `autorepeat` prop that will repeatedly increase/decrease values while you tap and hold plus/minus buttons
+    * New `autorepeat-dynamic` prop that will increase autorepeat ratio based on how long you hold the button
+    * New `wraps` prop. When enabled, incrementing beyond maximum value sets value to minimum value; likewise, decrementing below minimum value sets value to maximum value
+    * Added `.increment()`, `.decrement()`, `.setValue()`, `.getValue()` component methods
+  * Photo Browser
+    * Added render function props: `renderNavbar`, `renderToolbar`, `renderCaption`, `renderObject`, `renderLazyPhoto`, `renderPhoto`, `renderPage`, `renderPopup`, `renderStandalone`
+  * Messages
+    * **f7-message** now supports boolean prop `typing` to render (add/remove) typing message in declarative way
+  * Router
+    * Added support for routable modals that allows to load Vue components as modals (Popup, Login Screen, etc.). To make it work with router the new component `<f7-routable-modals></f7-routable-modals>` must be added as a child of app root element
+  * Few minor fixes
+
 ## [v2.1.2](https://github.com/framework7io/framework7-vue/compare/v2.0.10...v2.1.2) - on March 18, 2018
   * New Stepper component  🎉
   * Fab

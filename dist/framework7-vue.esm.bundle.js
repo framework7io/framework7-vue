@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.1.2
+ * Framework7 Vue 2.2.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 18, 2018
+ * Released on: April 1, 2018
  */
 
 const Utils = {
@@ -205,6 +205,80 @@ var VueRouter = {
 
       tabVue.$set(tabVue, 'tabContent', null);
     },
+    modalComponentLoader(rootEl, component, componentUrl, options, resolve, reject) {
+      const router = this;
+      const modalsEl = document.querySelector('.framework7-modals');
+      if (!modalsEl) {
+        reject();
+        return;
+      }
+
+      const modalsVue = modalsEl.__vue__;
+      if (!modalsVue) {
+        reject();
+        return;
+      }
+
+      const id = Utils.now();
+      const modalData = {
+        component,
+        id,
+        params: Utils.extend({}, options.route.params),
+      };
+      modalsVue.$f7route = options.route;
+      modalsVue.modals.push(modalData);
+
+      modalsVue.$nextTick(() => {
+        const modalEl = modalsEl.children[modalsEl.children.length - 1];
+        modalData.el = modalEl;
+
+        let modalEvents;
+        let modalVueFound;
+        let modalVue = modalEl.__vue__;
+        while (modalVue.$parent && !modalVueFound) {
+          if (modalVue.$parent.$el === modalEl) {
+            modalVue = modalVue.$parent;
+          } else {
+            modalVueFound = true;
+          }
+        }
+        if (component.on && modalVue) {
+          modalEvents = Utils.extend({}, component.on);
+          Object.keys(modalEvents).forEach((pageEvent) => {
+            modalEvents[pageEvent] = modalEvents[pageEvent].bind(modalVue);
+          });
+        }
+
+        modalEl.addEventListener('modal:closed', () => {
+          modalsVue.$nextTick(() => {
+            router.removeModal(modalEl, modalVue);
+          });
+        });
+
+        resolve(modalEl, { on: modalEvents });
+      });
+    },
+    removeModal(modalEl, modalVue) {
+      if (!modalVue) return;
+
+      const modalsEl = document.querySelector('.framework7-modals');
+      if (!modalsEl) return;
+
+      const modalsVue = modalsEl.__vue__;
+      if (!modalsVue) return;
+
+      let modalVueFound;
+      modalsVue.modals.forEach((modal, index) => {
+        if (modal.el === modalEl) {
+          modalVueFound = true;
+          modalsVue.modals.splice(index, 1);
+        }
+      });
+
+      if (!modalVueFound) {
+        modalEl.parentNode.removeChild(modalEl);
+      }
+    },
   },
 };
 
@@ -303,6 +377,10 @@ const Mixins = {
     popupOpen: [Boolean, String],
     popupClose: [Boolean, String],
 
+    // Actions
+    actionsOpen: [Boolean, String],
+    actionsClose: [Boolean, String],
+
     // Popover
     popoverOpen: [Boolean, String],
     popoverClose: [Boolean, String],
@@ -326,6 +404,8 @@ const Mixins = {
       panelClose,
       popupOpen,
       popupClose,
+      actionsOpen,
+      actionsClose,
       popoverOpen,
       popoverClose,
       loginScreenOpen,
@@ -342,6 +422,8 @@ const Mixins = {
                     (Utils.isStringProp(panelClose) && panelClose),
       'data-popup': (Utils.isStringProp(popupOpen) && popupOpen) ||
                     (Utils.isStringProp(popupClose) && popupClose),
+      'data-actions': (Utils.isStringProp(actionsOpen) && actionsOpen) ||
+                    (Utils.isStringProp(actionsClose) && actionsClose),
       'data-popover': (Utils.isStringProp(popoverOpen) && popoverOpen) ||
                       (Utils.isStringProp(popoverClose) && popoverClose),
       'data-sheet': (Utils.isStringProp(sheetOpen) && sheetOpen) ||
@@ -358,6 +440,8 @@ const Mixins = {
       panelOpen,
       panelClose,
       popupOpen,
+      actionsClose,
+      actionsOpen,
       popupClose,
       popoverOpen,
       popoverClose,
@@ -374,6 +458,8 @@ const Mixins = {
       'panel-open': panelOpen || panelOpen === '',
       'popup-close': Utils.isTrueProp(popupClose),
       'popup-open': popupOpen || popupOpen === '',
+      'actions-close': Utils.isTrueProp(actionsClose),
+      'actions-open': actionsOpen || actionsOpen === '',
       'popover-close': Utils.isTrueProp(popoverClose),
       'popover-open': popoverOpen || popoverOpen === '',
       'sheet-close': Utils.isTrueProp(sheetClose),
@@ -484,7 +570,7 @@ var f7ActionsButton = {
 
     return c('div', {
       staticClass: 'actions-button',
-      classes: self.classes,
+      class: self.classes,
       on: {
         click: self.onClick,
       },
@@ -494,6 +580,7 @@ var f7ActionsButton = {
   computed: {
     classes() {
       const self = this;
+
       return Utils.extend({
         'actions-button-bold': self.bold,
       }, Mixins.colorClasses(self));
@@ -1435,16 +1522,35 @@ const RangeProps = Utils.extend({
     type: Boolean,
     default: true,
   },
-  value: [Number, Array, String],
-  min: [Number, String],
-  max: [Number, String],
+  value: {
+    type: [Number, Array, String],
+    default: 0,
+  },
+  min: {
+    type: [Number, String],
+    default: 0,
+  },
+  max: {
+    type: [Number, String],
+    default: 100,
+  },
   step: {
     type: [Number, String],
     default: 1,
   },
-  label: Boolean,
-  dual: Boolean,
+  label: {
+    type: Boolean,
+    default: false,
+  },
+  dual: {
+    type: Boolean,
+    default: false,
+  },
   disabled: Boolean,
+  draggableBar: {
+    type: Boolean,
+    default: true,
+  },
 }, Mixins.colorProps);
 
 var f7Range = {
@@ -1495,6 +1601,7 @@ var f7Range = {
           step: self.step,
           label: self.label,
           dual: self.dual,
+          draggableBar: self.draggableBar,
           on: {
             change(range, value) {
               self.$emit('range:change', value);
@@ -1623,6 +1730,7 @@ var f7Input = {
     } else if (self.type === 'toggle') {
       inputEl = c('f7-toggle', { props: attrs, on });
     } else if (self.type === 'range') {
+      on['range:change'] = self.onChange;
       inputEl = c('f7-range', { props: attrs, on });
     } else {
       inputEl = c('input', {
@@ -1996,6 +2104,84 @@ var f7ListGroup = {render: function(){var _vm=this;var _h=_vm.$createElement;var
   },
   data() {
     return {};
+  },
+};
+
+const ListIndexProps = Utils.extend(
+  {
+    init: {
+      type: Boolean,
+      default: true,
+    },
+    listEl: [String, Object],
+    indexes: {
+      type: [String, Array],
+      default: 'auto',
+    },
+    scrollList: {
+      type: Boolean,
+      default: true,
+    },
+    label: {
+      type: Boolean,
+      default: false,
+    },
+    iosItemHeight: {
+      type: Number,
+      default: 14,
+    },
+    mdItemHeight: {
+      type: Number,
+      default: 14,
+    },
+  },
+  Mixins.colorProps
+);
+var f7ListIndex = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"list-index",class:_vm.classes},[_vm._t("default")],2)},staticRenderFns: [],
+  props: ListIndexProps,
+  name: 'f7-list-index',
+  computed: {
+    classes() {
+      const self = this;
+      return Mixins.colorClasses(self);
+    },
+  },
+  beforeDestroy() {
+    if (!this.init) return;
+    if (this.f7ListIndex && this.f7ListIndex.destroy) {
+      this.f7ListIndex.destroy();
+    }
+  },
+  methods: {
+    update() {
+      if (!this.f7ListIndex) return;
+      this.f7ListIndex.update();
+    },
+    scrollListToIndex(itemContent) {
+      if (!this.f7ListIndex) return;
+      this.f7ListIndex.scrollListToIndex(itemContent);
+    },
+    onF7Ready(f7) {
+      const self = this;
+      if (!self.init) return;
+      const {
+        $el, listEl, indexes, iosItemHeight, mdItemHeight, scrollList, label,
+      } = self;
+      self.f7ListIndex = f7.listIndex.create({
+        el: $el,
+        listEl,
+        indexes,
+        iosItemHeight,
+        mdItemHeight,
+        scrollList,
+        label,
+        on: {
+          select(index, itemContent, itemIndex) {
+            self.$emit('listindex:select', itemContent, itemIndex);
+          },
+        },
+      });
+    },
   },
 };
 
@@ -2528,7 +2714,7 @@ var f7List = {
         const tag = self.$slots.default[i].tag;
         if (tag && !(tag === 'li' || tag.indexOf('list-item') >= 0 || tag.indexOf('list-button') >= 0)) {
           listChildren.push(self.$slots.default[i]);
-        } else {
+        } else if (tag) {
           ulChildren.push(self.$slots.default[i]);
         }
       }
@@ -2749,10 +2935,11 @@ const MessageProps = Utils.extend(
     sameHeader: Boolean,
     sameFooter: Boolean,
     sameAvatar: Boolean,
+    typing: Boolean,
   },
   Mixins.colorProps
 );
-var f7Message = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))])],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},staticRenderFns: [],
+var f7Message = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"message",class:_vm.classes,on:{"click":_vm.onClick}},[_vm._t("start"),_vm._v(" "),(_vm.avatar || _vm.$slots.avatar)?_c('div',{staticClass:"message-avatar",style:({'background-image': _vm.avatar && 'url(' + _vm.avatar + ')'}),on:{"click":_vm.onAvatarClick}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-content"},[_vm._t("content-start"),_vm._v(" "),(_vm.name || _vm.$slots.name)?_c('div',{staticClass:"message-name",on:{"click":_vm.onNameClick}},[_vm._t("name",[_vm._v(_vm._s(_vm.name))])],2):_vm._e(),_vm._v(" "),(_vm.header || _vm.$slots.header)?_c('div',{staticClass:"message-header",on:{"click":_vm.onHeaderClick}},[_vm._t("header",[_vm._v(_vm._s(_vm.header))])],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"message-bubble",on:{"click":_vm.onBubbleClick}},[_vm._t("bubble-start"),_vm._v(" "),(_vm.image || _vm.$slots.image)?_c('div',{staticClass:"message-image"},[_vm._t("image",[_c('img',{attrs:{"src":_vm.image}})])],2):_vm._e(),_vm._v(" "),(_vm.textHeader || _vm.$slots['text-header'])?_c('div',{staticClass:"message-text-header"},[_vm._t("text-header",[_vm._v(_vm._s(_vm.textHeader))])],2):_vm._e(),_vm._v(" "),(_vm.text || _vm.$slots.text || _vm.typing)?_c('div',{staticClass:"message-text",on:{"click":_vm.onTextClick}},[_vm._t("text",[_vm._v(_vm._s(_vm.text))]),_vm._v(" "),(_vm.typing)?_c('div',{staticClass:"message-typing-indicator"},[_c('div'),_vm._v(" "),_c('div'),_vm._v(" "),_c('div')]):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.textFooter || _vm.$slots['text-footer'])?_c('div',{staticClass:"message-text-footer"},[_vm._t("text-footer",[_vm._v(_vm._s(_vm.textFooter))])],2):_vm._e(),_vm._v(" "),_vm._t("bubble-end"),_vm._v(" "),_vm._t("default")],2),_vm._v(" "),(_vm.footer || _vm.$slots.footer)?_c('div',{staticClass:"message-footer",on:{"click":_vm.onFooterClick}},[_vm._t("footer",[_vm._v(_vm._s(_vm.footer))])],2):_vm._e(),_vm._v(" "),_vm._t("content-end")],2),_vm._v(" "),_vm._t("end")],2)},staticRenderFns: [],
   name: 'f7-message',
   props: MessageProps,
   computed: {
@@ -2761,6 +2948,7 @@ var f7Message = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
       return Utils.extend({
         'message-sent': self.type === 'sent',
         'message-received': self.type === 'received',
+        'message-typing': self.typing,
         'message-first': self.first,
         'message-last': self.last,
         'message-tail': self.tail,
@@ -3641,7 +3829,7 @@ var f7Page = {
 
     let pageContentEl;
 
-    const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab').split(' ');
+    const fixedTags = ('navbar toolbar tabbar subnavbar searchbar messagebar fab list-index').split(' ');
 
     let tag;
     let child;
@@ -3941,6 +4129,15 @@ var f7PhotoBrowser = {
     url: String,
     view: [String, Object],
     routableModals: Boolean,
+    renderNavbar: Function,
+    renderToolbar: Function,
+    renderCaption: Function,
+    renderObject: Function,
+    renderLazyPhoto: Function,
+    renderPhoto: Function,
+    renderPage: Function,
+    renderPopup: Function,
+    renderStandalone: Function,
   },
   methods: {
     open(index) {
@@ -3962,7 +4159,12 @@ var f7PhotoBrowser = {
       const self = this;
       // Init Virtual List
       if (!self.init) return;
-      const params = Utils.extend({}, self.$options.propsData, {
+      let params;
+
+      if (typeof self.params !== 'undefined') params = self.params;
+      else params = self.$options.propsData;
+
+      params = Utils.extend({}, params, {
         on: {
           open() {
             self.$emit('photobrowser:open');
@@ -4210,7 +4412,7 @@ var f7Progressbar = {
   methods: {
     set(progress, speed) {
       const self = this;
-      if (self.$f7) return;
+      if (!self.$f7) return;
       self.$f7.progressbar.set(self.$el, progress, speed);
     },
   },
@@ -4259,6 +4461,31 @@ var f7Radio = {
     onChange(event) {
       this.$emit('change', event);
     },
+  },
+};
+
+var f7RoutableModals = {
+  name: 'f7-routable-modals',
+  data() {
+    return {
+      modals: [],
+    };
+  },
+  render(c) {
+    const self = this;
+    const modals = self.modals.map(modal => c(modal.component, {
+      tag: 'component',
+      props: modal.params ? modal.params || {} : {},
+      key: modal.id,
+    }));
+    return c(
+      'div',
+      {
+        staticClass: 'framework7-modals',
+        ref: 'routableModals',
+      },
+      modals
+    );
   },
 };
 
@@ -4715,6 +4942,18 @@ const StepperProps = Utils.extend({
     type: Boolean,
     default: true,
   },
+  autorepeat: {
+    type: Boolean,
+    default: false,
+  },
+  autorepeatDynamic: {
+    type: Boolean,
+    default: false,
+  },
+  wraps: {
+    type: Boolean,
+    default: false,
+  },
   disabled: Boolean,
   buttonsOnly: Boolean,
 
@@ -4779,6 +5018,25 @@ var f7Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
     }
   },
   methods: {
+    increment() {
+      if (!this.f7Stepper) return;
+      this.f7Stepper.increment();
+    },
+    decrement() {
+      if (!this.f7Stepper) return;
+      this.f7Stepper.decrement();
+    },
+    setValue(newValue) {
+      const self = this;
+      if (self.f7Stepper && self.f7Stepper.setValue) self.f7Stepper.setValue(newValue);
+    },
+    getValue() {
+      const self = this;
+      if (self.f7Stepper && self.f7Stepper.getValue) {
+        return self.f7Stepper.getValue();
+      }
+      return undefined;
+    },
     onInput(e) {
       this.$emit('input', e, this.f7Stepper);
     },
@@ -4792,7 +5050,7 @@ var f7Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
       const self = this;
       if (!self.init) return;
       const {
-        min, max, value, step, formatValue, $el,
+        min, max, value, step, formatValue, $el, autorepeat, autorepeatDynamic, wraps,
       } = self;
       self.f7Stepper = f7.stepper.create({
         el: $el,
@@ -4801,6 +5059,9 @@ var f7Stepper = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
         value,
         step,
         formatValue,
+        autorepeat,
+        autorepeatDynamic,
+        wraps,
         on: {
           change(stepper, newValue) {
             self.$emit('stepper:change', newValue);
@@ -5368,6 +5629,7 @@ var vuePlugin = {
         f7Link,
         f7ListButton,
         f7ListGroup,
+        f7ListIndex,
         f7ListItemCell,
         f7ListItemContent,
         f7ListItemRow,
@@ -5398,6 +5660,7 @@ var vuePlugin = {
         f7Progressbar,
         f7Radio,
         f7Range,
+        f7RoutableModals,
         f7Row,
         f7Searchbar,
         f7Segmented,
