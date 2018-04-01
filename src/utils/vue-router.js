@@ -127,5 +127,79 @@ export default {
 
       tabVue.$set(tabVue, 'tabContent', null);
     },
+    modalComponentLoader(rootEl, component, componentUrl, options, resolve, reject) {
+      const router = this;
+      const modalsEl = document.querySelector('.framework7-modals');
+      if (!modalsEl) {
+        reject();
+        return;
+      }
+
+      const modalsVue = modalsEl.__vue__;
+      if (!modalsVue) {
+        reject();
+        return;
+      }
+
+      const id = Utils.now();
+      const modalData = {
+        component,
+        id,
+        params: Utils.extend({}, options.route.params),
+      };
+      modalsVue.$f7route = options.route;
+      modalsVue.modals.push(modalData);
+
+      modalsVue.$nextTick(() => {
+        const modalEl = modalsEl.children[modalsEl.children.length - 1];
+        modalData.el = modalEl;
+
+        let modalEvents;
+        let modalVueFound;
+        let modalVue = modalEl.__vue__;
+        while (modalVue.$parent && !modalVueFound) {
+          if (modalVue.$parent.$el === modalEl) {
+            modalVue = modalVue.$parent;
+          } else {
+            modalVueFound = true;
+          }
+        }
+        if (component.on && modalVue) {
+          modalEvents = Utils.extend({}, component.on);
+          Object.keys(modalEvents).forEach((pageEvent) => {
+            modalEvents[pageEvent] = modalEvents[pageEvent].bind(modalVue);
+          });
+        }
+
+        modalEl.addEventListener('modal:closed', () => {
+          modalsVue.$nextTick(() => {
+            router.removeModal(modalEl, modalVue);
+          });
+        });
+
+        resolve(modalEl, { on: modalEvents });
+      });
+    },
+    removeModal(modalEl, modalVue) {
+      if (!modalVue) return;
+
+      const modalsEl = document.querySelector('.framework7-modals');
+      if (!modalsEl) return;
+
+      const modalsVue = modalsEl.__vue__;
+      if (!modalsVue) return;
+
+      let modalVueFound;
+      modalsVue.modals.forEach((modal, index) => {
+        if (modal.el === modalEl) {
+          modalVueFound = true;
+          modalsVue.modals.splice(index, 1);
+        }
+      });
+
+      if (!modalVueFound) {
+        modalEl.parentNode.removeChild(modalEl);
+      }
+    },
   },
 };
