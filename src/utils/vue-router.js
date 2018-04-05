@@ -1,13 +1,14 @@
 /* eslint no-underscore-dangle: "off" */
 import Utils from './utils';
 
+let routerComponentIdCounter = 0;
+
 export default {
   proto: {
     pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
       const router = this;
       const el = router.$el[0];
       let routerVue;
-
       function findRouterVue(vueComponent) {
         if (routerVue) return;
         if (
@@ -31,7 +32,7 @@ export default {
         reject();
         return;
       }
-      const id = Utils.now();
+      const id = `${Utils.now()}_${(routerComponentIdCounter += 1)}`;
       const pageData = {
         component,
         id,
@@ -96,7 +97,7 @@ export default {
       const tabVue = tabEl.__vue__;
       if (!tabVue) reject();
 
-      const id = Utils.now();
+      const id = `${Utils.now()}_${(routerComponentIdCounter += 1)}`;
       tabVue.$set(tabVue, 'tabContent', {
         id,
         component,
@@ -141,7 +142,7 @@ export default {
         return;
       }
 
-      const id = Utils.now();
+      const id = `${Utils.now()}_${(routerComponentIdCounter += 1)}`;
       const modalData = {
         component,
         id,
