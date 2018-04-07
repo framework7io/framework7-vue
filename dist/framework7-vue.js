@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.2.0
+ * Framework7 Vue 2.2.1
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 1, 2018
+ * Released on: April 7, 2018
  */
 
 (function (global, factory) {
@@ -90,13 +90,14 @@
 
   /* eslint no-underscore-dangle: "off" */
 
+  var routerComponentIdCounter = 0;
+
   var VueRouter = {
     proto: {
       pageComponentLoader: function pageComponentLoader(routerEl, component, componentUrl, options, resolve, reject) {
         var router = this;
         var el = router.$el[0];
         var routerVue;
-
         function findRouterVue(vueComponent) {
           if (routerVue) { return; }
           if (
@@ -120,7 +121,7 @@
           reject();
           return;
         }
-        var id = Utils.now();
+        var id = (Utils.now()) + "_" + ((routerComponentIdCounter += 1));
         var pageData = {
           component: component,
           id: id,
@@ -185,7 +186,7 @@
         var tabVue = tabEl.__vue__;
         if (!tabVue) { reject(); }
 
-        var id = Utils.now();
+        var id = (Utils.now()) + "_" + ((routerComponentIdCounter += 1));
         tabVue.$set(tabVue, 'tabContent', {
           id: id,
           component: component,
@@ -230,7 +231,7 @@
           return;
         }
 
-        var id = Utils.now();
+        var id = (Utils.now()) + "_" + ((routerComponentIdCounter += 1));
         var modalData = {
           component: component,
           id: id,
@@ -2148,6 +2149,13 @@
         this.f7ListIndex.destroy();
       }
     },
+    watch: {
+      indexes: function indexes() {
+        if (!this.f7ListIndex) { return; }
+        this.f7ListIndex.params.indexes = this.indexes;
+        this.update();
+      },
+    },
     methods: {
       update: function update() {
         if (!this.f7ListIndex) { return; }
@@ -2719,7 +2727,7 @@
       var self = this;
 
       var listChildren = [];
-      var ulChildren = [];
+      var ulChildren = self.$slots.list || [];
 
       if (self.$slots.default) {
         for (var i = 0; i < self.$slots.default.length; i += 1) {
@@ -2769,7 +2777,16 @@
           },
         },
         [
-          ulChildren.length > 0 ? [c('ul', {}, ulChildren), listChildren] : listChildren ]
+          ulChildren.length > 0 ?
+            [
+              self.$slots['before-list'],
+              c('ul', {}, ulChildren),
+              self.$slots['after-list'],
+              listChildren ] :
+            [
+              self.$slots['before-list'],
+              listChildren,
+              self.$slots['after-list'] ] ]
       );
       return blockEl;
     },
@@ -4116,7 +4133,7 @@
         this.$emit('panel:opened', event);
       },
       onClose: function onClose(event) {
-        this.$emit('panel:open', event);
+        this.$emit('panel:close', event);
       },
       onClosed: function onClosed(event) {
         this.$emit('panel:closed', event);

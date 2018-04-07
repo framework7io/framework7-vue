@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.2.1](https://github.com/framework7io/framework7-vue/compare/v2.2.0...v2.2.1) - on April 7, 2018
+  * List Index
+    * Now it watches for `indexes` prop and autoupdates on prop change
+  * List
+    * New slots added to **f7-list** components:
+      * `before-list` - elements will be inserted before `<ul></ul>` element
+      * `list` - elements will be inserted in `<ul></ul>` element
+      * `after-list` - elements will be inserted after `<ul></ul>` element
+  * Panel
+    * Fixed issue with `panel:close` event not being fired
+
 ## [v2.2.0](https://github.com/framework7io/framework7-vue/compare/v2.1.2...v2.2.0) - on April 1, 2018
   * New List Index component **f7-list-index** 🎉
   * Range Slider
