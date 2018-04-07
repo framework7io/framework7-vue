@@ -49,7 +49,7 @@
       const self = this;
 
       const listChildren = [];
-      const ulChildren = [];
+      const ulChildren = self.$slots.list || [];
 
       if (self.$slots.default) {
         for (let i = 0; i < self.$slots.default.length; i += 1) {
@@ -99,7 +99,18 @@
           },
         },
         [
-          ulChildren.length > 0 ? [c('ul', {}, ulChildren), listChildren] : listChildren,
+          ulChildren.length > 0 ?
+            [
+              self.$slots['before-list'],
+              c('ul', {}, ulChildren),
+              self.$slots['after-list'],
+              listChildren,
+            ] :
+            [
+              self.$slots['before-list'],
+              listChildren,
+              self.$slots['after-list'],
+            ],
         ]
       );
       return blockEl;
