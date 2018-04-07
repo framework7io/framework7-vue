@@ -85,7 +85,7 @@
         this.$emit('panel:opened', event);
       },
       onClose(event) {
-        this.$emit('panel:open', event);
+        this.$emit('panel:close', event);
       },
       onClosed(event) {
         this.$emit('panel:closed', event);
