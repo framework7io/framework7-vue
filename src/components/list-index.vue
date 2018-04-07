@@ -52,6 +52,13 @@
         this.f7ListIndex.destroy();
       }
     },
+    watch: {
+      indexes() {
+        if (!this.f7ListIndex) return;
+        this.f7ListIndex.params.indexes = this.indexes;
+        this.update();
+      },
+    },
     methods: {
       update() {
         if (!this.f7ListIndex) return;
