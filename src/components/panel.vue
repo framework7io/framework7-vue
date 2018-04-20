@@ -120,7 +120,8 @@
       close(animate) {
         const self = this;
         if (!self.$f7) return;
-        self.$f7.panel.close(animate);
+        const side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.panel.close(side, animate);
       },
     },
   };
