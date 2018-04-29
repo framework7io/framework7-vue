@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.2.1
+ * Framework7 Vue 2.2.5
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 7, 2018
+ * Released on: April 29, 2018
  */
 
 const Utils = {
@@ -1606,6 +1606,9 @@ var f7Range = {
           on: {
             change(range, value) {
               self.$emit('range:change', value);
+            },
+            changed(range, value) {
+              self.$emit('range:changed', value);
             },
           },
         });
@@ -4103,7 +4106,8 @@ var f7Panel = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=
     close(animate) {
       const self = this;
       if (!self.$f7) return;
-      self.$f7.panel.close(animate);
+      const side = self.side || (self.left ? 'left' : 'right');
+      self.$f7.panel.close(side, animate);
     },
   },
 };

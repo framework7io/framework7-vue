@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.2.1
+ * Framework7 Vue 2.2.5
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 7, 2018
+ * Released on: April 29, 2018
  */
 
 (function (global, factory) {
@@ -317,7 +317,7 @@
 
       return ( obj = {
         'theme-dark': themeDark
-      }, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj);
+      }, obj[("color-" + color)] = color, obj[("color-theme-" + colorTheme)] = colorTheme, obj[("text-color-" + textColor)] = textColor, obj[("bg-color-" + bgColor)] = bgColor, obj[("border-color-" + borderColor)] = borderColor, obj[("ripple-color-" + rippleColor)] = rippleColor, obj );
     },
     linkIconProps: {
       icon: String,
@@ -1300,7 +1300,7 @@
         return Utils.extend(
           ( obj = {
             col: self.width === 'auto'
-          }, obj[("col-" + (self.width))] = self.width !== 'auto', obj[("tablet-" + (self.tabletWidth))] = self.tabletWidth, obj[("desktop-" + (self.desktopWidth))] = self.desktopWidth, obj),
+          }, obj[("col-" + (self.width))] = self.width !== 'auto', obj[("tablet-" + (self.tabletWidth))] = self.tabletWidth, obj[("desktop-" + (self.desktopWidth))] = self.desktopWidth, obj ),
           Mixins.colorClasses(self)
         );
       },
@@ -1354,7 +1354,7 @@
 
         var self = this;
         return Utils.extend(
-          ( obj = {}, obj[("fab-buttons-" + (self.position))] = true, obj),
+          ( obj = {}, obj[("fab-buttons-" + (self.position))] = true, obj ),
           Mixins.colorClasses(self)
         );
       },
@@ -1424,7 +1424,7 @@
         return Utils.extend(
           ( obj = {
             'fab-morph': self.morphTo
-          }, obj[("fab-" + (self.position))] = true, obj),
+          }, obj[("fab-" + (self.position))] = true, obj ),
           Mixins.colorClasses(self)
         );
       },
@@ -1606,6 +1606,9 @@
             on: {
               change: function change(range, value) {
                 self.$emit('range:change', value);
+              },
+              changed: function changed(range, value) {
+                self.$emit('range:changed', value);
               },
             },
           });
@@ -4091,7 +4094,7 @@
         return Utils.extend(
           ( obj = {
             'panel-active': self.opened
-          }, obj[("panel-" + side)] = side, obj[("panel-" + effect)] = effect, obj),
+          }, obj[("panel-" + side)] = side, obj[("panel-" + effect)] = effect, obj ),
           Mixins.colorClasses(self)
         );
       },
@@ -4168,7 +4171,8 @@
       close: function close(animate) {
         var self = this;
         if (!self.$f7) { return; }
-        self.$f7.panel.close(animate);
+        var side = self.side || (self.left ? 'left' : 'right');
+        self.$f7.panel.close(side, animate);
       },
     },
   };
@@ -5193,7 +5197,7 @@
       classes: function classes() {
         var obj;
 
-        return Utils.extend(( obj = {}, obj[("swipeout-actions-" + (this.sideComputed))] = true, obj), Mixins.colorClasses(this));
+        return Utils.extend(( obj = {}, obj[("swipeout-actions-" + (this.sideComputed))] = true, obj ), Mixins.colorClasses(this));
       },
       sideComputed: function sideComputed() {
         if (!this.side) {

@@ -1,5 +1,10 @@
 # Change Log
 
+## [v2.2.5](https://github.com/framework7io/framework7-vue/compare/v2.2.1...v2.2.5) - on April 29, 2018
+  * Range
+    * Added `range:changed` event that will be triggered on slide knob release after value change
+  * Minor fixes
+
 ## [v2.2.1](https://github.com/framework7io/framework7-vue/compare/v2.2.0...v2.2.1) - on April 7, 2018
   * List Index
     * Now it watches for `indexes` prop and autoupdates on prop change
