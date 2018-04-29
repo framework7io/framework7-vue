@@ -91,6 +91,9 @@
               change(range, value) {
                 self.$emit('range:change', value);
               },
+              changed(range, value) {
+                self.$emit('range:changed', value);
+              },
             },
           });
         });
