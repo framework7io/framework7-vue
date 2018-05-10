@@ -140,7 +140,7 @@ export default {
           }
         }
 
-        if (!self.$f7) eventHub.$on('f7Ready', addRoutesCallbacks);
+        if (!self.$f7) eventHub.$once('f7Ready', addRoutesCallbacks);
         else addRoutesCallbacks();
       },
       mounted() {
@@ -152,7 +152,7 @@ export default {
         if (!callback) return;
         if (f7Ready) callback(f7Instance);
         else {
-          eventHub.$on('f7Ready', (f7) => {
+          eventHub.$once('f7Ready', (f7) => {
             callback(f7);
           });
         }
