@@ -34,9 +34,10 @@ export default VuePlugin;
     cache,
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target),
-        'framework7-vue': () => path.resolve(__dirname, f7VuePath).replace(/\\/g, '/'),
+        "'framework7-vue'": () => `'${path.resolve(__dirname, f7VuePath).replace(/\\/g, '/')}'`,
         IMPORT_PLUGIN,
         IMPORT_COMPONENTS,
         EXPORT,
