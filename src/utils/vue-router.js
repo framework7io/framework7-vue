@@ -97,28 +97,30 @@ export default {
       const tabVue = tabEl.__vue__;
       if (!tabVue) reject();
 
-      const id = `${Utils.now()}_${(routerComponentIdCounter += 1)}`;
-      tabVue.$set(tabVue, 'tabContent', {
-        id,
-        component,
-        params: Utils.extend({}, options.route.params),
-      });
+      if (tabEl.__vue__.$attrs.cached === undefined || !tabEl.children[0]) {
+        const id = `${Utils.now()}_${(routerComponentIdCounter += 1)}`;
+        tabVue.$set(tabVue, 'tabContent', {
+          id,
+          component,
+          params: Utils.extend({}, options.route.params),
+        });
 
-      let pageEvents;
-      if (component.on) {
-        pageEvents = Utils.extend({}, component.on);
-        Object.keys(pageEvents).forEach((pageEvent) => {
-          pageEvents[pageEvent] = pageEvents[pageEvent].bind(tabVue);
+        let pageEvents;
+        if (component.on) {
+          pageEvents = Utils.extend({}, component.on);
+          Object.keys(pageEvents).forEach((pageEvent) => {
+            pageEvents[pageEvent] = pageEvents[pageEvent].bind(tabVue);
+          });
+        }
+
+        tabVue.$nextTick(() => {
+          const tabContentEl = tabEl.children[0];
+          resolve(tabContentEl, { on: pageEvents });
         });
       }
-
-      tabVue.$nextTick(() => {
-        const tabContentEl = tabEl.children[0];
-        resolve(tabContentEl, { on: pageEvents });
-      });
     },
     removeTabContent(tabEl) {
-      if (!tabEl) return;
+      if (!tabEl || tabEl.__vue__.$attrs.cached !== undefined) return;
 
       const tabVue = tabEl.__vue__;
       if (!tabVue) {
