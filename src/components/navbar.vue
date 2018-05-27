@@ -8,6 +8,7 @@
   const NavbarProps = Utils.extend({
     backLink: [Boolean, String],
     backLinkUrl: String,
+    backLinkForce: Boolean,
     sliding: {
       type: Boolean,
       default: true,
@@ -40,6 +41,7 @@
             props: {
               backLink: self.backLink,
               backLinkUrl: self.backLinkUrl,
+              backLinkForce: self.backLinkForce,
             },
             on: {
               'back-click': self.onBackClick,

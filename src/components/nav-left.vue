@@ -7,6 +7,7 @@
       icon="icon-back"
       :class="{'icon-only': (backLink === true || backLink && $theme.md)}"
       :text="backLink !== true && !$theme.md ? backLink : undefined"
+      :force="backLinkForce || undefined"
       @click="onBackClick"
       ></f7-link>
     <slot></slot>
@@ -21,6 +22,7 @@
   const NavLeftProps = Utils.extend({
     backLink: [Boolean, String],
     backLinkUrl: String,
+    backLinkForce: Boolean,
     sliding: Boolean,
   }, Mixins.colorProps);
 
