@@ -1,5 +1,10 @@
 # Change Log
 
+## [v2.3.0](https://github.com/framework7io/framework7-vue/compare/v2.2.5...v2.3.0) - on May 27, 2018
+  * Imporved memory management to reduce memory leaks (thanks to @llaszkie)
+  * New `back-link-force` prop support for **f7-navbar** and **f7-nav-left** to force back navigation to url specified in `back-link-url`
+  * Minor fixes
+
 ## [v2.2.5](https://github.com/framework7io/framework7-vue/compare/v2.2.1...v2.2.5) - on April 29, 2018
   * Range
     * Added `range:changed` event that will be triggered on slide knob release after value change

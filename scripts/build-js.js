@@ -8,7 +8,7 @@ const header = require('gulp-header');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
-const vue = require('rollup-plugin-vue').default;
+const vue = require('rollup-plugin-vue');
 const banner = require('./banner.js');
 const getComponents = require('./get-components.js');
 

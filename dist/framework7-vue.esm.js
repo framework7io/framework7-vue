@@ -1,5 +1,5 @@
 /**
- * Framework7 Vue 2.2.5
+ * Framework7 Vue 2.3.0
  * Build full featured iOS & Android apps using Framework7 & Vue
  * http://framework7.io/vue/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 29, 2018
+ * Released on: May 27, 2018
  */
 
 const Utils = {
@@ -422,7 +422,7 @@ var VuePlugin = {
           }
         }
 
-        if (!self.$f7) eventHub.$on('f7Ready', addRoutesCallbacks);
+        if (!self.$f7) eventHub.$once('f7Ready', addRoutesCallbacks);
         else addRoutesCallbacks();
       },
       mounted() {
@@ -434,7 +434,7 @@ var VuePlugin = {
         if (!callback) return;
         if (f7Ready) callback(f7Instance);
         else {
-          eventHub.$on('f7Ready', (f7) => {
+          eventHub.$once('f7Ready', (f7) => {
             callback(f7);
           });
         }
@@ -1892,10 +1892,10 @@ var f7Input = {
     } else if ((self.$slots.default && self.$slots.default.length > 0) || !self.type) {
       inputEl = self.$slots.default;
     } else if (self.type === 'toggle') {
-      inputEl = c('f7-toggle', { props: attrs, on });
+      inputEl = c('f7-toggle', { props: attrs, on, attrs: { id: attrs.id } });
     } else if (self.type === 'range') {
       on['range:change'] = self.onChange;
-      inputEl = c('f7-range', { props: attrs, on });
+      inputEl = c('f7-range', { props: attrs, on, attrs: { id: attrs.id } });
     } else {
       inputEl = c('input', {
         attrs,
@@ -3699,10 +3699,11 @@ var messages = {
 const NavLeftProps = Utils.extend({
   backLink: [Boolean, String],
   backLinkUrl: String,
+  backLinkForce: Boolean,
   sliding: Boolean,
 }, Mixins.colorProps);
 
-var f7NavLeft = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"left",class:_vm.classes},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.md)},attrs:{"href":_vm.backLinkUrl || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.md ? _vm.backLink : undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},staticRenderFns: [],
+var f7NavLeft = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"left",class:_vm.classes},[(_vm.backLink)?_c('f7-link',{class:{'icon-only': (_vm.backLink === true || _vm.backLink && _vm.$theme.md)},attrs:{"href":_vm.backLinkUrl || '#',"back":"","icon":"icon-back","text":_vm.backLink !== true && !_vm.$theme.md ? _vm.backLink : undefined,"force":_vm.backLinkForce || undefined},on:{"click":_vm.onBackClick}}):_vm._e(),_vm._v(" "),_vm._t("default")],2)},staticRenderFns: [],
   name: 'f7-nav-left',
   components: {
     f7Link,
@@ -3760,6 +3761,7 @@ var f7NavTitle = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
 const NavbarProps = Utils.extend({
   backLink: [Boolean, String],
   backLinkUrl: String,
+  backLinkForce: Boolean,
   sliding: {
     type: Boolean,
     default: true,
@@ -3792,6 +3794,7 @@ var navbar = {
           props: {
             backLink: self.backLink,
             backLinkUrl: self.backLinkUrl,
+            backLinkForce: self.backLinkForce,
           },
           on: {
             'back-click': self.onBackClick,
